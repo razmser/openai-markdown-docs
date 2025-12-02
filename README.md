@@ -1,50 +1,50 @@
-# OpenAI Docs Scraper
+# OpenAI API Reference in Markdown Format
 
-Scrapes OpenAI documentation pages and converts them to markdown format.
+If you're looking for the documentation, check the `docs/` folder.
 
-## Setup
+## Why?
+
+Sometimes we want to use documentation as input for coding agents. In this case, Markdown format is the best solution.
+Anthropic allows you to copy their docs in Markdown format. OpenAI only has a website with a complex structure.
+
+## Scraper
+
+This tool scrapes OpenAI documentation pages and converts them to Markdown format.
+
+### Setup
 
 ```bash
 pip install -r requirements.txt
 playwright install chromium  # Required for JavaScript-rendered pages
 ```
 
-## Usage
+### Usage
 
 ```bash
 python scrape_openai_docs.py
 ```
 
 The script will process multiple documentation pages:
-1. Download each page once and cache it in `scraped/` directory
-2. Parse the HTML and convert to markdown
-3. Save the results to `docs/` directory
+1. Download each page once and cache it in the `scraped/` directory (or reuse already saved ones)
+2. Parse the HTML and convert to Markdown
+3. Save the results to the `docs/` directory
 
 ### Output Structure
 
 ```
 scraped/
+  conversations.html
+  chat.html
+  chat-streaming.html
   responses.html
   responses-streaming.html
 docs/
+  conversations.md
+  chat.md
+  chat-streaming.md
   responses.md
   responses-streaming.md
 ```
 
-On subsequent runs, it will use cached HTML files, allowing you to iterate on the parsing logic without re-downloading.
+On subsequent runs, the script will use cached HTML files, allowing you to iterate on the parsing logic without re-downloading.
 
-## Configured Pages
-
-The script currently processes:
-- `responses` - Main Responses API reference
-- `responses-streaming` - Streaming events documentation
-
-To add more pages, edit the `PAGES_TO_SCRAPE` list in `scrape_openai_docs.py`.
-
-## Customization
-
-The script handles two different page structures:
-- **Endpoint pages** - Standard API reference pages with `param-section` structure
-- **Streaming pages** - Event-based pages with `div.section` + `div.endpoint` structure
-
-Edit `parse_streaming_page()` or `parse_endpoint_page()` functions to adjust parsing for specific page types.
