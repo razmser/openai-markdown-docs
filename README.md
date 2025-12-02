@@ -6,6 +6,7 @@ Scrapes OpenAI documentation pages and converts them to markdown format.
 
 ```bash
 pip install -r requirements.txt
+playwright install chromium  # Required for JavaScript-rendered pages
 ```
 
 ## Usage
@@ -14,13 +15,36 @@ pip install -r requirements.txt
 python scrape_openai_docs.py
 ```
 
-The script will:
-1. Download the page once and cache it as `cached_page.html`
+The script will process multiple documentation pages:
+1. Download each page once and cache it in `scraped/` directory
 2. Parse the HTML and convert to markdown
-3. Save the result to `openai_docs.md`
+3. Save the results to `docs/` directory
 
-On subsequent runs, it will use the cached HTML file, allowing you to iterate on the parsing logic without re-downloading.
+### Output Structure
+
+```
+scraped/
+  responses.html
+  responses-streaming.html
+docs/
+  responses.md
+  responses-streaming.md
+```
+
+On subsequent runs, it will use cached HTML files, allowing you to iterate on the parsing logic without re-downloading.
+
+## Configured Pages
+
+The script currently processes:
+- `responses` - Main Responses API reference
+- `responses-streaming` - Streaming events documentation
+
+To add more pages, edit the `PAGES_TO_SCRAPE` list in `scrape_openai_docs.py`.
 
 ## Customization
 
-Edit the `parse_openai_docs()` function in `scrape_openai_docs.py` to adjust how the HTML is parsed and converted to markdown.
+The script handles two different page structures:
+- **Endpoint pages** - Standard API reference pages with `param-section` structure
+- **Streaming pages** - Event-based pages with `div.section` + `div.endpoint` structure
+
+Edit `parse_streaming_page()` or `parse_endpoint_page()` functions to adjust parsing for specific page types.
