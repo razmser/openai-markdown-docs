@@ -8,7 +8,9 @@ When you [create a Response](https://platform.openai.com/docs/api-reference/resp
 
 An event that is emitted when a response is created.
 
-### response - object
+### Parameters
+
+#### response - object
 The response that was created.
 
 - **created_at - number**
@@ -2375,7 +2377,7 @@ The response that was created.
       * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
       * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-  - **generate_summary - string**
+  - **generate_summary - string - Deprecated**
     **Deprecated:** use `summary` instead.
 
     A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -2484,14 +2486,16 @@ The response that was created.
   - **total_tokens - integer**
     The total number of tokens used.
 
-- **user - string**
+- **user - string - Deprecated**
   This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number for this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.created`.
+
+### OBJECT response.created
 
 ```json
 {
@@ -2536,7 +2540,9 @@ The type of the event. Always `response.created`.
 
 Emitted when the response is in progress.
 
-### response - object
+### Parameters
+
+#### response - object
 The response that is in progress.
 
 - **created_at - number**
@@ -4903,7 +4909,7 @@ The response that is in progress.
       * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
       * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-  - **generate_summary - string**
+  - **generate_summary - string - Deprecated**
     **Deprecated:** use `summary` instead.
 
     A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -5012,14 +5018,16 @@ The response that is in progress.
   - **total_tokens - integer**
     The total number of tokens used.
 
-- **user - string**
+- **user - string - Deprecated**
   This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.in_progress`.
+
+### OBJECT response.in_progress
 
 ```json
 {
@@ -5064,7 +5072,9 @@ The type of the event. Always `response.in_progress`.
 
 Emitted when the model response is complete.
 
-### response - object
+### Parameters
+
+#### response - object
 Properties of the completed response.
 
 - **created_at - number**
@@ -7431,7 +7441,7 @@ Properties of the completed response.
       * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
       * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-  - **generate_summary - string**
+  - **generate_summary - string - Deprecated**
     **Deprecated:** use `summary` instead.
 
     A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -7540,14 +7550,16 @@ Properties of the completed response.
   - **total_tokens - integer**
     The total number of tokens used.
 
-- **user - string**
+- **user - string - Deprecated**
   This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number for this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.completed`.
+
+### OBJECT response.completed
 
 ```json
 {
@@ -7609,7 +7621,9 @@ The type of the event. Always `response.completed`.
 
 An event that is emitted when a response fails.
 
-### response - object
+### Parameters
+
+#### response - object
 The response that failed.
 
 - **created_at - number**
@@ -9976,7 +9990,7 @@ The response that failed.
       * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
       * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-  - **generate_summary - string**
+  - **generate_summary - string - Deprecated**
     **Deprecated:** use `summary` instead.
 
     A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -10085,14 +10099,16 @@ The response that failed.
   - **total_tokens - integer**
     The total number of tokens used.
 
-- **user - string**
+- **user - string - Deprecated**
   This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.failed`.
+
+### OBJECT response.failed
 
 ```json
 {
@@ -10135,7 +10151,9 @@ The type of the event. Always `response.failed`.
 
 An event that is emitted when a response finishes as incomplete.
 
-### response - object
+### Parameters
+
+#### response - object
 The response that was incomplete.
 
 - **created_at - number**
@@ -12502,7 +12520,7 @@ The response that was incomplete.
       * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
       * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-  - **generate_summary - string**
+  - **generate_summary - string - Deprecated**
     **Deprecated:** use `summary` instead.
 
     A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -12611,14 +12629,16 @@ The response that was incomplete.
   - **total_tokens - integer**
     The total number of tokens used.
 
-- **user - string**
+- **user - string - Deprecated**
   This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.incomplete`.
+
+### OBJECT response.incomplete
 
 ```json
 {
@@ -12661,7 +12681,9 @@ The type of the event. Always `response.incomplete`.
 
 Emitted when a new output item is added.
 
-### item - object
+### Parameters
+
+#### item - object
 The output item that was added.
 
 - **Output message - object**
@@ -13399,14 +13421,16 @@ The output item that was added.
   - **id - string**
     The unique ID of the custom tool call in the OpenAI platform.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that was added.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.output_item.added`.
+
+### OBJECT response.output_item.added
 
 ```json
 {
@@ -13427,7 +13451,9 @@ The type of the event. Always `response.output_item.added`.
 
 Emitted when an output item is marked done.
 
-### item - object
+### Parameters
+
+#### item - object
 The output item that was marked done.
 
 - **Output message - object**
@@ -14165,14 +14191,16 @@ The output item that was marked done.
   - **id - string**
     The unique ID of the custom tool call in the OpenAI platform.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that was marked done.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.output_item.done`.
+
+### OBJECT response.output_item.done
 
 ```json
 {
@@ -14199,16 +14227,18 @@ The type of the event. Always `response.output_item.done`.
 
 Emitted when a new content part is added.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the content part that was added.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the content part was added to.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the content part was added to.
 
-### part - object
+#### part - object
 The content part that was added.
 
 - **Output text - object**
@@ -14323,11 +14353,13 @@ The content part that was added.
   - **type - string**
     The type of the reasoning text. Always `reasoning_text`.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.content_part.added`.
+
+### OBJECT response.content_part.added
 
 ```json
 {
@@ -14348,16 +14380,18 @@ The type of the event. Always `response.content_part.added`.
 
 Emitted when a content part is done.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the content part that is done.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the content part was added to.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the content part was added to.
 
-### part - object
+#### part - object
 The content part that is done.
 
 - **Output text - object**
@@ -14472,11 +14506,13 @@ The content part that is done.
   - **type - string**
     The type of the reasoning text. Always `reasoning_text`.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.content_part.done`.
+
+### OBJECT response.content_part.done
 
 ```json
 {
@@ -14497,16 +14533,18 @@ The type of the event. Always `response.content_part.done`.
 
 Emitted when there is an additional text delta.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the content part that the text delta was added to.
 
-### delta - string
+#### delta - string
 The text delta that was added.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the text delta was added to.
 
-### logprobs - array
+#### logprobs - array
 The log probabilities of the tokens in the delta.
 
 - **logprob - number**
@@ -14524,14 +14562,16 @@ The log probabilities of the tokens in the delta.
   - **token - string**
     A possible text token.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the text delta was added to.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number for this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.output_text.delta`.
+
+### OBJECT response.output_text.delta
 
 ```json
 {
@@ -14548,13 +14588,15 @@ The type of the event. Always `response.output_text.delta`.
 
 Emitted when text content is finalized.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the content part that the text content is finalized.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the text content is finalized.
 
-### logprobs - array
+#### logprobs - array
 The log probabilities of the tokens in the delta.
 
 - **logprob - number**
@@ -14572,17 +14614,19 @@ The log probabilities of the tokens in the delta.
   - **token - string**
     A possible text token.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the text content is finalized.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number for this event.
 
-### text - string
+#### text - string
 The text content that is finalized.
 
-### type - string
+#### type - string
 The type of the event. Always `response.output_text.done`.
+
+### OBJECT response.output_text.done
 
 ```json
 {
@@ -14599,23 +14643,27 @@ The type of the event. Always `response.output_text.done`.
 
 Emitted when there is a partial refusal text.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the content part that the refusal text is added to.
 
-### delta - string
+#### delta - string
 The refusal text that is added.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the refusal text is added to.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the refusal text is added to.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.refusal.delta`.
+
+### OBJECT response.refusal.delta
 
 ```json
 {
@@ -14632,23 +14680,27 @@ The type of the event. Always `response.refusal.delta`.
 
 Emitted when refusal text is finalized.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the content part that the refusal text is finalized.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the refusal text is finalized.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the refusal text is finalized.
 
-### refusal - string
+#### refusal - string
 The refusal text that is finalized.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.refusal.done`.
+
+### OBJECT response.refusal.done
 
 ```json
 {
@@ -14665,20 +14717,24 @@ The type of the event. Always `response.refusal.done`.
 
 Emitted when there is a partial function-call arguments delta.
 
-### delta - string
+### Parameters
+
+#### delta - string
 The function-call arguments delta that is added.
 
-### item_id - string
+#### item_id - string
 The ID of the output item that the function-call arguments delta is added to.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the function-call arguments delta is added to.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.function_call_arguments.delta`.
+
+### OBJECT response.function_call_arguments.delta
 
 ```json
 {
@@ -14694,22 +14750,26 @@ The type of the event. Always `response.function_call_arguments.delta`.
 
 Emitted when function-call arguments are finalized.
 
-### arguments - string
+### Parameters
+
+#### arguments - string
 The function-call arguments.
 
-### item_id - string
+#### item_id - string
 The ID of the item.
 
-### name - string
+#### name - string
 The name of the function that was called.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
+
+### OBJECT response.function_call_arguments.done
 
 ```json
 {
@@ -14726,17 +14786,21 @@ The sequence number of this event.
 
 Emitted when a file search call is initiated.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the output item that the file search call is initiated.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the file search call is initiated.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.file_search_call.in_progress`.
+
+### OBJECT response.file_search_call.in_progress
 
 ```json
 {
@@ -14751,17 +14815,21 @@ The type of the event. Always `response.file_search_call.in_progress`.
 
 Emitted when a file search is currently searching.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the output item that the file search call is initiated.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the file search call is searching.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.file_search_call.searching`.
+
+### OBJECT response.file_search_call.searching
 
 ```json
 {
@@ -14776,17 +14844,21 @@ The type of the event. Always `response.file_search_call.searching`.
 
 Emitted when a file search call is completed (results found).
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the output item that the file search call is initiated.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the file search call is initiated.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.file_search_call.completed`.
+
+### OBJECT response.file_search_call.completed
 
 ```json
 {
@@ -14801,17 +14873,21 @@ The type of the event. Always `response.file_search_call.completed`.
 
 Emitted when a web search call is initiated.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 Unique ID for the output item associated with the web search call.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the web search call is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of the web search call being processed.
 
-### type - string
+#### type - string
 The type of the event. Always `response.web_search_call.in_progress`.
+
+### OBJECT response.web_search_call.in_progress
 
 ```json
 {
@@ -14826,17 +14902,21 @@ The type of the event. Always `response.web_search_call.in_progress`.
 
 Emitted when a web search call is executing.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 Unique ID for the output item associated with the web search call.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the web search call is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of the web search call being processed.
 
-### type - string
+#### type - string
 The type of the event. Always `response.web_search_call.searching`.
+
+### OBJECT response.web_search_call.searching
 
 ```json
 {
@@ -14851,17 +14931,21 @@ The type of the event. Always `response.web_search_call.searching`.
 
 Emitted when a web search call is completed.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 Unique ID for the output item associated with the web search call.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that the web search call is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of the web search call being processed.
 
-### type - string
+#### type - string
 The type of the event. Always `response.web_search_call.completed`.
+
+### OBJECT response.web_search_call.completed
 
 ```json
 {
@@ -14876,13 +14960,15 @@ The type of the event. Always `response.web_search_call.completed`.
 
 Emitted when a new reasoning summary part is added.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the item this summary part is associated with.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item this summary part is associated with.
 
-### part - object
+#### part - object
 The summary part that was added.
 
 - **text - string**
@@ -14891,14 +14977,16 @@ The summary part that was added.
 - **type - string**
   The type of the summary part. Always `summary_text`.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### summary_index - integer
+#### summary_index - integer
 The index of the summary part within the reasoning summary.
 
-### type - string
+#### type - string
 The type of the event. Always `response.reasoning_summary_part.added`.
+
+### OBJECT response.reasoning_summary_part.added
 
 ```json
 {
@@ -14918,13 +15006,15 @@ The type of the event. Always `response.reasoning_summary_part.added`.
 
 Emitted when a reasoning summary part is completed.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the item this summary part is associated with.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item this summary part is associated with.
 
-### part - object
+#### part - object
 The completed summary part.
 
 - **text - string**
@@ -14933,14 +15023,16 @@ The completed summary part.
 - **type - string**
   The type of the summary part. Always `summary_text`.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### summary_index - integer
+#### summary_index - integer
 The index of the summary part within the reasoning summary.
 
-### type - string
+#### type - string
 The type of the event. Always `response.reasoning_summary_part.done`.
+
+### OBJECT response.reasoning_summary_part.done
 
 ```json
 {
@@ -14960,23 +15052,27 @@ The type of the event. Always `response.reasoning_summary_part.done`.
 
 Emitted when a delta is added to a reasoning summary text.
 
-### delta - string
+### Parameters
+
+#### delta - string
 The text delta that was added to the summary.
 
-### item_id - string
+#### item_id - string
 The ID of the item this summary text delta is associated with.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item this summary text delta is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### summary_index - integer
+#### summary_index - integer
 The index of the summary part within the reasoning summary.
 
-### type - string
+#### type - string
 The type of the event. Always `response.reasoning_summary_text.delta`.
+
+### OBJECT response.reasoning_summary_text.delta
 
 ```json
 {
@@ -14993,23 +15089,27 @@ The type of the event. Always `response.reasoning_summary_text.delta`.
 
 Emitted when a reasoning summary text is completed.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the item this summary text is associated with.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item this summary text is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### summary_index - integer
+#### summary_index - integer
 The index of the summary part within the reasoning summary.
 
-### text - string
+#### text - string
 The full text of the completed reasoning summary.
 
-### type - string
+#### type - string
 The type of the event. Always `response.reasoning_summary_text.done`.
+
+### OBJECT response.reasoning_summary_text.done
 
 ```json
 {
@@ -15026,23 +15126,27 @@ The type of the event. Always `response.reasoning_summary_text.done`.
 
 Emitted when a delta is added to a reasoning text.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the reasoning content part this delta is associated with.
 
-### delta - string
+#### delta - string
 The text delta that was added to the reasoning content.
 
-### item_id - string
+#### item_id - string
 The ID of the item this reasoning text delta is associated with.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item this reasoning text delta is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `response.reasoning_text.delta`.
+
+### OBJECT response.reasoning_text.delta
 
 ```json
 {
@@ -15059,23 +15163,27 @@ The type of the event. Always `response.reasoning_text.delta`.
 
 Emitted when a reasoning text is completed.
 
-### content_index - integer
+### Parameters
+
+#### content_index - integer
 The index of the reasoning content part.
 
-### item_id - string
+#### item_id - string
 The ID of the item this reasoning text is associated with.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item this reasoning text is associated with.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### text - string
+#### text - string
 The full text of the completed reasoning content.
 
-### type - string
+#### type - string
 The type of the event. Always `response.reasoning_text.done`.
+
+### OBJECT response.reasoning_text.done
 
 ```json
 {
@@ -15092,17 +15200,21 @@ The type of the event. Always `response.reasoning_text.done`.
 
 Emitted when an image generation tool call has completed and the final image is available.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the image generation item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.image_generation_call.completed'.
+
+### OBJECT response.image_generation_call.completed
 
 ```json
 {
@@ -15117,17 +15229,21 @@ The type of the event. Always 'response.image_generation_call.completed'.
 
 Emitted when an image generation tool call is actively generating an image (intermediate state).
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the image generation item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of the image generation item being processed.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.image_generation_call.generating'.
+
+### OBJECT response.image_generation_call.generating
 
 ```json
 {
@@ -15142,17 +15258,21 @@ The type of the event. Always 'response.image_generation_call.generating'.
 
 Emitted when an image generation tool call is in progress.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the image generation item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of the image generation item being processed.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.image_generation_call.in_progress'.
+
+### OBJECT response.image_generation_call.in_progress
 
 ```json
 {
@@ -15167,23 +15287,27 @@ The type of the event. Always 'response.image_generation_call.in_progress'.
 
 Emitted when a partial image is available during image generation streaming.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the image generation item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### partial_image_b64 - string
+#### partial_image_b64 - string
 Base64-encoded partial image data, suitable for rendering as an image.
 
-### partial_image_index - integer
+#### partial_image_index - integer
 0-based index for the partial image (backend is 1-based, but this is 0-based for the user).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of the image generation item being processed.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.image_generation_call.partial_image'.
+
+### OBJECT response.image_generation_call.partial_image
 
 ```json
 {
@@ -15200,20 +15324,24 @@ The type of the event. Always 'response.image_generation_call.partial_image'.
 
 Emitted when there is a delta (partial update) to the arguments of an MCP tool call.
 
-### delta - string
+### Parameters
+
+#### delta - string
 A JSON string containing the partial update to the arguments for the MCP tool call.
 
-### item_id - string
+#### item_id - string
 The unique identifier of the MCP tool call item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_call_arguments.delta'.
+
+### OBJECT response.mcp_call_arguments.delta
 
 ```json
 {
@@ -15229,20 +15357,24 @@ The type of the event. Always 'response.mcp_call_arguments.delta'.
 
 Emitted when the arguments for an MCP tool call are finalized.
 
-### arguments - string
+### Parameters
+
+#### arguments - string
 A JSON string containing the finalized arguments for the MCP tool call.
 
-### item_id - string
+#### item_id - string
 The unique identifier of the MCP tool call item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_call_arguments.done'.
+
+### OBJECT response.mcp_call_arguments.done
 
 ```json
 {
@@ -15258,17 +15390,21 @@ The type of the event. Always 'response.mcp_call_arguments.done'.
 
 Emitted when an MCP tool call has completed successfully.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the MCP tool call item that completed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that completed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_call.completed'.
+
+### OBJECT response.mcp_call.completed
 
 ```json
 {
@@ -15283,17 +15419,21 @@ The type of the event. Always 'response.mcp_call.completed'.
 
 Emitted when an MCP tool call has failed.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the MCP tool call item that failed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that failed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_call.failed'.
+
+### OBJECT response.mcp_call.failed
 
 ```json
 {
@@ -15308,17 +15448,21 @@ The type of the event. Always 'response.mcp_call.failed'.
 
 Emitted when an MCP tool call is in progress.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the MCP tool call item being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_call.in_progress'.
+
+### OBJECT response.mcp_call.in_progress
 
 ```json
 {
@@ -15333,17 +15477,21 @@ The type of the event. Always 'response.mcp_call.in_progress'.
 
 Emitted when the list of available MCP tools has been successfully retrieved.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the MCP tool call item that produced this output.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that was processed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_list_tools.completed'.
+
+### OBJECT response.mcp_list_tools.completed
 
 ```json
 {
@@ -15358,17 +15506,21 @@ The type of the event. Always 'response.mcp_list_tools.completed'.
 
 Emitted when the attempt to list available MCP tools has failed.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the MCP tool call item that failed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that failed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_list_tools.failed'.
+
+### OBJECT response.mcp_list_tools.failed
 
 ```json
 {
@@ -15383,17 +15535,21 @@ The type of the event. Always 'response.mcp_list_tools.failed'.
 
 Emitted when the system is in the process of retrieving the list of available MCP tools.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The ID of the MCP tool call item that is being processed.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item that is being processed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.mcp_list_tools.in_progress'.
+
+### OBJECT response.mcp_list_tools.in_progress
 
 ```json
 {
@@ -15408,17 +15564,21 @@ The type of the event. Always 'response.mcp_list_tools.in_progress'.
 
 Emitted when a code interpreter call is in progress.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the code interpreter tool call item.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response for which the code interpreter call is in progress.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event, used to order streaming events.
 
-### type - string
+#### type - string
 The type of the event. Always `response.code_interpreter_call.in_progress`.
+
+### OBJECT response.code_interpreter_call.in_progress
 
 ```json
 {
@@ -15433,17 +15593,21 @@ The type of the event. Always `response.code_interpreter_call.in_progress`.
 
 Emitted when the code interpreter is actively interpreting the code snippet.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the code interpreter tool call item.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response for which the code interpreter is interpreting code.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event, used to order streaming events.
 
-### type - string
+#### type - string
 The type of the event. Always `response.code_interpreter_call.interpreting`.
+
+### OBJECT response.code_interpreter_call.interpreting
 
 ```json
 {
@@ -15458,17 +15622,21 @@ The type of the event. Always `response.code_interpreter_call.interpreting`.
 
 Emitted when the code interpreter call is completed.
 
-### item_id - string
+### Parameters
+
+#### item_id - string
 The unique identifier of the code interpreter tool call item.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response for which the code interpreter call is completed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event, used to order streaming events.
 
-### type - string
+#### type - string
 The type of the event. Always `response.code_interpreter_call.completed`.
+
+### OBJECT response.code_interpreter_call.completed
 
 ```json
 {
@@ -15483,20 +15651,24 @@ The type of the event. Always `response.code_interpreter_call.completed`.
 
 Emitted when a partial code snippet is streamed by the code interpreter.
 
-### delta - string
+### Parameters
+
+#### delta - string
 The partial code snippet being streamed by the code interpreter.
 
-### item_id - string
+#### item_id - string
 The unique identifier of the code interpreter tool call item.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response for which the code is being streamed.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event, used to order streaming events.
 
-### type - string
+#### type - string
 The type of the event. Always `response.code_interpreter_call_code.delta`.
+
+### OBJECT response.code_interpreter_call_code.delta
 
 ```json
 {
@@ -15512,20 +15684,24 @@ The type of the event. Always `response.code_interpreter_call_code.delta`.
 
 Emitted when the code snippet is finalized by the code interpreter.
 
-### code - string
+### Parameters
+
+#### code - string
 The final code snippet output by the code interpreter.
 
-### item_id - string
+#### item_id - string
 The unique identifier of the code interpreter tool call item.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response for which the code is finalized.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event, used to order streaming events.
 
-### type - string
+#### type - string
 The type of the event. Always `response.code_interpreter_call_code.done`.
+
+### OBJECT response.code_interpreter_call_code.done
 
 ```json
 {
@@ -15541,26 +15717,30 @@ The type of the event. Always `response.code_interpreter_call_code.done`.
 
 Emitted when an annotation is added to output text content.
 
-### annotation - object
+### Parameters
+
+#### annotation - object
 The annotation object being added. (See annotation schema for details.)
 
-### annotation_index - integer
+#### annotation_index - integer
 The index of the annotation within the content part.
 
-### content_index - integer
+#### content_index - integer
 The index of the content part within the output item.
 
-### item_id - string
+#### item_id - string
 The unique identifier of the item to which the annotation is being added.
 
-### output_index - integer
+#### output_index - integer
 The index of the output item in the response's output array.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.output_text.annotation.added'.
+
+### OBJECT response.output_text.annotation.added
 
 ```json
 {
@@ -15583,7 +15763,9 @@ The type of the event. Always 'response.output_text.annotation.added'.
 
 Emitted when a response is queued and waiting to be processed.
 
-### response - object
+### Parameters
+
+#### response - object
 The full response object that is queued.
 
 - **created_at - number**
@@ -17950,7 +18132,7 @@ The full response object that is queued.
       * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
       * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-  - **generate_summary - string**
+  - **generate_summary - string - Deprecated**
     **Deprecated:** use `summary` instead.
 
     A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -18059,14 +18241,16 @@ The full response object that is queued.
   - **total_tokens - integer**
     The total number of tokens used.
 
-- **user - string**
+- **user - string - Deprecated**
   This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number for this event.
 
-### type - string
+#### type - string
 The type of the event. Always 'response.queued'.
+
+### OBJECT response.queued
 
 ```json
 {
@@ -18085,20 +18269,24 @@ The type of the event. Always 'response.queued'.
 
 Event representing a delta (partial update) to the input of a custom tool call.
 
-### delta - string
+### Parameters
+
+#### delta - string
 The incremental input data (delta) for the custom tool call.
 
-### item_id - string
+#### item_id - string
 Unique identifier for the API item associated with this event.
 
-### output_index - integer
+#### output_index - integer
 The index of the output this delta applies to.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The event type identifier.
+
+### OBJECT response.custom_tool_call_input.delta
 
 ```json
 {
@@ -18113,20 +18301,24 @@ The event type identifier.
 
 Event indicating that input for a custom tool call is complete.
 
-### input - string
+### Parameters
+
+#### input - string
 The complete input data for the custom tool call.
 
-### item_id - string
+#### item_id - string
 Unique identifier for the API item associated with this event.
 
-### output_index - integer
+#### output_index - integer
 The index of the output this event applies to.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The event type identifier.
+
+### OBJECT response.custom_tool_call_input.done
 
 ```json
 {
@@ -18141,20 +18333,24 @@ The event type identifier.
 
 Emitted when an error occurs.
 
-### code - string
+### Parameters
+
+#### code - string
 The error code.
 
-### message - string
+#### message - string
 The error message.
 
-### param - string
+#### param - string
 The error parameter.
 
-### sequence_number - integer
+#### sequence_number - integer
 The sequence number of this event.
 
-### type - string
+#### type - string
 The type of the event. Always `error`.
+
+### OBJECT error
 
 ```json
 {

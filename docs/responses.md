@@ -16,6 +16,8 @@ Related guides:
 
 Creates a model response. Provide [text](https://platform.openai.com/docs/guides/text) or [image](https://platform.openai.com/docs/guides/images) inputs to generate [text](https://platform.openai.com/docs/guides/text) or [JSON](https://platform.openai.com/docs/guides/structured-outputs) outputs. Have the model call your own [custom code](https://platform.openai.com/docs/guides/function-calling) or use built-in [tools](https://platform.openai.com/docs/guides/tools) like [web search](https://platform.openai.com/docs/guides/tools-web-search) or [file search](https://platform.openai.com/docs/guides/tools-file-search) to use your own data as input for the model's response.
 
+### Example request
+
 ```bash
 curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
@@ -26,45 +28,7 @@ curl https://api.openai.com/v1/responses \
   }'
 ```
 
-```javascript
-import OpenAI from "openai";
-
-const openai = new OpenAI();
-
-const response = await openai.responses.create({
-    model: "gpt-4.1",
-    input: "Tell me a three sentence bedtime story about a unicorn."
-});
-
-console.log(response);
-```
-
-```python
-from openai import OpenAI
-
-client = OpenAI()
-
-response = client.responses.create(
-  model="gpt-4.1",
-  input="Tell me a three sentence bedtime story about a unicorn."
-)
-
-print(response)
-```
-
-```csharp
-using System;
-using OpenAI.Responses;
-
-OpenAIResponseClient client = new(
-    model: "gpt-4.1",
-    apiKey: Environment.GetEnvironmentVariable("OPENAI_API_KEY")
-);
-
-OpenAIResponse response = client.CreateResponse("Tell me a three sentence bedtime story about a unicorn.");
-
-Console.WriteLine(response.GetOutputText());
-```
+### Response
 
 ```json
 {
@@ -129,27 +93,15 @@ Console.WriteLine(response.GetOutputText());
 
 Retrieves a model response with the given ID.
 
+### Example request
+
 ```bash
 curl https://api.openai.com/v1/responses/resp_123 \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-```javascript
-import OpenAI from "openai";
-const client = new OpenAI();
-
-const response = await client.responses.retrieve("resp_123");
-console.log(response);
-```
-
-```python
-from openai import OpenAI
-client = OpenAI()
-
-response = client.responses.retrieve("resp_123")
-print(response)
-```
+### Response
 
 ```json
 {
@@ -214,27 +166,15 @@ print(response)
 
 Deletes a model response with the given ID.
 
+### Example request
+
 ```bash
 curl -X DELETE https://api.openai.com/v1/responses/resp_123 \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-```javascript
-import OpenAI from "openai";
-const client = new OpenAI();
-
-const response = await client.responses.delete("resp_123");
-console.log(response);
-```
-
-```python
-from openai import OpenAI
-client = OpenAI()
-
-response = client.responses.delete("resp_123")
-print(response)
-```
+### Response
 
 ```json
 {
@@ -248,27 +188,15 @@ print(response)
 
 Cancels a model response with the given ID. Only responses created with the `background` parameter set to `true` can be cancelled. [Learn more](https://platform.openai.com/docs/guides/background).
 
+### Example request
+
 ```bash
 curl -X POST https://api.openai.com/v1/responses/resp_123/cancel \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-```javascript
-import OpenAI from "openai";
-const client = new OpenAI();
-
-const response = await client.responses.cancel("resp_123");
-console.log(response);
-```
-
-```python
-from openai import OpenAI
-client = OpenAI()
-
-response = client.responses.cancel("resp_123")
-print(response)
-```
+### Response
 
 ```json
 {
@@ -333,27 +261,15 @@ print(response)
 
 Returns a list of input items for a given response.
 
+### Example request
+
 ```bash
 curl https://api.openai.com/v1/responses/resp_abc123/input_items \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-```javascript
-import OpenAI from "openai";
-const client = new OpenAI();
-
-const response = await client.responses.inputItems.list("resp_123");
-console.log(response.data);
-```
-
-```python
-from openai import OpenAI
-client = OpenAI()
-
-response = client.responses.input_items.list("resp_123")
-print(response.data)
-```
+### Response
 
 ```json
 {
@@ -381,6 +297,8 @@ print(response.data)
 
 Get input token counts
 
+### Example request
+
 ```bash
 curl -X POST https://api.openai.com/v1/responses/input_tokens \
     -H "Content-Type: application/json" \
@@ -391,88 +309,7 @@ curl -X POST https://api.openai.com/v1/responses/input_tokens \
     }'
 ```
 
-```javascript
-import OpenAI from "openai";
-
-const client = new OpenAI();
-
-const response = await client.responses.inputTokens.count({
-  model: "gpt-5",
-  input: "Tell me a joke.",
-});
-
-console.log(response.input_tokens);
-```
-
-```python
-from openai import OpenAI
-
-client = OpenAI()
-
-response = client.responses.input_tokens.count(
-    model="gpt-5",
-    input="Tell me a joke."
-)
-print(response.input_tokens)
-```
-
-```go
-package main
-
-import (
-  "context"
-  "fmt"
-
-  "github.com/openai/openai-go"
-  "github.com/openai/openai-go/responses"
-)
-
-func main() {
-  client := openai.NewClient()
-  response, err := client.Responses.InputTokens.Count(context.TODO(), responses.InputTokenCountParams{
-    Model: "gpt-5",
-    Input: "Tell me a joke.",
-  })
-  if err != nil {
-    panic(err.Error())
-  }
-  fmt.Printf("%+v\n", response.InputTokens)
-}
-```
-
-```java
-package com.openai.example;
-
-import com.openai.client.OpenAIClient;
-import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.models.responses.inputtokens.InputTokenCountParams;
-import com.openai.models.responses.inputtokens.InputTokenCountResponse;
-
-public final class Main {
-    private Main() {}
-
-    public static void main(String[] args) {
-        OpenAIClient client = OpenAIOkHttpClient.fromEnv();
-
-        InputTokenCountParams params = InputTokenCountParams.builder()
-            .model("gpt-5")
-            .input("Tell me a joke.")
-            .build();
-
-        InputTokenCountResponse response = client.responses().inputTokens().count(params);
-    }
-}
-```
-
-```ruby
-require "openai"
-
-openai = OpenAI::Client.new
-
-response = openai.responses.input_tokens.count(model: "gpt-5", input: "Tell me a joke.")
-
-puts(response)
-```
+### Response
 
 ```json
 {
@@ -483,19 +320,21 @@ puts(response)
 
 ## The response object
 
-### background - boolean
+### Parameters
+
+#### background - boolean
 Whether to run the model response in the background. [Learn more](https://platform.openai.com/docs/guides/background).
 
-### conversation - object
+#### conversation - object
 The conversation that this response belongs to. Input items and output items from this response are automatically added to this conversation.
 
 - **id - string**
   The unique ID of the conversation.
 
-### created_at - number
+#### created_at - number
 Unix timestamp (in seconds) of when this Response was created.
 
-### error - object
+#### error - object
 An error object returned when the model fails to generate a Response.
 
 - **code - string**
@@ -504,16 +343,16 @@ An error object returned when the model fails to generate a Response.
 - **message - string**
   A human-readable description of the error.
 
-### id - string
+#### id - string
 Unique identifier for this Response.
 
-### incomplete_details - object
+#### incomplete_details - object
 Details about why the response is incomplete.
 
 - **reason - string**
   The reason why the response is incomplete.
 
-### instructions - string or array
+#### instructions - string or array
 A system (or developer) message inserted into the model's context.
 
 When using along with `previous_response_id`, the instructions from a previous response will not be carried over to the next response. This makes it simple to swap out system (or developer) messages in new responses.
@@ -1570,24 +1409,24 @@ When using along with `previous_response_id`, the instructions from a previous r
     - **type - string**
       The type of item to reference. Always `item_reference`.
 
-### max_output_tokens - integer
+#### max_output_tokens - integer
 An upper bound for the number of tokens that can be generated for a response, including visible output tokens and [reasoning tokens](https://platform.openai.com/docs/guides/reasoning).
 
-### max_tool_calls - integer
+#### max_tool_calls - integer
 The maximum number of total calls to built-in tools that can be processed in a response. This maximum number applies across all built-in tool calls, not per individual tool. Any further attempts to call a tool by the model will be ignored.
 
-### metadata - map
+#### metadata - map
 Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format, and querying for objects via API or the dashboard.
 
 Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length of 512 characters.
 
-### model - string
+#### model - string
 Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://platform.openai.com/docs/models) to browse and compare available models.
 
-### object - string
+#### object - string
 The object type of this resource - always set to `response`.
 
-### output - array
+#### output - array
 An array of content items generated by the model.
 
   * The length and order of items in the `output` array is dependent on the model's response.
@@ -2328,16 +2167,16 @@ An array of content items generated by the model.
   - **id - string**
     The unique ID of the custom tool call in the OpenAI platform.
 
-### output_text - string
+#### output_text - string
 SDK-only convenience property that contains the aggregated text output from all `output_text` items in the `output` array, if any are present. Supported in the Python and JavaScript SDKs.
 
-### parallel_tool_calls - boolean
+#### parallel_tool_calls - boolean
 Whether to allow the model to run tool calls in parallel.
 
-### previous_response_id - string
+#### previous_response_id - string
 The unique ID of the previous response to the model. Use this to create multi-turn conversations. Learn more about [conversation state](https://platform.openai.com/docs/guides/conversation-state). Cannot be used in conjunction with `conversation`.
 
-### prompt - object
+#### prompt - object
 Reference to a prompt template and its variables. [Learn more](https://platform.openai.com/docs/guides/text?api-mode=responses#reusable-prompts).
 
 - **id - string**
@@ -2349,13 +2188,13 @@ Reference to a prompt template and its variables. [Learn more](https://platform.
 - **version - string**
   Optional version of the prompt template.
 
-### prompt_cache_key - string
+#### prompt_cache_key - string
 Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://platform.openai.com/docs/guides/prompt-caching).
 
-### prompt_cache_retention - string
+#### prompt_cache_retention - string
 The retention policy for the prompt cache. Set to `24h` to enable extended prompt caching, which keeps cached prefixes active for longer, up to a maximum of 24 hours. [Learn more](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention).
 
-### reasoning - object
+#### reasoning - object
 **gpt-5 and o-series models only**
 
 Configuration options for [reasoning models](https://platform.openai.com/docs/guides/reasoning).
@@ -2367,7 +2206,7 @@ Configuration options for [reasoning models](https://platform.openai.com/docs/gu
     * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
     * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
 
-- **generate_summary - string**
+- **generate_summary - string - Deprecated**
   **Deprecated:** use `summary` instead.
 
   A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
@@ -2377,10 +2216,10 @@ Configuration options for [reasoning models](https://platform.openai.com/docs/gu
 
   `concise` is only supported for `computer-use-preview` models.
 
-### safety_identifier - string
+#### safety_identifier - string
 A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. The IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
-### service_tier - string
+#### service_tier - string
 Specifies the processing type used for serving the request.
 
   * If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
@@ -2390,13 +2229,13 @@ Specifies the processing type used for serving the request.
 
 When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
 
-### status - string
+#### status - string
 The status of the response generation. One of `completed`, `failed`, `in_progress`, `cancelled`, `queued`, or `incomplete`.
 
-### temperature - number
+#### temperature - number
 What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or `top_p` but not both.
 
-### text - object
+#### text - object
 Configuration options for a text response from the model. Can be plain text or structured JSON data. Learn more:
 
   * [Text inputs and outputs](https://platform.openai.com/docs/guides/text)
@@ -2446,7 +2285,7 @@ Configuration options for a text response from the model. Can be plain text or s
 - **verbosity - string**
   Constrains the verbosity of the model's response. Lower values will result in more concise responses, while higher values will result in more verbose responses. Currently supported values are `low`, `medium`, and `high`.
 
-### tool_choice - string or object
+#### tool_choice - string or object
 How the model should select which tool (or tools) to use when generating a response. See the `tools` parameter to see how to specify which tools the model can call.
 
 - **Tool choice mode - string**
@@ -2540,7 +2379,7 @@ How the model should select which tool (or tools) to use when generating a respo
   - **type - string**
     The tool to call. Always `shell`.
 
-### tools - array
+#### tools - array
 An array of tools the model may call while generating a response. You can specify which tool to use by setting the `tool_choice` parameter.
 
 We support the following categories of tools:
@@ -2918,21 +2757,21 @@ We support the following categories of tools:
   - **type - string**
     The type of the tool. Always `apply_patch`.
 
-### top_logprobs - integer
+#### top_logprobs - integer
 An integer between 0 and 20 specifying the number of most likely tokens to return at each token position, each with an associated log probability.
 
-### top_p - number
+#### top_p - number
 An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
 
 We generally recommend altering this or `temperature` but not both.
 
-### truncation - string
+#### truncation - string
 The truncation strategy to use for the model response.
 
   * `auto`: If the input to this Response exceeds the model's context window size, the model will truncate the response to fit the context window by dropping items from the beginning of the conversation.
   * `disabled` (default): If the input size will exceed the context window size for a model, the request will fail with a 400 error.
 
-### usage - object
+#### usage - object
 Represents token usage details including input tokens, output tokens, a breakdown of output tokens, and the total tokens used.
 
 - **input_tokens - integer**
@@ -2956,8 +2795,10 @@ Represents token usage details including input tokens, output tokens, a breakdow
 - **total_tokens - integer**
   The total number of tokens used.
 
-### user - string
+#### user - string - Deprecated
 This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations. A stable identifier for your end-users. Used to boost cache hit rates by better bucketing similar requests and to help OpenAI detect and prevent abuse. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
+
+### OBJECT The response object
 
 ```json
 {
@@ -3022,7 +2863,9 @@ This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use 
 
 A list of Response items.
 
-### data - array
+### Parameters
+
+#### data - array
 A list of items used to generate this response.
 
 - **Input message - object**
@@ -3907,17 +3750,19 @@ A list of items used to generate this response.
   - **status - string**
     The status of the tool call. One of `in_progress`, `completed`, `incomplete`, `calling`, or `failed`.
 
-### first_id - string
+#### first_id - string
 The ID of the first item in the list.
 
-### has_more - boolean
+#### has_more - boolean
 Whether there are more items available.
 
-### last_id - string
+#### last_id - string
 The ID of the last item in the list.
 
-### object - string
+#### object - string
 The type of object returned, must be `list`.
+
+### OBJECT The input item list
 
 ```json
 {
