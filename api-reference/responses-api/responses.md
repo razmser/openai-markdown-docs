@@ -36,6 +36,7 @@ curl https://api.openai.com/v1/responses \
   "object": "response",
   "created_at": 1741476542,
   "status": "completed",
+  "completed_at": 1741476543,
   "error": null,
   "incomplete_details": null,
   "instructions": null,
@@ -109,6 +110,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
   "object": "response",
   "created_at": 1741386163,
   "status": "completed",
+  "completed_at": 1741386164,
   "error": null,
   "incomplete_details": null,
   "instructions": null,
@@ -203,7 +205,9 @@ curl -X POST https://api.openai.com/v1/responses/resp_123/cancel \
   "id": "resp_67cb71b351908190a308f3859487620d06981a8637e6bc44",
   "object": "response",
   "created_at": 1741386163,
-  "status": "completed",
+  "status": "cancelled",
+  "background": true,
+  "completed_at": null,
   "error": null,
   "incomplete_details": null,
   "instructions": null,
@@ -213,7 +217,7 @@ curl -X POST https://api.openai.com/v1/responses/resp_123/cancel \
     {
       "type": "message",
       "id": "msg_67cb71b3c2b0819084d481baaaf148f206981a8637e6bc44",
-      "status": "completed",
+      "status": "in_progress",
       "role": "assistant",
       "content": [
         {
@@ -241,19 +245,84 @@ curl -X POST https://api.openai.com/v1/responses/resp_123/cancel \
   "tools": [],
   "top_p": 1.0,
   "truncation": "disabled",
+  "usage": null,
+  "user": null,
+  "metadata": {}
+}
+```
+
+## Compact a response
+
+Runs a compaction pass over a conversation. Compaction returns encrypted, opaque items and the underlying logic may evolve over time.
+
+### Example request
+
+```bash
+curl -X POST https://api.openai.com/v1/responses/compact \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d '{
+      "model": "gpt-5.1-codex-max",
+      "input": [
+        {
+          "role": "user",
+          "content": "Create a simple landing page for a dog petting café."
+        },
+        {
+          "id": "msg_001",
+          "type": "message",
+          "status": "completed",
+          "content": [
+            {
+              "type": "output_text",
+              "annotations": [],
+              "logprobs": [],
+              "text": "Below is a single file, ready-to-use landing page for a dog petting café:..."
+            }
+          ],
+          "role": "assistant"
+        }
+      ]
+    }'
+```
+
+### Response
+
+```json
+{
+  "id": "resp_001",
+  "object": "response.compaction",
+  "created_at": 1764967971,
+  "output": [
+    {
+      "id": "msg_000",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Create a simple landing page for a dog petting cafe."
+        }
+      ],
+      "role": "user"
+    },
+    {
+      "id": "cmp_001",
+      "type": "compaction",
+      "encrypted_content": "gAAAAABpM0Yj-...="
+    }
+  ],
   "usage": {
-    "input_tokens": 32,
+    "input_tokens": 139,
     "input_tokens_details": {
       "cached_tokens": 0
     },
-    "output_tokens": 18,
+    "output_tokens": 438,
     "output_tokens_details": {
-      "reasoning_tokens": 0
+      "reasoning_tokens": 64
     },
-    "total_tokens": 50
-  },
-  "user": null,
-  "metadata": {}
+    "total_tokens": 577
+  }
 }
 ```
 
@@ -295,7 +364,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
 ## Get input token counts
 
-Get input token counts
+Returns input token counts of the request.
 
 ### Example request
 
@@ -325,11 +394,14 @@ curl -X POST https://api.openai.com/v1/responses/input_tokens \
 #### background - boolean
 Whether to run the model response in the background. [Learn more](https://platform.openai.com/docs/guides/background).
 
+#### completed_at - number
+Unix timestamp (in seconds) of when this Response was completed. Only present when the status is `completed`.
+
 #### conversation - object
-The conversation that this response belongs to. Input items and output items from this response are automatically added to this conversation.
+The conversation that this response belonged to. Input items and output items from this response were automatically added to this conversation.
 
 - **id - string**
-  The unique ID of the conversation.
+  The unique ID of the conversation that this response was associated with.
 
 #### created_at - number
 Unix timestamp (in seconds) of when this Response was created.
@@ -673,7 +745,7 @@ When using along with `previous_response_id`, the instructions from a previous r
           - **path - array**
             An array of coordinates representing the path of the drag action. Coordinates will appear as an array of objects, eg
 
-            ```text
+            ```json
             [
               { x: 100, y: 200 },
               { x: 200, y: 300 }
@@ -822,10 +894,13 @@ When using along with `previous_response_id`, the instructions from a previous r
           Action type "search" - Performs a web search query.
 
           - **query - string**
-            The search query.
+            \[DEPRECATED\] The search query.
 
           - **type - string**
             The action type.
+
+          - **queries - array**
+            The search queries.
 
           - **sources - array**
             The sources used in the search.
@@ -979,6 +1054,18 @@ When using along with `previous_response_id`, the instructions from a previous r
 
       - **status - string**
         The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+    - **Compaction item - object**
+      A compaction item generated by the [`v1/responses/compact` API](https://platform.openai.com/docs/api-reference/responses/compact).
+
+      - **encrypted_content - string**
+        The encrypted content of the compaction summary.
+
+      - **type - string**
+        The type of the item. Always `compaction`.
+
+      - **id - string**
+        The ID of the compaction item.
 
     - **Image generation call - object**
       An image generation request made by the model.
@@ -1617,10 +1704,13 @@ An array of content items generated by the model.
       Action type "search" - Performs a web search query.
 
       - **query - string**
-        The search query.
+        \[DEPRECATED\] The search query.
 
       - **type - string**
         The action type.
+
+      - **queries - array**
+        The search queries.
 
       - **sources - array**
         The sources used in the search.
@@ -1700,7 +1790,7 @@ An array of content items generated by the model.
       - **path - array**
         An array of coordinates representing the path of the drag action. Coordinates will appear as an array of objects, eg
 
-        ```text
+        ```json
         [
           { x: 100, y: 200 },
           { x: 200, y: 300 }
@@ -1833,6 +1923,21 @@ An array of content items generated by the model.
   - **status - string**
     The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
 
+- **Compaction item - object**
+  A compaction item generated by the [`v1/responses/compact` API](https://platform.openai.com/docs/api-reference/responses/compact).
+
+  - **encrypted_content - string**
+    The encrypted content that was produced by compaction.
+
+  - **id - string**
+    The unique ID of the compaction item.
+
+  - **type - string**
+    The type of the item. Always `compaction`.
+
+  - **created_by - string**
+    The identifier of the actor that created the item.
+
 - **Image generation call - object**
   An image generation request made by the model.
 
@@ -1953,7 +2058,7 @@ An array of content items generated by the model.
     The ID of the entity that created this tool call.
 
 - **Shell call output - object**
-  The output of a shell tool call.
+  The output of a shell tool call that was emitted.
 
   - **call_id - string**
     The unique ID of the shell tool call generated by the model.
@@ -1986,15 +2091,19 @@ An array of content items generated by the model.
           The outcome type. Always `exit`.
 
     - **stderr - string**
+      The standard error output that was captured.
 
     - **stdout - string**
+      The standard output that was captured.
 
     - **created_by - string**
+      The identifier of the actor that created the item.
 
   - **type - string**
     The type of the shell call output. Always `shell_call_output`.
 
   - **created_by - string**
+    The identifier of the actor that created the item.
 
 - **Apply patch tool call - object**
   A tool call that applies file diffs by creating, deleting, or updating files.
@@ -2200,11 +2309,12 @@ The retention policy for the prompt cache. Set to `24h` to enable extended promp
 Configuration options for [reasoning models](https://platform.openai.com/docs/guides/reasoning).
 
 - **effort - string**
-  Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, and `high`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+  Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
 
     * `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
     * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
     * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+    * `xhigh` is supported for all models after `gpt-5.1-codex-max`.
 
 - **generate_summary - string - Deprecated**
   **Deprecated:** use `summary` instead.
@@ -2214,7 +2324,7 @@ Configuration options for [reasoning models](https://platform.openai.com/docs/gu
 - **summary - string**
   A summary of the reasoning performed by the model. This can be useful for debugging and understanding the model's reasoning process. One of `auto`, `concise`, or `detailed`.
 
-  `concise` is only supported for `computer-use-preview` models.
+  `concise` is supported for `computer-use-preview` models and all reasoning models after `gpt-5`.
 
 #### safety_identifier - string
 A stable identifier used to help detect users of your application that may be violating OpenAI's usage policies. The IDs should be a string that uniquely identifies each user. We recommend hashing their username or email address, in order to avoid sending us any identifying information. [Learn more](https://platform.openai.com/docs/guides/safety-best-practices#safety-identifiers).
@@ -2633,12 +2743,13 @@ We support the following categories of tools:
         An optional list of uploaded files to make available to your code.
 
       - **memory_limit - string**
+        The memory limit for the code interpreter container.
 
   - **type - string**
     The type of the code interpreter tool. Always `code_interpreter`.
 
 - **Image generation tool - object**
-  A tool that generates images using a model like `gpt-image-1`.
+  A tool that generates images using the GPT image models.
 
   - **type - string**
     The type of the image generation tool. Always `image_generation`.
@@ -2659,7 +2770,6 @@ We support the following categories of tools:
       Base64-encoded mask image.
 
   - **model - string**
-    The image generation model to use. Default: `gpt-image-1`.
 
   - **moderation - string**
     Moderation level for the generated image. Default: `auto`.
@@ -2806,6 +2916,7 @@ This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use 
   "object": "response",
   "created_at": 1741476777,
   "status": "completed",
+  "completed_at": 1741476778,
   "error": null,
   "incomplete_details": null,
   "instructions": null,
@@ -3121,7 +3232,7 @@ A list of items used to generate this response.
       - **path - array**
         An array of coordinates representing the path of the drag action. Coordinates will appear as an array of objects, eg
 
-        ```text
+        ```json
         [
           { x: 100, y: 200 },
           { x: 200, y: 300 }
@@ -3270,10 +3381,13 @@ A list of items used to generate this response.
       Action type "search" - Performs a web search query.
 
       - **query - string**
-        The search query.
+        \[DEPRECATED\] The search query.
 
       - **type - string**
         The action type.
+
+      - **queries - array**
+        The search queries.
 
       - **sources - array**
         The sources used in the search.
@@ -3536,7 +3650,7 @@ A list of items used to generate this response.
     The ID of the entity that created this tool call.
 
 - **Shell call output - object**
-  The output of a shell tool call.
+  The output of a shell tool call that was emitted.
 
   - **call_id - string**
     The unique ID of the shell tool call generated by the model.
@@ -3569,15 +3683,19 @@ A list of items used to generate this response.
           The outcome type. Always `exit`.
 
     - **stderr - string**
+      The standard error output that was captured.
 
     - **stdout - string**
+      The standard output that was captured.
 
     - **created_by - string**
+      The identifier of the actor that created the item.
 
   - **type - string**
     The type of the shell call output. Always `shell_call_output`.
 
   - **created_by - string**
+    The identifier of the actor that created the item.
 
 - **Apply patch tool call - object**
   A tool call that applies file diffs by creating, deleting, or updating files.
@@ -3783,5 +3901,1124 @@ The type of object returned, must be `list`.
   "first_id": "msg_abc123",
   "last_id": "msg_abc123",
   "has_more": false
+}
+```
+
+## The compacted response object
+
+### Parameters
+
+#### created_at - integer
+Unix timestamp (in seconds) when the compacted conversation was created.
+
+#### id - string
+The unique identifier for the compacted response.
+
+#### object - string
+The object type. Always `response.compaction`.
+
+#### output - array
+The compacted list of output items.
+
+- **Message - object**
+  A message to or from the model.
+
+  - **content - array**
+    The content of the message
+
+    - **Input text - object**
+      A text input to the model.
+
+      - **text - string**
+        The text input to the model.
+
+      - **type - string**
+        The type of the input item. Always `input_text`.
+
+    - **Output text - object**
+      A text output from the model.
+
+      - **annotations - array**
+        The annotations of the text output.
+
+        - **File citation - object**
+          A citation to a file.
+
+          - **file_id - string**
+            The ID of the file.
+
+          - **filename - string**
+            The filename of the file cited.
+
+          - **index - integer**
+            The index of the file in the list of files.
+
+          - **type - string**
+            The type of the file citation. Always `file_citation`.
+
+        - **URL citation - object**
+          A citation for a web resource used to generate a model response.
+
+          - **end_index - integer**
+            The index of the last character of the URL citation in the message.
+
+          - **start_index - integer**
+            The index of the first character of the URL citation in the message.
+
+          - **title - string**
+            The title of the web resource.
+
+          - **type - string**
+            The type of the URL citation. Always `url_citation`.
+
+          - **url - string**
+            The URL of the web resource.
+
+        - **Container file citation - object**
+          A citation for a container file used to generate a model response.
+
+          - **container_id - string**
+            The ID of the container file.
+
+          - **end_index - integer**
+            The index of the last character of the container file citation in the message.
+
+          - **file_id - string**
+            The ID of the file.
+
+          - **filename - string**
+            The filename of the container file cited.
+
+          - **start_index - integer**
+            The index of the first character of the container file citation in the message.
+
+          - **type - string**
+            The type of the container file citation. Always `container_file_citation`.
+
+        - **File path - object**
+          A path to a file.
+
+          - **file_id - string**
+            The ID of the file.
+
+          - **index - integer**
+            The index of the file in the list of files.
+
+          - **type - string**
+            The type of the file path. Always `file_path`.
+
+      - **logprobs - array**
+
+        - **bytes - array**
+
+        - **logprob - number**
+
+        - **token - string**
+
+        - **top_logprobs - array**
+
+          - **bytes - array**
+
+          - **logprob - number**
+
+          - **token - string**
+
+      - **text - string**
+        The text output from the model.
+
+      - **type - string**
+        The type of the output text. Always `output_text`.
+
+    - **Text Content - object**
+      A text content.
+
+      - **text - string**
+
+      - **type - string**
+
+    - **Summary text - object**
+      A summary text from the model.
+
+      - **text - string**
+        A summary of the reasoning output from the model so far.
+
+      - **type - string**
+        The type of the object. Always `summary_text`.
+
+    - **Reasoning text - object**
+      Reasoning text from the model.
+
+      - **text - string**
+        The reasoning text from the model.
+
+      - **type - string**
+        The type of the reasoning text. Always `reasoning_text`.
+
+    - **Refusal - object**
+      A refusal from the model.
+
+      - **refusal - string**
+        The refusal explanation from the model.
+
+      - **type - string**
+        The type of the refusal. Always `refusal`.
+
+    - **Input image - object**
+      An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision).
+
+      - **detail - string**
+        The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+      - **type - string**
+        The type of the input item. Always `input_image`.
+
+      - **file_id - string**
+        The ID of the file to be sent to the model.
+
+      - **image_url - string**
+        The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+    - **Computer screenshot - object**
+      A screenshot of a computer.
+
+      - **file_id - string**
+        The identifier of an uploaded file that contains the screenshot.
+
+      - **image_url - string**
+        The URL of the screenshot image.
+
+      - **type - string**
+        Specifies the event type. For a computer screenshot, this property is always set to `computer_screenshot`.
+
+    - **Input file - object**
+      A file input to the model.
+
+      - **type - string**
+        The type of the input item. Always `input_file`.
+
+      - **file_data - string**
+        The content of the file to be sent to the model.
+
+      - **file_id - string**
+        The ID of the file to be sent to the model.
+
+      - **file_url - string**
+        The URL of the file to be sent to the model.
+
+      - **filename - string**
+        The name of the file to be sent to the model.
+
+  - **id - string**
+    The unique ID of the message.
+
+  - **role - string**
+    The role of the message. One of `unknown`, `user`, `assistant`, `system`, `critic`, `discriminator`, `developer`, or `tool`.
+
+  - **status - string**
+    The status of item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+  - **type - string**
+    The type of the message. Always set to `message`.
+
+- **Function tool call - object**
+  A tool call to run a function. See the [function calling guide](https://platform.openai.com/docs/guides/function-calling) for more information.
+
+  - **arguments - string**
+    A JSON string of the arguments to pass to the function.
+
+  - **call_id - string**
+    The unique ID of the function tool call generated by the model.
+
+  - **name - string**
+    The name of the function to run.
+
+  - **type - string**
+    The type of the function tool call. Always `function_call`.
+
+  - **id - string**
+    The unique ID of the function tool call.
+
+  - **status - string**
+    The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+- **Function tool call output - object**
+  The output of a function tool call.
+
+  - **call_id - string**
+    The unique ID of the function tool call generated by the model.
+
+  - **output - string or array**
+    The output from the function call generated by your code. Can be a string or an list of output content.
+
+    - **string output - string**
+      A string of the output of the function call.
+
+    - **output content list - array**
+      Text, image, or file output of the function call.
+
+      - **Input text - object**
+        A text input to the model.
+
+        - **text - string**
+          The text input to the model.
+
+        - **type - string**
+          The type of the input item. Always `input_text`.
+
+      - **Input image - object**
+        An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision).
+
+        - **detail - string**
+          The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+        - **type - string**
+          The type of the input item. Always `input_image`.
+
+        - **file_id - string**
+          The ID of the file to be sent to the model.
+
+        - **image_url - string**
+          The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+      - **Input file - object**
+        A file input to the model.
+
+        - **type - string**
+          The type of the input item. Always `input_file`.
+
+        - **file_data - string**
+          The content of the file to be sent to the model.
+
+        - **file_id - string**
+          The ID of the file to be sent to the model.
+
+        - **file_url - string**
+          The URL of the file to be sent to the model.
+
+        - **filename - string**
+          The name of the file to be sent to the model.
+
+  - **type - string**
+    The type of the function tool call output. Always `function_call_output`.
+
+  - **id - string**
+    The unique ID of the function tool call output. Populated when this item is returned via API.
+
+  - **status - string**
+    The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+- **File search tool call - object**
+  The results of a file search tool call. See the [file search guide](https://platform.openai.com/docs/guides/tools-file-search) for more information.
+
+  - **id - string**
+    The unique ID of the file search tool call.
+
+  - **queries - array**
+    The queries used to search for files.
+
+  - **status - string**
+    The status of the file search tool call. One of `in_progress`, `searching`, `incomplete` or `failed`,
+
+  - **type - string**
+    The type of the file search tool call. Always `file_search_call`.
+
+  - **results - array**
+    The results of the file search tool call.
+
+    - **attributes - map**
+      Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format, and querying for objects via API or the dashboard. Keys are strings with a maximum length of 64 characters. Values are strings with a maximum length of 512 characters, booleans, or numbers.
+
+    - **file_id - string**
+      The unique ID of the file.
+
+    - **filename - string**
+      The name of the file.
+
+    - **score - number**
+      The relevance score of the file - a value between 0 and 1.
+
+    - **text - string**
+      The text that was retrieved from the file.
+
+- **Web search tool call - object**
+  The results of a web search tool call. See the [web search guide](https://platform.openai.com/docs/guides/tools-web-search) for more information.
+
+  - **action - object**
+    An object describing the specific action taken in this web search call. Includes details on how the model used the web (search, open_page, find).
+
+    - **Search action - object**
+      Action type "search" - Performs a web search query.
+
+      - **query - string**
+        \[DEPRECATED\] The search query.
+
+      - **type - string**
+        The action type.
+
+      - **queries - array**
+        The search queries.
+
+      - **sources - array**
+        The sources used in the search.
+
+        - **type - string**
+          The type of source. Always `url`.
+
+        - **url - string**
+          The URL of the source.
+
+    - **Open page action - object**
+      Action type "open_page" - Opens a specific URL from search results.
+
+      - **type - string**
+        The action type.
+
+      - **url - string**
+        The URL opened by the model.
+
+    - **Find action - object**
+      Action type "find": Searches for a pattern within a loaded page.
+
+      - **pattern - string**
+        The pattern or text to search for within the page.
+
+      - **type - string**
+        The action type.
+
+      - **url - string**
+        The URL of the page searched for the pattern.
+
+  - **id - string**
+    The unique ID of the web search tool call.
+
+  - **status - string**
+    The status of the web search tool call.
+
+  - **type - string**
+    The type of the web search tool call. Always `web_search_call`.
+
+- **Image generation call - object**
+  An image generation request made by the model.
+
+  - **id - string**
+    The unique ID of the image generation call.
+
+  - **result - string**
+    The generated image encoded in base64.
+
+  - **status - string**
+    The status of the image generation call.
+
+  - **type - string**
+    The type of the image generation call. Always `image_generation_call`.
+
+- **Computer tool call - object**
+  A tool call to a computer use tool. See the [computer use guide](https://platform.openai.com/docs/guides/tools-computer-use) for more information.
+
+  - **action - object**
+    A click action.
+
+    - **Click - object**
+      A click action.
+
+      - **button - string**
+        Indicates which mouse button was pressed during the click. One of `left`, `right`, `wheel`, `back`, or `forward`.
+
+      - **type - string**
+        Specifies the event type. For a click action, this property is always `click`.
+
+      - **x - integer**
+        The x-coordinate where the click occurred.
+
+      - **y - integer**
+        The y-coordinate where the click occurred.
+
+    - **DoubleClick - object**
+      A double click action.
+
+      - **type - string**
+        Specifies the event type. For a double click action, this property is always set to `double_click`.
+
+      - **x - integer**
+        The x-coordinate where the double click occurred.
+
+      - **y - integer**
+        The y-coordinate where the double click occurred.
+
+    - **Drag - object**
+      A drag action.
+
+      - **path - array**
+        An array of coordinates representing the path of the drag action. Coordinates will appear as an array of objects, eg
+
+        ```json
+        [
+          { x: 100, y: 200 },
+          { x: 200, y: 300 }
+        ]
+        ```
+
+        - **x - integer**
+          The x-coordinate.
+
+        - **y - integer**
+          The y-coordinate.
+
+      - **type - string**
+        Specifies the event type. For a drag action, this property is always set to `drag`.
+
+    - **KeyPress - object**
+      A collection of keypresses the model would like to perform.
+
+      - **keys - array**
+        The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key.
+
+      - **type - string**
+        Specifies the event type. For a keypress action, this property is always set to `keypress`.
+
+    - **Move - object**
+      A mouse move action.
+
+      - **type - string**
+        Specifies the event type. For a move action, this property is always set to `move`.
+
+      - **x - integer**
+        The x-coordinate to move to.
+
+      - **y - integer**
+        The y-coordinate to move to.
+
+    - **Screenshot - object**
+      A screenshot action.
+
+      - **type - string**
+        Specifies the event type. For a screenshot action, this property is always set to `screenshot`.
+
+    - **Scroll - object**
+      A scroll action.
+
+      - **scroll_x - integer**
+        The horizontal scroll distance.
+
+      - **scroll_y - integer**
+        The vertical scroll distance.
+
+      - **type - string**
+        Specifies the event type. For a scroll action, this property is always set to `scroll`.
+
+      - **x - integer**
+        The x-coordinate where the scroll occurred.
+
+      - **y - integer**
+        The y-coordinate where the scroll occurred.
+
+    - **Type - object**
+      An action to type in text.
+
+      - **text - string**
+        The text to type.
+
+      - **type - string**
+        Specifies the event type. For a type action, this property is always set to `type`.
+
+    - **Wait - object**
+      A wait action.
+
+      - **type - string**
+        Specifies the event type. For a wait action, this property is always set to `wait`.
+
+  - **call_id - string**
+    An identifier used when responding to the tool call with output.
+
+  - **id - string**
+    The unique ID of the computer call.
+
+  - **pending_safety_checks - array**
+    The pending safety checks for the computer call.
+
+    - **id - string**
+      The ID of the pending safety check.
+
+    - **code - string**
+      The type of the pending safety check.
+
+    - **message - string**
+      Details about the pending safety check.
+
+  - **status - string**
+    The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+  - **type - string**
+    The type of the computer call. Always `computer_call`.
+
+- **Computer tool call output - object**
+  The output of a computer tool call.
+
+  - **call_id - string**
+    The ID of the computer tool call that produced the output.
+
+  - **id - string**
+    The unique ID of the computer call tool output.
+
+  - **output - object**
+    A computer screenshot image used with the computer use tool.
+
+    - **type - string**
+      Specifies the event type. For a computer screenshot, this property is always set to `computer_screenshot`.
+
+    - **file_id - string**
+      The identifier of an uploaded file that contains the screenshot.
+
+    - **image_url - string**
+      The URL of the screenshot image.
+
+  - **type - string**
+    The type of the computer tool call output. Always `computer_call_output`.
+
+  - **acknowledged_safety_checks - array**
+    The safety checks reported by the API that have been acknowledged by the developer.
+
+    - **id - string**
+      The ID of the pending safety check.
+
+    - **code - string**
+      The type of the pending safety check.
+
+    - **message - string**
+      Details about the pending safety check.
+
+  - **status - string**
+    The status of the message input. One of `in_progress`, `completed`, or `incomplete`. Populated when input items are returned via API.
+
+- **Reasoning - object**
+  A description of the chain of thought used by a reasoning model while generating a response. Be sure to include these items in your `input` to the Responses API for subsequent turns of a conversation if you are manually [managing context](https://platform.openai.com/docs/guides/conversation-state).
+
+  - **id - string**
+    The unique identifier of the reasoning content.
+
+  - **summary - array**
+    Reasoning summary content.
+
+    - **text - string**
+      A summary of the reasoning output from the model so far.
+
+    - **type - string**
+      The type of the object. Always `summary_text`.
+
+  - **type - string**
+    The type of the object. Always `reasoning`.
+
+  - **content - array**
+    Reasoning text content.
+
+    - **text - string**
+      The reasoning text from the model.
+
+    - **type - string**
+      The type of the reasoning text. Always `reasoning_text`.
+
+  - **encrypted_content - string**
+    The encrypted content of the reasoning item - populated when a response is generated with `reasoning.encrypted_content` in the `include` parameter.
+
+  - **status - string**
+    The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+- **Compaction item - object**
+  A compaction item generated by the [`v1/responses/compact` API](https://platform.openai.com/docs/api-reference/responses/compact).
+
+  - **encrypted_content - string**
+    The encrypted content that was produced by compaction.
+
+  - **id - string**
+    The unique ID of the compaction item.
+
+  - **type - string**
+    The type of the item. Always `compaction`.
+
+  - **created_by - string**
+    The identifier of the actor that created the item.
+
+- **Code interpreter tool call - object**
+  A tool call to run code.
+
+  - **code - string**
+    The code to run, or null if not available.
+
+  - **container_id - string**
+    The ID of the container used to run the code.
+
+  - **id - string**
+    The unique ID of the code interpreter tool call.
+
+  - **outputs - array**
+    The outputs generated by the code interpreter, such as logs or images. Can be null if no outputs are available.
+
+    - **Code interpreter output logs - object**
+      The logs output from the code interpreter.
+
+      - **logs - string**
+        The logs output from the code interpreter.
+
+      - **type - string**
+        The type of the output. Always `logs`.
+
+    - **Code interpreter output image - object**
+      The image output from the code interpreter.
+
+      - **type - string**
+        The type of the output. Always `image`.
+
+      - **url - string**
+        The URL of the image output from the code interpreter.
+
+  - **status - string**
+    The status of the code interpreter tool call. Valid values are `in_progress`, `completed`, `incomplete`, `interpreting`, and `failed`.
+
+  - **type - string**
+    The type of the code interpreter tool call. Always `code_interpreter_call`.
+
+- **Local shell call - object**
+  A tool call to run a command on the local shell.
+
+  - **action - object**
+    Execute a shell command on the server.
+
+    - **command - array**
+      The command to run.
+
+    - **env - map**
+      Environment variables to set for the command.
+
+    - **type - string**
+      The type of the local shell action. Always `exec`.
+
+    - **timeout_ms - integer**
+      Optional timeout in milliseconds for the command.
+
+    - **user - string**
+      Optional user to run the command as.
+
+    - **working_directory - string**
+      Optional working directory to run the command in.
+
+  - **call_id - string**
+    The unique ID of the local shell tool call generated by the model.
+
+  - **id - string**
+    The unique ID of the local shell call.
+
+  - **status - string**
+    The status of the local shell call.
+
+  - **type - string**
+    The type of the local shell call. Always `local_shell_call`.
+
+- **Local shell call output - object**
+  The output of a local shell tool call.
+
+  - **id - string**
+    The unique ID of the local shell tool call generated by the model.
+
+  - **output - string**
+    A JSON string of the output of the local shell tool call.
+
+  - **type - string**
+    The type of the local shell tool call output. Always `local_shell_call_output`.
+
+  - **status - string**
+    The status of the item. One of `in_progress`, `completed`, or `incomplete`.
+
+- **Shell tool call - object**
+  A tool call that executes one or more shell commands in a managed environment.
+
+  - **action - object**
+    The shell commands and limits that describe how to run the tool call.
+
+    - **commands - array**
+
+    - **max_output_length - integer**
+      Optional maximum number of characters to return from each command.
+
+    - **timeout_ms - integer**
+      Optional timeout in milliseconds for the commands.
+
+  - **call_id - string**
+    The unique ID of the shell tool call generated by the model.
+
+  - **id - string**
+    The unique ID of the shell tool call. Populated when this item is returned via API.
+
+  - **status - string**
+    The status of the shell call. One of `in_progress`, `completed`, or `incomplete`.
+
+  - **type - string**
+    The type of the item. Always `shell_call`.
+
+  - **created_by - string**
+    The ID of the entity that created this tool call.
+
+- **Shell call output - object**
+  The output of a shell tool call that was emitted.
+
+  - **call_id - string**
+    The unique ID of the shell tool call generated by the model.
+
+  - **id - string**
+    The unique ID of the shell call output. Populated when this item is returned via API.
+
+  - **max_output_length - integer**
+    The maximum length of the shell command output. This is generated by the model and should be passed back with the raw output.
+
+  - **output - array**
+    An array of shell call output contents
+
+    - **outcome - object**
+      Represents either an exit outcome (with an exit code) or a timeout outcome for a shell call output chunk.
+
+      - **Shell call timeout outcome - object**
+        Indicates that the shell call exceeded its configured time limit.
+
+        - **type - string**
+          The outcome type. Always `timeout`.
+
+      - **Shell call exit outcome - object**
+        Indicates that the shell commands finished and returned an exit code.
+
+        - **exit_code - integer**
+          Exit code from the shell process.
+
+        - **type - string**
+          The outcome type. Always `exit`.
+
+    - **stderr - string**
+      The standard error output that was captured.
+
+    - **stdout - string**
+      The standard output that was captured.
+
+    - **created_by - string**
+      The identifier of the actor that created the item.
+
+  - **type - string**
+    The type of the shell call output. Always `shell_call_output`.
+
+  - **created_by - string**
+    The identifier of the actor that created the item.
+
+- **Apply patch tool call - object**
+  A tool call that applies file diffs by creating, deleting, or updating files.
+
+  - **call_id - string**
+    The unique ID of the apply patch tool call generated by the model.
+
+  - **id - string**
+    The unique ID of the apply patch tool call. Populated when this item is returned via API.
+
+  - **operation - object**
+    One of the create_file, delete_file, or update_file operations applied via apply_patch.
+
+    - **Apply patch create file operation - object**
+      Instruction describing how to create a file via the apply_patch tool.
+
+      - **diff - string**
+        Diff to apply.
+
+      - **path - string**
+        Path of the file to create.
+
+      - **type - string**
+        Create a new file with the provided diff.
+
+    - **Apply patch delete file operation - object**
+      Instruction describing how to delete a file via the apply_patch tool.
+
+      - **path - string**
+        Path of the file to delete.
+
+      - **type - string**
+        Delete the specified file.
+
+    - **Apply patch update file operation - object**
+      Instruction describing how to update a file via the apply_patch tool.
+
+      - **diff - string**
+        Diff to apply.
+
+      - **path - string**
+        Path of the file to update.
+
+      - **type - string**
+        Update an existing file with the provided diff.
+
+  - **status - string**
+    The status of the apply patch tool call. One of `in_progress` or `completed`.
+
+  - **type - string**
+    The type of the item. Always `apply_patch_call`.
+
+  - **created_by - string**
+    The ID of the entity that created this tool call.
+
+- **Apply patch tool call output - object**
+  The output emitted by an apply patch tool call.
+
+  - **call_id - string**
+    The unique ID of the apply patch tool call generated by the model.
+
+  - **id - string**
+    The unique ID of the apply patch tool call output. Populated when this item is returned via API.
+
+  - **status - string**
+    The status of the apply patch tool call output. One of `completed` or `failed`.
+
+  - **type - string**
+    The type of the item. Always `apply_patch_call_output`.
+
+  - **created_by - string**
+    The ID of the entity that created this tool call output.
+
+  - **output - string**
+    Optional textual output returned by the apply patch tool.
+
+- **MCP list tools - object**
+  A list of tools available on an MCP server.
+
+  - **id - string**
+    The unique ID of the list.
+
+  - **server_label - string**
+    The label of the MCP server.
+
+  - **tools - array**
+    The tools available on the server.
+
+    - **input_schema - object**
+      The JSON schema describing the tool's input.
+
+    - **name - string**
+      The name of the tool.
+
+    - **annotations - object**
+      Additional annotations about the tool.
+
+    - **description - string**
+      The description of the tool.
+
+  - **type - string**
+    The type of the item. Always `mcp_list_tools`.
+
+  - **error - string**
+    Error message if the server could not list tools.
+
+- **MCP approval request - object**
+  A request for human approval of a tool invocation.
+
+  - **arguments - string**
+    A JSON string of arguments for the tool.
+
+  - **id - string**
+    The unique ID of the approval request.
+
+  - **name - string**
+    The name of the tool to run.
+
+  - **server_label - string**
+    The label of the MCP server making the request.
+
+  - **type - string**
+    The type of the item. Always `mcp_approval_request`.
+
+- **MCP approval response - object**
+  A response to an MCP approval request.
+
+  - **approval_request_id - string**
+    The ID of the approval request being answered.
+
+  - **approve - boolean**
+    Whether the request was approved.
+
+  - **id - string**
+    The unique ID of the approval response
+
+  - **type - string**
+    The type of the item. Always `mcp_approval_response`.
+
+  - **reason - string**
+    Optional reason for the decision.
+
+- **MCP tool call - object**
+  An invocation of a tool on an MCP server.
+
+  - **arguments - string**
+    A JSON string of the arguments passed to the tool.
+
+  - **id - string**
+    The unique ID of the tool call.
+
+  - **name - string**
+    The name of the tool that was run.
+
+  - **server_label - string**
+    The label of the MCP server running the tool.
+
+  - **type - string**
+    The type of the item. Always `mcp_call`.
+
+  - **approval_request_id - string**
+    Unique identifier for the MCP tool call approval request. Include this value in a subsequent `mcp_approval_response` input to approve or reject the corresponding tool call.
+
+  - **error - string**
+    The error from the tool call, if any.
+
+  - **output - string**
+    The output from the tool call.
+
+  - **status - string**
+    The status of the tool call. One of `in_progress`, `completed`, `incomplete`, `calling`, or `failed`.
+
+- **Custom tool call - object**
+  A call to a custom tool created by the model.
+
+  - **call_id - string**
+    An identifier used to map this custom tool call to a tool call output.
+
+  - **input - string**
+    The input for the custom tool call generated by the model.
+
+  - **name - string**
+    The name of the custom tool being called.
+
+  - **type - string**
+    The type of the custom tool call. Always `custom_tool_call`.
+
+  - **id - string**
+    The unique ID of the custom tool call in the OpenAI platform.
+
+- **Custom tool call output - object**
+  The output of a custom tool call from your code, being sent back to the model.
+
+  - **call_id - string**
+    The call ID, used to map this custom tool call output to a custom tool call.
+
+  - **output - string or array**
+    The output from the custom tool call generated by your code. Can be a string or an list of output content.
+
+    - **string output - string**
+      A string of the output of the custom tool call.
+
+    - **output content list - array**
+      Text, image, or file output of the custom tool call.
+
+      - **Input text - object**
+        A text input to the model.
+
+        - **text - string**
+          The text input to the model.
+
+        - **type - string**
+          The type of the input item. Always `input_text`.
+
+      - **Input image - object**
+        An image input to the model. Learn about [image inputs](https://platform.openai.com/docs/guides/vision).
+
+        - **detail - string**
+          The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+        - **type - string**
+          The type of the input item. Always `input_image`.
+
+        - **file_id - string**
+          The ID of the file to be sent to the model.
+
+        - **image_url - string**
+          The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+      - **Input file - object**
+        A file input to the model.
+
+        - **type - string**
+          The type of the input item. Always `input_file`.
+
+        - **file_data - string**
+          The content of the file to be sent to the model.
+
+        - **file_id - string**
+          The ID of the file to be sent to the model.
+
+        - **file_url - string**
+          The URL of the file to be sent to the model.
+
+        - **filename - string**
+          The name of the file to be sent to the model.
+
+  - **type - string**
+    The type of the custom tool call output. Always `custom_tool_call_output`.
+
+  - **id - string**
+    The unique ID of the custom tool call output in the OpenAI platform.
+
+#### usage - object
+Represents token usage details including input tokens, output tokens, a breakdown of output tokens, and the total tokens used.
+
+- **input_tokens - integer**
+  The number of input tokens.
+
+- **input_tokens_details - object**
+  A detailed breakdown of the input tokens.
+
+  - **cached_tokens - integer**
+    The number of tokens that were retrieved from the cache. [More on prompt caching](https://platform.openai.com/docs/guides/prompt-caching).
+
+- **output_tokens - integer**
+  The number of output tokens.
+
+- **output_tokens_details - object**
+  A detailed breakdown of the output tokens.
+
+  - **reasoning_tokens - integer**
+    The number of reasoning tokens.
+
+- **total_tokens - integer**
+  The total number of tokens used.
+
+### OBJECT The compacted response object
+
+```json
+{
+  "id": "resp_001",
+  "object": "response.compaction",
+  "output": [
+    {
+      "type": "message",
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Summarize our launch checklist from last week."
+        }
+      ]
+    },
+    {
+      "type": "message",
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "You are performing a CONTEXT CHECKPOINT COMPACTION..."
+        }
+      ]
+    },
+    {
+      "type": "compaction",
+      "id": "cmp_001",
+      "encrypted_content": "encrypted-summary"
+    }
+  ],
+  "created_at": 1731459200,
+  "usage": {
+    "input_tokens": 42897,
+    "output_tokens": 12000,
+    "total_tokens": 54912
+  }
 }
 ```

@@ -4,9 +4,7 @@ Create and manage container files for use with the Code Interpreter tool.
 
 ## Create container file
 
-Create a Container File
-
-You can send either a multipart/form-data request with the raw file content, or a JSON request with a file ID.
+Creates a container file.
 
 ### Example request
 
@@ -32,7 +30,7 @@ curl https://api.openai.com/v1/containers/cntr_682e0e7318108198aa783fd921ff305e0
 
 ## List container files
 
-List Container files
+Lists container files.
 
 ### Example request
 
@@ -65,7 +63,7 @@ curl https://api.openai.com/v1/containers/cntr_682e0e7318108198aa783fd921ff305e0
 
 ## Retrieve container file
 
-Retrieve Container File
+Retrieves a container file.
 
 ### Example request
 
@@ -90,7 +88,7 @@ curl https://api.openai.com/v1/containers/container_123/files/file_456 \
 
 ## Retrieve container file content
 
-Retrieve Container File Content
+Retrieves a container file content.
 
 ### Example request
 
@@ -101,13 +99,13 @@ curl https://api.openai.com/v1/containers/container_123/files/cfile_456/content 
 
 ### Response
 
-```json
+```text
 <binary content of the file>
 ```
 
 ## Delete a container file
 
-Delete Container File
+Delete a container file.
 
 ### Example request
 

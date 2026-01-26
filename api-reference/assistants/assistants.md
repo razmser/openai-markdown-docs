@@ -1,10 +1,10 @@
-# AssistantsBeta
+# AssistantsDeprecated
+
+The Assistants API is deprecated and will be removed in August 2026. The recommended replacement is the Responses API. [Learn more](https://platform.openai.com/docs/guides/migrate-to-responses).
 
 Build assistants that can call models and use tools to perform tasks.
 
-[Get started with the Assistants API](https://platform.openai.com/docs/assistants)
-
-## Create assistantBeta
+## Create assistantDeprecated
 
 Create an assistant with a model and instructions.
 
@@ -46,7 +46,7 @@ curl "https://api.openai.com/v1/assistants" \
 }
 ```
 
-## List assistantsBeta
+## List assistantsDeprecated
 
 Returns a list of assistants.
 
@@ -117,7 +117,7 @@ curl "https://api.openai.com/v1/assistants?order=desc&limit=20" \
 }
 ```
 
-## Retrieve assistantBeta
+## Retrieve assistantDeprecated
 
 Retrieves an assistant.
 
@@ -153,7 +153,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 }
 ```
 
-## Modify assistantBeta
+## Modify assistantDeprecated
 
 Modifies an assistant.
 
@@ -199,7 +199,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 }
 ```
 
-## Delete assistantBeta
+## Delete assistantDeprecated
 
 Delete an assistant.
 
@@ -223,7 +223,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 }
 ```
 
-## The assistant objectBeta
+## The assistant objectDeprecated
 
 Represents an `assistant` that can call the model and use tools.
 

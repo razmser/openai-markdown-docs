@@ -19,7 +19,7 @@ curl -X POST https://api.openai.com/v1/realtime/calls \
 
 ### Response
 
-```json
+```text
 v=0
 o=- 4227147428 1719357865 IN IP4 127.0.0.1
 s=-

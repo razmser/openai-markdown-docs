@@ -146,7 +146,7 @@ curl https://api.openai.com/v1/batches/batch_abc123/cancel \
 }
 ```
 
-## List batch
+## List batches
 
 List your organization's batches.
 

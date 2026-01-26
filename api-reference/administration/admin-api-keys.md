@@ -20,7 +20,7 @@ It's crucial to handle Admin API keys with care due to their elevated permission
 
 ## List all organization and project API keys.
 
-List organization API keys
+Retrieve a paginated list of organization admin API keys.
 
 ### Example request
 
@@ -61,7 +61,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys?after=key_abc&limit=2
 
 ## Create admin API key
 
-Create an organization admin API key
+Create a new admin-level API key for the organization.
 
 ### Example request
 
@@ -98,7 +98,7 @@ curl -X POST https://api.openai.com/v1/organization/admin_api_keys \
 
 ## Retrieve admin API key
 
-Retrieve a single organization API key
+Get details for a specific organization API key by its ID.
 
 ### Example request
 
@@ -131,7 +131,7 @@ curl https://api.openai.com/v1/organization/admin_api_keys/key_abc \
 
 ## Delete admin API key
 
-Delete an organization admin API key
+Delete the specified admin API key.
 
 ### Example request
 

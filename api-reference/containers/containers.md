@@ -4,7 +4,7 @@ Create and manage containers for use with the Code Interpreter tool.
 
 ## Create container
 
-Create Container
+Creates a container.
 
 ### Example request
 
@@ -38,7 +38,7 @@ curl https://api.openai.com/v1/containers \
 
 ## List containers
 
-List Containers
+Lists containers.
 
 ### Example request
 
@@ -75,7 +75,7 @@ curl https://api.openai.com/v1/containers \
 
 ## Retrieve container
 
-Retrieve Container
+Retrieves a container.
 
 ### Example request
 
@@ -104,7 +104,7 @@ curl https://api.openai.com/v1/containers/cntr_682dfebaacac8198bbfe9c2474fb6f4a0
 
 ## Delete a container
 
-Delete Container
+Delete a container.
 
 ### Example request
 

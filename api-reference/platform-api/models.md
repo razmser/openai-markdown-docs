@@ -37,8 +37,7 @@ curl https://api.openai.com/v1/models \
       "created": 1686935002,
       "owned_by": "openai"
     },
-  ],
-  "object": "list"
+  ]
 }
 ```
 
@@ -49,7 +48,7 @@ Retrieves a model instance, providing basic information about the model such as 
 ### Example request
 
 ```bash
-curl https://api.openai.com/v1/models/gpt-5.1 \
+curl https://api.openai.com/v1/models/gpt-5.2 \
   -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
@@ -57,7 +56,7 @@ curl https://api.openai.com/v1/models/gpt-5.1 \
 
 ```json
 {
-  "id": "gpt-5.1",
+  "id": "gpt-5.2",
   "object": "model",
   "created": 1686935002,
   "owned_by": "openai"
@@ -108,7 +107,7 @@ The organization that owns the model.
 
 ```json
 {
-  "id": "gpt-5.1",
+  "id": "gpt-5.2",
   "object": "model",
   "created": 1686935002,
   "owned_by": "openai"

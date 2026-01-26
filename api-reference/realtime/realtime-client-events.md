@@ -65,7 +65,7 @@ Update the Realtime session. Choose either a realtime session or a transcription
           The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.
 
         - **model - string**
-          The model to use for transcription. Current options are `whisper-1`, `gpt-4o-mini-transcribe`, `gpt-4o-transcribe`, and `gpt-4o-transcribe-diarize`. Use `gpt-4o-transcribe-diarize` when you need diarization with speaker labels.
+          The model to use for transcription. Current options are `whisper-1`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `gpt-4o-transcribe`, and `gpt-4o-transcribe-diarize`. Use `gpt-4o-transcribe-diarize` when you need diarization with speaker labels.
 
         - **prompt - string**
           An optional text to guide the model's style or continue a previous audio segment. For `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting). For `gpt-4o-transcribe` models (excluding `gpt-4o-transcribe-diarize`), the prompt is a free text string, for example "expect words related to technology".
@@ -156,8 +156,11 @@ Update the Realtime session. Choose either a realtime session or a transcription
 
         This parameter is a post-processing adjustment to the audio after it is generated, it's also possible to prompt the model to speak faster or slower.
 
-      - **voice - string**
-        The voice the model uses to respond. Voice cannot be changed during the session once the model has responded with audio at least once. Current voice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, `verse`, `marin`, and `cedar`. We recommend `marin` and `cedar` for best quality.
+      - **voice - string or object**
+        The voice the model uses to respond. Supported built-in voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, `verse`, `marin`, and `cedar`. You may also provide a custom voice object with an `id`, for example `{ "id": "voice_1234" }`. Voice cannot be changed during the session once the model has responded with audio at least once. We recommend `marin` and `cedar` for best quality.
+
+          - **id - string**
+            The custom voice ID, e.g. `voice_1234`.
 
   - **include - array**
     Additional fields to include in server outputs.
@@ -411,7 +414,7 @@ Update the Realtime session. Choose either a realtime session or a transcription
           The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) (e.g. `en`) format will improve accuracy and latency.
 
         - **model - string**
-          The model to use for transcription. Current options are `whisper-1`, `gpt-4o-mini-transcribe`, `gpt-4o-transcribe`, and `gpt-4o-transcribe-diarize`. Use `gpt-4o-transcribe-diarize` when you need diarization with speaker labels.
+          The model to use for transcription. Current options are `whisper-1`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `gpt-4o-transcribe`, and `gpt-4o-transcribe-diarize`. Use `gpt-4o-transcribe-diarize` when you need diarization with speaker labels.
 
         - **prompt - string**
           An optional text to guide the model's style or continue a previous audio segment. For `whisper-1`, the [prompt is a list of keywords](https://platform.openai.com/docs/guides/speech-to-text#prompting). For `gpt-4o-transcribe` models (excluding `gpt-4o-transcribe-diarize`), the prompt is a free text string, for example "expect words related to technology".
@@ -863,7 +866,11 @@ A single item within a Realtime conversation.
     The type of the item. Always `mcp_approval_request`.
 
 #### previous_item_id - string
-The ID of the preceding item after which the new item will be inserted. If not set, the new item will be appended to the end of the conversation. If set to `root`, the new item will be added to the beginning of the conversation. If set to an existing ID, it allows an item to be inserted mid-conversation. If the ID cannot be found, an error will be returned and the item will not be added.
+The ID of the preceding item after which the new item will be inserted. If not set, the new item will be appended to the end of the conversation.
+
+If set to `root`, the new item will be added to the beginning of the conversation.
+
+If set to an existing ID, it allows an item to be inserted mid-conversation. If the ID cannot be found, an error will be returned and the item will not be added.
 
 #### type - string
 The event type, must be `conversation.item.create`.
@@ -882,8 +889,7 @@ The event type, must be `conversation.item.create`.
         "text": "hi"
       }
     ]
-  },
-  "event_id": "b904fba0-0ec4-40af-8bbb-f908a9b26793",
+  }
 }
 ```
 
@@ -1026,8 +1032,11 @@ Create a new Realtime response with these parameters
         - **type - string**
           The audio format. Always `audio/pcma`.
 
-    - **voice - string**
-      The voice the model uses to respond. Voice cannot be changed during the session once the model has responded with audio at least once. Current voice options are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, `verse`, `marin`, and `cedar`. We recommend `marin` and `cedar` for best quality.
+    - **voice - string or object**
+      The voice the model uses to respond. Supported built-in voices are `alloy`, `ash`, `ballad`, `coral`, `echo`, `sage`, `shimmer`, `verse`, `marin`, and `cedar`. You may also provide a custom voice object with an `id`, for example `{ "id": "voice_1234" }`. Voice cannot be changed during the session once the model has responded with audio at least once. We recommend `marin` and `cedar` for best quality.
+
+        - **id - string**
+          The custom voice ID, e.g. `voice_1234`.
 
 - **conversation - string**
   Controls which conversation the response is added to. Currently supports `auto` and `none`, with `auto` as the default value. The `auto` value means that the contents of the response will be added to the default conversation. Set this to `none` to create an out-of-band response which will not add items to default conversation.
@@ -1450,7 +1459,7 @@ The event type, must be `response.create`.
 
 ### OBJECT response.create
 
-```json
+```text
 // Trigger a response with the default Conversation and no special parameters
 {
   "type": "response.create",
@@ -1470,7 +1479,7 @@ The event type, must be `response.create`.
     "input": [
       {
         "type": "item_reference",
-        "id": "item_12345",
+        "id": "item_12345"
       },
       {
         "type": "message",
@@ -1482,7 +1491,7 @@ The event type, must be `response.create`.
           }
         ]
       }
-    ],
+    ]
   }
 }
 ```
@@ -1506,8 +1515,8 @@ The event type, must be `response.cancel`.
 
 ```json
 {
-    "type": "response.cancel"
-    "response_id": "resp_12345",
+    "type": "response.cancel",
+    "response_id": "resp_12345"
 }
 ```
 

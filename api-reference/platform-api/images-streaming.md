@@ -75,7 +75,7 @@ The size of the generated image.
 The type of the event. Always `image_generation.completed`.
 
 #### usage - object
-For `gpt-image-1` only, the token usage information for the image generation.
+For the GPT image models only, the token usage information for the image generation.
 
 - **input_tokens - integer**
   The number of tokens (images and text) in the input prompt.
@@ -191,7 +191,7 @@ The size of the edited image.
 The type of the event. Always `image_edit.completed`.
 
 #### usage - object
-For `gpt-image-1` only, the token usage information for the image generation.
+For the GPT image models only, the token usage information for the image generation.
 
 - **input_tokens - integer**
   The number of tokens (images and text) in the input prompt.

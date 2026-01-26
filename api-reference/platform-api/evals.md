@@ -1115,61 +1115,112 @@ A list of testing criteria.
   A LabelModelGrader object which uses a model to assign labels to each item in the evaluation.
 
   - **input - array**
-    Inputs to the model - can contain template strings.
+    Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items.
 
-    - **content - string / object / array**
-      Inputs to the model - can contain template strings.
+    - **content - array**
+      Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items.
 
-      - **Text input - string**
-        A text input to the model.
+      - **Eval content item**
+        A single content item: input text, output text, input image, or input audio.
 
-      - **Input text - object**
-        A text input to the model.
+        - **Text input - string**
+          A text input to the model.
 
-        - **text - string**
-          The text input to the model.
+        - **Input text - object**
+          A text input to the model.
 
-        - **type - string**
-          The type of the input item. Always `input_text`.
+          - **text - string**
+            The text input to the model.
 
-      - **Output text - object**
-        A text output from the model.
+          - **type - string**
+            The type of the input item. Always `input_text`.
 
-        - **text - string**
-          The text output from the model.
+        - **Output text - object**
+          A text output from the model.
 
-        - **type - string**
-          The type of the output text. Always `output_text`.
+          - **text - string**
+            The text output from the model.
 
-      - **Input image - object**
-        An image input to the model.
+          - **type - string**
+            The type of the output text. Always `output_text`.
 
-        - **image_url - string**
-          The URL of the image input.
+        - **Input image - object**
+          An image input block used within EvalItem content arrays.
 
-        - **type - string**
-          The type of the image input. Always `input_image`.
+          - **image_url - string**
+            The URL of the image input.
 
-        - **detail - string**
-          The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+          - **type - string**
+            The type of the image input. Always `input_image`.
 
-      - **Input audio - object**
-        An audio input to the model.
+          - **detail - string**
+            The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
 
-        - **input_audio - object**
-          Base64-encoded audio data.
+        - **Input audio - object**
+          An audio input to the model.
 
-          - **data - string**
+          - **input_audio - object**
             Base64-encoded audio data.
 
-          - **format - string**
-            The format of the audio data. Currently supported formats are `mp3` and `wav`.
+            - **data - string**
+              Base64-encoded audio data.
 
-        - **type - string**
-          The type of the input item. Always `input_audio`.
+            - **format - string**
+              The format of the audio data. Currently supported formats are `mp3` and `wav`.
 
-      - **An array of Input text, Input image, and Input audio - array**
-        A list of inputs, each of which may be either an input text, input image, or input audio object.
+          - **type - string**
+            The type of the input item. Always `input_audio`.
+
+      - **An array of Input text, Output text, Input image, and Input audio - array**
+        A list of inputs, each of which may be either an input text, output text, input image, or input audio object.
+
+        - **Text input - string**
+          A text input to the model.
+
+        - **Input text - object**
+          A text input to the model.
+
+          - **text - string**
+            The text input to the model.
+
+          - **type - string**
+            The type of the input item. Always `input_text`.
+
+        - **Output text - object**
+          A text output from the model.
+
+          - **text - string**
+            The text output from the model.
+
+          - **type - string**
+            The type of the output text. Always `output_text`.
+
+        - **Input image - object**
+          An image input block used within EvalItem content arrays.
+
+          - **image_url - string**
+            The URL of the image input.
+
+          - **type - string**
+            The type of the image input. Always `input_image`.
+
+          - **detail - string**
+            The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+        - **Input audio - object**
+          An audio input to the model.
+
+          - **input_audio - object**
+            Base64-encoded audio data.
+
+            - **data - string**
+              Base64-encoded audio data.
+
+            - **format - string**
+              The format of the audio data. Currently supported formats are `mp3` and `wav`.
+
+          - **type - string**
+            The type of the input item. Always `input_audio`.
 
     - **role - string**
       The role of the message input. One of `user`, `assistant`, `system`, or `developer`.
@@ -1253,61 +1304,112 @@ A list of testing criteria.
   A ScoreModelGrader object that uses a model to assign a score to the input.
 
   - **input - array**
-    The input text. This may include template strings.
+    The input messages evaluated by the grader. Supports text, output text, input image, and input audio content blocks, and may include template strings.
 
-    - **content - string / object / array**
-      Inputs to the model - can contain template strings.
+    - **content - array**
+      Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items.
 
-      - **Text input - string**
-        A text input to the model.
+      - **Eval content item**
+        A single content item: input text, output text, input image, or input audio.
 
-      - **Input text - object**
-        A text input to the model.
+        - **Text input - string**
+          A text input to the model.
 
-        - **text - string**
-          The text input to the model.
+        - **Input text - object**
+          A text input to the model.
 
-        - **type - string**
-          The type of the input item. Always `input_text`.
+          - **text - string**
+            The text input to the model.
 
-      - **Output text - object**
-        A text output from the model.
+          - **type - string**
+            The type of the input item. Always `input_text`.
 
-        - **text - string**
-          The text output from the model.
+        - **Output text - object**
+          A text output from the model.
 
-        - **type - string**
-          The type of the output text. Always `output_text`.
+          - **text - string**
+            The text output from the model.
 
-      - **Input image - object**
-        An image input to the model.
+          - **type - string**
+            The type of the output text. Always `output_text`.
 
-        - **image_url - string**
-          The URL of the image input.
+        - **Input image - object**
+          An image input block used within EvalItem content arrays.
 
-        - **type - string**
-          The type of the image input. Always `input_image`.
+          - **image_url - string**
+            The URL of the image input.
 
-        - **detail - string**
-          The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+          - **type - string**
+            The type of the image input. Always `input_image`.
 
-      - **Input audio - object**
-        An audio input to the model.
+          - **detail - string**
+            The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
 
-        - **input_audio - object**
-          Base64-encoded audio data.
+        - **Input audio - object**
+          An audio input to the model.
 
-          - **data - string**
+          - **input_audio - object**
             Base64-encoded audio data.
 
-          - **format - string**
-            The format of the audio data. Currently supported formats are `mp3` and `wav`.
+            - **data - string**
+              Base64-encoded audio data.
 
-        - **type - string**
-          The type of the input item. Always `input_audio`.
+            - **format - string**
+              The format of the audio data. Currently supported formats are `mp3` and `wav`.
 
-      - **An array of Input text, Input image, and Input audio - array**
-        A list of inputs, each of which may be either an input text, input image, or input audio object.
+          - **type - string**
+            The type of the input item. Always `input_audio`.
+
+      - **An array of Input text, Output text, Input image, and Input audio - array**
+        A list of inputs, each of which may be either an input text, output text, input image, or input audio object.
+
+        - **Text input - string**
+          A text input to the model.
+
+        - **Input text - object**
+          A text input to the model.
+
+          - **text - string**
+            The text input to the model.
+
+          - **type - string**
+            The type of the input item. Always `input_text`.
+
+        - **Output text - object**
+          A text output from the model.
+
+          - **text - string**
+            The text output from the model.
+
+          - **type - string**
+            The type of the output text. Always `output_text`.
+
+        - **Input image - object**
+          An image input block used within EvalItem content arrays.
+
+          - **image_url - string**
+            The URL of the image input.
+
+          - **type - string**
+            The type of the image input. Always `input_image`.
+
+          - **detail - string**
+            The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+        - **Input audio - object**
+          An audio input to the model.
+
+          - **input_audio - object**
+            Base64-encoded audio data.
+
+            - **data - string**
+              Base64-encoded audio data.
+
+            - **format - string**
+              The format of the audio data. Currently supported formats are `mp3` and `wav`.
+
+          - **type - string**
+            The type of the input item. Always `input_audio`.
 
     - **role - string**
       The role of the message input. One of `user`, `assistant`, `system`, or `developer`.
@@ -1337,11 +1439,12 @@ A list of testing criteria.
       The maximum number of tokens the grader model may generate in its response.
 
     - **reasoning_effort - string**
-      Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, and `high`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+      Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
 
         * `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
         * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
         * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+        * `xhigh` is supported for all models after `gpt-5.1-codex-max`.
 
     - **seed - integer**
       A seed value to initialize the randomness, during sampling.
@@ -1555,59 +1658,110 @@ Information about the run's data source.
         - **Eval message object - object**
           A message input to the model with a role indicating instruction following hierarchy. Instructions given with the `developer` or `system` role take precedence over instructions given with the `user` role. Messages with the `assistant` role are presumed to have been generated by the model in previous interactions.
 
-          - **content - string / object / array**
-            Inputs to the model - can contain template strings.
+          - **content - array**
+            Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items.
 
-            - **Text input - string**
-              A text input to the model.
+            - **Eval content item**
+              A single content item: input text, output text, input image, or input audio.
 
-            - **Input text - object**
-              A text input to the model.
+              - **Text input - string**
+                A text input to the model.
 
-              - **text - string**
-                The text input to the model.
+              - **Input text - object**
+                A text input to the model.
 
-              - **type - string**
-                The type of the input item. Always `input_text`.
+                - **text - string**
+                  The text input to the model.
 
-            - **Output text - object**
-              A text output from the model.
+                - **type - string**
+                  The type of the input item. Always `input_text`.
 
-              - **text - string**
-                The text output from the model.
+              - **Output text - object**
+                A text output from the model.
 
-              - **type - string**
-                The type of the output text. Always `output_text`.
+                - **text - string**
+                  The text output from the model.
 
-            - **Input image - object**
-              An image input to the model.
+                - **type - string**
+                  The type of the output text. Always `output_text`.
 
-              - **image_url - string**
-                The URL of the image input.
+              - **Input image - object**
+                An image input block used within EvalItem content arrays.
 
-              - **type - string**
-                The type of the image input. Always `input_image`.
+                - **image_url - string**
+                  The URL of the image input.
 
-              - **detail - string**
-                The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+                - **type - string**
+                  The type of the image input. Always `input_image`.
 
-            - **Input audio - object**
-              An audio input to the model.
+                - **detail - string**
+                  The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
 
-              - **input_audio - object**
-                Base64-encoded audio data.
+              - **Input audio - object**
+                An audio input to the model.
 
-                - **data - string**
+                - **input_audio - object**
                   Base64-encoded audio data.
 
-                - **format - string**
-                  The format of the audio data. Currently supported formats are `mp3` and `wav`.
+                  - **data - string**
+                    Base64-encoded audio data.
 
-              - **type - string**
-                The type of the input item. Always `input_audio`.
+                  - **format - string**
+                    The format of the audio data. Currently supported formats are `mp3` and `wav`.
 
-            - **An array of Input text, Input image, and Input audio - array**
-              A list of inputs, each of which may be either an input text, input image, or input audio object.
+                - **type - string**
+                  The type of the input item. Always `input_audio`.
+
+            - **An array of Input text, Output text, Input image, and Input audio - array**
+              A list of inputs, each of which may be either an input text, output text, input image, or input audio object.
+
+              - **Text input - string**
+                A text input to the model.
+
+              - **Input text - object**
+                A text input to the model.
+
+                - **text - string**
+                  The text input to the model.
+
+                - **type - string**
+                  The type of the input item. Always `input_text`.
+
+              - **Output text - object**
+                A text output from the model.
+
+                - **text - string**
+                  The text output from the model.
+
+                - **type - string**
+                  The type of the output text. Always `output_text`.
+
+              - **Input image - object**
+                An image input block used within EvalItem content arrays.
+
+                - **image_url - string**
+                  The URL of the image input.
+
+                - **type - string**
+                  The type of the image input. Always `input_image`.
+
+                - **detail - string**
+                  The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+              - **Input audio - object**
+                An audio input to the model.
+
+                - **input_audio - object**
+                  Base64-encoded audio data.
+
+                  - **data - string**
+                    Base64-encoded audio data.
+
+                  - **format - string**
+                    The format of the audio data. Currently supported formats are `mp3` and `wav`.
+
+                - **type - string**
+                  The type of the input item. Always `input_audio`.
 
           - **role - string**
             The role of the message input. One of `user`, `assistant`, `system`, or `developer`.
@@ -1637,11 +1791,12 @@ Information about the run's data source.
       The maximum number of tokens in the generated output.
 
     - **reasoning_effort - string**
-      Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, and `high`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+      Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
 
         * `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
         * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
         * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+        * `xhigh` is supported for all models after `gpt-5.1-codex-max`.
 
     - **response_format - object**
       An object specifying the format that the model must output.
@@ -1803,59 +1958,110 @@ Information about the run's data source.
         - **Eval message object - object**
           A message input to the model with a role indicating instruction following hierarchy. Instructions given with the `developer` or `system` role take precedence over instructions given with the `user` role. Messages with the `assistant` role are presumed to have been generated by the model in previous interactions.
 
-          - **content - string / object / array**
-            Inputs to the model - can contain template strings.
+          - **content - array**
+            Inputs to the model - can contain template strings. Supports text, output text, input images, and input audio, either as a single item or an array of items.
 
-            - **Text input - string**
-              A text input to the model.
+            - **Eval content item**
+              A single content item: input text, output text, input image, or input audio.
 
-            - **Input text - object**
-              A text input to the model.
+              - **Text input - string**
+                A text input to the model.
 
-              - **text - string**
-                The text input to the model.
+              - **Input text - object**
+                A text input to the model.
 
-              - **type - string**
-                The type of the input item. Always `input_text`.
+                - **text - string**
+                  The text input to the model.
 
-            - **Output text - object**
-              A text output from the model.
+                - **type - string**
+                  The type of the input item. Always `input_text`.
 
-              - **text - string**
-                The text output from the model.
+              - **Output text - object**
+                A text output from the model.
 
-              - **type - string**
-                The type of the output text. Always `output_text`.
+                - **text - string**
+                  The text output from the model.
 
-            - **Input image - object**
-              An image input to the model.
+                - **type - string**
+                  The type of the output text. Always `output_text`.
 
-              - **image_url - string**
-                The URL of the image input.
+              - **Input image - object**
+                An image input block used within EvalItem content arrays.
 
-              - **type - string**
-                The type of the image input. Always `input_image`.
+                - **image_url - string**
+                  The URL of the image input.
 
-              - **detail - string**
-                The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+                - **type - string**
+                  The type of the image input. Always `input_image`.
 
-            - **Input audio - object**
-              An audio input to the model.
+                - **detail - string**
+                  The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
 
-              - **input_audio - object**
-                Base64-encoded audio data.
+              - **Input audio - object**
+                An audio input to the model.
 
-                - **data - string**
+                - **input_audio - object**
                   Base64-encoded audio data.
 
-                - **format - string**
-                  The format of the audio data. Currently supported formats are `mp3` and `wav`.
+                  - **data - string**
+                    Base64-encoded audio data.
 
-              - **type - string**
-                The type of the input item. Always `input_audio`.
+                  - **format - string**
+                    The format of the audio data. Currently supported formats are `mp3` and `wav`.
 
-            - **An array of Input text, Input image, and Input audio - array**
-              A list of inputs, each of which may be either an input text, input image, or input audio object.
+                - **type - string**
+                  The type of the input item. Always `input_audio`.
+
+            - **An array of Input text, Output text, Input image, and Input audio - array**
+              A list of inputs, each of which may be either an input text, output text, input image, or input audio object.
+
+              - **Text input - string**
+                A text input to the model.
+
+              - **Input text - object**
+                A text input to the model.
+
+                - **text - string**
+                  The text input to the model.
+
+                - **type - string**
+                  The type of the input item. Always `input_text`.
+
+              - **Output text - object**
+                A text output from the model.
+
+                - **text - string**
+                  The text output from the model.
+
+                - **type - string**
+                  The type of the output text. Always `output_text`.
+
+              - **Input image - object**
+                An image input block used within EvalItem content arrays.
+
+                - **image_url - string**
+                  The URL of the image input.
+
+                - **type - string**
+                  The type of the image input. Always `input_image`.
+
+                - **detail - string**
+                  The detail level of the image to be sent to the model. One of `high`, `low`, or `auto`. Defaults to `auto`.
+
+              - **Input audio - object**
+                An audio input to the model.
+
+                - **input_audio - object**
+                  Base64-encoded audio data.
+
+                  - **data - string**
+                    Base64-encoded audio data.
+
+                  - **format - string**
+                    The format of the audio data. Currently supported formats are `mp3` and `wav`.
+
+                - **type - string**
+                  The type of the input item. Always `input_audio`.
 
           - **role - string**
             The role of the message input. One of `user`, `assistant`, `system`, or `developer`.
@@ -1885,11 +2091,12 @@ Information about the run's data source.
       The maximum number of tokens in the generated output.
 
     - **reasoning_effort - string**
-      Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, and `high`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
+      Constrains effort on reasoning for [reasoning models](https://platform.openai.com/docs/guides/reasoning). Currently supported values are `none`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Reducing reasoning effort can result in faster responses and fewer tokens used on reasoning in a response.
 
         * `gpt-5.1` defaults to `none`, which does not perform reasoning. The supported reasoning values for `gpt-5.1` are `none`, `low`, `medium`, and `high`. Tool calls are supported for all reasoning values in gpt-5.1.
         * All models before `gpt-5.1` default to `medium` reasoning effort, and do not support `none`.
         * The `gpt-5-pro` model defaults to (and only supports) `high` reasoning effort.
+        * `xhigh` is supported for all models after `gpt-5.1-codex-max`.
 
     - **seed - integer**
       A seed value to initialize the randomness, during sampling.
@@ -2197,12 +2404,13 @@ Information about the run's data source.
               An optional list of uploaded files to make available to your code.
 
             - **memory_limit - string**
+              The memory limit for the code interpreter container.
 
         - **type - string**
           The type of the code interpreter tool. Always `code_interpreter`.
 
       - **Image generation tool - object**
-        A tool that generates images using a model like `gpt-image-1`.
+        A tool that generates images using the GPT image models.
 
         - **type - string**
           The type of the image generation tool. Always `image_generation`.
@@ -2223,7 +2431,6 @@ Information about the run's data source.
             Base64-encoded mask image.
 
         - **model - string**
-          The image generation model to use. Default: `gpt-image-1`.
 
         - **moderation - string**
           Moderation level for the generated image. Default: `auto`.

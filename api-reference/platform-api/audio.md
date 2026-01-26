@@ -22,6 +22,98 @@ curl https://api.openai.com/v1/audio/speech \
   --output speech.mp3
 ```
 
+## Create voice
+
+Create a custom voice you can use for audio output (for example, in Text-to-Speech and the Realtime API). This requires an audio sample and a previously uploaded consent recording.
+
+See the [custom voices guide](https://platform.openai.com/docs/guides/text-to-speech#custom-voices) for requirements and best practices. Custom voices are limited to eligible customers.
+
+### Example request
+
+```bash
+curl https://api.openai.com/v1/audio/voices \
+  -X POST \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -F "name=My new voice" \
+  -F "consent=cons_1234" \
+  -F "audio_sample=@$HOME/audio_sample.wav;type=audio/x-wav"
+```
+
+## Create voice consent
+
+Upload a consent recording that authorizes creation of a custom voice.
+
+See the [custom voices guide](https://platform.openai.com/docs/guides/text-to-speech#custom-voices) for requirements and best practices. Custom voices are limited to eligible customers.
+
+### Example request
+
+```bash
+curl https://api.openai.com/v1/audio/voice_consents \
+  -X POST \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -F "name=John Doe" \
+  -F "language=en-US" \
+  -F "recording=@$HOME/consent_recording.wav;type=audio/x-wav"
+```
+
+## List voice consents
+
+List consent recordings available to your organization for creating custom voices.
+
+See the [custom voices guide](https://platform.openai.com/docs/guides/text-to-speech#custom-voices). Custom voices are limited to eligible customers.
+
+### Example request
+
+```bash
+curl https://api.openai.com/v1/audio/voice_consents?limit=20 \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+```
+
+## Retrieve voice consent
+
+Retrieve consent recording metadata used for creating custom voices.
+
+See the [custom voices guide](https://platform.openai.com/docs/guides/text-to-speech#custom-voices). Custom voices are limited to eligible customers.
+
+### Example request
+
+```bash
+curl https://api.openai.com/v1/audio/voice_consents/cons_1234 \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+```
+
+## Update voice consent
+
+Update consent recording metadata used for creating custom voices. This endpoint updates metadata only and does not replace the underlying audio.
+
+See the [custom voices guide](https://platform.openai.com/docs/guides/text-to-speech#custom-voices). Custom voices are limited to eligible customers.
+
+### Example request
+
+```bash
+curl https://api.openai.com/v1/audio/voice_consents/cons_1234 \
+  -X POST \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "John Doe"
+  }'
+```
+
+## Delete voice consent
+
+Delete a consent recording that was uploaded for creating custom voices.
+
+See the [custom voices guide](https://platform.openai.com/docs/guides/text-to-speech#custom-voices). Custom voices are limited to eligible customers.
+
+### Example request
+
+```bash
+curl https://api.openai.com/v1/audio/voice_consents/cons_1234 \
+  -X DELETE \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+```
+
 ## Create transcription
 
 Transcribes audio into the input language.
@@ -73,6 +165,139 @@ curl https://api.openai.com/v1/audio/translations \
 ```json
 {
   "text": "Hello, my name is Wolfgang and I come from Germany. Where are you heading today?"
+}
+```
+
+## The voice object
+
+A custom voice that can be used for audio output.
+
+### Parameters
+
+#### created_at - integer
+The Unix timestamp (in seconds) for when the voice was created.
+
+#### id - string
+The voice identifier, which can be referenced in API endpoints.
+
+#### name - string
+The name of the voice.
+
+#### object - string
+The object type, which is always `audio.voice`.
+
+### OBJECT The voice object
+
+```json
+{
+  "object": "audio.voice",
+  "id": "voice_123abc",
+  "name": "My new voice",
+  "created_at": 1734220800
+}
+```
+
+## The voice consent object
+
+A consent recording used to authorize creation of a custom voice.
+
+### Parameters
+
+#### created_at - integer
+The Unix timestamp (in seconds) for when the consent recording was created.
+
+#### id - string
+The consent recording identifier.
+
+#### language - string
+The BCP 47 language tag for the consent phrase (for example, `en-US`).
+
+#### name - string
+The label provided when the consent recording was uploaded.
+
+#### object - string
+The object type, which is always `audio.voice_consent`.
+
+### OBJECT The voice consent object
+
+```json
+{
+  "object": "audio.voice_consent",
+  "id": "cons_1234",
+  "name": "John Doe",
+  "language": "en-US",
+  "created_at": 1734220800
+}
+```
+
+## The voice consent list object
+
+### Parameters
+
+#### data - array
+The Unix timestamp (in seconds) for when the consent recording was created.
+
+- **created_at - integer**
+  The Unix timestamp (in seconds) for when the consent recording was created.
+
+- **id - string**
+  The consent recording identifier.
+
+- **language - string**
+  The BCP 47 language tag for the consent phrase (for example, `en-US`).
+
+- **name - string**
+  The label provided when the consent recording was uploaded.
+
+- **object - string**
+  The object type, which is always `audio.voice_consent`.
+
+#### first_id - string
+
+#### has_more - boolean
+
+#### last_id - string
+
+#### object - string
+
+### OBJECT The voice consent list object
+
+```json
+{
+  "object": "list",
+  "data": [
+    {
+      "object": "audio.voice_consent",
+      "id": "cons_1234",
+      "name": "John Doe",
+      "language": "en-US",
+      "created_at": 1734220800
+    }
+  ],
+  "first_id": "cons_1234",
+  "last_id": "cons_1234",
+  "has_more": false
+}
+```
+
+## The voice consent deletion object
+
+### Parameters
+
+#### deleted - boolean
+
+#### id - string
+The consent recording identifier.
+
+#### object - string
+
+### OBJECT The voice consent deletion object
+
+```json
+{
+  "object": "audio.voice_consent",
+  "id": "cons_1234",
+  "deleted": true
 }
 ```
 

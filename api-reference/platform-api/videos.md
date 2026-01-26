@@ -4,7 +4,7 @@ Generate videos.
 
 ## Create video
 
-Create a video
+Create a new video generation job from a prompt and optional reference assets.
 
 ### Example request
 
@@ -33,7 +33,7 @@ curl https://api.openai.com/v1/videos \
 
 ## Remix video
 
-Create a video remix
+Create a remix of a completed video using a refreshed prompt.
 
 ### Example request
 
@@ -64,7 +64,7 @@ curl -X POST https://api.openai.com/v1/videos/video_123/remix \
 
 ## List videos
 
-List videos
+List recently generated videos for the current project.
 
 ### Example request
 
@@ -91,7 +91,7 @@ curl https://api.openai.com/v1/videos \
 
 ## Retrieve video
 
-Retrieve a video
+Fetch the latest metadata for a generated video.
 
 ### Example request
 
@@ -107,7 +107,7 @@ console.log(video.id);
 
 ## Delete video
 
-Delete a video
+Permanently delete a completed or failed video and its stored assets.
 
 ### Example request
 
@@ -123,7 +123,7 @@ console.log(video.id);
 
 ## Retrieve video content
 
-Download video content
+Download the generated video bytes or a derived preview asset.
 
 ### Example request
 
@@ -156,8 +156,10 @@ Unix timestamp (seconds) for when the job was created.
 Error payload that explains why generation failed, if applicable.
 
 - **code - string**
+  A machine-readable error code that was returned.
 
 - **message - string**
+  A human-readable description of the error that was returned.
 
 #### expires_at - integer
 Unix timestamp (seconds) for when the downloadable assets expire, if set.

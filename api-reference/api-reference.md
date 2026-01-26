@@ -14,7 +14,7 @@ If you belong to multiple organizations or access projects through a legacy user
 
 Usage from these API requests counts as usage for the specified organization and project.Organization IDs can be found on your [organization settings](/settings/organization/general) page. Project IDs can be found on your [general settings](/settings) page by selecting the specific project.
 
-```bash
+```text
 Authorization: Bearer OPENAI_API_KEY
 ```
 

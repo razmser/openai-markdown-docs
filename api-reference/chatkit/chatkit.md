@@ -4,7 +4,7 @@ Manage ChatKit sessions, threads, and file uploads for internal integrations.
 
 ## Create ChatKit sessionBeta
 
-Create a ChatKit session
+Create a ChatKit session.
 
 ### Example request
 
@@ -33,7 +33,7 @@ curl https://api.openai.com/v1/chatkit/sessions \
 ```json
 {
   "client_secret": "chatkit_token_123",
-  "expires_after": 1800,
+  "expires_at": 1735689600,
   "workflow": {
     "id": "workflow_alpha",
     "version": "2024-10-01"
@@ -50,7 +50,7 @@ curl https://api.openai.com/v1/chatkit/sessions \
 
 ## Cancel chat sessionBeta
 
-Cancel a ChatKit session
+Cancel an active ChatKit session and return its most recent metadata.
 
 ### Example request
 
@@ -83,7 +83,7 @@ curl -X POST \
 
 ## List ChatKit threadsBeta
 
-List ChatKit threads
+List ChatKit threads with optional pagination and user filters.
 
 ### Example request
 
@@ -116,7 +116,7 @@ curl "https://api.openai.com/v1/chatkit/threads?limit=2&order=desc" \
 
 ## Retrieve ChatKit threadBeta
 
-Retrieve a ChatKit thread
+Retrieve a ChatKit thread by its identifier.
 
 ### Example request
 
@@ -166,7 +166,7 @@ curl https://api.openai.com/v1/chatkit/threads/cthr_abc123 \
 
 ## Delete ChatKit threadBeta
 
-Delete a ChatKit thread
+Delete a ChatKit thread along with its items and stored attachments.
 
 ### Example request
 
@@ -182,7 +182,7 @@ console.log(thread.id);
 
 ## List ChatKit thread itemsBeta
 
-List ChatKit thread items
+List items that belong to a ChatKit thread.
 
 ### Example request
 
