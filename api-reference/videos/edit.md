@@ -142,7 +142,7 @@ curl https://api.openai.com/v1/videos/edits \
     "message": "message"
   },
   "expires_at": 0,
-  "model": "string",
+  "model": "sora-2",
   "object": "video",
   "progress": 0,
   "prompt": "prompt",

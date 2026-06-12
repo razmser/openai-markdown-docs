@@ -135,7 +135,7 @@ curl https://api.openai.com/v1/videos/$VIDEO_ID/remix \
     "message": "message"
   },
   "expires_at": 0,
-  "model": "string",
+  "model": "sora-2",
   "object": "video",
   "progress": 0,
   "prompt": "prompt",
