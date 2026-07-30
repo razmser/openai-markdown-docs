@@ -604,6 +604,88 @@ curl https://api.openai.com/v1/fine_tuning/alpha/graders/run \
 }
 ```
 
+### Score an audio response
+
+```http
+curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "grader": {
+      "type": "score_model",
+      "name": "Audio clarity grader",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "Listen to the clip and return a confidence score from 0 to 1 that the speaker said: {{item.target_phrase}}"
+            },
+            {
+              "type": "input_audio",
+              "input_audio": {
+                "data": "{{item.audio_clip_b64}}",
+                "format": "mp3"
+              }
+            }
+          ]
+        }
+      ],
+      "model": "gpt-audio",
+      "sampling_params": {
+        "temperature": 0.2,
+        "top_p": 1,
+        "seed": 123
+      }
+    },
+    "item": {
+      "target_phrase": "Please deliver the package on Tuesday",
+      "audio_clip_b64": "<base64-encoded mp3>"
+    },
+    "model_sample": "Please deliver the package on Tuesday"
+  }'
+```
+
+### Score an image caption
+
+```http
+curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "grader": {
+      "type": "score_model",
+      "name": "Image caption grader",
+      "input": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "input_text",
+              "text": "Score how well the provided caption matches the image on a 0-1 scale. Only return the score.\n\nCaption: {{sample.output_text}}"
+            },
+            {
+              "type": "input_image",
+              "image_url": "https://example.com/dog-catching-ball.png",
+              "file_id": null,
+              "detail": "high"
+            }
+          ]
+        }
+      ],
+      "model": "gpt-5-mini",
+      "sampling_params": {
+        "temperature": 0.2
+      }
+    },
+    "item": {
+      "expected_caption": "A golden retriever jumps to catch a tennis ball"
+    },
+    "model_sample": "A dog leaps to grab a tennis ball mid-air"
+  }'
+```
+
 ### Score text alignment
 
 ```http
@@ -683,86 +765,4 @@ curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
     }
   }
 }
-```
-
-### Score an image caption
-
-```http
-curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -d '{
-    "grader": {
-      "type": "score_model",
-      "name": "Image caption grader",
-      "input": [
-        {
-          "role": "user",
-          "content": [
-            {
-              "type": "input_text",
-              "text": "Score how well the provided caption matches the image on a 0-1 scale. Only return the score.\n\nCaption: {{sample.output_text}}"
-            },
-            {
-              "type": "input_image",
-              "image_url": "https://example.com/dog-catching-ball.png",
-              "file_id": null,
-              "detail": "high"
-            }
-          ]
-        }
-      ],
-      "model": "gpt-5-mini",
-      "sampling_params": {
-        "temperature": 0.2
-      }
-    },
-    "item": {
-      "expected_caption": "A golden retriever jumps to catch a tennis ball"
-    },
-    "model_sample": "A dog leaps to grab a tennis ball mid-air"
-  }'
-```
-
-### Score an audio response
-
-```http
-curl -X POST https://api.openai.com/v1/fine_tuning/alpha/graders/run \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -d '{
-    "grader": {
-      "type": "score_model",
-      "name": "Audio clarity grader",
-      "input": [
-        {
-          "role": "user",
-          "content": [
-            {
-              "type": "input_text",
-              "text": "Listen to the clip and return a confidence score from 0 to 1 that the speaker said: {{item.target_phrase}}"
-            },
-            {
-              "type": "input_audio",
-              "input_audio": {
-                "data": "{{item.audio_clip_b64}}",
-                "format": "mp3"
-              }
-            }
-          ]
-        }
-      ],
-      "model": "gpt-audio",
-      "sampling_params": {
-        "temperature": 0.2,
-        "top_p": 1,
-        "seed": 123
-      }
-    },
-    "item": {
-      "target_phrase": "Please deliver the package on Tuesday",
-      "audio_clip_b64": "<base64-encoded mp3>"
-    },
-    "model_sample": "Please deliver the package on Tuesday"
-  }'
 ```

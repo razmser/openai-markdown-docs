@@ -1730,6 +1730,69 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
 }
 ```
 
+### DPO
+
+```http
+curl https://api.openai.com/v1/fine_tuning/jobs \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "training_file": "file-abc123",
+    "validation_file": "file-abc123",
+    "model": "gpt-4o-mini",
+    "method": {
+      "type": "dpo",
+      "dpo": {
+        "hyperparameters": {
+          "beta": 0.1
+        }
+      }
+    }
+  }'
+```
+
+#### Response
+
+```json
+{
+  "object": "fine_tuning.job",
+  "id": "ftjob-abc",
+  "model": "gpt-4o-mini",
+  "created_at": 1746130590,
+  "fine_tuned_model": null,
+  "organization_id": "org-abc",
+  "result_files": [],
+  "status": "queued",
+  "validation_file": "file-123",
+  "training_file": "file-abc",
+  "method": {
+    "type": "dpo",
+    "dpo": {
+      "hyperparameters": {
+        "beta": 0.1,
+        "batch_size": "auto",
+        "learning_rate_multiplier": "auto",
+        "n_epochs": "auto"
+      }
+    }
+  },
+  "metadata": null,
+  "error": {
+    "code": null,
+    "message": null,
+    "param": null
+  },
+  "finished_at": null,
+  "hyperparameters": null,
+  "seed": 1036326793,
+  "estimated_finish": null,
+  "integrations": [],
+  "user_provided_suffix": null,
+  "usage_metrics": null,
+  "shared_with_openai": false
+}
+```
+
 ### Example
 
 ```http
@@ -1828,69 +1891,6 @@ curl https://api.openai.com/v1/fine_tuning/jobs \
   "finished_at": null,
   "seed": 683058546,
   "trained_tokens": null,
-  "estimated_finish": null,
-  "integrations": [],
-  "user_provided_suffix": null,
-  "usage_metrics": null,
-  "shared_with_openai": false
-}
-```
-
-### DPO
-
-```http
-curl https://api.openai.com/v1/fine_tuning/jobs \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -d '{
-    "training_file": "file-abc123",
-    "validation_file": "file-abc123",
-    "model": "gpt-4o-mini",
-    "method": {
-      "type": "dpo",
-      "dpo": {
-        "hyperparameters": {
-          "beta": 0.1
-        }
-      }
-    }
-  }'
-```
-
-#### Response
-
-```json
-{
-  "object": "fine_tuning.job",
-  "id": "ftjob-abc",
-  "model": "gpt-4o-mini",
-  "created_at": 1746130590,
-  "fine_tuned_model": null,
-  "organization_id": "org-abc",
-  "result_files": [],
-  "status": "queued",
-  "validation_file": "file-123",
-  "training_file": "file-abc",
-  "method": {
-    "type": "dpo",
-    "dpo": {
-      "hyperparameters": {
-        "beta": 0.1,
-        "batch_size": "auto",
-        "learning_rate_multiplier": "auto",
-        "n_epochs": "auto"
-      }
-    }
-  },
-  "metadata": null,
-  "error": {
-    "code": null,
-    "message": null,
-    "param": null
-  },
-  "finished_at": null,
-  "hyperparameters": null,
-  "seed": 1036326793,
   "estimated_finish": null,
   "integrations": [],
   "user_provided_suffix": null,
