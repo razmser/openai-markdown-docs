@@ -303,11 +303,11 @@ Run a grader.
 
       The sampling parameters for the model.
 
-      - `max_completions_tokens: optional number`
+      - `max_completions_tokens: optional number or null`
 
         The maximum number of tokens the grader model may generate in its response.
 
-      - `reasoning_effort: optional ReasoningEffort`
+      - `reasoning_effort: optional ReasoningEffort or null`
 
         Constrains effort on reasoning for reasoning models. Currently supported
         values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -331,15 +331,15 @@ Run a grader.
 
         - `"max"`
 
-      - `seed: optional number`
+      - `seed: optional number or null`
 
         A seed value to initialize the randomness, during sampling.
 
-      - `temperature: optional number`
+      - `temperature: optional number or null`
 
         A higher temperature increases randomness in the outputs.
 
-      - `top_p: optional number`
+      - `top_p: optional number or null`
 
         An alternative to temperature for nucleus sampling; 1.0 includes all tokens.
 
@@ -510,17 +510,17 @@ Run a grader.
 
     - `model_grader_server_error: boolean`
 
-    - `model_grader_server_error_details: string`
+    - `model_grader_server_error_details: string or null`
 
     - `other_error: boolean`
 
     - `python_grader_runtime_error: boolean`
 
-    - `python_grader_runtime_error_details: string`
+    - `python_grader_runtime_error_details: string or null`
 
     - `python_grader_server_error: boolean`
 
-    - `python_grader_server_error_type: string`
+    - `python_grader_server_error_type: string or null`
 
     - `sample_parse_error: boolean`
 
@@ -532,11 +532,11 @@ Run a grader.
 
   - `name: string`
 
-  - `sampled_model_name: string`
+  - `sampled_model_name: string or null`
 
   - `scores: map[unknown]`
 
-  - `token_usage: number`
+  - `token_usage: number or null`
 
   - `type: string`
 
