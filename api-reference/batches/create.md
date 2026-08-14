@@ -36,9 +36,9 @@ Creates and executes a batch from an uploaded file of requests
 
   The ID of an uploaded file that contains requests for the new batch.
 
-  See [upload file](https://developers.openai.com/docs/api-reference/files/create) for how to upload a file.
+  See [upload file](../files/create.md) for how to upload a file.
 
-  Your input file must be formatted as a [JSONL file](https://developers.openai.com/docs/api-reference/batch/request-input), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
+  Your input file must be formatted as a [JSONL file](index.md), and must be uploaded with the purpose `batch`. The file can contain up to 50,000 requests, and can be up to 200 MB in size.
 
 - `metadata: optional Metadata or null`
 

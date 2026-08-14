@@ -8,7 +8,7 @@ Create a thread and run it in one request.
 
 - `assistant_id: string`
 
-  The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) to use to execute this run.
+  The ID of the [assistant](../assistants/index.md) to use to execute this run.
 
 - `instructions: optional string or null`
 
@@ -33,13 +33,13 @@ Create a thread and run it in one request.
 
 - `model: optional string or "gpt-5" or "gpt-5-mini" or "gpt-5-nano" or 35 more or null`
 
-  The ID of the [Model](https://developers.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  The ID of the [Model](../../models/index.md) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
 
   - `string`
 
   - `"gpt-5" or "gpt-5-mini" or "gpt-5-nano" or 35 more`
 
-    The ID of the [Model](https://developers.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+    The ID of the [Model](../../models/index.md) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
 
     - `"gpt-5"`
 
@@ -213,7 +213,7 @@ Create a thread and run it in one request.
 
   - `messages: optional array of object { content, role, attachments, metadata }`
 
-    A list of [messages](https://developers.openai.com/docs/api-reference/messages) to start the thread with.
+    A list of [messages](messages/index.md) to start the thread with.
 
     - `content: string or array of ImageFileContentBlock or ImageURLContentBlock or TextContentBlockParam`
 
@@ -229,13 +229,13 @@ Create a thread and run it in one request.
 
         - `ImageFileContentBlock object { image_file, type }`
 
-          References an image [File](https://developers.openai.com/docs/api-reference/files) in the content of a message.
+          References an image [File](../../files/index.md) in the content of a message.
 
           - `image_file: ImageFile`
 
             - `file_id: string`
 
-              The [File](https://developers.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
+              The [File](../../files/index.md) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
 
             - `detail: optional "auto" or "low" or "high"`
 
@@ -358,17 +358,17 @@ Create a thread and run it in one request.
 
       - `file_ids: optional array of string`
 
-        A list of [file](https://developers.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+        A list of [file](../../files/index.md) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
 
     - `file_search: optional object { vector_store_ids, vector_stores }`
 
       - `vector_store_ids: optional array of string`
 
-        The [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
+        The [vector store](../../vector_stores/index.md) attached to this thread. There can be a maximum of 1 vector store attached to the thread.
 
       - `vector_stores: optional array of object { chunking_strategy, file_ids, metadata }`
 
-        A helper to create a [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
+        A helper to create a [vector store](../../vector_stores/index.md) with file_ids and attach it to this thread. There can be a maximum of 1 vector store attached to the thread.
 
         - `chunking_strategy: optional object { type }  or object { static, type }`
 
@@ -406,7 +406,7 @@ Create a thread and run it in one request.
 
         - `file_ids: optional array of string`
 
-          A list of [file](https://developers.openai.com/docs/api-reference/files) IDs to add to the vector store. For vector stores created before Nov 2025, there can be a maximum of 10,000 files in a vector store. For vector stores created starting in Nov 2025, the limit is 100,000,000 files.
+          A list of [file](../../files/index.md) IDs to add to the vector store. For vector stores created before Nov 2025, there can be a maximum of 10,000 files in a vector store. For vector stores created starting in Nov 2025, the limit is 100,000,000 files.
 
         - `metadata: optional Metadata or null`
 
@@ -463,13 +463,13 @@ Create a thread and run it in one request.
 
     - `file_ids: optional array of string`
 
-      A list of [file](https://developers.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+      A list of [file](../../files/index.md) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
 
   - `file_search: optional object { vector_store_ids }`
 
     - `vector_store_ids: optional array of string`
 
-      The ID of the [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
+      The ID of the [vector store](../../vector_stores/index.md) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
 
 - `tools: optional array of CodeInterpreterTool or FileSearchTool or FunctionTool or null`
 
@@ -567,7 +567,7 @@ Create a thread and run it in one request.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
+  Represents an execution run on a [thread](index.md).
 
   - `id: string`
 
@@ -575,7 +575,7 @@ Create a thread and run it in one request.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
+    The ID of the [assistant](../assistants/index.md) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -611,7 +611,7 @@ Create a thread and run it in one request.
 
   - `instructions: string`
 
-    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The instructions that the [assistant](../assistants/index.md) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -650,7 +650,7 @@ Create a thread and run it in one request.
 
   - `model: string`
 
-    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The model that the [assistant](../assistants/index.md) used for this run.
 
   - `object: "thread.run"`
 
@@ -676,7 +676,7 @@ Create a thread and run it in one request.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](runs/submit_tool_outputs.md) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -807,7 +807,7 @@ Create a thread and run it in one request.
 
   - `thread_id: string`
 
-    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+    The ID of the [thread](index.md) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -849,7 +849,7 @@ Create a thread and run it in one request.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The list of tools that the [assistant](../assistants/index.md) used for this run.
 
     - `CodeInterpreterTool object { type }`
 

@@ -66,7 +66,7 @@ Retrieves a vector store file batch.
 
   - `vector_store_id: string`
 
-    The ID of the [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) that the [File](https://developers.openai.com/docs/api-reference/files) is attached to.
+    The ID of the [vector store](../index.md) that the [File](../../files/index.md) is attached to.
 
 ### Example
 

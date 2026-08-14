@@ -34,11 +34,11 @@ Response includes details of the enqueued job including job status and the name 
 
   The ID of an uploaded file that contains training data.
 
-  See [upload file](https://developers.openai.com/docs/api-reference/files/create) for how to upload a file.
+  See [upload file](../../files/create.md) for how to upload a file.
 
   Your dataset must be formatted as a JSONL file. Additionally, you must upload your file with the purpose `fine-tune`.
 
-  The contents of the file should differ depending on if the model uses the [chat](https://developers.openai.com/docs/api-reference/fine-tuning/chat-input), [completions](https://developers.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](https://developers.openai.com/docs/api-reference/fine-tuning/preference-input) format.
+  The contents of the file should differ depending on if the model uses the [chat](../index.md), [completions](https://developers.openai.com/docs/api-reference/fine-tuning/completions-input) format, or if the fine-tuning method uses the [preference](../index.md) format.
 
   See the [fine-tuning guide](https://developers.openai.com/docs/guides/model-optimization) for more details.
 
@@ -894,7 +894,7 @@ Response includes details of the enqueued job including job status and the name 
 
   - `result_files: array of string`
 
-    The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://developers.openai.com/docs/api-reference/files/retrieve-contents).
+    The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](../../files/retrieve.md).
 
   - `seed: number`
 
@@ -922,11 +922,11 @@ Response includes details of the enqueued job including job status and the name 
 
   - `training_file: string`
 
-    The file ID used for training. You can retrieve the training data with the [Files API](https://developers.openai.com/docs/api-reference/files/retrieve-contents).
+    The file ID used for training. You can retrieve the training data with the [Files API](../../files/retrieve.md).
 
   - `validation_file: string or null`
 
-    The file ID used for validation. You can retrieve the validation results with the [Files API](https://developers.openai.com/docs/api-reference/files/retrieve-contents).
+    The file ID used for validation. You can retrieve the validation results with the [Files API](../../files/retrieve.md).
 
   - `estimated_finish: optional number or null`
 

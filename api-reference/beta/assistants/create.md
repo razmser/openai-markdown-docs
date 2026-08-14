@@ -8,13 +8,13 @@ Create an assistant with a model and instructions.
 
 - `model: string or "gpt-5" or "gpt-5-mini" or "gpt-5-nano" or 39 more`
 
-  ID of the model to use. You can use the [List models](https://developers.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
+  ID of the model to use. You can use the [List models](../../models/list.md) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
 
   - `string`
 
   - `AssistantSupportedModels = "gpt-5" or "gpt-5-mini" or "gpt-5-nano" or 39 more`
 
-    ID of the model to use. You can use the [List models](https://developers.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
+    ID of the model to use. You can use the [List models](../../models/list.md) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
 
     - `"gpt-5"`
 
@@ -234,17 +234,17 @@ Create an assistant with a model and instructions.
 
     - `file_ids: optional array of string`
 
-      A list of [file](https://developers.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
+      A list of [file](../../files/index.md) IDs made available to the `code_interpreter` tool. There can be a maximum of 20 files associated with the tool.
 
   - `file_search: optional object { vector_store_ids, vector_stores }`
 
     - `vector_store_ids: optional array of string`
 
-      The [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
+      The [vector store](../../vector_stores/index.md) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
 
     - `vector_stores: optional array of object { chunking_strategy, file_ids, metadata }`
 
-      A helper to create a [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.
+      A helper to create a [vector store](../../vector_stores/index.md) with file_ids and attach it to this assistant. There can be a maximum of 1 vector store attached to the assistant.
 
       - `chunking_strategy: optional object { type }  or object { static, type }`
 
@@ -282,7 +282,7 @@ Create an assistant with a model and instructions.
 
       - `file_ids: optional array of string`
 
-        A list of [file](https://developers.openai.com/docs/api-reference/files) IDs to add to the vector store. For vector stores created before Nov 2025, there can be a maximum of 10,000 files in a vector store. For vector stores created starting in Nov 2025, the limit is 100,000,000 files.
+        A list of [file](../../files/index.md) IDs to add to the vector store. For vector stores created before Nov 2025, there can be a maximum of 10,000 files in a vector store. For vector stores created starting in Nov 2025, the limit is 100,000,000 files.
 
       - `metadata: optional Metadata or null`
 
@@ -408,7 +408,7 @@ Create an assistant with a model and instructions.
 
   - `model: string`
 
-    ID of the model to use. You can use the [List models](https://developers.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
+    ID of the model to use. You can use the [List models](../../models/list.md) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
 
   - `name: string or null`
 
@@ -585,13 +585,13 @@ Create an assistant with a model and instructions.
 
       - `file_ids: optional array of string`
 
-        A list of [file](https://developers.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.
+        A list of [file](../../files/index.md) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.
 
     - `file_search: optional object { vector_store_ids }`
 
       - `vector_store_ids: optional array of string`
 
-        The ID of the [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
+        The ID of the [vector store](../../vector_stores/index.md) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
 
   - `top_p: optional number or null`
 

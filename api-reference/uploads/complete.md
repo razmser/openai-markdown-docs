@@ -2,9 +2,9 @@
 
 **post** `/uploads/{upload_id}/complete`
 
-Completes the [Upload](https://developers.openai.com/docs/api-reference/uploads/object).
+Completes the [Upload](index.md).
 
-Within the returned Upload object, there is a nested [File](https://developers.openai.com/docs/api-reference/files/object) object that is ready to use in the rest of the platform.
+Within the returned Upload object, there is a nested [File](../files/index.md) object that is ready to use in the rest of the platform.
 
 You can specify the order of the Parts by passing in an ordered list of the Part IDs.
 
@@ -53,7 +53,7 @@ Returns the Upload object with status `completed`, including an additional `file
 
   - `purpose: string`
 
-    The intended purpose of the file. [Please refer here](https://developers.openai.com/docs/api-reference/files/object#files/object-purpose) for acceptable values.
+    The intended purpose of the file. [Please refer here](../files/index.md) for acceptable values.
 
   - `status: "pending" or "completed" or "cancelled" or "expired"`
 

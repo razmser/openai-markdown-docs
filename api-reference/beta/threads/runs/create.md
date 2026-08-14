@@ -22,7 +22,7 @@ Create a run.
 
 - `assistant_id: string`
 
-  The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) to use to execute this run.
+  The ID of the [assistant](../../assistants/index.md) to use to execute this run.
 
 - `additional_instructions: optional string or null`
 
@@ -46,13 +46,13 @@ Create a run.
 
       - `ImageFileContentBlock object { image_file, type }`
 
-        References an image [File](https://developers.openai.com/docs/api-reference/files) in the content of a message.
+        References an image [File](../../../files/index.md) in the content of a message.
 
         - `image_file: ImageFile`
 
           - `file_id: string`
 
-            The [File](https://developers.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
+            The [File](../../../files/index.md) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
 
           - `detail: optional "auto" or "low" or "high"`
 
@@ -160,7 +160,7 @@ Create a run.
 
 - `instructions: optional string or null`
 
-  Overrides the [instructions](https://developers.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
+  Overrides the [instructions](../../assistants/create.md) of the assistant. This is useful for modifying the behavior on a per-run basis.
 
 - `max_completion_tokens: optional number or null`
 
@@ -181,13 +181,13 @@ Create a run.
 
 - `model: optional string or "gpt-5" or "gpt-5-mini" or "gpt-5-nano" or 39 more or null`
 
-  The ID of the [Model](https://developers.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+  The ID of the [Model](../../../models/index.md) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
 
   - `string`
 
   - `AssistantSupportedModels = "gpt-5" or "gpt-5-mini" or "gpt-5-nano" or 39 more`
 
-    The ID of the [Model](https://developers.openai.com/docs/api-reference/models) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
+    The ID of the [Model](../../../models/index.md) to be used to execute this run. If a value is provided here, it will override the model associated with the assistant. If not, the model associated with the assistant will be used.
 
     - `"gpt-5"`
 
@@ -520,7 +520,7 @@ Create a run.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
+  Represents an execution run on a [thread](../index.md).
 
   - `id: string`
 
@@ -528,7 +528,7 @@ Create a run.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
+    The ID of the [assistant](../../assistants/index.md) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -564,7 +564,7 @@ Create a run.
 
   - `instructions: string`
 
-    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The instructions that the [assistant](../../assistants/index.md) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -603,7 +603,7 @@ Create a run.
 
   - `model: string`
 
-    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The model that the [assistant](../../assistants/index.md) used for this run.
 
   - `object: "thread.run"`
 
@@ -629,7 +629,7 @@ Create a run.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](submit_tool_outputs.md) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -760,7 +760,7 @@ Create a run.
 
   - `thread_id: string`
 
-    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+    The ID of the [thread](../index.md) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -802,7 +802,7 @@ Create a run.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The list of tools that the [assistant](../../assistants/index.md) used for this run.
 
     - `CodeInterpreterTool object { type }`
 

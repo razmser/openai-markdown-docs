@@ -13,14 +13,14 @@ user.
   details.
 - The Fine-tuning API only supports `.jsonl` files. The input also has
   certain required formats for fine-tuning
-  [chat](https://developers.openai.com/docs/api-reference/fine-tuning/chat-input) or
+  [chat](../fine_tuning/index.md) or
   [completions](https://developers.openai.com/docs/api-reference/fine-tuning/completions-input) models.
 - The Batch API only supports `.jsonl` files up to 200 MB in size. The input
   also has a specific required
-  [format](https://developers.openai.com/docs/api-reference/batch/request-input).
+  [format](../batches/index.md).
 - For Retrieval or `file_search` ingestion, upload files here first. If
   you need to attach multiple uploaded files to the same vector store, use
-  [`/vector_stores/{vector_store_id}/file_batches`](https://developers.openai.com/docs/api-reference/vector-stores-file-batches/createBatch)
+  [`/vector_stores/{vector_store_id}/file_batches`](../vector_stores/file_batches/create.md)
   instead of attaching them one by one. Vector store attachment has separate
   limits from file upload, including 2,000 attached files per minute per
   organization.

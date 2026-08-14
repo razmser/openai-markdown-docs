@@ -2,13 +2,13 @@
 
 **post** `/uploads`
 
-Creates an intermediate [Upload](https://developers.openai.com/docs/api-reference/uploads/object) object
-that you can add [Parts](https://developers.openai.com/docs/api-reference/uploads/part-object) to.
+Creates an intermediate [Upload](index.md) object
+that you can add [Parts](index.md) to.
 Currently, an Upload can accept at most 8 GB in total and expires after an
 hour after you create it.
 
 Once you complete the Upload, we will create a
-[File](https://developers.openai.com/docs/api-reference/files/object) object that contains all the parts
+[File](../files/index.md) object that contains all the parts
 you uploaded. This File is usable in the rest of our platform as a regular
 File object.
 
@@ -18,7 +18,7 @@ Please refer to documentation for the
 
 For guidance on the proper filename extensions for each purpose, please
 follow the documentation on [creating a
-File](https://developers.openai.com/docs/api-reference/files/create).
+File](../files/create.md).
 
 Returns the Upload object with status `pending`.
 
@@ -44,7 +44,7 @@ Returns the Upload object with status `pending`.
   The intended purpose of the uploaded file.
 
   See the [documentation on File
-  purposes](https://developers.openai.com/docs/api-reference/files/create#files-create-purpose).
+  purposes](../files/create.md).
 
   - `"assistants"`
 
@@ -96,7 +96,7 @@ Returns the Upload object with status `pending`.
 
   - `purpose: string`
 
-    The intended purpose of the file. [Please refer here](https://developers.openai.com/docs/api-reference/files/object#files/object-purpose) for acceptable values.
+    The intended purpose of the file. [Please refer here](../files/index.md) for acceptable values.
 
   - `status: "pending" or "completed" or "cancelled" or "expired"`
 

@@ -50,7 +50,7 @@ Returns a list of run steps belonging to a run.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) associated with the run step.
+    The ID of the [assistant](../../../assistants/index.md) associated with the run step.
 
   - `cancelled_at: number or null`
 
@@ -105,7 +105,7 @@ Returns a list of run steps belonging to a run.
 
   - `run_id: string`
 
-    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) that this run step is a part of.
+    The ID of the [run](../index.md) that this run step is a part of.
 
   - `status: "in_progress" or "cancelled" or "failed" or 2 more`
 
@@ -189,7 +189,7 @@ Returns a list of run steps belonging to a run.
 
                   - `file_id: string`
 
-                    The [file](https://developers.openai.com/docs/api-reference/files) ID of the image.
+                    The [file](../../../../files/index.md) ID of the image.
 
                 - `type: "image"`
 
@@ -285,7 +285,7 @@ Returns a list of run steps belonging to a run.
 
             - `output: string or null`
 
-              The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
+              The output of the function. This will be `null` if the outputs have not been [submitted](../submit_tool_outputs.md) yet.
 
           - `type: "function"`
 
@@ -301,7 +301,7 @@ Returns a list of run steps belonging to a run.
 
   - `thread_id: string`
 
-    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was run.
+    The ID of the [thread](../../index.md) that was run.
 
   - `type: "message_creation" or "tool_calls"`
 

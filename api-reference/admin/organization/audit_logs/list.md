@@ -42,9 +42,9 @@ List user actions and configuration changes within this organization.
 
     Return only events whose `effective_at` (Unix seconds) is less than or equal to this value.
 
-- `event_types: optional array of "api_key.created" or "api_key.updated" or "api_key.deleted" or 140 more`
+- `event_types: optional array of "api_key.created" or "api_key.updated" or "api_key.deleted" or 141 more`
 
-  Return only events with a `type` in one of these values. For example, `project.created`. For all options, see the documentation for the [audit log object](https://developers.openai.com/docs/api-reference/audit-logs/object).
+  Return only events with a `type` in one of these values. For example, `project.created`. For all options, see the documentation for the [audit log object](index.md).
 
   - `"api_key.created"`
 
@@ -185,6 +185,8 @@ List user actions and configuration changes within this organization.
   - `"tenant.workload_identity.binding.created"`
 
   - `"tenant.workload_identity.principal.provisioned"`
+
+  - `"tenant.workload_identity.access_token.issued"`
 
   - `"tenant.admin_api_key.created"`
 
@@ -350,7 +352,7 @@ List user actions and configuration changes within this organization.
 
 ### Returns
 
-- `data: array of object { id, effective_at, type, 58 more }`
+- `data: array of object { id, effective_at, type, 57 more }`
 
   - `id: string`
 
@@ -360,7 +362,7 @@ List user actions and configuration changes within this organization.
 
     The Unix timestamp (in seconds) of the event.
 
-  - `type: "api_key.created" or "api_key.updated" or "api_key.deleted" or 140 more`
+  - `type: "api_key.created" or "api_key.updated" or "api_key.deleted" or 141 more`
 
     The event type.
 
@@ -503,6 +505,8 @@ List user actions and configuration changes within this organization.
     - `"tenant.workload_identity.binding.created"`
 
     - `"tenant.workload_identity.principal.provisioned"`
+
+    - `"tenant.workload_identity.access_token.issued"`
 
     - `"tenant.admin_api_key.created"`
 
@@ -1490,26 +1494,6 @@ List user actions and configuration changes within this organization.
 
         The role of the service account. Is either `owner` or `member`.
 
-  - `source: optional "cloud_console" or "adminapi" or "retool" or 5 more`
-
-    The server-derived administrative authorization context recorded for the action, when available. API-key paths identify the authenticated API surface; biscuit-authorized paths identify the permission namespace used for authorization. This does not necessarily identify the literal client software.
-
-    - `"cloud_console"`
-
-    - `"adminapi"`
-
-    - `"retool"`
-
-    - `"glass"`
-
-    - `"managementapi"`
-
-    - `"tenantapi"`
-
-    - `"scim"`
-
-    - `"backfill"`
-
   - `"user.added": optional object { id, data }`
 
     The details for events with this `type`.
@@ -1964,7 +1948,6 @@ curl https://api.openai.com/v1/organization/audit_logs \
           "role": "role"
         }
       },
-      "source": "cloud_console",
       "user.added": {
         "id": "id",
         "data": {

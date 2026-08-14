@@ -14,7 +14,7 @@ Retrieve a message.
 
 - `Message object { id, assistant_id, attachments, 11 more }`
 
-  Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
+  Represents a message within a [thread](../index.md).
 
   - `id: string`
 
@@ -22,7 +22,7 @@ Retrieve a message.
 
   - `assistant_id: string or null`
 
-    If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
+    If applicable, the ID of the [assistant](../../assistants/index.md) that authored this message.
 
   - `attachments: array of object { file_id, tools }  or null`
 
@@ -62,13 +62,13 @@ Retrieve a message.
 
     - `ImageFileContentBlock object { image_file, type }`
 
-      References an image [File](https://developers.openai.com/docs/api-reference/files) in the content of a message.
+      References an image [File](../../../files/index.md) in the content of a message.
 
       - `image_file: ImageFile`
 
         - `file_id: string`
 
-          The [File](https://developers.openai.com/docs/api-reference/files) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
+          The [File](../../../files/index.md) ID of the image in the message content. Set `purpose="vision"` when uploading the File if you need to later display the file content.
 
         - `detail: optional "auto" or "low" or "high"`
 
@@ -241,7 +241,7 @@ Retrieve a message.
 
   - `run_id: string or null`
 
-    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+    The ID of the [run](../runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
   - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -255,7 +255,7 @@ Retrieve a message.
 
   - `thread_id: string`
 
-    The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
+    The [thread](../index.md) ID that this message belongs to.
 
 ### Example
 

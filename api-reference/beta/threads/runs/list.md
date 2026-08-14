@@ -40,7 +40,7 @@ Returns a list of runs belonging to a thread.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
+    The ID of the [assistant](../../assistants/index.md) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -76,7 +76,7 @@ Returns a list of runs belonging to a thread.
 
   - `instructions: string`
 
-    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The instructions that the [assistant](../../assistants/index.md) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -115,7 +115,7 @@ Returns a list of runs belonging to a thread.
 
   - `model: string`
 
-    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The model that the [assistant](../../assistants/index.md) used for this run.
 
   - `object: "thread.run"`
 
@@ -141,7 +141,7 @@ Returns a list of runs belonging to a thread.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](submit_tool_outputs.md) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -272,7 +272,7 @@ Returns a list of runs belonging to a thread.
 
   - `thread_id: string`
 
-    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
+    The ID of the [thread](../index.md) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -314,7 +314,7 @@ Returns a list of runs belonging to a thread.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
+    The list of tools that the [assistant](../../assistants/index.md) used for this run.
 
     - `CodeInterpreterTool object { type }`
 

@@ -1,1010 +1,2435 @@
-[
-  {
-    "text": "API reference  Endpoints, parameters, and responses",
-    "href": "/api/reference/overview"
-  },
-  {
-    "text": "Create a response",
-    "href": "/api/reference/resources/responses/methods/create"
-  },
-  {
-    "text": "Retrieve a response",
-    "href": "/api/reference/resources/responses/methods/retrieve"
-  },
-  {
-    "text": "Delete a response",
-    "href": "/api/reference/resources/responses/methods/delete"
-  },
-  {
-    "text": "List input items",
-    "href": "/api/reference/resources/responses/subresources/input_items/methods/list"
-  },
-  {
-    "text": "Count input tokens",
-    "href": "/api/reference/resources/responses/subresources/input_tokens/methods/count"
-  },
-  {
-    "text": "Cancel a response",
-    "href": "/api/reference/resources/responses/methods/cancel"
-  },
-  {
-    "text": "Compact a response",
-    "href": "/api/reference/resources/responses/methods/compact"
-  },
-  {
-    "text": "Create a conversation",
-    "href": "/api/reference/resources/conversations/methods/create"
-  },
-  {
-    "text": "Retrieve a conversation",
-    "href": "/api/reference/resources/conversations/methods/retrieve"
-  },
-  {
-    "text": "Update a conversation",
-    "href": "/api/reference/resources/conversations/methods/update"
-  },
-  {
-    "text": "Delete a conversation",
-    "href": "/api/reference/resources/conversations/methods/delete"
-  },
-  {
-    "text": "Create an item",
-    "href": "/api/reference/resources/conversations/subresources/items/methods/create"
-  },
-  {
-    "text": "Retrieve an item",
-    "href": "/api/reference/resources/conversations/subresources/items/methods/retrieve"
-  },
-  {
-    "text": "Delete an item",
-    "href": "/api/reference/resources/conversations/subresources/items/methods/delete"
-  },
-  {
-    "text": "List items",
-    "href": "/api/reference/resources/conversations/subresources/items/methods/list"
-  },
-  {
-    "text": "Streaming events",
-    "href": "/api/reference/resources/responses/streaming-events"
-  },
-  {
-    "text": "Events",
-    "href": "/api/reference/resources/webhooks"
-  },
-  {
-    "text": "Create a transcription",
-    "href": "/api/reference/resources/audio/subresources/transcriptions/methods/create"
-  },
-  {
-    "text": "Create a translation",
-    "href": "/api/reference/resources/audio/subresources/translations/methods/create"
-  },
-  {
-    "text": "Create a speech",
-    "href": "/api/reference/resources/audio/subresources/speech/methods/create"
-  },
-  {
-    "text": "Create a voice",
-    "href": "/api/reference/resources/audio/subresources/voices/methods/create"
-  },
-  {
-    "text": "Create a voice consent",
-    "href": "/api/reference/resources/audio/subresources/voice_consents/methods/create"
-  },
-  {
-    "text": "Retrieve a voice consent",
-    "href": "/api/reference/resources/audio/subresources/voice_consents/methods/retrieve"
-  },
-  {
-    "text": "Update a voice consent",
-    "href": "/api/reference/resources/audio/subresources/voice_consents/methods/update"
-  },
-  {
-    "text": "Delete a voice consent",
-    "href": "/api/reference/resources/audio/subresources/voice_consents/methods/delete"
-  },
-  {
-    "text": "List voice consents",
-    "href": "/api/reference/resources/audio/subresources/voice_consents/methods/list"
-  },
-  {
-    "text": "Create a video",
-    "href": "/api/reference/resources/videos/methods/create"
-  },
-  {
-    "text": "Create Character",
-    "href": "/api/reference/resources/videos/methods/create_character"
-  },
-  {
-    "text": "Get Character",
-    "href": "/api/reference/resources/videos/methods/get_character"
-  },
-  {
-    "text": "Retrieve a video",
-    "href": "/api/reference/resources/videos/methods/retrieve"
-  },
-  {
-    "text": "Delete a video",
-    "href": "/api/reference/resources/videos/methods/delete"
-  },
-  {
-    "text": "List videos",
-    "href": "/api/reference/resources/videos/methods/list"
-  },
-  {
-    "text": "Download Content",
-    "href": "/api/reference/resources/videos/methods/download_content"
-  },
-  {
-    "text": "Edit",
-    "href": "/api/reference/resources/videos/methods/edit"
-  },
-  {
-    "text": "Extend",
-    "href": "/api/reference/resources/videos/methods/extend"
-  },
-  {
-    "text": "Remix",
-    "href": "/api/reference/resources/videos/methods/remix"
-  },
-  {
-    "text": "Generate an Image",
-    "href": "/api/reference/resources/images/methods/generate"
-  },
-  {
-    "text": "Edit an Image",
-    "href": "/api/reference/resources/images/methods/edit"
-  },
-  {
-    "text": "Create Variation",
-    "href": "/api/reference/resources/images/methods/create_variation"
-  },
-  {
-    "text": "Image generation streaming events",
-    "href": "/api/reference/resources/images/generation-streaming-events"
-  },
-  {
-    "text": "Image edit streaming events",
-    "href": "/api/reference/resources/images/edit-streaming-events"
-  },
-  {
-    "text": "Create an embedding",
-    "href": "/api/reference/resources/embeddings/methods/create"
-  },
-  {
-    "text": "Create an eval",
-    "href": "/api/reference/resources/evals/methods/create"
-  },
-  {
-    "text": "Retrieve an eval",
-    "href": "/api/reference/resources/evals/methods/retrieve"
-  },
-  {
-    "text": "Update an eval",
-    "href": "/api/reference/resources/evals/methods/update"
-  },
-  {
-    "text": "Delete an eval",
-    "href": "/api/reference/resources/evals/methods/delete"
-  },
-  {
-    "text": "List evals",
-    "href": "/api/reference/resources/evals/methods/list"
-  },
-  {
-    "text": "Create a run",
-    "href": "/api/reference/resources/evals/subresources/runs/methods/create"
-  },
-  {
-    "text": "Retrieve a run",
-    "href": "/api/reference/resources/evals/subresources/runs/methods/retrieve"
-  },
-  {
-    "text": "Delete a run",
-    "href": "/api/reference/resources/evals/subresources/runs/methods/delete"
-  },
-  {
-    "text": "List runs",
-    "href": "/api/reference/resources/evals/subresources/runs/methods/list"
-  },
-  {
-    "text": "Cancel a run",
-    "href": "/api/reference/resources/evals/subresources/runs/methods/cancel"
-  },
-  {
-    "text": "Retrieve an output item",
-    "href": "/api/reference/resources/evals/subresources/runs/subresources/output_items/methods/retrieve"
-  },
-  {
-    "text": "List output items",
-    "href": "/api/reference/resources/evals/subresources/runs/subresources/output_items/methods/list"
-  },
-  {
-    "text": "Create a job",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/create"
-  },
-  {
-    "text": "Retrieve a job",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/retrieve"
-  },
-  {
-    "text": "List jobs",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/list"
-  },
-  {
-    "text": "List Events",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/list_events"
-  },
-  {
-    "text": "Cancel a job",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/cancel"
-  },
-  {
-    "text": "Pause",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/pause"
-  },
-  {
-    "text": "Resume",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/methods/resume"
-  },
-  {
-    "text": "List checkpoints",
-    "href": "/api/reference/resources/fine_tuning/subresources/jobs/subresources/checkpoints/methods/list"
-  },
-  {
-    "text": "Create a permission",
-    "href": "/api/reference/resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/create"
-  },
-  {
-    "text": "Retrieve a permission",
-    "href": "/api/reference/resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/retrieve"
-  },
-  {
-    "text": "Delete a permission",
-    "href": "/api/reference/resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/delete"
-  },
-  {
-    "text": "Run",
-    "href": "/api/reference/resources/fine_tuning/subresources/alpha/subresources/graders/methods/run"
-  },
-  {
-    "text": "Validate",
-    "href": "/api/reference/resources/fine_tuning/subresources/alpha/subresources/graders/methods/validate"
-  },
-  {
-    "text": "Create a batch",
-    "href": "/api/reference/resources/batches/methods/create"
-  },
-  {
-    "text": "Retrieve a batch",
-    "href": "/api/reference/resources/batches/methods/retrieve"
-  },
-  {
-    "text": "List batches",
-    "href": "/api/reference/resources/batches/methods/list"
-  },
-  {
-    "text": "Cancel a batch",
-    "href": "/api/reference/resources/batches/methods/cancel"
-  },
-  {
-    "text": "List files",
-    "href": "/api/reference/resources/files/methods/list"
-  },
-  {
-    "text": "Create a file",
-    "href": "/api/reference/resources/files/methods/create"
-  },
-  {
-    "text": "Retrieve a file",
-    "href": "/api/reference/resources/files/methods/retrieve"
-  },
-  {
-    "text": "Delete a file",
-    "href": "/api/reference/resources/files/methods/delete"
-  },
-  {
-    "text": "Retrieve file content",
-    "href": "/api/reference/resources/files/methods/content"
-  },
-  {
-    "text": "Create an upload",
-    "href": "/api/reference/resources/uploads/methods/create"
-  },
-  {
-    "text": "Cancel an upload",
-    "href": "/api/reference/resources/uploads/methods/cancel"
-  },
-  {
-    "text": "Complete",
-    "href": "/api/reference/resources/uploads/methods/complete"
-  },
-  {
-    "text": "Create a part",
-    "href": "/api/reference/resources/uploads/subresources/parts/methods/create"
-  },
-  {
-    "text": "Retrieve a model",
-    "href": "/api/reference/resources/models/methods/retrieve"
-  },
-  {
-    "text": "Delete a model",
-    "href": "/api/reference/resources/models/methods/delete"
-  },
-  {
-    "text": "List models",
-    "href": "/api/reference/resources/models/methods/list"
-  },
-  {
-    "text": "Create a moderation",
-    "href": "/api/reference/resources/moderations/methods/create"
-  },
-  {
-    "text": "Create a vector store",
-    "href": "/api/reference/resources/vector_stores/methods/create"
-  },
-  {
-    "text": "Retrieve a vector store",
-    "href": "/api/reference/resources/vector_stores/methods/retrieve"
-  },
-  {
-    "text": "Update a vector store",
-    "href": "/api/reference/resources/vector_stores/methods/update"
-  },
-  {
-    "text": "Delete a vector store",
-    "href": "/api/reference/resources/vector_stores/methods/delete"
-  },
-  {
-    "text": "List vector stores",
-    "href": "/api/reference/resources/vector_stores/methods/list"
-  },
-  {
-    "text": "Search",
-    "href": "/api/reference/resources/vector_stores/methods/search"
-  },
-  {
-    "text": "List files",
-    "href": "/api/reference/resources/vector_stores/subresources/files/methods/list"
-  },
-  {
-    "text": "Create a file",
-    "href": "/api/reference/resources/vector_stores/subresources/files/methods/create"
-  },
-  {
-    "text": "Retrieve a file",
-    "href": "/api/reference/resources/vector_stores/subresources/files/methods/retrieve"
-  },
-  {
-    "text": "Update a file",
-    "href": "/api/reference/resources/vector_stores/subresources/files/methods/update"
-  },
-  {
-    "text": "Delete a file",
-    "href": "/api/reference/resources/vector_stores/subresources/files/methods/delete"
-  },
-  {
-    "text": "Retrieve file content",
-    "href": "/api/reference/resources/vector_stores/subresources/files/methods/content"
-  },
-  {
-    "text": "Create a file batch",
-    "href": "/api/reference/resources/vector_stores/subresources/file_batches/methods/create"
-  },
-  {
-    "text": "Retrieve a file batch",
-    "href": "/api/reference/resources/vector_stores/subresources/file_batches/methods/retrieve"
-  },
-  {
-    "text": "List Files",
-    "href": "/api/reference/resources/vector_stores/subresources/file_batches/methods/list_files"
-  },
-  {
-    "text": "Cancel a file batch",
-    "href": "/api/reference/resources/vector_stores/subresources/file_batches/methods/cancel"
-  },
-  {
-    "text": "Create a session",
-    "href": "/api/reference/resources/beta/subresources/chatkit/subresources/sessions/methods/create"
-  },
-  {
-    "text": "Cancel a session",
-    "href": "/api/reference/resources/beta/subresources/chatkit/subresources/sessions/methods/cancel"
-  },
-  {
-    "text": "Retrieve a thread",
-    "href": "/api/reference/resources/beta/subresources/chatkit/subresources/threads/methods/retrieve"
-  },
-  {
-    "text": "Delete a thread",
-    "href": "/api/reference/resources/beta/subresources/chatkit/subresources/threads/methods/delete"
-  },
-  {
-    "text": "List Items",
-    "href": "/api/reference/resources/beta/subresources/chatkit/subresources/threads/methods/list_items"
-  },
-  {
-    "text": "List threads",
-    "href": "/api/reference/resources/beta/subresources/chatkit/subresources/threads/methods/list"
-  },
-  {
-    "text": "Create a container",
-    "href": "/api/reference/resources/containers/methods/create"
-  },
-  {
-    "text": "Retrieve a container",
-    "href": "/api/reference/resources/containers/methods/retrieve"
-  },
-  {
-    "text": "Delete a container",
-    "href": "/api/reference/resources/containers/methods/delete"
-  },
-  {
-    "text": "List containers",
-    "href": "/api/reference/resources/containers/methods/list"
-  },
-  {
-    "text": "List files",
-    "href": "/api/reference/resources/containers/subresources/files/methods/list"
-  },
-  {
-    "text": "Create a file",
-    "href": "/api/reference/resources/containers/subresources/files/methods/create"
-  },
-  {
-    "text": "Retrieve a file",
-    "href": "/api/reference/resources/containers/subresources/files/methods/retrieve"
-  },
-  {
-    "text": "Delete a file",
-    "href": "/api/reference/resources/containers/subresources/files/methods/delete"
-  },
-  {
-    "text": "Retrieve a content",
-    "href": "/api/reference/resources/containers/subresources/files/subresources/content/methods/retrieve"
-  },
-  {
-    "text": "Create a skill",
-    "href": "/api/reference/resources/skills/methods/create"
-  },
-  {
-    "text": "Retrieve a skill",
-    "href": "/api/reference/resources/skills/methods/retrieve"
-  },
-  {
-    "text": "Retrieve skill content",
-    "href": "/api/reference/resources/skills/subresources/content/methods/retrieve"
-  },
-  {
-    "text": "Update a skill",
-    "href": "/api/reference/resources/skills/methods/update"
-  },
-  {
-    "text": "Delete a skill",
-    "href": "/api/reference/resources/skills/methods/delete"
-  },
-  {
-    "text": "List skills",
-    "href": "/api/reference/resources/skills/methods/list"
-  },
-  {
-    "text": "Create skill version",
-    "href": "/api/reference/resources/skills/subresources/versions/methods/create"
-  },
-  {
-    "text": "Retrieve skill version",
-    "href": "/api/reference/resources/skills/subresources/versions/methods/retrieve"
-  },
-  {
-    "text": "Retrieve Skill Version Content",
-    "href": "/api/reference/resources/skills/subresources/versions/subresources/content/methods/retrieve"
-  },
-  {
-    "text": "Delete skill version",
-    "href": "/api/reference/resources/skills/subresources/versions/methods/delete"
-  },
-  {
-    "text": "List skill versions",
-    "href": "/api/reference/resources/skills/subresources/versions/methods/list"
-  },
-  {
-    "text": "Create a client secret",
-    "href": "/api/reference/resources/realtime/subresources/translations/subresources/client_secrets/methods/create"
-  },
-  {
-    "text": "Translation client events",
-    "href": "/api/reference/resources/realtime/translation-client-events"
-  },
-  {
-    "text": "Translation server events",
-    "href": "/api/reference/resources/realtime/translation-server-events"
-  },
-  {
-    "text": "Create a client secret",
-    "href": "/api/reference/resources/realtime/subresources/client_secrets/methods/create"
-  },
-  {
-    "text": "Accept",
-    "href": "/api/reference/resources/realtime/subresources/calls/methods/accept"
-  },
-  {
-    "text": "Hangup",
-    "href": "/api/reference/resources/realtime/subresources/calls/methods/hangup"
-  },
-  {
-    "text": "Refer",
-    "href": "/api/reference/resources/realtime/subresources/calls/methods/refer"
-  },
-  {
-    "text": "Reject",
-    "href": "/api/reference/resources/realtime/subresources/calls/methods/reject"
-  },
-  {
-    "text": "Client events",
-    "href": "/api/reference/resources/realtime/client-events"
-  },
-  {
-    "text": "Server events",
-    "href": "/api/reference/resources/realtime/server-events"
-  },
-  {
-    "text": "List audit logs",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/audit_logs/methods/list"
-  },
-  {
-    "text": "Create an admin API key",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys/methods/create"
-  },
-  {
-    "text": "Retrieve an admin API key",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys/methods/retrieve"
-  },
-  {
-    "text": "Delete an admin API key",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys/methods/delete"
-  },
-  {
-    "text": "List admin API keys",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/admin_api_keys/methods/list"
-  },
-  {
-    "text": "Audio Speeches",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/audio_speeches"
-  },
-  {
-    "text": "Audio Transcriptions",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/audio_transcriptions"
-  },
-  {
-    "text": "Code Interpreter Sessions",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/code_interpreter_sessions"
-  },
-  {
-    "text": "Completions",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/completions"
-  },
-  {
-    "text": "Embeddings",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/embeddings"
-  },
-  {
-    "text": "Images",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/images"
-  },
-  {
-    "text": "Moderations",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/moderations"
-  },
-  {
-    "text": "Vector Stores",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/vector_stores"
-  },
-  {
-    "text": "Costs",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/usage/methods/costs"
-  },
-  {
-    "text": "Create an invite",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/invites/methods/create"
-  },
-  {
-    "text": "Retrieve an invite",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/invites/methods/retrieve"
-  },
-  {
-    "text": "Delete an invite",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/invites/methods/delete"
-  },
-  {
-    "text": "List invites",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/invites/methods/list"
-  },
-  {
-    "text": "Retrieve an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/methods/retrieve"
-  },
-  {
-    "text": "Update an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/methods/update"
-  },
-  {
-    "text": "Delete an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/methods/delete"
-  },
-  {
-    "text": "List users",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/methods/list"
-  },
-  {
-    "text": "Create a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/subresources/roles/methods/create"
-  },
-  {
-    "text": "Delete a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/subresources/roles/methods/delete"
-  },
-  {
-    "text": "List roles",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/users/subresources/roles/methods/list"
-  },
-  {
-    "text": "Create a group",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/methods/create"
-  },
-  {
-    "text": "Update a group",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/methods/update"
-  },
-  {
-    "text": "Delete a group",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/methods/delete"
-  },
-  {
-    "text": "List groups",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/methods/list"
-  },
-  {
-    "text": "Create an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/subresources/users/methods/create"
-  },
-  {
-    "text": "Delete an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/subresources/users/methods/delete"
-  },
-  {
-    "text": "List users",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/subresources/users/methods/list"
-  },
-  {
-    "text": "Create a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/create"
-  },
-  {
-    "text": "Delete a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/delete"
-  },
-  {
-    "text": "List roles",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/list"
-  },
-  {
-    "text": "Create a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/roles/methods/create"
-  },
-  {
-    "text": "Update a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/roles/methods/update"
-  },
-  {
-    "text": "Delete a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/roles/methods/delete"
-  },
-  {
-    "text": "List roles",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/roles/methods/list"
-  },
-  {
-    "text": "Create a certificate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/create"
-  },
-  {
-    "text": "Retrieve a certificate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/retrieve"
-  },
-  {
-    "text": "Update a certificate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/update"
-  },
-  {
-    "text": "Delete a certificate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/delete"
-  },
-  {
-    "text": "List certificates",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/list"
-  },
-  {
-    "text": "Activate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/activate"
-  },
-  {
-    "text": "Deactivate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/certificates/methods/deactivate"
-  },
-  {
-    "text": "Create a project",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/methods/create"
-  },
-  {
-    "text": "Retrieve a project",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/methods/retrieve"
-  },
-  {
-    "text": "Update a project",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/methods/update"
-  },
-  {
-    "text": "List projects",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/methods/list"
-  },
-  {
-    "text": "Archive",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/methods/archive"
-  },
-  {
-    "text": "Create an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/methods/create"
-  },
-  {
-    "text": "Retrieve an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/methods/retrieve"
-  },
-  {
-    "text": "Update an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/methods/update"
-  },
-  {
-    "text": "Delete an user",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/methods/delete"
-  },
-  {
-    "text": "List users",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/methods/list"
-  },
-  {
-    "text": "Create a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/create"
-  },
-  {
-    "text": "Delete a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/delete"
-  },
-  {
-    "text": "List roles",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/list"
-  },
-  {
-    "text": "Create a service account",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/create"
-  },
-  {
-    "text": "Retrieve a service account",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/retrieve"
-  },
-  {
-    "text": "Delete a service account",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/delete"
-  },
-  {
-    "text": "List service accounts",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/list"
-  },
-  {
-    "text": "Retrieve an API key",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/retrieve"
-  },
-  {
-    "text": "Delete an API key",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/delete"
-  },
-  {
-    "text": "List API keys",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/list"
-  },
-  {
-    "text": "Update Rate Limit",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/rate_limits/methods/update_rate_limit"
-  },
-  {
-    "text": "List Rate Limits",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/rate_limits/methods/list_rate_limits"
-  },
-  {
-    "text": "Create a group",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/create"
-  },
-  {
-    "text": "Delete a group",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/delete"
-  },
-  {
-    "text": "List groups",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/list"
-  },
-  {
-    "text": "Create a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/create"
-  },
-  {
-    "text": "Delete a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/delete"
-  },
-  {
-    "text": "List roles",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/list"
-  },
-  {
-    "text": "Create a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/create"
-  },
-  {
-    "text": "Update a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/update"
-  },
-  {
-    "text": "Delete a role",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/delete"
-  },
-  {
-    "text": "List roles",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/list"
-  },
-  {
-    "text": "List certificates",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/certificates/methods/list"
-  },
-  {
-    "text": "Activate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/certificates/methods/activate"
-  },
-  {
-    "text": "Deactivate",
-    "href": "/api/reference/resources/admin/subresources/organization/subresources/projects/subresources/certificates/methods/deactivate"
-  },
-  {
-    "text": "Create a chat completion",
-    "href": "/api/reference/resources/chat/subresources/completions/methods/create"
-  },
-  {
-    "text": "Retrieve a chat completion",
-    "href": "/api/reference/resources/chat/subresources/completions/methods/retrieve"
-  },
-  {
-    "text": "Update a chat completion",
-    "href": "/api/reference/resources/chat/subresources/completions/methods/update"
-  },
-  {
-    "text": "Delete a chat completion",
-    "href": "/api/reference/resources/chat/subresources/completions/methods/delete"
-  },
-  {
-    "text": "List chat completions",
-    "href": "/api/reference/resources/chat/subresources/completions/methods/list"
-  },
-  {
-    "text": "List chat completions",
-    "href": "/api/reference/resources/chat/subresources/completions/subresources/messages/methods/list"
-  },
-  {
-    "text": "Streaming events",
-    "href": "/api/reference/resources/chat/subresources/completions/streaming-events"
-  },
-  {
-    "text": "Create a session",
-    "href": "/api/reference/resources/realtime/subresources/sessions/methods/create"
-  },
-  {
-    "text": "Create a transcription session",
-    "href": "/api/reference/resources/realtime/subresources/transcription_sessions/methods/create"
-  },
-  {
-    "text": "Create an assistant",
-    "href": "/api/reference/resources/beta/subresources/assistants/methods/create"
-  },
-  {
-    "text": "Retrieve an assistant",
-    "href": "/api/reference/resources/beta/subresources/assistants/methods/retrieve"
-  },
-  {
-    "text": "Update an assistant",
-    "href": "/api/reference/resources/beta/subresources/assistants/methods/update"
-  },
-  {
-    "text": "Delete an assistant",
-    "href": "/api/reference/resources/beta/subresources/assistants/methods/delete"
-  },
-  {
-    "text": "List assistants",
-    "href": "/api/reference/resources/beta/subresources/assistants/methods/list"
-  },
-  {
-    "text": "Create a thread",
-    "href": "/api/reference/resources/beta/subresources/threads/methods/create"
-  },
-  {
-    "text": "Create And Run",
-    "href": "/api/reference/resources/beta/subresources/threads/methods/create_and_run"
-  },
-  {
-    "text": "Retrieve a thread",
-    "href": "/api/reference/resources/beta/subresources/threads/methods/retrieve"
-  },
-  {
-    "text": "Update a thread",
-    "href": "/api/reference/resources/beta/subresources/threads/methods/update"
-  },
-  {
-    "text": "Delete a thread",
-    "href": "/api/reference/resources/beta/subresources/threads/methods/delete"
-  },
-  {
-    "text": "Create a run",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/methods/create"
-  },
-  {
-    "text": "Retrieve a run",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/methods/retrieve"
-  },
-  {
-    "text": "Update a run",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/methods/update"
-  },
-  {
-    "text": "List runs",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/methods/list"
-  },
-  {
-    "text": "Cancel a run",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/methods/cancel"
-  },
-  {
-    "text": "Submit Tool Outputs",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/methods/submit_tool_outputs"
-  },
-  {
-    "text": "Retrieve a step",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/subresources/steps/methods/retrieve"
-  },
-  {
-    "text": "List steps",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/runs/subresources/steps/methods/list"
-  },
-  {
-    "text": "Create a message",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/messages/methods/create"
-  },
-  {
-    "text": "Retrieve a message",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/messages/methods/retrieve"
-  },
-  {
-    "text": "Update a message",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/messages/methods/update"
-  },
-  {
-    "text": "Delete a message",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/messages/methods/delete"
-  },
-  {
-    "text": "List messages",
-    "href": "/api/reference/resources/beta/subresources/threads/subresources/messages/methods/list"
-  },
-  {
-    "text": "Assistants streaming events",
-    "href": "/api/reference/resources/beta/subresources/assistants/streaming-events"
-  },
-  {
-    "text": "Create a completion",
-    "href": "/api/reference/resources/completions/methods/create"
-  }
-]
+{
+  "version": 2,
+  "pages": [
+    {
+      "text": "Administration Overview",
+      "path": "administration/overview",
+      "scheme": "flat"
+    },
+    {
+      "text": "Chat Completions Overview",
+      "path": "chat-completions/overview",
+      "scheme": "flat"
+    },
+    {
+      "text": "API Overview",
+      "path": "overview",
+      "scheme": "flat"
+    },
+    {
+      "text": "Realtime Beta Overview",
+      "path": "realtime-beta/overview",
+      "scheme": "flat"
+    },
+    {
+      "text": "Shared",
+      "path": "resources/$shared",
+      "scheme": "index"
+    },
+    {
+      "text": "Admin",
+      "path": "resources/admin",
+      "scheme": "index"
+    },
+    {
+      "text": "Organization",
+      "path": "resources/admin/subresources/organization",
+      "scheme": "index"
+    },
+    {
+      "text": "Admin API Keys",
+      "path": "resources/admin/subresources/organization/subresources/admin_api_keys",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/admin_api_keys/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/admin_api_keys/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/admin_api_keys/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/admin_api_keys/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Audit Logs",
+      "path": "resources/admin/subresources/organization/subresources/audit_logs",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/audit_logs/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Certificates",
+      "path": "resources/admin/subresources/organization/subresources/certificates",
+      "scheme": "index"
+    },
+    {
+      "text": "Activate",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/activate",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Deactivate",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/deactivate",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/certificates/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Data Retention",
+      "path": "resources/admin/subresources/organization/subresources/data_retention",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/data_retention/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/data_retention/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Groups",
+      "path": "resources/admin/subresources/organization/subresources/groups",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/groups/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/groups/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/groups/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/groups/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/groups/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Roles",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/roles",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/roles/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Users",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/users",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/users/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/users/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/users/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/groups/subresources/users/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Invites",
+      "path": "resources/admin/subresources/organization/subresources/invites",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/invites/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/invites/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/invites/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/invites/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Projects",
+      "path": "resources/admin/subresources/organization/subresources/projects",
+      "scheme": "index"
+    },
+    {
+      "text": "Archive",
+      "path": "resources/admin/subresources/organization/subresources/projects/methods/archive",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "API Keys",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/api_keys",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Certificates",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/certificates",
+      "scheme": "index"
+    },
+    {
+      "text": "Activate",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/certificates/methods/activate",
+      "scheme": "index"
+    },
+    {
+      "text": "Deactivate",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/certificates/methods/deactivate",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/certificates/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Data Retention",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/data_retention",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/data_retention/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/data_retention/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Groups",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Roles",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/groups/subresources/roles/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Hosted Tool Permissions",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/hosted_tool_permissions",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/hosted_tool_permissions/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/hosted_tool_permissions/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Model Permissions",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/model_permissions",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/model_permissions/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/model_permissions/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/model_permissions/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Rate Limits",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/rate_limits",
+      "scheme": "index"
+    },
+    {
+      "text": "List Rate Limits",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/rate_limits/methods/list_rate_limits",
+      "scheme": "index"
+    },
+    {
+      "text": "Update Rate Limit",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/rate_limits/methods/update_rate_limit",
+      "scheme": "index"
+    },
+    {
+      "text": "Roles",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/roles",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/roles/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Service Accounts",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "API Keys",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/subresources/api_keys",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/service_accounts/subresources/api_keys/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Spend Alerts",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_alerts",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_alerts/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_alerts/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_alerts/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_alerts/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_alerts/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Spend Limit",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_limit",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_limit/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_limit/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/spend_limit/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Users",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Roles",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/users/subresources/roles/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Roles",
+      "path": "resources/admin/subresources/organization/subresources/roles",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/roles/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/roles/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/roles/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/roles/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/roles/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Spend Alerts",
+      "path": "resources/admin/subresources/organization/subresources/spend_alerts",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/spend_alerts/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/spend_alerts/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/spend_alerts/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/spend_alerts/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/spend_alerts/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Spend Limit",
+      "path": "resources/admin/subresources/organization/subresources/spend_limit",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/spend_limit/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/spend_limit/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/spend_limit/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Usage",
+      "path": "resources/admin/subresources/organization/subresources/usage",
+      "scheme": "index"
+    },
+    {
+      "text": "Audio Speeches",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/audio_speeches",
+      "scheme": "index"
+    },
+    {
+      "text": "Audio Transcriptions",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/audio_transcriptions",
+      "scheme": "index"
+    },
+    {
+      "text": "Code Interpreter Sessions",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/code_interpreter_sessions",
+      "scheme": "index"
+    },
+    {
+      "text": "Completions",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/completions",
+      "scheme": "index"
+    },
+    {
+      "text": "Costs",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/costs",
+      "scheme": "index"
+    },
+    {
+      "text": "Embeddings",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/embeddings",
+      "scheme": "index"
+    },
+    {
+      "text": "File Search Calls",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/file_search_calls",
+      "scheme": "index"
+    },
+    {
+      "text": "Images",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/images",
+      "scheme": "index"
+    },
+    {
+      "text": "Moderations",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/moderations",
+      "scheme": "index"
+    },
+    {
+      "text": "Vector Stores",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/vector_stores",
+      "scheme": "index"
+    },
+    {
+      "text": "Web Search Calls",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/web_search_calls",
+      "scheme": "index"
+    },
+    {
+      "text": "Users",
+      "path": "resources/admin/subresources/organization/subresources/users",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/users/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/users/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/users/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/admin/subresources/organization/subresources/users/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Roles",
+      "path": "resources/admin/subresources/organization/subresources/users/subresources/roles",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/users/subresources/roles/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/users/subresources/roles/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/users/subresources/roles/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/users/subresources/roles/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Audio",
+      "path": "resources/audio",
+      "scheme": "index"
+    },
+    {
+      "text": "Speech",
+      "path": "resources/audio/subresources/speech",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/audio/subresources/speech/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Transcriptions",
+      "path": "resources/audio/subresources/transcriptions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/audio/subresources/transcriptions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Translations",
+      "path": "resources/audio/subresources/translations",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/audio/subresources/translations/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Voice Consents",
+      "path": "resources/audio/subresources/voice_consents",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/audio/subresources/voice_consents/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/audio/subresources/voice_consents/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/audio/subresources/voice_consents/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/audio/subresources/voice_consents/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/audio/subresources/voice_consents/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Voices",
+      "path": "resources/audio/subresources/voices",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/audio/subresources/voices/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Batches",
+      "path": "resources/batches",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/batches/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/batches/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/batches/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/batches/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Beta",
+      "path": "resources/beta",
+      "scheme": "index"
+    },
+    {
+      "text": "Assistants",
+      "path": "resources/beta/subresources/assistants",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/assistants/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/assistants/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/assistants/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/assistants/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/assistants/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Assistants streaming events",
+      "path": "resources/beta/subresources/assistants/streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "ChatKit",
+      "path": "resources/beta/subresources/chatkit",
+      "scheme": "index"
+    },
+    {
+      "text": "Sessions",
+      "path": "resources/beta/subresources/chatkit/subresources/sessions",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/beta/subresources/chatkit/subresources/sessions/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/chatkit/subresources/sessions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Threads",
+      "path": "resources/beta/subresources/chatkit/subresources/threads",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/chatkit/subresources/threads/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/chatkit/subresources/threads/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "List Items",
+      "path": "resources/beta/subresources/chatkit/subresources/threads/methods/list_items",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/chatkit/subresources/threads/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Responses",
+      "path": "resources/beta/subresources/responses",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/beta/subresources/responses/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Compact",
+      "path": "resources/beta/subresources/responses/methods/compact",
+      "scheme": "index"
+    },
+    {
+      "text": "Connect",
+      "path": "resources/beta/subresources/responses/methods/connect",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/responses/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/responses/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/responses/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Beta Responses streaming events",
+      "path": "resources/beta/subresources/responses/streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Input Items",
+      "path": "resources/beta/subresources/responses/subresources/input_items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/responses/subresources/input_items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Input Tokens",
+      "path": "resources/beta/subresources/responses/subresources/input_tokens",
+      "scheme": "index"
+    },
+    {
+      "text": "Count",
+      "path": "resources/beta/subresources/responses/subresources/input_tokens/methods/count",
+      "scheme": "index"
+    },
+    {
+      "text": "Beta Responses WebSocket events",
+      "path": "resources/beta/subresources/responses/websocket-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Threads",
+      "path": "resources/beta/subresources/threads",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/threads/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Create And Run",
+      "path": "resources/beta/subresources/threads/methods/create_and_run",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/threads/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/threads/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/threads/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Messages",
+      "path": "resources/beta/subresources/threads/subresources/messages",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/threads/subresources/messages/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/threads/subresources/messages/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/threads/subresources/messages/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/threads/subresources/messages/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/threads/subresources/messages/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Runs",
+      "path": "resources/beta/subresources/threads/subresources/runs",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/beta/subresources/threads/subresources/runs/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/threads/subresources/runs/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/threads/subresources/runs/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/threads/subresources/runs/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Submit Tool Outputs",
+      "path": "resources/beta/subresources/threads/subresources/runs/methods/submit_tool_outputs",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/threads/subresources/runs/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Steps",
+      "path": "resources/beta/subresources/threads/subresources/runs/subresources/steps",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/threads/subresources/runs/subresources/steps/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/threads/subresources/runs/subresources/steps/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Chat",
+      "path": "resources/chat",
+      "scheme": "index"
+    },
+    {
+      "text": "Completions",
+      "path": "resources/chat/subresources/completions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/chat/subresources/completions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/chat/subresources/completions/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/chat/subresources/completions/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/chat/subresources/completions/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/chat/subresources/completions/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Chat Completions streaming events",
+      "path": "resources/chat/subresources/completions/streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Messages",
+      "path": "resources/chat/subresources/completions/subresources/messages",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/chat/subresources/completions/subresources/messages/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Completions",
+      "path": "resources/completions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/completions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Containers",
+      "path": "resources/containers",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/containers/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/containers/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/containers/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/containers/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Files",
+      "path": "resources/containers/subresources/files",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/containers/subresources/files/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/containers/subresources/files/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/containers/subresources/files/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/containers/subresources/files/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Content",
+      "path": "resources/containers/subresources/files/subresources/content",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/containers/subresources/files/subresources/content/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Content Provenance Checks",
+      "path": "resources/content_provenance_checks",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/content_provenance_checks/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Conversations",
+      "path": "resources/conversations",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/conversations/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/conversations/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/conversations/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/conversations/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Items",
+      "path": "resources/conversations/subresources/items",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/conversations/subresources/items/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/conversations/subresources/items/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/conversations/subresources/items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/conversations/subresources/items/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Embeddings",
+      "path": "resources/embeddings",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/embeddings/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Evals",
+      "path": "resources/evals",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/evals/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/evals/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/evals/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/evals/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/evals/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Runs",
+      "path": "resources/evals/subresources/runs",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/evals/subresources/runs/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/evals/subresources/runs/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/evals/subresources/runs/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/evals/subresources/runs/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/evals/subresources/runs/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Output Items",
+      "path": "resources/evals/subresources/runs/subresources/output_items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/evals/subresources/runs/subresources/output_items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/evals/subresources/runs/subresources/output_items/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Files",
+      "path": "resources/files",
+      "scheme": "index"
+    },
+    {
+      "text": "Content",
+      "path": "resources/files/methods/content",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/files/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/files/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/files/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/files/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve Content",
+      "path": "resources/files/methods/retrieve_content",
+      "scheme": "index"
+    },
+    {
+      "text": "Fine Tuning",
+      "path": "resources/fine_tuning",
+      "scheme": "index"
+    },
+    {
+      "text": "Alpha",
+      "path": "resources/fine_tuning/subresources/alpha",
+      "scheme": "index"
+    },
+    {
+      "text": "Graders",
+      "path": "resources/fine_tuning/subresources/alpha/subresources/graders",
+      "scheme": "index"
+    },
+    {
+      "text": "Run",
+      "path": "resources/fine_tuning/subresources/alpha/subresources/graders/methods/run",
+      "scheme": "index"
+    },
+    {
+      "text": "Validate",
+      "path": "resources/fine_tuning/subresources/alpha/subresources/graders/methods/validate",
+      "scheme": "index"
+    },
+    {
+      "text": "Checkpoints",
+      "path": "resources/fine_tuning/subresources/checkpoints",
+      "scheme": "index"
+    },
+    {
+      "text": "Permissions",
+      "path": "resources/fine_tuning/subresources/checkpoints/subresources/permissions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/fine_tuning/subresources/checkpoints/subresources/permissions/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Jobs",
+      "path": "resources/fine_tuning/subresources/jobs",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/fine_tuning/subresources/jobs/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/fine_tuning/subresources/jobs/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/fine_tuning/subresources/jobs/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "List Events",
+      "path": "resources/fine_tuning/subresources/jobs/methods/list_events",
+      "scheme": "index"
+    },
+    {
+      "text": "Pause",
+      "path": "resources/fine_tuning/subresources/jobs/methods/pause",
+      "scheme": "index"
+    },
+    {
+      "text": "Resume",
+      "path": "resources/fine_tuning/subresources/jobs/methods/resume",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/fine_tuning/subresources/jobs/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Checkpoints",
+      "path": "resources/fine_tuning/subresources/jobs/subresources/checkpoints",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/fine_tuning/subresources/jobs/subresources/checkpoints/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Methods",
+      "path": "resources/fine_tuning/subresources/methods",
+      "scheme": "index"
+    },
+    {
+      "text": "Graders",
+      "path": "resources/graders",
+      "scheme": "index"
+    },
+    {
+      "text": "Grader Models",
+      "path": "resources/graders/subresources/grader_models",
+      "scheme": "index"
+    },
+    {
+      "text": "Images",
+      "path": "resources/images",
+      "scheme": "index"
+    },
+    {
+      "text": "Image edit streaming events",
+      "path": "resources/images/edit-streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Image generation streaming events",
+      "path": "resources/images/generation-streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Create Variation",
+      "path": "resources/images/methods/create_variation",
+      "scheme": "index"
+    },
+    {
+      "text": "Edit",
+      "path": "resources/images/methods/edit",
+      "scheme": "index"
+    },
+    {
+      "text": "Generate",
+      "path": "resources/images/methods/generate",
+      "scheme": "index"
+    },
+    {
+      "text": "Models",
+      "path": "resources/models",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/models/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/models/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/models/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Moderations",
+      "path": "resources/moderations",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/moderations/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Organization",
+      "path": "resources/organization",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs",
+      "path": "resources/organization/subresources/audit_logs",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs \u2014 List",
+      "path": "resources/organization/subresources/audit_logs/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs Admin Api Keys",
+      "path": "resources/organization/subresources/audit_logs/subresources/admin_api_keys",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs Admin Api Keys \u2014 Create",
+      "path": "resources/organization/subresources/audit_logs/subresources/admin_api_keys/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs Admin Api Keys \u2014 Delete",
+      "path": "resources/organization/subresources/audit_logs/subresources/admin_api_keys/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs Admin Api Keys \u2014 List",
+      "path": "resources/organization/subresources/audit_logs/subresources/admin_api_keys/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs Admin Api Keys \u2014 Retrieve",
+      "path": "resources/organization/subresources/audit_logs/subresources/admin_api_keys/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Audit Logs Usage",
+      "path": "resources/organization/subresources/audit_logs/subresources/usage",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups",
+      "path": "resources/organization/subresources/groups",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups \u2014 Create",
+      "path": "resources/organization/subresources/groups/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups \u2014 Delete",
+      "path": "resources/organization/subresources/groups/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups \u2014 List",
+      "path": "resources/organization/subresources/groups/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups \u2014 Update",
+      "path": "resources/organization/subresources/groups/methods/update",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups Users",
+      "path": "resources/organization/subresources/groups/subresources/users",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups Users \u2014 Create",
+      "path": "resources/organization/subresources/groups/subresources/users/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups Users \u2014 Delete",
+      "path": "resources/organization/subresources/groups/subresources/users/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Groups Users \u2014 List",
+      "path": "resources/organization/subresources/groups/subresources/users/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Invites",
+      "path": "resources/organization/subresources/invites",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Invites \u2014 Create",
+      "path": "resources/organization/subresources/invites/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Invites \u2014 Delete",
+      "path": "resources/organization/subresources/invites/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Invites \u2014 List",
+      "path": "resources/organization/subresources/invites/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Invites \u2014 Retrieve",
+      "path": "resources/organization/subresources/invites/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects",
+      "path": "resources/organization/subresources/projects",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects \u2014 Create",
+      "path": "resources/organization/subresources/projects/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects \u2014 List",
+      "path": "resources/organization/subresources/projects/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects \u2014 Retrieve",
+      "path": "resources/organization/subresources/projects/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects \u2014 Update",
+      "path": "resources/organization/subresources/projects/methods/update",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Api Keys",
+      "path": "resources/organization/subresources/projects/subresources/api_keys",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Api Keys \u2014 Delete",
+      "path": "resources/organization/subresources/projects/subresources/api_keys/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Api Keys \u2014 List",
+      "path": "resources/organization/subresources/projects/subresources/api_keys/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Api Keys \u2014 Retrieve",
+      "path": "resources/organization/subresources/projects/subresources/api_keys/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Groups",
+      "path": "resources/organization/subresources/projects/subresources/groups",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Groups \u2014 Delete",
+      "path": "resources/organization/subresources/projects/subresources/groups/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Groups \u2014 List",
+      "path": "resources/organization/subresources/projects/subresources/groups/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Rate Limits",
+      "path": "resources/organization/subresources/projects/subresources/rate_limits",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Service Accounts",
+      "path": "resources/organization/subresources/projects/subresources/service_accounts",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Service Accounts \u2014 Create",
+      "path": "resources/organization/subresources/projects/subresources/service_accounts/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Service Accounts \u2014 Delete",
+      "path": "resources/organization/subresources/projects/subresources/service_accounts/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Service Accounts \u2014 List",
+      "path": "resources/organization/subresources/projects/subresources/service_accounts/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Service Accounts \u2014 Retrieve",
+      "path": "resources/organization/subresources/projects/subresources/service_accounts/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Users",
+      "path": "resources/organization/subresources/projects/subresources/users",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Users \u2014 Create",
+      "path": "resources/organization/subresources/projects/subresources/users/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Users \u2014 Delete",
+      "path": "resources/organization/subresources/projects/subresources/users/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Users \u2014 List",
+      "path": "resources/organization/subresources/projects/subresources/users/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Users \u2014 Retrieve",
+      "path": "resources/organization/subresources/projects/subresources/users/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Projects Users \u2014 Update",
+      "path": "resources/organization/subresources/projects/subresources/users/methods/update",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Roles",
+      "path": "resources/organization/subresources/roles",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Roles \u2014 Create",
+      "path": "resources/organization/subresources/roles/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Roles \u2014 Delete",
+      "path": "resources/organization/subresources/roles/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Roles \u2014 List",
+      "path": "resources/organization/subresources/roles/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Roles \u2014 Update",
+      "path": "resources/organization/subresources/roles/methods/update",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users",
+      "path": "resources/organization/subresources/users",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users \u2014 Delete",
+      "path": "resources/organization/subresources/users/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users \u2014 List",
+      "path": "resources/organization/subresources/users/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users \u2014 Retrieve",
+      "path": "resources/organization/subresources/users/methods/retrieve",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users \u2014 Update",
+      "path": "resources/organization/subresources/users/methods/update",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users Roles \u2014 Create",
+      "path": "resources/organization/subresources/users/subresources/roles/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users Roles \u2014 Delete",
+      "path": "resources/organization/subresources/users/subresources/roles/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Organization Users Roles \u2014 List",
+      "path": "resources/organization/subresources/users/subresources/roles/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects",
+      "path": "resources/projects",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Groups",
+      "path": "resources/projects/subresources/groups",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Groups Roles \u2014 Create",
+      "path": "resources/projects/subresources/groups/subresources/roles/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Groups Roles \u2014 Delete",
+      "path": "resources/projects/subresources/groups/subresources/roles/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Groups Roles \u2014 List",
+      "path": "resources/projects/subresources/groups/subresources/roles/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Roles \u2014 Create",
+      "path": "resources/projects/subresources/roles/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Roles \u2014 Delete",
+      "path": "resources/projects/subresources/roles/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Roles \u2014 List",
+      "path": "resources/projects/subresources/roles/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Roles \u2014 Update",
+      "path": "resources/projects/subresources/roles/methods/update",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Users",
+      "path": "resources/projects/subresources/users",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Users Roles \u2014 Create",
+      "path": "resources/projects/subresources/users/subresources/roles/methods/create",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Users Roles \u2014 Delete",
+      "path": "resources/projects/subresources/users/subresources/roles/methods/delete",
+      "scheme": "flat"
+    },
+    {
+      "text": "Projects Users Roles \u2014 List",
+      "path": "resources/projects/subresources/users/subresources/roles/methods/list",
+      "scheme": "flat"
+    },
+    {
+      "text": "Realtime",
+      "path": "resources/realtime",
+      "scheme": "index"
+    },
+    {
+      "text": "Realtime client events",
+      "path": "resources/realtime/client-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Connect",
+      "path": "resources/realtime/methods/connect",
+      "scheme": "index"
+    },
+    {
+      "text": "Realtime server events",
+      "path": "resources/realtime/server-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Calls",
+      "path": "resources/realtime/subresources/calls",
+      "scheme": "index"
+    },
+    {
+      "text": "Accept",
+      "path": "resources/realtime/subresources/calls/methods/accept",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/realtime/subresources/calls/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Hangup",
+      "path": "resources/realtime/subresources/calls/methods/hangup",
+      "scheme": "index"
+    },
+    {
+      "text": "Refer",
+      "path": "resources/realtime/subresources/calls/methods/refer",
+      "scheme": "index"
+    },
+    {
+      "text": "Reject",
+      "path": "resources/realtime/subresources/calls/methods/reject",
+      "scheme": "index"
+    },
+    {
+      "text": "Client Secrets",
+      "path": "resources/realtime/subresources/client_secrets",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/realtime/subresources/client_secrets/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Sessions",
+      "path": "resources/realtime/subresources/sessions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/realtime/subresources/sessions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Transcription Sessions",
+      "path": "resources/realtime/subresources/transcription_sessions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/realtime/subresources/transcription_sessions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Translations",
+      "path": "resources/realtime/subresources/translations",
+      "scheme": "index"
+    },
+    {
+      "text": "Client Secrets",
+      "path": "resources/realtime/subresources/translations/subresources/client_secrets",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/realtime/subresources/translations/subresources/client_secrets/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Realtime translation client events",
+      "path": "resources/realtime/translation-client-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Realtime translation server events",
+      "path": "resources/realtime/translation-server-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Responses",
+      "path": "resources/responses",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/responses/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Compact",
+      "path": "resources/responses/methods/compact",
+      "scheme": "index"
+    },
+    {
+      "text": "Connect",
+      "path": "resources/responses/methods/connect",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/responses/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/responses/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/responses/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Responses streaming events",
+      "path": "resources/responses/streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Input Items",
+      "path": "resources/responses/subresources/input_items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/responses/subresources/input_items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Input Tokens",
+      "path": "resources/responses/subresources/input_tokens",
+      "scheme": "index"
+    },
+    {
+      "text": "Count",
+      "path": "resources/responses/subresources/input_tokens/methods/count",
+      "scheme": "index"
+    },
+    {
+      "text": "Responses WebSocket events",
+      "path": "resources/responses/websocket-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Skills",
+      "path": "resources/skills",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/skills/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/skills/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/skills/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/skills/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/skills/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Content",
+      "path": "resources/skills/subresources/content",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/skills/subresources/content/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Versions",
+      "path": "resources/skills/subresources/versions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/skills/subresources/versions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/skills/subresources/versions/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/skills/subresources/versions/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/skills/subresources/versions/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Content",
+      "path": "resources/skills/subresources/versions/subresources/content",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/skills/subresources/versions/subresources/content/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Uploads",
+      "path": "resources/uploads",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/uploads/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Complete",
+      "path": "resources/uploads/methods/complete",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/uploads/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Parts",
+      "path": "resources/uploads/subresources/parts",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/uploads/subresources/parts/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Vector Stores",
+      "path": "resources/vector_stores",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/vector_stores/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/vector_stores/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/vector_stores/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/vector_stores/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Search",
+      "path": "resources/vector_stores/methods/search",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/vector_stores/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "File Batches",
+      "path": "resources/vector_stores/subresources/file_batches",
+      "scheme": "index"
+    },
+    {
+      "text": "Cancel",
+      "path": "resources/vector_stores/subresources/file_batches/methods/cancel",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/vector_stores/subresources/file_batches/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List Files",
+      "path": "resources/vector_stores/subresources/file_batches/methods/list_files",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/vector_stores/subresources/file_batches/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Files",
+      "path": "resources/vector_stores/subresources/files",
+      "scheme": "index"
+    },
+    {
+      "text": "Content",
+      "path": "resources/vector_stores/subresources/files/methods/content",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/vector_stores/subresources/files/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/vector_stores/subresources/files/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/vector_stores/subresources/files/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/vector_stores/subresources/files/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/vector_stores/subresources/files/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Videos",
+      "path": "resources/videos",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/videos/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Create Character",
+      "path": "resources/videos/methods/create_character",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/videos/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "Download Content",
+      "path": "resources/videos/methods/download_content",
+      "scheme": "index"
+    },
+    {
+      "text": "Edit",
+      "path": "resources/videos/methods/edit",
+      "scheme": "index"
+    },
+    {
+      "text": "Extend",
+      "path": "resources/videos/methods/extend",
+      "scheme": "index"
+    },
+    {
+      "text": "Get Character",
+      "path": "resources/videos/methods/get_character",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/videos/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Remix",
+      "path": "resources/videos/methods/remix",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/videos/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Webhooks",
+      "path": "resources/webhooks",
+      "scheme": "index"
+    },
+    {
+      "text": "Unwrap",
+      "path": "resources/webhooks/methods/unwrap",
+      "scheme": "index"
+    },
+    {
+      "text": "Responses Overview",
+      "path": "responses/overview",
+      "scheme": "flat"
+    },
+    {
+      "text": "Workload identity token exchange",
+      "path": "workload-identity-federation",
+      "scheme": "flat"
+    }
+  ]
+}

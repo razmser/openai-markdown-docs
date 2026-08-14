@@ -2,7 +2,7 @@
 
 **post** `/vector_stores/{vector_store_id}/files`
 
-Create a vector store file by attaching a [File](https://developers.openai.com/docs/api-reference/files) to a [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object).
+Create a vector store file by attaching a [File](../../files/index.md) to a [vector store](../index.md).
 
 ### Path Parameters
 
@@ -12,7 +12,7 @@ Create a vector store file by attaching a [File](https://developers.openai.com/d
 
 - `file_id: string`
 
-  A [File](https://developers.openai.com/docs/api-reference/files) ID that the vector store should use. Useful for tools like `file_search` that can access files. For multi-file ingestion, we recommend [`file_batches`](https://developers.openai.com/docs/api-reference/vector-stores-file-batches/createBatch) to minimize per-vector-store write requests.
+  A [File](../../files/index.md) ID that the vector store should use. Useful for tools like `file_search` that can access files. For multi-file ingestion, we recommend [`file_batches`](../file_batches/create.md) to minimize per-vector-store write requests.
 
 - `attributes: optional map[string or number or boolean] or null`
 
@@ -120,7 +120,7 @@ Create a vector store file by attaching a [File](https://developers.openai.com/d
 
   - `vector_store_id: string`
 
-    The ID of the [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) that the [File](https://developers.openai.com/docs/api-reference/files) is attached to.
+    The ID of the [vector store](../index.md) that the [File](../../files/index.md) is attached to.
 
   - `attributes: optional map[string or number or boolean] or null`
 

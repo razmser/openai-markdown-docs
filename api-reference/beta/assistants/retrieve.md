@@ -41,7 +41,7 @@ Retrieves an assistant.
 
   - `model: string`
 
-    ID of the model to use. You can use the [List models](https://developers.openai.com/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
+    ID of the model to use. You can use the [List models](../../models/list.md) API to see all of your available models, or see our [Model overview](https://developers.openai.com/docs/models) for descriptions of them.
 
   - `name: string or null`
 
@@ -218,13 +218,13 @@ Retrieves an assistant.
 
       - `file_ids: optional array of string`
 
-        A list of [file](https://developers.openai.com/docs/api-reference/files) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.
+        A list of [file](../../files/index.md) IDs made available to the `code_interpreter`` tool. There can be a maximum of 20 files associated with the tool.
 
     - `file_search: optional object { vector_store_ids }`
 
       - `vector_store_ids: optional array of string`
 
-        The ID of the [vector store](https://developers.openai.com/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
+        The ID of the [vector store](../../vector_stores/index.md) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.
 
   - `top_p: optional number or null`
 

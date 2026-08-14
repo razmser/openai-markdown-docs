@@ -1,6 +1,6 @@
 # API Overview
 
-> For the complete documentation index, see [llms.txt](/llms.txt). Markdown versions of documentation pages are available by appending `.md` to the page URL.
+> For the complete documentation index, see [llms.txt](https://developers.openai.com/llms.txt). Markdown versions of documentation pages are available by appending `.md` to the page URL.
 
 Use this reference to look up OpenAI API endpoints, request and response
 schemas, streaming events, client library methods, and shared behavior such as

@@ -38,7 +38,7 @@ Returns the Upload object with status `cancelled`.
 
   - `purpose: string`
 
-    The intended purpose of the file. [Please refer here](https://developers.openai.com/docs/api-reference/files/object#files/object-purpose) for acceptable values.
+    The intended purpose of the file. [Please refer here](../files/index.md) for acceptable values.
 
   - `status: "pending" or "completed" or "cancelled" or "expired"`
 

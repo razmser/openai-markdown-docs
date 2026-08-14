@@ -2,7 +2,7 @@
 
 **post** `/chat/completions`
 
-**Starting a new project?** We recommend trying [Responses](https://developers.openai.com/docs/api-reference/responses)
+**Starting a new project?** We recommend trying [Responses](../../responses/index.md)
 to take advantage of the latest OpenAI platform features. Compare
 [Chat Completions with Responses](https://developers.openai.com/docs/guides/responses-vs-chat-completions?api-mode=responses).
 
@@ -442,7 +442,7 @@ chunk objects if the request is streamed.
 
       - `"function"`
 
-- `model: string or "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 79 more`
+- `model: string or "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 80 more`
 
   Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
   offers a wide range of models with different capabilities, performance
@@ -451,7 +451,7 @@ chunk objects if the request is streamed.
 
   - `string`
 
-  - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 79 more`
+  - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 80 more`
 
     Model ID used to generate the response, like `gpt-4o` or `o3`. OpenAI
     offers a wide range of models with different capabilities, performance
@@ -465,6 +465,8 @@ chunk objects if the request is streamed.
     - `"gpt-5.6-luna"`
 
     - `"gpt-5.5"`
+
+    - `"gpt-5.5-2026-04-23"`
 
     - `"gpt-5.4"`
 
@@ -766,7 +768,7 @@ chunk objects if the request is streamed.
 
 - `max_tokens: optional number or null`
 
-  The maximum number of [tokens](/tokenizer) that can be generated in the
+  The maximum number of [tokens](https://developers.openai.com/tokenizer) that can be generated in the
   chat completion. This value can be used to control
   [costs](https://openai.com/api/pricing/) for text generated via API.
 
@@ -1041,7 +1043,7 @@ chunk objects if the request is streamed.
   - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
   - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
   - If set to '[flex](https://developers.openai.com/docs/guides/flex-processing)', then the request will be processed with the Flex Processing service tier.
-  - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. The response will show `service_tier=priority` regardless of if you specify `service_tier=fast` or `priority` in your request.
+  - To opt-in to [Fast mode](https://developers.openai.com/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. The response will show `service_tier=priority` regardless of if you specify `service_tier=fast` or `priority` in your request.
   - When not set, the default behavior is 'auto'.
 
   When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
@@ -1789,7 +1791,7 @@ chunk objects if the request is streamed.
     - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
     - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
     - If set to '[flex](https://developers.openai.com/docs/guides/flex-processing)', then the request will be processed with the Flex Processing service tier.
-    - To opt-in to [Fast mode](/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. The response will show `service_tier=priority` regardless of if you specify `service_tier=fast` or `priority` in your request.
+    - To opt-in to [Fast mode](https://developers.openai.com/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. The response will show `service_tier=priority` regardless of if you specify `service_tier=fast` or `priority` in your request.
     - When not set, the default behavior is 'auto'.
 
     When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
@@ -1828,7 +1830,7 @@ chunk objects if the request is streamed.
 
       Total number of tokens used in the request (prompt + completion).
 
-    - `completion_tokens_details: optional object { accepted_prediction_tokens, audio_tokens, reasoning_tokens, rejected_prediction_tokens }`
+    - `completion_tokens_details: optional object { accepted_prediction_tokens, audio_tokens, reasoning_tokens, 2 more }`
 
       Breakdown of tokens used in a completion.
 
@@ -1853,7 +1855,11 @@ chunk objects if the request is streamed.
         completion tokens for purposes of billing, output, and context window
         limits.
 
-    - `prompt_tokens_details: optional object { audio_tokens, cache_write_tokens, cached_tokens }`
+      - `text_tokens: optional number`
+
+        Text output tokens generated by the model.
+
+    - `prompt_tokens_details: optional object { audio_tokens, cache_write_tokens, cached_tokens, 2 more }`
 
       Breakdown of tokens used in the prompt.
 
@@ -1868,6 +1874,14 @@ chunk objects if the request is streamed.
       - `cached_tokens: optional number`
 
         Cached tokens present in the prompt.
+
+      - `image_tokens: optional number`
+
+        Image input tokens present in the prompt.
+
+      - `text_tokens: optional number`
+
+        Text input tokens present in the prompt.
 
 ### Example
 
@@ -2036,12 +2050,15 @@ curl https://api.openai.com/v1/chat/completions \
       "accepted_prediction_tokens": 0,
       "audio_tokens": 0,
       "reasoning_tokens": 0,
-      "rejected_prediction_tokens": 0
+      "rejected_prediction_tokens": 0,
+      "text_tokens": 0
     },
     "prompt_tokens_details": {
       "audio_tokens": 0,
       "cache_write_tokens": 0,
-      "cached_tokens": 0
+      "cached_tokens": 0,
+      "image_tokens": 0,
+      "text_tokens": 0
     }
   }
 }

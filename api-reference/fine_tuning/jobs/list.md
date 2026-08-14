@@ -107,7 +107,7 @@ List your organization's fine-tuning jobs
 
   - `result_files: array of string`
 
-    The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](https://developers.openai.com/docs/api-reference/files/retrieve-contents).
+    The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](../../files/retrieve.md).
 
   - `seed: number`
 
@@ -135,11 +135,11 @@ List your organization's fine-tuning jobs
 
   - `training_file: string`
 
-    The file ID used for training. You can retrieve the training data with the [Files API](https://developers.openai.com/docs/api-reference/files/retrieve-contents).
+    The file ID used for training. You can retrieve the training data with the [Files API](../../files/retrieve.md).
 
   - `validation_file: string or null`
 
-    The file ID used for validation. You can retrieve the validation results with the [Files API](https://developers.openai.com/docs/api-reference/files/retrieve-contents).
+    The file ID used for validation. You can retrieve the validation results with the [Files API](../../files/retrieve.md).
 
   - `estimated_finish: optional number or null`
 
