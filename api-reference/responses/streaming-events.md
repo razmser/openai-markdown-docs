@@ -1259,3 +1259,73 @@ Schema name: `ResponseAudioTranscriptDoneEvent`
   "sequence_number": 1
 }
 ```
+
+## response.shell_call_command.added
+
+A streaming event that indicated a shell command was added to a tool call.
+
+### Schema
+
+Schema name: `ResponseShellCallCommandAddedStreamingEvent`
+
+### Example
+
+```json
+{}
+```
+
+## response.shell_call_command.delta
+
+A streaming event that indicated a shell command was incrementally updated.
+
+### Schema
+
+Schema name: `ResponseShellCallCommandDeltaStreamingEvent`
+
+### Example
+
+```json
+{}
+```
+
+## response.shell_call_command.done
+
+A streaming event that indicated a shell command was completed.
+
+### Schema
+
+Schema name: `ResponseShellCallCommandDoneStreamingEvent`
+
+### Example
+
+```json
+{}
+```
+
+## response.shell_call_output_content.delta
+
+A streaming event that indicated shell call output was incrementally added.
+
+### Schema
+
+Schema name: `ResponseShellCallOutputContentDeltaStreamingEvent`
+
+### Example
+
+```json
+{}
+```
+
+## response.shell_call_output_content.done
+
+A streaming event that indicated shell call output was completed.
+
+### Schema
+
+Schema name: `ResponseShellCallOutputContentDoneStreamingEvent`
+
+### Example
+
+```json
+{}
+```

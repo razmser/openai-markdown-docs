@@ -44,12 +44,22 @@ Emitted when an error occurs while processing a Responses WebSocket request.
 
 #### Schema
 
-Schema name: `(resource) responses > (model) responses_server_event > (schema) > (variant) 52`
+Schema name: `ResponseWsError`
 
 #### Example
 
 ```json
-{}
+{
+  "type": "error",
+  "status": 400,
+  "stream_id": "agent_1",
+  "error": {
+    "type": "invalid_request_error",
+    "code": "websocket_stream_limit_reached",
+    "message": "This WebSocket connection has reached its stream limit.",
+    "param": "stream_id"
+  }
+}
 ```
 
 ## Server events
@@ -1286,4 +1296,74 @@ Schema name: `ResponseAudioTranscriptDoneEvent`
   "response_id": "resp_123",
   "sequence_number": 1
 }
+```
+
+### response.shell_call_command.added
+
+A streaming event that indicated a shell command was added to a tool call.
+
+#### Schema
+
+Schema name: `ResponseShellCallCommandAddedStreamingEvent`
+
+#### Example
+
+```json
+{}
+```
+
+### response.shell_call_command.delta
+
+A streaming event that indicated a shell command was incrementally updated.
+
+#### Schema
+
+Schema name: `ResponseShellCallCommandDeltaStreamingEvent`
+
+#### Example
+
+```json
+{}
+```
+
+### response.shell_call_command.done
+
+A streaming event that indicated a shell command was completed.
+
+#### Schema
+
+Schema name: `ResponseShellCallCommandDoneStreamingEvent`
+
+#### Example
+
+```json
+{}
+```
+
+### response.shell_call_output_content.delta
+
+A streaming event that indicated shell call output was incrementally added.
+
+#### Schema
+
+Schema name: `ResponseShellCallOutputContentDeltaStreamingEvent`
+
+#### Example
+
+```json
+{}
+```
+
+### response.shell_call_output_content.done
+
+A streaming event that indicated shell call output was completed.
+
+#### Schema
+
+Schema name: `ResponseShellCallOutputContentDoneStreamingEvent`
+
+#### Example
+
+```json
+{}
 ```
