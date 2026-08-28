@@ -2395,11 +2395,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadCreated object { data, event, enabled }`
 
-    Occurs when a new [thread](threads/index.md) is created.
+    Occurs when a new [thread](https://developers.openai.com/docs/api-reference/threads/object) is created.
 
     - `data: Thread`
 
-      Represents a thread that contains [messages](threads/messages/index.md).
+      Represents a thread that contains [messages](https://developers.openai.com/docs/api-reference/messages).
 
       - `id: string`
 
@@ -2450,11 +2450,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCreated object { data, event }`
 
-    Occurs when a new [run](threads/runs/index.md) is created.
+    Occurs when a new [run](https://developers.openai.com/docs/api-reference/runs/object) is created.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
       - `id: string`
 
@@ -2462,7 +2462,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `assistant_id: string`
 
-        The ID of the [assistant](assistants/index.md) used for execution of this run.
+        The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
       - `cancelled_at: number or null`
 
@@ -2498,7 +2498,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `instructions: string`
 
-        The instructions that the [assistant](assistants/index.md) used for this run.
+        The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
       - `last_error: object { code, message }  or null`
 
@@ -2537,7 +2537,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `model: string`
 
-        The model that the [assistant](assistants/index.md) used for this run.
+        The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
       - `object: "thread.run"`
 
@@ -2563,7 +2563,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
             - `id: string`
 
-              The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+              The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
             - `function: object { arguments, name }`
 
@@ -2694,7 +2694,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `thread_id: string`
 
-        The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+        The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
       - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -2736,7 +2736,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-        The list of tools that the [assistant](assistants/index.md) used for this run.
+        The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
         - `CodeInterpreterTool object { type }`
 
@@ -2856,11 +2856,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunQueued object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to a `queued` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to a `queued` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.queued"`
 
@@ -2868,11 +2868,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunInProgress object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to an `in_progress` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to an `in_progress` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.in_progress"`
 
@@ -2880,11 +2880,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunRequiresAction object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to a `requires_action` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to a `requires_action` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.requires_action"`
 
@@ -2892,11 +2892,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCompleted object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) is completed.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) is completed.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.completed"`
 
@@ -2904,11 +2904,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunIncomplete object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) ends with status `incomplete`.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) ends with status `incomplete`.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.incomplete"`
 
@@ -2916,11 +2916,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunFailed object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) fails.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) fails.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.failed"`
 
@@ -2928,11 +2928,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCancelling object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to a `cancelling` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to a `cancelling` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.cancelling"`
 
@@ -2940,11 +2940,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCancelled object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) is cancelled.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) is cancelled.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.cancelled"`
 
@@ -2952,11 +2952,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunExpired object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) expires.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) expires.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.expired"`
 
@@ -2964,7 +2964,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepCreated object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) is created.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is created.
 
     - `data: RunStep`
 
@@ -2976,7 +2976,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `assistant_id: string`
 
-        The ID of the [assistant](assistants/index.md) associated with the run step.
+        The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) associated with the run step.
 
       - `cancelled_at: number or null`
 
@@ -3031,7 +3031,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `run_id: string`
 
-        The ID of the [run](threads/runs/index.md) that this run step is a part of.
+        The ID of the [run](https://developers.openai.com/docs/api-reference/runs) that this run step is a part of.
 
       - `status: "in_progress" or "cancelled" or "failed" or 2 more`
 
@@ -3211,7 +3211,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
                 - `output: string or null`
 
-                  The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+                  The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
               - `type: "function"`
 
@@ -3227,7 +3227,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `thread_id: string`
 
-        The ID of the [thread](threads/index.md) that was run.
+        The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was run.
 
       - `type: "message_creation" or "tool_calls"`
 
@@ -3259,7 +3259,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepInProgress object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) moves to an `in_progress` state.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) moves to an `in_progress` state.
 
     - `data: RunStep`
 
@@ -3271,7 +3271,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepDelta object { data, event }`
 
-    Occurs when parts of a [run step](threads/runs/steps/index.md) are being streamed.
+    Occurs when parts of a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) are being streamed.
 
     - `data: RunStepDeltaEvent`
 
@@ -3435,7 +3435,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
                   - `output: optional string or null`
 
-                    The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+                    The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
       - `object: "thread.run.step.delta"`
 
@@ -3449,7 +3449,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepCompleted object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) is completed.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is completed.
 
     - `data: RunStep`
 
@@ -3461,7 +3461,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepFailed object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) fails.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) fails.
 
     - `data: RunStep`
 
@@ -3473,7 +3473,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepCancelled object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) is cancelled.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is cancelled.
 
     - `data: RunStep`
 
@@ -3485,7 +3485,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepExpired object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) expires.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) expires.
 
     - `data: RunStep`
 
@@ -3497,11 +3497,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageCreated object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) is created.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) is created.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
       - `id: string`
 
@@ -3509,7 +3509,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `assistant_id: string or null`
 
-        If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+        If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
       - `attachments: array of object { file_id, tools }  or null`
 
@@ -3722,7 +3722,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `run_id: string or null`
 
-        The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+        The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
       - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -3736,7 +3736,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `thread_id: string`
 
-        The [thread](threads/index.md) ID that this message belongs to.
+        The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
     - `event: "thread.message.created"`
 
@@ -3744,11 +3744,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageInProgress object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) moves to an `in_progress` state.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) moves to an `in_progress` state.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.message.in_progress"`
 
@@ -3756,7 +3756,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageDelta object { data, event }`
 
-    Occurs when parts of a [Message](threads/messages/index.md) are being streamed.
+    Occurs when parts of a [Message](https://developers.openai.com/docs/api-reference/messages/object) are being streamed.
 
     - `data: MessageDeltaEvent`
 
@@ -3952,11 +3952,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageCompleted object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) is completed.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) is completed.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.message.completed"`
 
@@ -3964,11 +3964,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageIncomplete object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) ends before it is completed.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) ends before it is completed.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.message.incomplete"`
 
@@ -4086,15 +4086,15 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
 - `MessageStreamEvent = object { data, event }  or object { data, event }  or object { data, event }  or 2 more`
 
-  Occurs when a [message](threads/messages/index.md) is created.
+  Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) is created.
 
   - `ThreadMessageCreated object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) is created.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) is created.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
       - `id: string`
 
@@ -4102,7 +4102,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `assistant_id: string or null`
 
-        If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+        If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
       - `attachments: array of object { file_id, tools }  or null`
 
@@ -4321,7 +4321,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `run_id: string or null`
 
-        The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+        The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
       - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -4335,7 +4335,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `thread_id: string`
 
-        The [thread](threads/index.md) ID that this message belongs to.
+        The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
     - `event: "thread.message.created"`
 
@@ -4343,11 +4343,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageInProgress object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) moves to an `in_progress` state.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) moves to an `in_progress` state.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.message.in_progress"`
 
@@ -4355,7 +4355,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageDelta object { data, event }`
 
-    Occurs when parts of a [Message](threads/messages/index.md) are being streamed.
+    Occurs when parts of a [Message](https://developers.openai.com/docs/api-reference/messages/object) are being streamed.
 
     - `data: MessageDeltaEvent`
 
@@ -4551,11 +4551,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageCompleted object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) is completed.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) is completed.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.message.completed"`
 
@@ -4563,11 +4563,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadMessageIncomplete object { data, event }`
 
-    Occurs when a [message](threads/messages/index.md) ends before it is completed.
+    Occurs when a [message](https://developers.openai.com/docs/api-reference/messages/object) ends before it is completed.
 
     - `data: Message`
 
-      Represents a message within a [thread](threads/index.md).
+      Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.message.incomplete"`
 
@@ -4577,11 +4577,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
 - `RunStepStreamEvent = object { data, event }  or object { data, event }  or object { data, event }  or 4 more`
 
-  Occurs when a [run step](threads/runs/steps/index.md) is created.
+  Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is created.
 
   - `ThreadRunStepCreated object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) is created.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is created.
 
     - `data: RunStep`
 
@@ -4593,7 +4593,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `assistant_id: string`
 
-        The ID of the [assistant](assistants/index.md) associated with the run step.
+        The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) associated with the run step.
 
       - `cancelled_at: number or null`
 
@@ -4648,7 +4648,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `run_id: string`
 
-        The ID of the [run](threads/runs/index.md) that this run step is a part of.
+        The ID of the [run](https://developers.openai.com/docs/api-reference/runs) that this run step is a part of.
 
       - `status: "in_progress" or "cancelled" or "failed" or 2 more`
 
@@ -4828,7 +4828,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
                 - `output: string or null`
 
-                  The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+                  The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
               - `type: "function"`
 
@@ -4844,7 +4844,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `thread_id: string`
 
-        The ID of the [thread](threads/index.md) that was run.
+        The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was run.
 
       - `type: "message_creation" or "tool_calls"`
 
@@ -4876,7 +4876,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepInProgress object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) moves to an `in_progress` state.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) moves to an `in_progress` state.
 
     - `data: RunStep`
 
@@ -4888,7 +4888,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepDelta object { data, event }`
 
-    Occurs when parts of a [run step](threads/runs/steps/index.md) are being streamed.
+    Occurs when parts of a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) are being streamed.
 
     - `data: RunStepDeltaEvent`
 
@@ -5052,7 +5052,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
                   - `output: optional string or null`
 
-                    The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+                    The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
       - `object: "thread.run.step.delta"`
 
@@ -5066,7 +5066,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepCompleted object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) is completed.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is completed.
 
     - `data: RunStep`
 
@@ -5078,7 +5078,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepFailed object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) fails.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) fails.
 
     - `data: RunStep`
 
@@ -5090,7 +5090,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepCancelled object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) is cancelled.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) is cancelled.
 
     - `data: RunStep`
 
@@ -5102,7 +5102,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunStepExpired object { data, event }`
 
-    Occurs when a [run step](threads/runs/steps/index.md) expires.
+    Occurs when a [run step](https://developers.openai.com/docs/api-reference/run-steps/step-object) expires.
 
     - `data: RunStep`
 
@@ -5116,15 +5116,15 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
 - `RunStreamEvent = object { data, event }  or object { data, event }  or object { data, event }  or 7 more`
 
-  Occurs when a new [run](threads/runs/index.md) is created.
+  Occurs when a new [run](https://developers.openai.com/docs/api-reference/runs/object) is created.
 
   - `ThreadRunCreated object { data, event }`
 
-    Occurs when a new [run](threads/runs/index.md) is created.
+    Occurs when a new [run](https://developers.openai.com/docs/api-reference/runs/object) is created.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
       - `id: string`
 
@@ -5132,7 +5132,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `assistant_id: string`
 
-        The ID of the [assistant](assistants/index.md) used for execution of this run.
+        The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
       - `cancelled_at: number or null`
 
@@ -5168,7 +5168,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `instructions: string`
 
-        The instructions that the [assistant](assistants/index.md) used for this run.
+        The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
       - `last_error: object { code, message }  or null`
 
@@ -5207,7 +5207,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `model: string`
 
-        The model that the [assistant](assistants/index.md) used for this run.
+        The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
       - `object: "thread.run"`
 
@@ -5233,7 +5233,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
             - `id: string`
 
-              The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+              The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
             - `function: object { arguments, name }`
 
@@ -5364,7 +5364,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `thread_id: string`
 
-        The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+        The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
       - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -5406,7 +5406,7 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-        The list of tools that the [assistant](assistants/index.md) used for this run.
+        The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
         - `CodeInterpreterTool object { type }`
 
@@ -5526,11 +5526,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunQueued object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to a `queued` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to a `queued` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.queued"`
 
@@ -5538,11 +5538,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunInProgress object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to an `in_progress` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to an `in_progress` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.in_progress"`
 
@@ -5550,11 +5550,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunRequiresAction object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to a `requires_action` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to a `requires_action` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.requires_action"`
 
@@ -5562,11 +5562,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCompleted object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) is completed.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) is completed.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.completed"`
 
@@ -5574,11 +5574,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunIncomplete object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) ends with status `incomplete`.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) ends with status `incomplete`.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.incomplete"`
 
@@ -5586,11 +5586,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunFailed object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) fails.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) fails.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.failed"`
 
@@ -5598,11 +5598,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCancelling object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) moves to a `cancelling` status.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) moves to a `cancelling` status.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.cancelling"`
 
@@ -5610,11 +5610,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunCancelled object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) is cancelled.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) is cancelled.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.cancelled"`
 
@@ -5622,11 +5622,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
   - `ThreadRunExpired object { data, event }`
 
-    Occurs when a [run](threads/runs/index.md) expires.
+    Occurs when a [run](https://developers.openai.com/docs/api-reference/runs/object) expires.
 
     - `data: Run`
 
-      Represents an execution run on a [thread](threads/index.md).
+      Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
     - `event: "thread.run.expired"`
 
@@ -5636,11 +5636,11 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
 - `ThreadStreamEvent object { data, event, enabled }`
 
-  Occurs when a new [thread](threads/index.md) is created.
+  Occurs when a new [thread](https://developers.openai.com/docs/api-reference/threads/object) is created.
 
   - `data: Thread`
 
-    Represents a thread that contains [messages](threads/messages/index.md).
+    Represents a thread that contains [messages](https://developers.openai.com/docs/api-reference/messages).
 
     - `id: string`
 
@@ -11096,7 +11096,7 @@ the `background` parameter set to `true` can be cancelled.
 
           - `"incomplete"`
 
-      - `AdditionalTools object { role, tools, type, 2 more }`
+      - `AdditionalTools object { role, tools, type, 3 more }`
 
         - `role: "developer"`
 
@@ -12131,6 +12131,16 @@ the `background` parameter set to `true` can be cancelled.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -15474,7 +15484,7 @@ the `background` parameter set to `true` can be cancelled.
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -16523,6 +16533,16 @@ the `background` parameter set to `true` can be cancelled.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -22387,7 +22407,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-    - `AdditionalTools object { role, tools, type, 2 more }`
+    - `AdditionalTools object { role, tools, type, 3 more }`
 
       - `role: "developer"`
 
@@ -23422,6 +23442,16 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+        An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -26530,7 +26560,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -27579,6 +27609,16 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `AgentMessage object { id, author, content, 3 more }`
 
@@ -32351,7 +32391,7 @@ as input for the model's response.
 
         - `"incomplete"`
 
-    - `AdditionalTools object { role, tools, type, 2 more }`
+    - `AdditionalTools object { role, tools, type, 3 more }`
 
       - `role: "developer"`
 
@@ -33386,6 +33426,16 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+        An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -39145,7 +39195,7 @@ as input for the model's response.
 
           - `"incomplete"`
 
-      - `AdditionalTools object { role, tools, type, 2 more }`
+      - `AdditionalTools object { role, tools, type, 3 more }`
 
         - `role: "developer"`
 
@@ -40180,6 +40230,16 @@ as input for the model's response.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -43523,7 +43583,7 @@ as input for the model's response.
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -44572,6 +44632,16 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -51099,7 +51169,7 @@ Retrieves a model response with the given ID.
 
           - `"incomplete"`
 
-      - `AdditionalTools object { role, tools, type, 2 more }`
+      - `AdditionalTools object { role, tools, type, 3 more }`
 
         - `role: "developer"`
 
@@ -52134,6 +52204,16 @@ Retrieves a model response with the given ID.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -55477,7 +55557,7 @@ Retrieves a model response with the given ID.
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -56526,6 +56606,16 @@ Retrieves a model response with the given ID.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -61404,7 +61494,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -62453,6 +62543,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `AgentMessage object { id, author, content, 3 more }`
 
@@ -67983,7 +68083,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-      - `AdditionalTools object { role, tools, type, 2 more }`
+      - `AdditionalTools object { role, tools, type, 3 more }`
 
         - `role: "developer"`
 
@@ -69018,6 +69118,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -72361,7 +72471,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -73410,6 +73520,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -79159,7 +79279,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -80194,6 +80314,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -83537,7 +83667,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The identifier of the actor that created the item.
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
         - `id: string`
 
@@ -84586,6 +84716,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -90796,7 +90936,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -91831,6 +91971,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -95174,7 +95324,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The identifier of the actor that created the item.
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
         - `id: string`
 
@@ -96223,6 +96373,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -101880,7 +102040,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -102915,6 +103075,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -106258,7 +106428,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The identifier of the actor that created the item.
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
         - `id: string`
 
@@ -107307,6 +107477,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -113277,7 +113457,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -114312,6 +114492,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -117655,7 +117845,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The identifier of the actor that created the item.
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
         - `id: string`
 
@@ -118704,6 +118894,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -124230,7 +124430,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -125265,6 +125465,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -128608,7 +128818,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The identifier of the actor that created the item.
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
         - `id: string`
 
@@ -129657,6 +129867,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -135090,7 +135310,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"incomplete"`
 
-    - `AdditionalTools object { role, tools, type, 2 more }`
+    - `AdditionalTools object { role, tools, type, 3 more }`
 
       - `role: "developer"`
 
@@ -136125,6 +136345,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+        An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -139972,7 +140202,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"incomplete"`
 
-    - `AdditionalTools object { role, tools, type, 2 more }`
+    - `AdditionalTools object { role, tools, type, 3 more }`
 
       - `role: "developer"`
 
@@ -141007,6 +141237,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+        An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -145758,7 +145998,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       The identifier of the actor that created the item.
 
-  - `AdditionalTools object { id, role, tools, 2 more }`
+  - `AdditionalTools object { id, role, tools, 3 more }`
 
     - `id: string`
 
@@ -146807,6 +147047,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
       - `agent_name: string`
 
         The canonical name of the agent that produced this item.
+
+    - `prompt_cache_breakpoint: optional object { mode }`
+
+      Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+      - `mode: "explicit"`
+
+        The breakpoint mode. Always `explicit`.
+
+        - `"explicit"`
 
   - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -150449,7 +150699,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -151498,6 +151748,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -155159,7 +155419,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -156208,6 +156468,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -160608,7 +160878,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -161643,6 +161913,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -164986,7 +165266,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The identifier of the actor that created the item.
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
         - `id: string`
 
@@ -166035,6 +166315,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }`
+
+          Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -172394,7 +172684,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `"incomplete"`
 
-          - `AdditionalTools object { role, tools, type, 2 more }`
+          - `AdditionalTools object { role, tools, type, 3 more }`
 
             - `role: "developer"`
 
@@ -173429,6 +173719,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `agent_name: string`
 
                 The canonical name of the agent that produced this item.
+
+            - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+              An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+              - `mode: "explicit"`
+
+                The breakpoint mode. Always `explicit`.
+
+                - `"explicit"`
 
           - `Reasoning object { id, summary, type, 4 more }`
 
@@ -176772,7 +177072,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The identifier of the actor that created the item.
 
-        - `AdditionalTools object { id, role, tools, 2 more }`
+        - `AdditionalTools object { id, role, tools, 3 more }`
 
           - `id: string`
 
@@ -177821,6 +178121,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }`
+
+            Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -181249,7 +181559,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `ToolSearchOutput object { id, call_id, execution, 5 more }`
 
-      - `AdditionalTools object { id, role, tools, 2 more }`
+      - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `Compaction object { id, encrypted_content, type, 2 more }`
 
@@ -185677,7 +185987,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-        - `AdditionalTools object { role, tools, type, 2 more }`
+        - `AdditionalTools object { role, tools, type, 3 more }`
 
           - `role: "developer"`
 
@@ -186712,6 +187022,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+            An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+            - `mode: "explicit"`
+
+              The breakpoint mode. Always `explicit`.
+
+              - `"explicit"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -191569,7 +191889,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-      - `AdditionalTools object { role, tools, type, 2 more }`
+      - `AdditionalTools object { role, tools, type, 3 more }`
 
         - `role: "developer"`
 
@@ -192604,6 +192924,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -197052,7 +197382,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-      - `AdditionalTools object { role, tools, type, 2 more }`
+      - `AdditionalTools object { role, tools, type, 3 more }`
 
         - `role: "developer"`
 
@@ -198087,6 +198417,16 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+          An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+          - `mode: "explicit"`
+
+            The breakpoint mode. Always `explicit`.
+
+            - `"explicit"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -202091,7 +202431,7 @@ Returns a list of input items for a given response.
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -203140,6 +203480,16 @@ Returns a list of input items for a given response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -206941,7 +207291,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
         The identifier of the actor that created the item.
 
-    - `AdditionalTools object { id, role, tools, 2 more }`
+    - `AdditionalTools object { id, role, tools, 3 more }`
 
       - `id: string`
 
@@ -207990,6 +208340,16 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }`
+
+        Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -211870,7 +212230,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"incomplete"`
 
-    - `AdditionalTools object { role, tools, type, 2 more }`
+    - `AdditionalTools object { role, tools, type, 3 more }`
 
       - `role: "developer"`
 
@@ -212905,6 +213265,16 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+        An explicit cache breakpoint after these tool definitions. Requires a non-empty tools list.
+
+        - `mode: "explicit"`
+
+          The breakpoint mode. Always `explicit`.
+
+          - `"explicit"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -215510,7 +215880,7 @@ Create a thread.
 
 - `messages: optional array of object { content, role, attachments, metadata }`
 
-  A list of [messages](threads/messages/index.md) to start the thread with.
+  A list of [messages](https://developers.openai.com/docs/api-reference/messages) to start the thread with.
 
   - `content: string or array of ImageFileContentBlock or ImageURLContentBlock or TextContentBlockParam`
 
@@ -215718,7 +216088,7 @@ Create a thread.
 
 - `Thread object { id, created_at, metadata, 2 more }`
 
-  Represents a thread that contains [messages](threads/messages/index.md).
+  Represents a thread that contains [messages](https://developers.openai.com/docs/api-reference/messages).
 
   - `id: string`
 
@@ -215855,7 +216225,7 @@ Create a thread and run it in one request.
 
 - `assistant_id: string`
 
-  The ID of the [assistant](assistants/index.md) to use to execute this run.
+  The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) to use to execute this run.
 
 - `instructions: optional string or null`
 
@@ -216060,7 +216430,7 @@ Create a thread and run it in one request.
 
   - `messages: optional array of object { content, role, attachments, metadata }`
 
-    A list of [messages](threads/messages/index.md) to start the thread with.
+    A list of [messages](https://developers.openai.com/docs/api-reference/messages) to start the thread with.
 
     - `content: string or array of ImageFileContentBlock or ImageURLContentBlock or TextContentBlockParam`
 
@@ -216414,7 +216784,7 @@ Create a thread and run it in one request.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -216422,7 +216792,7 @@ Create a thread and run it in one request.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -216458,7 +216828,7 @@ Create a thread and run it in one request.
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -216497,7 +216867,7 @@ Create a thread and run it in one request.
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -216523,7 +216893,7 @@ Create a thread and run it in one request.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -216654,7 +217024,7 @@ Create a thread and run it in one request.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -216696,7 +217066,7 @@ Create a thread and run it in one request.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -217175,7 +217545,7 @@ Retrieves a thread.
 
 - `Thread object { id, created_at, metadata, 2 more }`
 
-  Represents a thread that contains [messages](threads/messages/index.md).
+  Represents a thread that contains [messages](https://developers.openai.com/docs/api-reference/messages).
 
   - `id: string`
 
@@ -217315,7 +217685,7 @@ Modifies a thread.
 
 - `Thread object { id, created_at, metadata, 2 more }`
 
-  Represents a thread that contains [messages](threads/messages/index.md).
+  Represents a thread that contains [messages](https://developers.openai.com/docs/api-reference/messages).
 
   - `id: string`
 
@@ -217576,7 +217946,7 @@ curl https://api.openai.com/v1/threads/thread_abc123 \
 
 - `Thread object { id, created_at, metadata, 2 more }`
 
-  Represents a thread that contains [messages](threads/messages/index.md).
+  Represents a thread that contains [messages](https://developers.openai.com/docs/api-reference/messages).
 
   - `id: string`
 
@@ -217773,7 +218143,7 @@ Create a message.
 
 - `Message object { id, assistant_id, attachments, 11 more }`
 
-  Represents a message within a [thread](threads/index.md).
+  Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -217781,7 +218151,7 @@ Create a message.
 
   - `assistant_id: string or null`
 
-    If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+    If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
   - `attachments: array of object { file_id, tools }  or null`
 
@@ -218000,7 +218370,7 @@ Create a message.
 
   - `run_id: string or null`
 
-    The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
   - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -218014,7 +218384,7 @@ Create a message.
 
   - `thread_id: string`
 
-    The [thread](threads/index.md) ID that this message belongs to.
+    The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
 ### Example
 
@@ -218217,7 +218587,7 @@ Returns a list of messages for a given thread.
 
   - `assistant_id: string or null`
 
-    If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+    If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
   - `attachments: array of object { file_id, tools }  or null`
 
@@ -218436,7 +218806,7 @@ Returns a list of messages for a given thread.
 
   - `run_id: string or null`
 
-    The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
   - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -218450,7 +218820,7 @@ Returns a list of messages for a given thread.
 
   - `thread_id: string`
 
-    The [thread](threads/index.md) ID that this message belongs to.
+    The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
 - `first_id: string`
 
@@ -218596,7 +218966,7 @@ Retrieve a message.
 
 - `Message object { id, assistant_id, attachments, 11 more }`
 
-  Represents a message within a [thread](threads/index.md).
+  Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -218604,7 +218974,7 @@ Retrieve a message.
 
   - `assistant_id: string or null`
 
-    If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+    If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
   - `attachments: array of object { file_id, tools }  or null`
 
@@ -218823,7 +219193,7 @@ Retrieve a message.
 
   - `run_id: string or null`
 
-    The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
   - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -218837,7 +219207,7 @@ Retrieve a message.
 
   - `thread_id: string`
 
-    The [thread](threads/index.md) ID that this message belongs to.
+    The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
 ### Example
 
@@ -218950,7 +219320,7 @@ Modifies a message.
 
 - `Message object { id, assistant_id, attachments, 11 more }`
 
-  Represents a message within a [thread](threads/index.md).
+  Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -218958,7 +219328,7 @@ Modifies a message.
 
   - `assistant_id: string or null`
 
-    If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+    If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
   - `attachments: array of object { file_id, tools }  or null`
 
@@ -219177,7 +219547,7 @@ Modifies a message.
 
   - `run_id: string or null`
 
-    The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
   - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -219191,7 +219561,7 @@ Modifies a message.
 
   - `thread_id: string`
 
-    The [thread](threads/index.md) ID that this message belongs to.
+    The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
 ### Example
 
@@ -219602,7 +219972,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/messages/msg_abc123 \
 
 - `Message object { id, assistant_id, attachments, 11 more }`
 
-  Represents a message within a [thread](threads/index.md).
+  Represents a message within a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -219610,7 +219980,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/messages/msg_abc123 \
 
   - `assistant_id: string or null`
 
-    If applicable, the ID of the [assistant](assistants/index.md) that authored this message.
+    If applicable, the ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) that authored this message.
 
   - `attachments: array of object { file_id, tools }  or null`
 
@@ -219829,7 +220199,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/messages/msg_abc123 \
 
   - `run_id: string or null`
 
-    The ID of the [run](threads/runs/index.md) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) associated with the creation of this message. Value is `null` when messages are created manually using the create message or create thread endpoints.
 
   - `status: "in_progress" or "incomplete" or "completed"`
 
@@ -219843,7 +220213,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/messages/msg_abc123 \
 
   - `thread_id: string`
 
-    The [thread](threads/index.md) ID that this message belongs to.
+    The [thread](https://developers.openai.com/docs/api-reference/threads) ID that this message belongs to.
 
 ### Message Deleted
 
@@ -220569,7 +220939,7 @@ Cancels a run that is `in_progress`.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -220577,7 +220947,7 @@ Cancels a run that is `in_progress`.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -220613,7 +220983,7 @@ Cancels a run that is `in_progress`.
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -220652,7 +221022,7 @@ Cancels a run that is `in_progress`.
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -220678,7 +221048,7 @@ Cancels a run that is `in_progress`.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -220809,7 +221179,7 @@ Cancels a run that is `in_progress`.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -220851,7 +221221,7 @@ Cancels a run that is `in_progress`.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -221111,7 +221481,7 @@ Create a run.
 
 - `assistant_id: string`
 
-  The ID of the [assistant](assistants/index.md) to use to execute this run.
+  The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) to use to execute this run.
 
 - `additional_instructions: optional string or null`
 
@@ -221249,7 +221619,7 @@ Create a run.
 
 - `instructions: optional string or null`
 
-  Overrides the [instructions](assistants/create.md) of the assistant. This is useful for modifying the behavior on a per-run basis.
+  Overrides the [instructions](https://developers.openai.com/docs/api-reference/assistants/createAssistant) of the assistant. This is useful for modifying the behavior on a per-run basis.
 
 - `max_completion_tokens: optional number or null`
 
@@ -221609,7 +221979,7 @@ Create a run.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -221617,7 +221987,7 @@ Create a run.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -221653,7 +222023,7 @@ Create a run.
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -221692,7 +222062,7 @@ Create a run.
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -221718,7 +222088,7 @@ Create a run.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -221849,7 +222219,7 @@ Create a run.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -221891,7 +222261,7 @@ Create a run.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -222324,7 +222694,7 @@ Returns a list of runs belonging to a thread.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -222360,7 +222730,7 @@ Returns a list of runs belonging to a thread.
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -222399,7 +222769,7 @@ Returns a list of runs belonging to a thread.
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -222425,7 +222795,7 @@ Returns a list of runs belonging to a thread.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -222556,7 +222926,7 @@ Returns a list of runs belonging to a thread.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -222598,7 +222968,7 @@ Returns a list of runs belonging to a thread.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -222934,7 +223304,7 @@ Retrieves a run.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -222942,7 +223312,7 @@ Retrieves a run.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -222978,7 +223348,7 @@ Retrieves a run.
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -223017,7 +223387,7 @@ Retrieves a run.
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -223043,7 +223413,7 @@ Retrieves a run.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -223174,7 +223544,7 @@ Retrieves a run.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -223216,7 +223586,7 @@ Retrieves a run.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -223490,7 +223860,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -223498,7 +223868,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -223534,7 +223904,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -223573,7 +223943,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -223599,7 +223969,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -223730,7 +224100,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -223772,7 +224142,7 @@ When a run has the `status: "requires_action"` and `required_action.type` is `su
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -224139,7 +224509,7 @@ Modifies a run.
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -224147,7 +224517,7 @@ Modifies a run.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -224183,7 +224553,7 @@ Modifies a run.
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -224222,7 +224592,7 @@ Modifies a run.
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -224248,7 +224618,7 @@ Modifies a run.
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -224379,7 +224749,7 @@ Modifies a run.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -224421,7 +224791,7 @@ Modifies a run.
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -224689,7 +225059,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
   - `id: string`
 
-    The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+    The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
   - `function: object { arguments, name }`
 
@@ -224713,7 +225083,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
 - `Run object { id, assistant_id, cancelled_at, 24 more }`
 
-  Represents an execution run on a [thread](threads/index.md).
+  Represents an execution run on a [thread](https://developers.openai.com/docs/api-reference/threads).
 
   - `id: string`
 
@@ -224721,7 +225091,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) used for execution of this run.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for execution of this run.
 
   - `cancelled_at: number or null`
 
@@ -224757,7 +225127,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
   - `instructions: string`
 
-    The instructions that the [assistant](assistants/index.md) used for this run.
+    The instructions that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `last_error: object { code, message }  or null`
 
@@ -224796,7 +225166,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
   - `model: string`
 
-    The model that the [assistant](assistants/index.md) used for this run.
+    The model that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
   - `object: "thread.run"`
 
@@ -224822,7 +225192,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
         - `id: string`
 
-          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](threads/runs/submit_tool_outputs.md) endpoint.
+          The ID of the tool call. This ID must be referenced when you submit the tool outputs in using the [Submit tool outputs to run](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) endpoint.
 
         - `function: object { arguments, name }`
 
@@ -224953,7 +225323,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was executed on as a part of this run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was executed on as a part of this run.
 
   - `tool_choice: AssistantToolChoiceOption or null`
 
@@ -224995,7 +225365,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123 \
 
   - `tools: array of CodeInterpreterTool or FileSearchTool or FunctionTool`
 
-    The list of tools that the [assistant](assistants/index.md) used for this run.
+    The list of tools that the [assistant](https://developers.openai.com/docs/api-reference/assistants) used for this run.
 
     - `CodeInterpreterTool object { type }`
 
@@ -225163,7 +225533,7 @@ Returns a list of run steps belonging to a run.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) associated with the run step.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) associated with the run step.
 
   - `cancelled_at: number or null`
 
@@ -225218,7 +225588,7 @@ Returns a list of run steps belonging to a run.
 
   - `run_id: string`
 
-    The ID of the [run](threads/runs/index.md) that this run step is a part of.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) that this run step is a part of.
 
   - `status: "in_progress" or "cancelled" or "failed" or 2 more`
 
@@ -225398,7 +225768,7 @@ Returns a list of run steps belonging to a run.
 
             - `output: string or null`
 
-              The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+              The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
           - `type: "function"`
 
@@ -225414,7 +225784,7 @@ Returns a list of run steps belonging to a run.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was run.
 
   - `type: "message_creation" or "tool_calls"`
 
@@ -225585,7 +225955,7 @@ Retrieves a run step.
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) associated with the run step.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) associated with the run step.
 
   - `cancelled_at: number or null`
 
@@ -225640,7 +226010,7 @@ Retrieves a run step.
 
   - `run_id: string`
 
-    The ID of the [run](threads/runs/index.md) that this run step is a part of.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) that this run step is a part of.
 
   - `status: "in_progress" or "cancelled" or "failed" or 2 more`
 
@@ -225820,7 +226190,7 @@ Retrieves a run step.
 
             - `output: string or null`
 
-              The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+              The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
           - `type: "function"`
 
@@ -225836,7 +226206,7 @@ Retrieves a run step.
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was run.
 
   - `type: "message_creation" or "tool_calls"`
 
@@ -226221,7 +226591,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
     - `output: string or null`
 
-      The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+      The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
   - `type: "function"`
 
@@ -226261,7 +226631,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
     - `output: optional string or null`
 
-      The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+      The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
 ### Message Creation Step Details
 
@@ -226293,7 +226663,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
   - `assistant_id: string`
 
-    The ID of the [assistant](assistants/index.md) associated with the run step.
+    The ID of the [assistant](https://developers.openai.com/docs/api-reference/assistants) associated with the run step.
 
   - `cancelled_at: number or null`
 
@@ -226348,7 +226718,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
   - `run_id: string`
 
-    The ID of the [run](threads/runs/index.md) that this run step is a part of.
+    The ID of the [run](https://developers.openai.com/docs/api-reference/runs) that this run step is a part of.
 
   - `status: "in_progress" or "cancelled" or "failed" or 2 more`
 
@@ -226528,7 +226898,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
             - `output: string or null`
 
-              The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+              The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
           - `type: "function"`
 
@@ -226544,7 +226914,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
   - `thread_id: string`
 
-    The ID of the [thread](threads/index.md) that was run.
+    The ID of the [thread](https://developers.openai.com/docs/api-reference/threads) that was run.
 
   - `type: "message_creation" or "tool_calls"`
 
@@ -226734,7 +227104,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
               - `output: optional string or null`
 
-                The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+                The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
   - `object: "thread.run.step.delta"`
 
@@ -226898,7 +227268,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
         - `output: optional string or null`
 
-          The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+          The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
 ### Tool Calls Step Details
 
@@ -227046,7 +227416,7 @@ curl https://api.openai.com/v1/threads/thread_abc123/runs/run_abc123/steps/step_
 
         - `output: string or null`
 
-          The output of the function. This will be `null` if the outputs have not been [submitted](threads/runs/submit_tool_outputs.md) yet.
+          The output of the function. This will be `null` if the outputs have not been [submitted](https://developers.openai.com/docs/api-reference/runs/submitToolOutputs) yet.
 
       - `type: "function"`
 

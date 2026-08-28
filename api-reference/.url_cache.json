@@ -917,11 +917,6 @@
       "scheme": "index"
     },
     {
-      "text": "Assistants streaming events",
-      "path": "resources/beta/subresources/assistants/streaming-events",
-      "scheme": "flat"
-    },
-    {
       "text": "ChatKit",
       "path": "resources/beta/subresources/chatkit",
       "scheme": "index"
