@@ -439,8 +439,6 @@
 
 - `Reasoning object { context, effort, generate_summary, 2 more }`
 
-  **gpt-5 and o-series models only**
-
   Configuration options for
   [reasoning models](https://platform.openai.com/docs/guides/reasoning).
 
