@@ -3988,6 +3988,38 @@ curl https://api.openai.com/v1/assistants/asst_abc123 \
 
       - `type: string`
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `event: "error"`
 
       - `"error"`
@@ -8329,7 +8361,7 @@ the `background` parameter set to `true` can be cancelled.
 
 ### Returns
 
-- `BetaResponse object { id, created_at, error, 32 more }`
+- `BetaResponse object { id, created_at, error, 33 more }`
 
   - `id: string`
 
@@ -8343,7 +8375,7 @@ the `background` parameter set to `true` can be cancelled.
 
     An error object returned when the model fails to generate a Response.
 
-    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
       The error code for the response.
 
@@ -8356,6 +8388,8 @@ the `background` parameter set to `true` can be cancelled.
       - `"data_residency_mismatch"`
 
       - `"bio_policy"`
+
+      - `"misalignment_policy_violation"`
 
       - `"vector_store_timeout"`
 
@@ -8391,13 +8425,48 @@ the `background` parameter set to `true` can be cancelled.
 
       A human-readable description of the error.
 
+    - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+      - `detailed_explanation: optional string`
+
+        The public explanation for this block.
+
+      - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+        An optional classification; clients must accept additional values.
+
+        - `string`
+
+        - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `"potentially_unintended_data_transfer"`
+
+          - `"potentially_unintended_data_access"`
+
+          - `"potentially_unintended_destructive_activity"`
+
+          - `"other"`
+
+      - `steer: optional object { message }`
+
+        An optional public continuation instruction.
+
+        - `message: string`
+
+          The public continuation instruction.
+
   - `incomplete_details: object { reason }  or null`
 
     Details about why the response is incomplete.
 
-    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-      The reason why the response is incomplete.
+      The reason why the response is incomplete. `steered` means
+      the response stopped at a safe output boundary after a
+      WebSocket `response.steer` event. The server can then create
+      a successor response automatically with the queued input.
 
       - `"max_output_tokens"`
 
@@ -8405,7 +8474,9 @@ the `background` parameter set to `true` can be cancelled.
 
       - `"content_filter"`
 
-  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+      - `"steered"`
+
+  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
     A system (or developer) message inserted into the model's context.
 
@@ -8418,7 +8489,7 @@ the `background` parameter set to `true` can be cancelled.
       A text input to the model, equivalent to a text input with the
       `developer` role.
 
-    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       A list of one or many input items to the model, containing
       different content types.
@@ -9342,7 +9413,7 @@ the `background` parameter set to `true` can be cancelled.
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -9353,6 +9424,8 @@ the `background` parameter set to `true` can be cancelled.
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -9368,7 +9441,7 @@ the `background` parameter set to `true` can be cancelled.
 
             The canonical name of the agent that produced this item.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -9402,6 +9475,10 @@ the `background` parameter set to `true` can be cancelled.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -9898,11 +9975,11 @@ the `background` parameter set to `true` can be cancelled.
 
       - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by the tool search output.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -9931,6 +10008,8 @@ the `background` parameter set to `true` can be cancelled.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -10774,7 +10853,7 @@ the `background` parameter set to `true` can be cancelled.
 
                   - `"container_reference"`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -10795,6 +10874,10 @@ the `background` parameter set to `true` can be cancelled.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -10852,11 +10935,11 @@ the `background` parameter set to `true` can be cancelled.
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -10871,6 +10954,10 @@ the `background` parameter set to `true` can be cancelled.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -10888,7 +10975,7 @@ the `background` parameter set to `true` can be cancelled.
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -10909,6 +10996,10 @@ the `background` parameter set to `true` can be cancelled.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -11106,11 +11197,11 @@ the `background` parameter set to `true` can be cancelled.
 
           - `"developer"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           A list of additional tools made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -11139,6 +11230,8 @@ the `background` parameter set to `true` can be cancelled.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -11832,7 +11925,7 @@ the `background` parameter set to `true` can be cancelled.
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -11853,6 +11946,10 @@ the `background` parameter set to `true` can be cancelled.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -11910,11 +12007,11 @@ the `background` parameter set to `true` can be cancelled.
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -11929,6 +12026,10 @@ the `background` parameter set to `true` can be cancelled.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -11946,7 +12047,7 @@ the `background` parameter set to `true` can be cancelled.
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -11967,6 +12068,10 @@ the `background` parameter set to `true` can be cancelled.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -12133,6 +12238,53 @@ the `background` parameter set to `true` can be cancelled.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+      - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+        An update to the conversation's response configuration. The configuration
+        remains in effect for subsequent responses until it is replaced by another
+        configuration update.
+
+        - `type: "configuration_update"`
+
+          The item type. Always `configuration_update`.
+
+          - `"configuration_update"`
+
+        - `id: optional string or null`
+
+          The unique ID of the configuration update item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `reasoning: optional object { effort }`
+
+          Updates to reasoning configuration. Only effort is supported.
+
+          - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+            The reasoning effort to use for subsequent responses until another
+            configuration update replaces it.
+
+            - `"none"`
+
+            - `"minimal"`
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -13097,7 +13249,7 @@ the `background` parameter set to `true` can be cancelled.
 
               - `"program"`
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -13130,6 +13282,10 @@ the `background` parameter set to `true` can be cancelled.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -13276,19 +13432,21 @@ the `background` parameter set to `true` can be cancelled.
     Keys are strings with a maximum length of 64 characters. Values are strings
     with a maximum length of 512 characters.
 
-  - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+  - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-    Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+    Model ID used to generate the response, like `gpt-6-astra`. OpenAI
     offers a wide range of models with different capabilities, performance
     characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
     to browse and compare available models.
 
-    - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+    - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
+
+      - `"gpt-6-astra"`
 
       - `"gpt-5.6-sol"`
 
@@ -13593,7 +13751,7 @@ the `background` parameter set to `true` can be cancelled.
 
           The text that was retrieved from the file.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -13627,6 +13785,10 @@ the `background` parameter set to `true` can be cancelled.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -14075,7 +14237,7 @@ the `background` parameter set to `true` can be cancelled.
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -14086,6 +14248,8 @@ the `background` parameter set to `true` can be cancelled.
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -14448,11 +14612,11 @@ the `background` parameter set to `true` can be cancelled.
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -14481,6 +14645,8 @@ the `background` parameter set to `true` can be cancelled.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -15174,7 +15340,7 @@ the `background` parameter set to `true` can be cancelled.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -15195,6 +15361,10 @@ the `background` parameter set to `true` can be cancelled.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -15252,11 +15422,11 @@ the `background` parameter set to `true` can be cancelled.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -15271,6 +15441,10 @@ the `background` parameter set to `true` can be cancelled.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -15288,7 +15462,7 @@ the `background` parameter set to `true` can be cancelled.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -15309,6 +15483,10 @@ the `background` parameter set to `true` can be cancelled.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -15502,11 +15680,11 @@ the `background` parameter set to `true` can be cancelled.
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -15535,6 +15713,8 @@ the `background` parameter set to `true` can be cancelled.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -16228,7 +16408,7 @@ the `background` parameter set to `true` can be cancelled.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -16249,6 +16429,10 @@ the `background` parameter set to `true` can be cancelled.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -16306,11 +16490,11 @@ the `background` parameter set to `true` can be cancelled.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -16325,6 +16509,10 @@ the `background` parameter set to `true` can be cancelled.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -16342,7 +16530,7 @@ the `background` parameter set to `true` can be cancelled.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -16363,6 +16551,10 @@ the `background` parameter set to `true` can be cancelled.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -17334,7 +17526,7 @@ the `background` parameter set to `true` can be cancelled.
 
         Optional reason for the decision.
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -17367,6 +17559,10 @@ the `background` parameter set to `true` can be cancelled.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -17659,7 +17855,7 @@ the `background` parameter set to `true` can be cancelled.
 
         - `"shell"`
 
-  - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+  - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
     An array of tools the model may call while generating a response. You
     can specify which tool to use by setting the `tool_choice` parameter.
@@ -17679,7 +17875,7 @@ the `background` parameter set to `true` can be cancelled.
       [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
       custom tools to call your own code.
 
-    - `Function object { name, parameters, strict, 5 more }`
+    - `Function object { name, parameters, strict, 6 more }`
 
       Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -17708,6 +17904,8 @@ the `background` parameter set to `true` can be cancelled.
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
 
       - `defer_loading: optional boolean`
 
@@ -18401,7 +18599,7 @@ the `background` parameter set to `true` can be cancelled.
 
         - `BetaContainerReference object { container_id, type }`
 
-    - `Custom object { name, type, allowed_callers, 3 more }`
+    - `Custom object { name, type, allowed_callers, 4 more }`
 
       A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -18422,6 +18620,10 @@ the `background` parameter set to `true` can be cancelled.
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
+
+        Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
       - `defer_loading: optional boolean`
 
@@ -18479,11 +18681,11 @@ the `background` parameter set to `true` can be cancelled.
 
         The namespace name used in tool calls (for example, `crm`).
 
-      - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+      - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
         The function/custom tools available inside this namespace.
 
-        - `Function object { name, type, allowed_callers, 5 more }`
+        - `Function object { name, type, allowed_callers, 6 more }`
 
           - `name: string`
 
@@ -18498,6 +18700,10 @@ the `background` parameter set to `true` can be cancelled.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -18515,7 +18721,7 @@ the `background` parameter set to `true` can be cancelled.
 
             Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -18536,6 +18742,10 @@ the `background` parameter set to `true` can be cancelled.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -18881,11 +19091,69 @@ the `background` parameter set to `true` can be cancelled.
 
       Optional version of the prompt template.
 
+  - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+    Prompt cache diagnostics requested for this response.
+
+    - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+      - `cache_missed_tokens: number`
+
+        The estimated number of input tokens affected after the first detected divergence.
+
+      - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+        The reason prompt cache reuse did not occur.
+
+        - `"model_changed"`
+
+        - `"prompt_cache_key_changed"`
+
+        - `"tools_changed"`
+
+        - `"text_format_changed"`
+
+        - `"reasoning_effort_changed"`
+
+        - `"verbosity_changed"`
+
+        - `"context_compacted"`
+
+        - `"input_changed"`
+
+        - `"service_tier_changed"`
+
+      - `type: "cache_miss"`
+
+        - `"cache_miss"`
+
+      - `comparison_reusable_tokens: optional number`
+
+        The raw token count of the reusable prefix in the compared response.
+
+    - `CacheHit object { type }`
+
+      - `type: "cache_hit"`
+
+        - `"cache_hit"`
+
+    - `ComparisonResponseNotFound object { type }`
+
+      - `type: "comparison_response_not_found"`
+
+        - `"comparison_response_not_found"`
+
+    - `Unavailable object { type }`
+
+      - `type: "unavailable"`
+
+        - `"unavailable"`
+
   - `prompt_cache_key: optional string or null`
 
     Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-  - `prompt_cache_options: optional object { mode, ttl }`
+  - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
     The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -18902,6 +19170,10 @@ the `background` parameter set to `true` can be cancelled.
       The minimum lifetime applied to each cache breakpoint.
 
       - `"30m"`
+
+    - `comparison_response_id: optional string or null`
+
+      The response ID supplied as the prompt cache diagnostics comparison.
 
   - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -19237,7 +19509,14 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID/cancel \
   "created_at": 0,
   "error": {
     "code": "server_error",
-    "message": "message"
+    "message": "message",
+    "misalignment": {
+      "detailed_explanation": "detailed_explanation",
+      "error_type": "potentially_unintended_data_transfer",
+      "steer": {
+        "message": "message"
+      }
+    }
   },
   "incomplete_details": {
     "reason": "max_output_tokens"
@@ -19246,7 +19525,7 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID/cancel \
   "metadata": {
     "foo": "string"
   },
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "object": "response",
   "output": [
     {
@@ -19306,6 +19585,7 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID/cancel \
       "allowed_callers": [
         "direct"
       ],
+      "async": true,
       "defer_loading": true,
       "description": "description",
       "output_schema": {
@@ -19364,10 +19644,17 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID/cancel \
     },
     "version": "version"
   },
+  "prompt_cache_diagnostics": {
+    "cache_missed_tokens": 0,
+    "reason": "model_changed",
+    "type": "cache_miss",
+    "comparison_reusable_tokens": 0
+  },
   "prompt_cache_key": "prompt-cache-key-1234",
   "prompt_cache_options": {
     "mode": "implicit",
-    "ttl": "30m"
+    "ttl": "30m",
+    "comparison_response_id": "comparison_response_id"
   },
   "prompt_cache_retention": "in_memory",
   "reasoning": {
@@ -19426,7 +19713,7 @@ curl -X POST https://api.openai.com/v1/responses/resp_123/cancel \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "message",
@@ -19481,13 +19768,15 @@ Learn when and how to compact long-running conversations in the [conversation st
 
 ### Body Parameters
 
-- `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string or null`
+- `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string or null`
 
-  Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models) to browse and compare available models.
+  Model ID used to generate the response, like `gpt-6-astra`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models) to browse and compare available models.
 
-  - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-    Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models) to browse and compare available models.
+    Model ID used to generate the response, like `gpt-6-astra`. OpenAI offers a wide range of models with different capabilities, performance characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models) to browse and compare available models.
+
+    - `"gpt-6-astra"`
 
     - `"gpt-5.6-sol"`
 
@@ -19695,7 +19984,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
   - `string`
 
-- `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+- `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
   Text, image, or file inputs to the model, used to generate a response
 
@@ -19703,7 +19992,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
     A text input to the model, equivalent to a text input with the `user` role.
 
-  - `array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+  - `array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     A list of one or many input items to the model, containing different content types.
 
@@ -20626,7 +20915,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -20637,6 +20926,8 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -20652,7 +20943,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -20686,6 +20977,10 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -21182,11 +21477,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
     - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by the tool search output.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -21215,6 +21510,8 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -22058,7 +22355,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -22079,6 +22376,10 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -22136,11 +22437,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -22155,6 +22456,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -22172,7 +22477,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -22193,6 +22498,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -22390,11 +22699,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"developer"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         A list of additional tools made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -22423,6 +22732,8 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -23116,7 +23427,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -23137,6 +23448,10 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -23194,11 +23509,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -23213,6 +23528,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -23230,7 +23549,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -23251,6 +23570,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -23417,6 +23740,53 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+      An update to the conversation's response configuration. The configuration
+      remains in effect for subsequent responses until it is replaced by another
+      configuration update.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `id: optional string or null`
+
+        The unique ID of the configuration update item.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        Updates to reasoning configuration. Only effort is supported.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort to use for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -24381,7 +24751,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `"program"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -24414,6 +24784,10 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -24592,7 +24966,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
 - `service_tier: optional "auto" or "default" or "fast" or 2 more or null`
 
-  Specifies the processing type used for serving the request.   - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.   - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.   - If set to '[flex](https://developers.openai.com/docs/guides/flex-processing)', then the request will be processed with the Flex Processing service tier.   - To opt-in to [Fast mode](https://developers.openai.com/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. The response will show `service_tier=priority` regardless of if you specify `service_tier=fast` or `priority` in your request.   - When not set, the default behavior is 'auto'.
+  Specifies the processing type used for serving the request.   - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.   - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.   - If set to '[flex](https://developers.openai.com/docs/guides/flex-processing)', then the request will be processed with the Flex Processing service tier.   - To opt-in to [Fast mode](https://developers.openai.com/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. For models with a dedicated Fast tier, either value resolves to `service_tier=fast`; for other models, either value resolves to `service_tier=priority`.   - When not set, the default behavior is 'auto'.
   When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
 
   - `"auto"`
@@ -25097,7 +25471,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -25131,6 +25505,10 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -25347,11 +25725,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -25380,6 +25758,8 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -26223,7 +26603,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -26244,6 +26624,10 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -26301,11 +26685,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -26320,6 +26704,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -26337,7 +26725,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -26358,6 +26746,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -26551,11 +26943,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -26584,6 +26976,8 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -27277,7 +27671,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -27298,6 +27692,10 @@ Learn when and how to compact long-running conversations in the [conversation st
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -27355,11 +27753,11 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -27374,6 +27772,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -27391,7 +27793,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -27412,6 +27814,10 @@ Learn when and how to compact long-running conversations in the [conversation st
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -27960,7 +28366,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -27971,6 +28377,8 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -29265,7 +29673,7 @@ Learn when and how to compact long-running conversations in the [conversation st
 
         - `"failed"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -29298,6 +29706,10 @@ Learn when and how to compact long-running conversations in the [conversation st
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -29442,7 +29854,7 @@ curl https://api.openai.com/v1/responses/compact \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d '{
-          "model": "gpt-5.6-sol",
+          "model": "gpt-6-astra",
           "previous_response_id": "resp_123"
         }'
 ```
@@ -29497,7 +29909,7 @@ curl -X POST https://api.openai.com/v1/responses/compact \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d '{
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "input": [
         {
           "role": "user",
@@ -29644,7 +30056,7 @@ as input for the model's response.
 
   - `"message.output_text.logprobs"`
 
-- `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+- `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
   Text, image, or file inputs to the model, used to generate a response.
 
@@ -29661,7 +30073,7 @@ as input for the model's response.
     A text input to the model, equivalent to a text input with the
     `user` role.
 
-  - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+  - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     A list of one or many input items to the model, containing
     different content types.
@@ -30585,7 +30997,7 @@ as input for the model's response.
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -30596,6 +31008,8 @@ as input for the model's response.
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -30611,7 +31025,7 @@ as input for the model's response.
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -30645,6 +31059,10 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -31141,11 +31559,11 @@ as input for the model's response.
 
     - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by the tool search output.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -31174,6 +31592,8 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -32017,7 +32437,7 @@ as input for the model's response.
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -32038,6 +32458,10 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -32095,11 +32519,11 @@ as input for the model's response.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -32114,6 +32538,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -32131,7 +32559,7 @@ as input for the model's response.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -32152,6 +32580,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -32349,11 +32781,11 @@ as input for the model's response.
 
         - `"developer"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         A list of additional tools made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -32382,6 +32814,8 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -33075,7 +33509,7 @@ as input for the model's response.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -33096,6 +33530,10 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -33153,11 +33591,11 @@ as input for the model's response.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -33172,6 +33610,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -33189,7 +33631,7 @@ as input for the model's response.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -33210,6 +33652,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -33376,6 +33822,53 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+      An update to the conversation's response configuration. The configuration
+      remains in effect for subsequent responses until it is replaced by another
+      configuration update.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `id: optional string or null`
+
+        The unique ID of the configuration update item.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        Updates to reasoning configuration. Only effort is supported.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort to use for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -34340,7 +34833,7 @@ as input for the model's response.
 
             - `"program"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -34373,6 +34866,10 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -34535,19 +35032,21 @@ as input for the model's response.
   Keys are strings with a maximum length of 64 characters. Values are strings
   with a maximum length of 512 characters.
 
-- `model: optional "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+- `model: optional "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-  Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+  Model ID used to generate the response, like `gpt-6-astra`. OpenAI
   offers a wide range of models with different capabilities, performance
   characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
   to browse and compare available models.
 
-  - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-    Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+    Model ID used to generate the response, like `gpt-6-astra`. OpenAI
     offers a wide range of models with different capabilities, performance
     characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
     to browse and compare available models.
+
+    - `"gpt-6-astra"`
 
     - `"gpt-5.6-sol"`
 
@@ -34847,9 +35346,13 @@ as input for the model's response.
 
   Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-- `prompt_cache_options: optional object { mode, ttl }`
+- `prompt_cache_options: optional object { comparison_response_id, mode, ttl }`
 
   Options for prompt caching. Supported for `gpt-5.6` and later models. By default, OpenAI automatically chooses one implicit cache breakpoint. You can add explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each request can write up to four breakpoints. For cache matching, OpenAI considers up to the latest 80 breakpoints in the conversation, without a content-block lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The `ttl` defaults to `30m`, which is currently the only supported value. See the [prompt caching guide](https://developers.openai.com/docs/guides/prompt-caching) for current details.
+
+  - `comparison_response_id: optional string or null`
+
+    The ID of a response to compare when diagnosing prompt cache reuse. Supplying this field requests prompt cache diagnostics when the feature is enabled.
 
   - `mode: optional "implicit" or "explicit"`
 
@@ -35302,7 +35805,7 @@ as input for the model's response.
 
       - `"shell"`
 
-- `tools: optional array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+- `tools: optional array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
   An array of tools the model may call while generating a response. You
   can specify which tool to use by setting the `tool_choice` parameter.
@@ -35322,7 +35825,7 @@ as input for the model's response.
     [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
     custom tools to call your own code.
 
-  - `Function object { name, parameters, strict, 5 more }`
+  - `Function object { name, parameters, strict, 6 more }`
 
     Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -35351,6 +35854,8 @@ as input for the model's response.
       - `"direct"`
 
       - `"programmatic"`
+
+    - `async: optional boolean`
 
     - `defer_loading: optional boolean`
 
@@ -36044,7 +36549,7 @@ as input for the model's response.
 
       - `BetaContainerReference object { container_id, type }`
 
-  - `Custom object { name, type, allowed_callers, 3 more }`
+  - `Custom object { name, type, allowed_callers, 4 more }`
 
     A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -36065,6 +36570,10 @@ as input for the model's response.
       - `"direct"`
 
       - `"programmatic"`
+
+    - `async: optional boolean`
+
+      Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
     - `defer_loading: optional boolean`
 
@@ -36122,11 +36631,11 @@ as input for the model's response.
 
       The namespace name used in tool calls (for example, `crm`).
 
-    - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+    - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
       The function/custom tools available inside this namespace.
 
-      - `Function object { name, type, allowed_callers, 5 more }`
+      - `Function object { name, type, allowed_callers, 6 more }`
 
         - `name: string`
 
@@ -36141,6 +36650,10 @@ as input for the model's response.
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -36158,7 +36671,7 @@ as input for the model's response.
 
           Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -36179,6 +36692,10 @@ as input for the model's response.
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -36366,7 +36883,7 @@ as input for the model's response.
 
 ### Returns
 
-- `BetaResponse object { id, created_at, error, 32 more }`
+- `BetaResponse object { id, created_at, error, 33 more }`
 
   - `id: string`
 
@@ -36380,7 +36897,7 @@ as input for the model's response.
 
     An error object returned when the model fails to generate a Response.
 
-    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
       The error code for the response.
 
@@ -36393,6 +36910,8 @@ as input for the model's response.
       - `"data_residency_mismatch"`
 
       - `"bio_policy"`
+
+      - `"misalignment_policy_violation"`
 
       - `"vector_store_timeout"`
 
@@ -36428,13 +36947,48 @@ as input for the model's response.
 
       A human-readable description of the error.
 
+    - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+      - `detailed_explanation: optional string`
+
+        The public explanation for this block.
+
+      - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+        An optional classification; clients must accept additional values.
+
+        - `string`
+
+        - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `"potentially_unintended_data_transfer"`
+
+          - `"potentially_unintended_data_access"`
+
+          - `"potentially_unintended_destructive_activity"`
+
+          - `"other"`
+
+      - `steer: optional object { message }`
+
+        An optional public continuation instruction.
+
+        - `message: string`
+
+          The public continuation instruction.
+
   - `incomplete_details: object { reason }  or null`
 
     Details about why the response is incomplete.
 
-    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-      The reason why the response is incomplete.
+      The reason why the response is incomplete. `steered` means
+      the response stopped at a safe output boundary after a
+      WebSocket `response.steer` event. The server can then create
+      a successor response automatically with the queued input.
 
       - `"max_output_tokens"`
 
@@ -36442,7 +36996,9 @@ as input for the model's response.
 
       - `"content_filter"`
 
-  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+      - `"steered"`
+
+  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
     A system (or developer) message inserted into the model's context.
 
@@ -36455,7 +37011,7 @@ as input for the model's response.
       A text input to the model, equivalent to a text input with the
       `developer` role.
 
-    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       A list of one or many input items to the model, containing
       different content types.
@@ -37379,7 +37935,7 @@ as input for the model's response.
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -37390,6 +37946,8 @@ as input for the model's response.
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -37405,7 +37963,7 @@ as input for the model's response.
 
             The canonical name of the agent that produced this item.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -37439,6 +37997,10 @@ as input for the model's response.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -37935,11 +38497,11 @@ as input for the model's response.
 
       - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by the tool search output.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -37968,6 +38530,8 @@ as input for the model's response.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -38811,7 +39375,7 @@ as input for the model's response.
 
                   - `"container_reference"`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -38832,6 +39396,10 @@ as input for the model's response.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -38889,11 +39457,11 @@ as input for the model's response.
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -38908,6 +39476,10 @@ as input for the model's response.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -38925,7 +39497,7 @@ as input for the model's response.
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -38946,6 +39518,10 @@ as input for the model's response.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -39143,11 +39719,11 @@ as input for the model's response.
 
           - `"developer"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           A list of additional tools made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -39176,6 +39752,8 @@ as input for the model's response.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -39869,7 +40447,7 @@ as input for the model's response.
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -39890,6 +40468,10 @@ as input for the model's response.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -39947,11 +40529,11 @@ as input for the model's response.
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -39966,6 +40548,10 @@ as input for the model's response.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -39983,7 +40569,7 @@ as input for the model's response.
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -40004,6 +40590,10 @@ as input for the model's response.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -40170,6 +40760,53 @@ as input for the model's response.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+      - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+        An update to the conversation's response configuration. The configuration
+        remains in effect for subsequent responses until it is replaced by another
+        configuration update.
+
+        - `type: "configuration_update"`
+
+          The item type. Always `configuration_update`.
+
+          - `"configuration_update"`
+
+        - `id: optional string or null`
+
+          The unique ID of the configuration update item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `reasoning: optional object { effort }`
+
+          Updates to reasoning configuration. Only effort is supported.
+
+          - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+            The reasoning effort to use for subsequent responses until another
+            configuration update replaces it.
+
+            - `"none"`
+
+            - `"minimal"`
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -41134,7 +41771,7 @@ as input for the model's response.
 
               - `"program"`
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -41167,6 +41804,10 @@ as input for the model's response.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -41313,19 +41954,21 @@ as input for the model's response.
     Keys are strings with a maximum length of 64 characters. Values are strings
     with a maximum length of 512 characters.
 
-  - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+  - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-    Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+    Model ID used to generate the response, like `gpt-6-astra`. OpenAI
     offers a wide range of models with different capabilities, performance
     characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
     to browse and compare available models.
 
-    - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+    - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
+
+      - `"gpt-6-astra"`
 
       - `"gpt-5.6-sol"`
 
@@ -41630,7 +42273,7 @@ as input for the model's response.
 
           The text that was retrieved from the file.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -41664,6 +42307,10 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -42112,7 +42759,7 @@ as input for the model's response.
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -42123,6 +42770,8 @@ as input for the model's response.
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -42485,11 +43134,11 @@ as input for the model's response.
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -42518,6 +43167,8 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -43211,7 +43862,7 @@ as input for the model's response.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -43232,6 +43883,10 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -43289,11 +43944,11 @@ as input for the model's response.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -43308,6 +43963,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -43325,7 +43984,7 @@ as input for the model's response.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -43346,6 +44005,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -43539,11 +44202,11 @@ as input for the model's response.
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -43572,6 +44235,8 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -44265,7 +44930,7 @@ as input for the model's response.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -44286,6 +44951,10 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -44343,11 +45012,11 @@ as input for the model's response.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -44362,6 +45031,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -44379,7 +45052,7 @@ as input for the model's response.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -44400,6 +45073,10 @@ as input for the model's response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -45371,7 +46048,7 @@ as input for the model's response.
 
         Optional reason for the decision.
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -45404,6 +46081,10 @@ as input for the model's response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -45696,7 +46377,7 @@ as input for the model's response.
 
         - `"shell"`
 
-  - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+  - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
     An array of tools the model may call while generating a response. You
     can specify which tool to use by setting the `tool_choice` parameter.
@@ -45716,7 +46397,7 @@ as input for the model's response.
       [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
       custom tools to call your own code.
 
-    - `Function object { name, parameters, strict, 5 more }`
+    - `Function object { name, parameters, strict, 6 more }`
 
       Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -45745,6 +46426,8 @@ as input for the model's response.
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
 
       - `defer_loading: optional boolean`
 
@@ -46438,7 +47121,7 @@ as input for the model's response.
 
         - `BetaContainerReference object { container_id, type }`
 
-    - `Custom object { name, type, allowed_callers, 3 more }`
+    - `Custom object { name, type, allowed_callers, 4 more }`
 
       A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -46459,6 +47142,10 @@ as input for the model's response.
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
+
+        Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
       - `defer_loading: optional boolean`
 
@@ -46516,11 +47203,11 @@ as input for the model's response.
 
         The namespace name used in tool calls (for example, `crm`).
 
-      - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+      - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
         The function/custom tools available inside this namespace.
 
-        - `Function object { name, type, allowed_callers, 5 more }`
+        - `Function object { name, type, allowed_callers, 6 more }`
 
           - `name: string`
 
@@ -46535,6 +47222,10 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -46552,7 +47243,7 @@ as input for the model's response.
 
             Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -46573,6 +47264,10 @@ as input for the model's response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -46918,11 +47613,69 @@ as input for the model's response.
 
       Optional version of the prompt template.
 
+  - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+    Prompt cache diagnostics requested for this response.
+
+    - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+      - `cache_missed_tokens: number`
+
+        The estimated number of input tokens affected after the first detected divergence.
+
+      - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+        The reason prompt cache reuse did not occur.
+
+        - `"model_changed"`
+
+        - `"prompt_cache_key_changed"`
+
+        - `"tools_changed"`
+
+        - `"text_format_changed"`
+
+        - `"reasoning_effort_changed"`
+
+        - `"verbosity_changed"`
+
+        - `"context_compacted"`
+
+        - `"input_changed"`
+
+        - `"service_tier_changed"`
+
+      - `type: "cache_miss"`
+
+        - `"cache_miss"`
+
+      - `comparison_reusable_tokens: optional number`
+
+        The raw token count of the reusable prefix in the compared response.
+
+    - `CacheHit object { type }`
+
+      - `type: "cache_hit"`
+
+        - `"cache_hit"`
+
+    - `ComparisonResponseNotFound object { type }`
+
+      - `type: "comparison_response_not_found"`
+
+        - `"comparison_response_not_found"`
+
+    - `Unavailable object { type }`
+
+      - `type: "unavailable"`
+
+        - `"unavailable"`
+
   - `prompt_cache_key: optional string or null`
 
     Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-  - `prompt_cache_options: optional object { mode, ttl }`
+  - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
     The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -46939,6 +47692,10 @@ as input for the model's response.
       The minimum lifetime applied to each cache breakpoint.
 
       - `"30m"`
+
+    - `comparison_response_id: optional string or null`
+
+      The response ID supplied as the prompt cache diagnostics comparison.
 
   - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -47265,7 +48022,7 @@ curl https://api.openai.com/v1/responses \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d '{
-          "model": "gpt-5.6-sol",
+          "model": "gpt-6-astra",
           "prompt_cache_key": "prompt-cache-key-1234",
           "safety_identifier": "safety-identifier-1234",
           "temperature": 1,
@@ -47282,7 +48039,14 @@ curl https://api.openai.com/v1/responses \
   "created_at": 0,
   "error": {
     "code": "server_error",
-    "message": "message"
+    "message": "message",
+    "misalignment": {
+      "detailed_explanation": "detailed_explanation",
+      "error_type": "potentially_unintended_data_transfer",
+      "steer": {
+        "message": "message"
+      }
+    }
   },
   "incomplete_details": {
     "reason": "max_output_tokens"
@@ -47291,7 +48055,7 @@ curl https://api.openai.com/v1/responses \
   "metadata": {
     "foo": "string"
   },
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "object": "response",
   "output": [
     {
@@ -47351,6 +48115,7 @@ curl https://api.openai.com/v1/responses \
       "allowed_callers": [
         "direct"
       ],
+      "async": true,
       "defer_loading": true,
       "description": "description",
       "output_schema": {
@@ -47409,10 +48174,17 @@ curl https://api.openai.com/v1/responses \
     },
     "version": "version"
   },
+  "prompt_cache_diagnostics": {
+    "cache_missed_tokens": 0,
+    "reason": "model_changed",
+    "type": "cache_miss",
+    "comparison_reusable_tokens": 0
+  },
   "prompt_cache_key": "prompt-cache-key-1234",
   "prompt_cache_options": {
     "mode": "implicit",
-    "ttl": "30m"
+    "ttl": "30m",
+    "comparison_response_id": "comparison_response_id"
   },
   "prompt_cache_retention": "in_memory",
   "reasoning": {
@@ -47456,7 +48228,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "input": [
       {
         "role": "user",
@@ -47488,7 +48260,7 @@ curl https://api.openai.com/v1/responses \
   "instructions": null,
   "max_output_tokens": null,
   "max_tool_calls": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "id": "msg_686eef60d3e081a29283bdcbc4322fd90e34c516d176ff86",
@@ -47548,7 +48320,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "tools": [{
       "type": "file_search",
       "vector_store_ids": ["vs_1234567890"],
@@ -47571,7 +48343,7 @@ curl https://api.openai.com/v1/responses \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "file_search_call",
@@ -47699,7 +48471,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "input": "What is the weather like in Boston today?",
     "tools": [
       {
@@ -47739,7 +48511,7 @@ curl https://api.openai.com/v1/responses \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "function_call",
@@ -47814,7 +48586,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "input": [
       {
         "role": "user",
@@ -47843,7 +48615,7 @@ curl https://api.openai.com/v1/responses \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "message",
@@ -47900,7 +48672,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "input": "How much wood would a woodchuck chuck?",
     "reasoning": {
       "effort": "high"
@@ -47921,7 +48693,7 @@ curl https://api.openai.com/v1/responses \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "message",
@@ -47978,7 +48750,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "instructions": "You are a helpful assistant.",
     "input": "Hello!",
     "stream": true
@@ -47989,10 +48761,10 @@ curl https://api.openai.com/v1/responses \
 
 ```json
 event: response.created
-data: {"type":"response.created","response":{"id":"resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654","object":"response","created_at":1741290958,"status":"in_progress","error":null,"incomplete_details":null,"instructions":"You are a helpful assistant.","max_output_tokens":null,"model":"gpt-5.6-sol","output":[],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"store":true,"temperature":1.0,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1.0,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}
+data: {"type":"response.created","response":{"id":"resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654","object":"response","created_at":1741290958,"status":"in_progress","error":null,"incomplete_details":null,"instructions":"You are a helpful assistant.","max_output_tokens":null,"model":"gpt-6-astra","output":[],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"store":true,"temperature":1.0,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1.0,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}
 
 event: response.in_progress
-data: {"type":"response.in_progress","response":{"id":"resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654","object":"response","created_at":1741290958,"status":"in_progress","error":null,"incomplete_details":null,"instructions":"You are a helpful assistant.","max_output_tokens":null,"model":"gpt-5.6-sol","output":[],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"store":true,"temperature":1.0,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1.0,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}
+data: {"type":"response.in_progress","response":{"id":"resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654","object":"response","created_at":1741290958,"status":"in_progress","error":null,"incomplete_details":null,"instructions":"You are a helpful assistant.","max_output_tokens":null,"model":"gpt-6-astra","output":[],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"store":true,"temperature":1.0,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1.0,"truncation":"disabled","usage":null,"user":null,"metadata":{}}}
 
 event: response.output_item.added
 data: {"type":"response.output_item.added","output_index":0,"item":{"id":"msg_67c9fdcf37fc8190ba82116e33fb28c507b8b0ad4e5eb654","type":"message","status":"in_progress","role":"assistant","content":[]}}
@@ -48015,7 +48787,7 @@ event: response.output_item.done
 data: {"type":"response.output_item.done","output_index":0,"item":{"id":"msg_67c9fdcf37fc8190ba82116e33fb28c507b8b0ad4e5eb654","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"Hi there! How can I assist you today?","annotations":[]}]}}
 
 event: response.completed
-data: {"type":"response.completed","response":{"id":"resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654","object":"response","created_at":1741290958,"status":"completed","error":null,"incomplete_details":null,"instructions":"You are a helpful assistant.","max_output_tokens":null,"model":"gpt-5.6-sol","output":[{"id":"msg_67c9fdcf37fc8190ba82116e33fb28c507b8b0ad4e5eb654","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"Hi there! How can I assist you today?","annotations":[]}]}],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"store":true,"temperature":1.0,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1.0,"truncation":"disabled","usage":{"input_tokens":37,"output_tokens":11,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":48},"user":null,"metadata":{}}}
+data: {"type":"response.completed","response":{"id":"resp_67c9fdcecf488190bdd9a0409de3a1ec07b8b0ad4e5eb654","object":"response","created_at":1741290958,"status":"completed","error":null,"incomplete_details":null,"instructions":"You are a helpful assistant.","max_output_tokens":null,"model":"gpt-6-astra","output":[{"id":"msg_67c9fdcf37fc8190ba82116e33fb28c507b8b0ad4e5eb654","type":"message","status":"completed","role":"assistant","content":[{"type":"output_text","text":"Hi there! How can I assist you today?","annotations":[]}]}],"parallel_tool_calls":true,"previous_response_id":null,"reasoning":{"effort":null,"summary":null},"store":true,"temperature":1.0,"text":{"format":{"type":"text"}},"tool_choice":"auto","tools":[],"top_p":1.0,"truncation":"disabled","usage":{"input_tokens":37,"output_tokens":11,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":48},"user":null,"metadata":{}}}
 ```
 
 ### Text input
@@ -48025,7 +48797,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "input": "Tell me a three sentence bedtime story about a unicorn."
   }'
 ```
@@ -48043,7 +48815,7 @@ curl https://api.openai.com/v1/responses \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "message",
@@ -48100,7 +48872,7 @@ curl https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "tools": [{ "type": "web_search_preview" }],
     "input": "What was a positive news story from today?"
   }'
@@ -48119,7 +48891,7 @@ curl https://api.openai.com/v1/responses \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "web_search_call",
@@ -48315,7 +49087,7 @@ Retrieves a model response with the given ID.
 
 ### Returns
 
-- `BetaResponse object { id, created_at, error, 32 more }`
+- `BetaResponse object { id, created_at, error, 33 more }`
 
   - `id: string`
 
@@ -48329,7 +49101,7 @@ Retrieves a model response with the given ID.
 
     An error object returned when the model fails to generate a Response.
 
-    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
       The error code for the response.
 
@@ -48342,6 +49114,8 @@ Retrieves a model response with the given ID.
       - `"data_residency_mismatch"`
 
       - `"bio_policy"`
+
+      - `"misalignment_policy_violation"`
 
       - `"vector_store_timeout"`
 
@@ -48377,13 +49151,48 @@ Retrieves a model response with the given ID.
 
       A human-readable description of the error.
 
+    - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+      - `detailed_explanation: optional string`
+
+        The public explanation for this block.
+
+      - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+        An optional classification; clients must accept additional values.
+
+        - `string`
+
+        - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `"potentially_unintended_data_transfer"`
+
+          - `"potentially_unintended_data_access"`
+
+          - `"potentially_unintended_destructive_activity"`
+
+          - `"other"`
+
+      - `steer: optional object { message }`
+
+        An optional public continuation instruction.
+
+        - `message: string`
+
+          The public continuation instruction.
+
   - `incomplete_details: object { reason }  or null`
 
     Details about why the response is incomplete.
 
-    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-      The reason why the response is incomplete.
+      The reason why the response is incomplete. `steered` means
+      the response stopped at a safe output boundary after a
+      WebSocket `response.steer` event. The server can then create
+      a successor response automatically with the queued input.
 
       - `"max_output_tokens"`
 
@@ -48391,7 +49200,9 @@ Retrieves a model response with the given ID.
 
       - `"content_filter"`
 
-  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+      - `"steered"`
+
+  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
     A system (or developer) message inserted into the model's context.
 
@@ -48404,7 +49215,7 @@ Retrieves a model response with the given ID.
       A text input to the model, equivalent to a text input with the
       `developer` role.
 
-    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       A list of one or many input items to the model, containing
       different content types.
@@ -49328,7 +50139,7 @@ Retrieves a model response with the given ID.
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -49339,6 +50150,8 @@ Retrieves a model response with the given ID.
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -49354,7 +50167,7 @@ Retrieves a model response with the given ID.
 
             The canonical name of the agent that produced this item.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -49388,6 +50201,10 @@ Retrieves a model response with the given ID.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -49884,11 +50701,11 @@ Retrieves a model response with the given ID.
 
       - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by the tool search output.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -49917,6 +50734,8 @@ Retrieves a model response with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -50760,7 +51579,7 @@ Retrieves a model response with the given ID.
 
                   - `"container_reference"`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -50781,6 +51600,10 @@ Retrieves a model response with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -50838,11 +51661,11 @@ Retrieves a model response with the given ID.
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -50857,6 +51680,10 @@ Retrieves a model response with the given ID.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -50874,7 +51701,7 @@ Retrieves a model response with the given ID.
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -50895,6 +51722,10 @@ Retrieves a model response with the given ID.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -51092,11 +51923,11 @@ Retrieves a model response with the given ID.
 
           - `"developer"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           A list of additional tools made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -51125,6 +51956,8 @@ Retrieves a model response with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -51818,7 +52651,7 @@ Retrieves a model response with the given ID.
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -51839,6 +52672,10 @@ Retrieves a model response with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -51896,11 +52733,11 @@ Retrieves a model response with the given ID.
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -51915,6 +52752,10 @@ Retrieves a model response with the given ID.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -51932,7 +52773,7 @@ Retrieves a model response with the given ID.
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -51953,6 +52794,10 @@ Retrieves a model response with the given ID.
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -52119,6 +52964,53 @@ Retrieves a model response with the given ID.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+      - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+        An update to the conversation's response configuration. The configuration
+        remains in effect for subsequent responses until it is replaced by another
+        configuration update.
+
+        - `type: "configuration_update"`
+
+          The item type. Always `configuration_update`.
+
+          - `"configuration_update"`
+
+        - `id: optional string or null`
+
+          The unique ID of the configuration update item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `reasoning: optional object { effort }`
+
+          Updates to reasoning configuration. Only effort is supported.
+
+          - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+            The reasoning effort to use for subsequent responses until another
+            configuration update replaces it.
+
+            - `"none"`
+
+            - `"minimal"`
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -53083,7 +53975,7 @@ Retrieves a model response with the given ID.
 
               - `"program"`
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -53116,6 +54008,10 @@ Retrieves a model response with the given ID.
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -53262,19 +54158,21 @@ Retrieves a model response with the given ID.
     Keys are strings with a maximum length of 64 characters. Values are strings
     with a maximum length of 512 characters.
 
-  - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+  - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-    Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+    Model ID used to generate the response, like `gpt-6-astra`. OpenAI
     offers a wide range of models with different capabilities, performance
     characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
     to browse and compare available models.
 
-    - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+    - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
+
+      - `"gpt-6-astra"`
 
       - `"gpt-5.6-sol"`
 
@@ -53579,7 +54477,7 @@ Retrieves a model response with the given ID.
 
           The text that was retrieved from the file.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -53613,6 +54511,10 @@ Retrieves a model response with the given ID.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -54061,7 +54963,7 @@ Retrieves a model response with the given ID.
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -54072,6 +54974,8 @@ Retrieves a model response with the given ID.
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -54434,11 +55338,11 @@ Retrieves a model response with the given ID.
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -54467,6 +55371,8 @@ Retrieves a model response with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -55160,7 +56066,7 @@ Retrieves a model response with the given ID.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -55181,6 +56087,10 @@ Retrieves a model response with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -55238,11 +56148,11 @@ Retrieves a model response with the given ID.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -55257,6 +56167,10 @@ Retrieves a model response with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -55274,7 +56188,7 @@ Retrieves a model response with the given ID.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -55295,6 +56209,10 @@ Retrieves a model response with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -55488,11 +56406,11 @@ Retrieves a model response with the given ID.
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -55521,6 +56439,8 @@ Retrieves a model response with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -56214,7 +57134,7 @@ Retrieves a model response with the given ID.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -56235,6 +57155,10 @@ Retrieves a model response with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -56292,11 +57216,11 @@ Retrieves a model response with the given ID.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -56311,6 +57235,10 @@ Retrieves a model response with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -56328,7 +57256,7 @@ Retrieves a model response with the given ID.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -56349,6 +57277,10 @@ Retrieves a model response with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -57320,7 +58252,7 @@ Retrieves a model response with the given ID.
 
         Optional reason for the decision.
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -57353,6 +58285,10 @@ Retrieves a model response with the given ID.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -57645,7 +58581,7 @@ Retrieves a model response with the given ID.
 
         - `"shell"`
 
-  - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+  - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
     An array of tools the model may call while generating a response. You
     can specify which tool to use by setting the `tool_choice` parameter.
@@ -57665,7 +58601,7 @@ Retrieves a model response with the given ID.
       [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
       custom tools to call your own code.
 
-    - `Function object { name, parameters, strict, 5 more }`
+    - `Function object { name, parameters, strict, 6 more }`
 
       Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -57694,6 +58630,8 @@ Retrieves a model response with the given ID.
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
 
       - `defer_loading: optional boolean`
 
@@ -58387,7 +59325,7 @@ Retrieves a model response with the given ID.
 
         - `BetaContainerReference object { container_id, type }`
 
-    - `Custom object { name, type, allowed_callers, 3 more }`
+    - `Custom object { name, type, allowed_callers, 4 more }`
 
       A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -58408,6 +59346,10 @@ Retrieves a model response with the given ID.
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
+
+        Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
       - `defer_loading: optional boolean`
 
@@ -58465,11 +59407,11 @@ Retrieves a model response with the given ID.
 
         The namespace name used in tool calls (for example, `crm`).
 
-      - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+      - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
         The function/custom tools available inside this namespace.
 
-        - `Function object { name, type, allowed_callers, 5 more }`
+        - `Function object { name, type, allowed_callers, 6 more }`
 
           - `name: string`
 
@@ -58484,6 +59426,10 @@ Retrieves a model response with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -58501,7 +59447,7 @@ Retrieves a model response with the given ID.
 
             Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -58522,6 +59468,10 @@ Retrieves a model response with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -58867,11 +59817,69 @@ Retrieves a model response with the given ID.
 
       Optional version of the prompt template.
 
+  - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+    Prompt cache diagnostics requested for this response.
+
+    - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+      - `cache_missed_tokens: number`
+
+        The estimated number of input tokens affected after the first detected divergence.
+
+      - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+        The reason prompt cache reuse did not occur.
+
+        - `"model_changed"`
+
+        - `"prompt_cache_key_changed"`
+
+        - `"tools_changed"`
+
+        - `"text_format_changed"`
+
+        - `"reasoning_effort_changed"`
+
+        - `"verbosity_changed"`
+
+        - `"context_compacted"`
+
+        - `"input_changed"`
+
+        - `"service_tier_changed"`
+
+      - `type: "cache_miss"`
+
+        - `"cache_miss"`
+
+      - `comparison_reusable_tokens: optional number`
+
+        The raw token count of the reusable prefix in the compared response.
+
+    - `CacheHit object { type }`
+
+      - `type: "cache_hit"`
+
+        - `"cache_hit"`
+
+    - `ComparisonResponseNotFound object { type }`
+
+      - `type: "comparison_response_not_found"`
+
+        - `"comparison_response_not_found"`
+
+    - `Unavailable object { type }`
+
+      - `type: "unavailable"`
+
+        - `"unavailable"`
+
   - `prompt_cache_key: optional string or null`
 
     Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-  - `prompt_cache_options: optional object { mode, ttl }`
+  - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
     The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -58888,6 +59896,10 @@ Retrieves a model response with the given ID.
       The minimum lifetime applied to each cache breakpoint.
 
       - `"30m"`
+
+    - `comparison_response_id: optional string or null`
+
+      The response ID supplied as the prompt cache diagnostics comparison.
 
   - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -59222,7 +60234,14 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID \
   "created_at": 0,
   "error": {
     "code": "server_error",
-    "message": "message"
+    "message": "message",
+    "misalignment": {
+      "detailed_explanation": "detailed_explanation",
+      "error_type": "potentially_unintended_data_transfer",
+      "steer": {
+        "message": "message"
+      }
+    }
   },
   "incomplete_details": {
     "reason": "max_output_tokens"
@@ -59231,7 +60250,7 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID \
   "metadata": {
     "foo": "string"
   },
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "object": "response",
   "output": [
     {
@@ -59291,6 +60310,7 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID \
       "allowed_callers": [
         "direct"
       ],
+      "async": true,
       "defer_loading": true,
       "description": "description",
       "output_schema": {
@@ -59349,10 +60369,17 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID \
     },
     "version": "version"
   },
+  "prompt_cache_diagnostics": {
+    "cache_missed_tokens": 0,
+    "reason": "model_changed",
+    "type": "cache_miss",
+    "comparison_reusable_tokens": 0
+  },
   "prompt_cache_key": "prompt-cache-key-1234",
   "prompt_cache_options": {
     "mode": "implicit",
-    "ttl": "30m"
+    "ttl": "30m",
+    "comparison_response_id": "comparison_response_id"
   },
   "prompt_cache_retention": "in_memory",
   "reasoning": {
@@ -59410,7 +60437,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
   "incomplete_details": null,
   "instructions": null,
   "max_output_tokens": null,
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "output": [
     {
       "type": "message",
@@ -59954,7 +60981,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -59988,6 +61015,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -60204,11 +61235,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -60237,6 +61268,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -61080,7 +62113,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -61101,6 +62134,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -61158,11 +62195,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -61177,6 +62214,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -61194,7 +62235,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -61215,6 +62256,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -61408,11 +62453,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -61441,6 +62486,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -62134,7 +63181,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -62155,6 +63202,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -62212,11 +63263,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -62231,6 +63282,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -62248,7 +63303,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -62269,6 +63324,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -62817,7 +63876,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -62828,6 +63887,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -64122,7 +65183,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"failed"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -64155,6 +65216,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -65190,7 +66255,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
 ### Beta Response
 
-- `BetaResponse object { id, created_at, error, 32 more }`
+- `BetaResponse object { id, created_at, error, 33 more }`
 
   - `id: string`
 
@@ -65204,7 +66269,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
     An error object returned when the model fails to generate a Response.
 
-    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+    - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
       The error code for the response.
 
@@ -65217,6 +66282,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
       - `"data_residency_mismatch"`
 
       - `"bio_policy"`
+
+      - `"misalignment_policy_violation"`
 
       - `"vector_store_timeout"`
 
@@ -65252,13 +66319,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       A human-readable description of the error.
 
+    - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+      - `detailed_explanation: optional string`
+
+        The public explanation for this block.
+
+      - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+        An optional classification; clients must accept additional values.
+
+        - `string`
+
+        - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `"potentially_unintended_data_transfer"`
+
+          - `"potentially_unintended_data_access"`
+
+          - `"potentially_unintended_destructive_activity"`
+
+          - `"other"`
+
+      - `steer: optional object { message }`
+
+        An optional public continuation instruction.
+
+        - `message: string`
+
+          The public continuation instruction.
+
   - `incomplete_details: object { reason }  or null`
 
     Details about why the response is incomplete.
 
-    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+    - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-      The reason why the response is incomplete.
+      The reason why the response is incomplete. `steered` means
+      the response stopped at a safe output boundary after a
+      WebSocket `response.steer` event. The server can then create
+      a successor response automatically with the queued input.
 
       - `"max_output_tokens"`
 
@@ -65266,7 +66368,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `"content_filter"`
 
-  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+      - `"steered"`
+
+  - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
     A system (or developer) message inserted into the model's context.
 
@@ -65279,7 +66383,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
       A text input to the model, equivalent to a text input with the
       `developer` role.
 
-    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       A list of one or many input items to the model, containing
       different content types.
@@ -66203,7 +67307,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -66214,6 +67318,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -66229,7 +67335,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The canonical name of the agent that produced this item.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -66263,6 +67369,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -66759,11 +67869,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by the tool search output.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -66792,6 +67902,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -67635,7 +68747,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   - `"container_reference"`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -67656,6 +68768,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -67713,11 +68829,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -67732,6 +68848,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -67749,7 +68869,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -67770,6 +68890,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -67967,11 +69091,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"developer"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           A list of additional tools made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -68000,6 +69124,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -68693,7 +69819,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -68714,6 +69840,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -68771,11 +69901,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -68790,6 +69920,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -68807,7 +69941,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -68828,6 +69962,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -68994,6 +70132,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+      - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+        An update to the conversation's response configuration. The configuration
+        remains in effect for subsequent responses until it is replaced by another
+        configuration update.
+
+        - `type: "configuration_update"`
+
+          The item type. Always `configuration_update`.
+
+          - `"configuration_update"`
+
+        - `id: optional string or null`
+
+          The unique ID of the configuration update item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `reasoning: optional object { effort }`
+
+          Updates to reasoning configuration. Only effort is supported.
+
+          - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+            The reasoning effort to use for subsequent responses until another
+            configuration update replaces it.
+
+            - `"none"`
+
+            - `"minimal"`
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -69958,7 +71143,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `"program"`
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -69991,6 +71176,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -70137,19 +71326,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
     Keys are strings with a maximum length of 64 characters. Values are strings
     with a maximum length of 512 characters.
 
-  - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+  - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-    Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+    Model ID used to generate the response, like `gpt-6-astra`. OpenAI
     offers a wide range of models with different capabilities, performance
     characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
     to browse and compare available models.
 
-    - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+    - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
+
+      - `"gpt-6-astra"`
 
       - `"gpt-5.6-sol"`
 
@@ -70454,7 +71645,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The text that was retrieved from the file.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -70488,6 +71679,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -70936,7 +72131,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -70947,6 +72142,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -71309,11 +72506,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -71342,6 +72539,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -72035,7 +73234,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -72056,6 +73255,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -72113,11 +73316,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -72132,6 +73335,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -72149,7 +73356,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -72170,6 +73377,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -72363,11 +73574,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -72396,6 +73607,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -73089,7 +74302,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -73110,6 +74323,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -73167,11 +74384,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -73186,6 +74403,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -73203,7 +74424,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -73224,6 +74445,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -74195,7 +75420,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional reason for the decision.
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -74228,6 +75453,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -74520,7 +75749,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"shell"`
 
-  - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+  - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
     An array of tools the model may call while generating a response. You
     can specify which tool to use by setting the `tool_choice` parameter.
@@ -74540,7 +75769,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
       [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
       custom tools to call your own code.
 
-    - `Function object { name, parameters, strict, 5 more }`
+    - `Function object { name, parameters, strict, 6 more }`
 
       Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -74569,6 +75798,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
 
       - `defer_loading: optional boolean`
 
@@ -75262,7 +76493,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `BetaContainerReference object { container_id, type }`
 
-    - `Custom object { name, type, allowed_callers, 3 more }`
+    - `Custom object { name, type, allowed_callers, 4 more }`
 
       A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -75283,6 +76514,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"direct"`
 
         - `"programmatic"`
+
+      - `async: optional boolean`
+
+        Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
       - `defer_loading: optional boolean`
 
@@ -75340,11 +76575,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         The namespace name used in tool calls (for example, `crm`).
 
-      - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+      - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
         The function/custom tools available inside this namespace.
 
-        - `Function object { name, type, allowed_callers, 5 more }`
+        - `Function object { name, type, allowed_callers, 6 more }`
 
           - `name: string`
 
@@ -75359,6 +76594,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -75376,7 +76615,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -75397,6 +76636,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -75742,11 +76985,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       Optional version of the prompt template.
 
+  - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+    Prompt cache diagnostics requested for this response.
+
+    - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+      - `cache_missed_tokens: number`
+
+        The estimated number of input tokens affected after the first detected divergence.
+
+      - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+        The reason prompt cache reuse did not occur.
+
+        - `"model_changed"`
+
+        - `"prompt_cache_key_changed"`
+
+        - `"tools_changed"`
+
+        - `"text_format_changed"`
+
+        - `"reasoning_effort_changed"`
+
+        - `"verbosity_changed"`
+
+        - `"context_compacted"`
+
+        - `"input_changed"`
+
+        - `"service_tier_changed"`
+
+      - `type: "cache_miss"`
+
+        - `"cache_miss"`
+
+      - `comparison_reusable_tokens: optional number`
+
+        The raw token count of the reusable prefix in the compared response.
+
+    - `CacheHit object { type }`
+
+      - `type: "cache_hit"`
+
+        - `"cache_hit"`
+
+    - `ComparisonResponseNotFound object { type }`
+
+      - `type: "comparison_response_not_found"`
+
+        - `"comparison_response_not_found"`
+
+    - `Unavailable object { type }`
+
+      - `type: "unavailable"`
+
+        - `"unavailable"`
+
   - `prompt_cache_key: optional string or null`
 
     Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-  - `prompt_cache_options: optional object { mode, ttl }`
+  - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
     The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -75763,6 +77064,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
       The minimum lifetime applied to each cache breakpoint.
 
       - `"30m"`
+
+    - `comparison_response_id: optional string or null`
+
+      The response ID supplied as the prompt cache diagnostics comparison.
 
   - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -76376,7 +77681,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       An error object returned when the model fails to generate a Response.
 
-      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
         The error code for the response.
 
@@ -76389,6 +77694,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"data_residency_mismatch"`
 
         - `"bio_policy"`
+
+        - `"misalignment_policy_violation"`
 
         - `"vector_store_timeout"`
 
@@ -76424,13 +77731,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `incomplete_details: object { reason }  or null`
 
       Details about why the response is incomplete.
 
-      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-        The reason why the response is incomplete.
+        The reason why the response is incomplete. `steered` means
+        the response stopped at a safe output boundary after a
+        WebSocket `response.steer` event. The server can then create
+        a successor response automatically with the queued input.
 
         - `"max_output_tokens"`
 
@@ -76438,7 +77780,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"content_filter"`
 
-    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+        - `"steered"`
+
+    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
       A system (or developer) message inserted into the model's context.
 
@@ -76451,7 +77795,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `developer` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -77375,7 +78719,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -77386,6 +78730,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -77401,7 +78747,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -77435,6 +78781,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -77931,11 +79281,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -77964,6 +79314,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -78807,7 +80159,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -78828,6 +80180,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -78885,11 +80241,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -78904,6 +80260,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -78921,7 +80281,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -78942,6 +80302,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -79139,11 +80503,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -79172,6 +80536,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -79865,7 +81231,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -79886,6 +81252,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -79943,11 +81313,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -79962,6 +81332,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -79979,7 +81353,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -80000,6 +81374,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -80166,6 +81544,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -81130,7 +82555,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -81163,6 +82588,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -81309,19 +82738,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -81626,7 +83057,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The text that was retrieved from the file.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -81660,6 +83091,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -82108,7 +83543,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -82119,6 +83554,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -82481,11 +83918,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by tool search.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -82514,6 +83951,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -83207,7 +84646,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -83228,6 +84667,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -83285,11 +84728,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -83304,6 +84747,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -83321,7 +84768,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -83342,6 +84789,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -83535,11 +84986,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"tool"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The additional tool definitions made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -83568,6 +85019,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -84261,7 +85714,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -84282,6 +85735,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -84339,11 +85796,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -84358,6 +85815,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -84375,7 +85836,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -84396,6 +85857,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -85367,7 +86832,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional reason for the decision.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -85400,6 +86865,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -85692,7 +87161,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -85712,7 +87181,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -85741,6 +87210,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -86434,7 +87905,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -86455,6 +87926,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -86512,11 +87987,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -86531,6 +88006,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -86548,7 +88027,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -86569,6 +88048,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -86914,11 +88397,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional version of the prompt template.
 
+    - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+      Prompt cache diagnostics requested for this response.
+
+      - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+        - `cache_missed_tokens: number`
+
+          The estimated number of input tokens affected after the first detected divergence.
+
+        - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+          The reason prompt cache reuse did not occur.
+
+          - `"model_changed"`
+
+          - `"prompt_cache_key_changed"`
+
+          - `"tools_changed"`
+
+          - `"text_format_changed"`
+
+          - `"reasoning_effort_changed"`
+
+          - `"verbosity_changed"`
+
+          - `"context_compacted"`
+
+          - `"input_changed"`
+
+          - `"service_tier_changed"`
+
+        - `type: "cache_miss"`
+
+          - `"cache_miss"`
+
+        - `comparison_reusable_tokens: optional number`
+
+          The raw token count of the reusable prefix in the compared response.
+
+      - `CacheHit object { type }`
+
+        - `type: "cache_hit"`
+
+          - `"cache_hit"`
+
+      - `ComparisonResponseNotFound object { type }`
+
+        - `type: "comparison_response_not_found"`
+
+          - `"comparison_response_not_found"`
+
+      - `Unavailable object { type }`
+
+        - `type: "unavailable"`
+
+          - `"unavailable"`
+
     - `prompt_cache_key: optional string or null`
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
       The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -86935,6 +88476,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The minimum lifetime applied to each cache breakpoint.
 
         - `"30m"`
+
+      - `comparison_response_id: optional string or null`
+
+        The response ID supplied as the prompt cache diagnostics comparison.
 
     - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -88009,7 +89554,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       An error object returned when the model fails to generate a Response.
 
-      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
         The error code for the response.
 
@@ -88022,6 +89567,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"data_residency_mismatch"`
 
         - `"bio_policy"`
+
+        - `"misalignment_policy_violation"`
 
         - `"vector_store_timeout"`
 
@@ -88057,13 +89604,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `incomplete_details: object { reason }  or null`
 
       Details about why the response is incomplete.
 
-      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-        The reason why the response is incomplete.
+        The reason why the response is incomplete. `steered` means
+        the response stopped at a safe output boundary after a
+        WebSocket `response.steer` event. The server can then create
+        a successor response automatically with the queued input.
 
         - `"max_output_tokens"`
 
@@ -88071,7 +89653,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"content_filter"`
 
-    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+        - `"steered"`
+
+    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
       A system (or developer) message inserted into the model's context.
 
@@ -88084,7 +89668,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `developer` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -89008,7 +90592,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -89019,6 +90603,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -89034,7 +90620,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -89068,6 +90654,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -89564,11 +91154,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -89597,6 +91187,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -90440,7 +92032,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -90461,6 +92053,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -90518,11 +92114,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -90537,6 +92133,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -90554,7 +92154,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -90575,6 +92175,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -90772,11 +92376,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -90805,6 +92409,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -91498,7 +93104,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -91519,6 +93125,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -91576,11 +93186,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -91595,6 +93205,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -91612,7 +93226,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -91633,6 +93247,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -91799,6 +93417,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -92763,7 +94428,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -92796,6 +94461,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -92942,19 +94611,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -93259,7 +94930,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The text that was retrieved from the file.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -93293,6 +94964,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -93741,7 +95416,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -93752,6 +95427,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -94114,11 +95791,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by tool search.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -94147,6 +95824,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -94840,7 +96519,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -94861,6 +96540,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -94918,11 +96601,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -94937,6 +96620,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -94954,7 +96641,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -94975,6 +96662,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -95168,11 +96859,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"tool"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The additional tool definitions made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -95201,6 +96892,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -95894,7 +97587,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -95915,6 +97608,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -95972,11 +97669,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -95991,6 +97688,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -96008,7 +97709,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -96029,6 +97730,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -97000,7 +98705,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional reason for the decision.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -97033,6 +98738,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -97325,7 +99034,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -97345,7 +99054,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -97374,6 +99083,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -98067,7 +99778,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -98088,6 +99799,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -98145,11 +99860,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -98164,6 +99879,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -98181,7 +99900,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -98202,6 +99921,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -98547,11 +100270,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional version of the prompt template.
 
+    - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+      Prompt cache diagnostics requested for this response.
+
+      - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+        - `cache_missed_tokens: number`
+
+          The estimated number of input tokens affected after the first detected divergence.
+
+        - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+          The reason prompt cache reuse did not occur.
+
+          - `"model_changed"`
+
+          - `"prompt_cache_key_changed"`
+
+          - `"tools_changed"`
+
+          - `"text_format_changed"`
+
+          - `"reasoning_effort_changed"`
+
+          - `"verbosity_changed"`
+
+          - `"context_compacted"`
+
+          - `"input_changed"`
+
+          - `"service_tier_changed"`
+
+        - `type: "cache_miss"`
+
+          - `"cache_miss"`
+
+        - `comparison_reusable_tokens: optional number`
+
+          The raw token count of the reusable prefix in the compared response.
+
+      - `CacheHit object { type }`
+
+        - `type: "cache_hit"`
+
+          - `"cache_hit"`
+
+      - `ComparisonResponseNotFound object { type }`
+
+        - `type: "comparison_response_not_found"`
+
+          - `"comparison_response_not_found"`
+
+      - `Unavailable object { type }`
+
+        - `type: "unavailable"`
+
+          - `"unavailable"`
+
     - `prompt_cache_key: optional string or null`
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
       The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -98568,6 +100349,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The minimum lifetime applied to each cache breakpoint.
 
         - `"30m"`
+
+      - `comparison_response_id: optional string or null`
+
+        The response ID supplied as the prompt cache diagnostics comparison.
 
     - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -98979,11 +100764,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
 ### Beta Response Error
 
-- `BetaResponseError object { code, message }`
+- `BetaResponseError object { code, message, misalignment }`
 
   An error object returned when the model fails to generate a Response.
 
-  - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+  - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
     The error code for the response.
 
@@ -98996,6 +100781,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
     - `"data_residency_mismatch"`
 
     - `"bio_policy"`
+
+    - `"misalignment_policy_violation"`
 
     - `"vector_store_timeout"`
 
@@ -99030,6 +100817,38 @@ curl https://api.openai.com/v1/responses/resp_123 \
   - `message: string`
 
     A human-readable description of the error.
+
+  - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+    - `detailed_explanation: optional string`
+
+      The public explanation for this block.
+
+    - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+      An optional classification; clients must accept additional values.
+
+      - `string`
+
+      - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+        An optional classification; clients must accept additional values.
+
+        - `"potentially_unintended_data_transfer"`
+
+        - `"potentially_unintended_data_access"`
+
+        - `"potentially_unintended_destructive_activity"`
+
+        - `"other"`
+
+    - `steer: optional object { message }`
+
+      An optional public continuation instruction.
+
+      - `message: string`
+
+        The public continuation instruction.
 
 ### Beta Response Error Event
 
@@ -99089,7 +100908,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       An error object returned when the model fails to generate a Response.
 
-      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
         The error code for the response.
 
@@ -99102,6 +100921,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"data_residency_mismatch"`
 
         - `"bio_policy"`
+
+        - `"misalignment_policy_violation"`
 
         - `"vector_store_timeout"`
 
@@ -99137,13 +100958,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `incomplete_details: object { reason }  or null`
 
       Details about why the response is incomplete.
 
-      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-        The reason why the response is incomplete.
+        The reason why the response is incomplete. `steered` means
+        the response stopped at a safe output boundary after a
+        WebSocket `response.steer` event. The server can then create
+        a successor response automatically with the queued input.
 
         - `"max_output_tokens"`
 
@@ -99151,7 +101007,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"content_filter"`
 
-    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+        - `"steered"`
+
+    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
       A system (or developer) message inserted into the model's context.
 
@@ -99164,7 +101022,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `developer` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -100088,7 +101946,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -100099,6 +101957,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -100114,7 +101974,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -100148,6 +102008,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -100644,11 +102508,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -100677,6 +102541,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -101520,7 +103386,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -101541,6 +103407,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -101598,11 +103468,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -101617,6 +103487,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -101634,7 +103508,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -101655,6 +103529,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -101852,11 +103730,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -101885,6 +103763,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -102578,7 +104458,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -102599,6 +104479,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -102656,11 +104540,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -102675,6 +104559,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -102692,7 +104580,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -102713,6 +104601,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -102879,6 +104771,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -103843,7 +105782,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -103876,6 +105815,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -104022,19 +105965,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -104339,7 +106284,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The text that was retrieved from the file.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -104373,6 +106318,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -104821,7 +106770,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -104832,6 +106781,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -105194,11 +107145,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by tool search.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -105227,6 +107178,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -105920,7 +107873,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -105941,6 +107894,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -105998,11 +107955,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -106017,6 +107974,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -106034,7 +107995,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -106055,6 +108016,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -106248,11 +108213,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"tool"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The additional tool definitions made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -106281,6 +108246,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -106974,7 +108941,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -106995,6 +108962,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -107052,11 +109023,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -107071,6 +109042,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -107088,7 +109063,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -107109,6 +109084,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -108080,7 +110059,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional reason for the decision.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -108113,6 +110092,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -108405,7 +110388,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -108425,7 +110408,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -108454,6 +110437,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -109147,7 +111132,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -109168,6 +111153,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -109225,11 +111214,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -109244,6 +111233,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -109261,7 +111254,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -109282,6 +111275,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -109627,11 +111624,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional version of the prompt template.
 
+    - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+      Prompt cache diagnostics requested for this response.
+
+      - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+        - `cache_missed_tokens: number`
+
+          The estimated number of input tokens affected after the first detected divergence.
+
+        - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+          The reason prompt cache reuse did not occur.
+
+          - `"model_changed"`
+
+          - `"prompt_cache_key_changed"`
+
+          - `"tools_changed"`
+
+          - `"text_format_changed"`
+
+          - `"reasoning_effort_changed"`
+
+          - `"verbosity_changed"`
+
+          - `"context_compacted"`
+
+          - `"input_changed"`
+
+          - `"service_tier_changed"`
+
+        - `type: "cache_miss"`
+
+          - `"cache_miss"`
+
+        - `comparison_reusable_tokens: optional number`
+
+          The raw token count of the reusable prefix in the compared response.
+
+      - `CacheHit object { type }`
+
+        - `type: "cache_hit"`
+
+          - `"cache_hit"`
+
+      - `ComparisonResponseNotFound object { type }`
+
+        - `type: "comparison_response_not_found"`
+
+          - `"comparison_response_not_found"`
+
+      - `Unavailable object { type }`
+
+        - `type: "unavailable"`
+
+          - `"unavailable"`
+
     - `prompt_cache_key: optional string or null`
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
       The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -109648,6 +111703,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The minimum lifetime applied to each cache breakpoint.
 
         - `"30m"`
+
+      - `comparison_response_id: optional string or null`
+
+        The response ID supplied as the prompt cache diagnostics comparison.
 
     - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -110482,7 +112541,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       An error object returned when the model fails to generate a Response.
 
-      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
         The error code for the response.
 
@@ -110495,6 +112554,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"data_residency_mismatch"`
 
         - `"bio_policy"`
+
+        - `"misalignment_policy_violation"`
 
         - `"vector_store_timeout"`
 
@@ -110530,13 +112591,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `incomplete_details: object { reason }  or null`
 
       Details about why the response is incomplete.
 
-      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-        The reason why the response is incomplete.
+        The reason why the response is incomplete. `steered` means
+        the response stopped at a safe output boundary after a
+        WebSocket `response.steer` event. The server can then create
+        a successor response automatically with the queued input.
 
         - `"max_output_tokens"`
 
@@ -110544,7 +112640,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"content_filter"`
 
-    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+        - `"steered"`
+
+    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
       A system (or developer) message inserted into the model's context.
 
@@ -110557,7 +112655,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `developer` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -111481,7 +113579,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -111492,6 +113590,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -111507,7 +113607,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -111541,6 +113641,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -112037,11 +114141,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -112070,6 +114174,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -112913,7 +115019,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -112934,6 +115040,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -112991,11 +115101,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -113010,6 +115120,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -113027,7 +115141,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -113048,6 +115162,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -113245,11 +115363,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -113278,6 +115396,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -113971,7 +116091,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -113992,6 +116112,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -114049,11 +116173,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -114068,6 +116192,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -114085,7 +116213,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -114106,6 +116234,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -114272,6 +116404,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -115236,7 +117415,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -115269,6 +117448,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -115415,19 +117598,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -115732,7 +117917,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The text that was retrieved from the file.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -115766,6 +117951,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -116214,7 +118403,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -116225,6 +118414,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -116587,11 +118778,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by tool search.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -116620,6 +118811,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -117313,7 +119506,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -117334,6 +119527,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -117391,11 +119588,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -117410,6 +119607,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -117427,7 +119628,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -117448,6 +119649,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -117641,11 +119846,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"tool"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The additional tool definitions made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -117674,6 +119879,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -118367,7 +120574,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -118388,6 +120595,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -118445,11 +120656,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -118464,6 +120675,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -118481,7 +120696,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -118502,6 +120717,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -119473,7 +121692,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional reason for the decision.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -119506,6 +121725,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -119798,7 +122021,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -119818,7 +122041,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -119847,6 +122070,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -120540,7 +122765,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -120561,6 +122786,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -120618,11 +122847,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -120637,6 +122866,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -120654,7 +122887,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -120675,6 +122908,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -121020,11 +123257,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional version of the prompt template.
 
+    - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+      Prompt cache diagnostics requested for this response.
+
+      - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+        - `cache_missed_tokens: number`
+
+          The estimated number of input tokens affected after the first detected divergence.
+
+        - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+          The reason prompt cache reuse did not occur.
+
+          - `"model_changed"`
+
+          - `"prompt_cache_key_changed"`
+
+          - `"tools_changed"`
+
+          - `"text_format_changed"`
+
+          - `"reasoning_effort_changed"`
+
+          - `"verbosity_changed"`
+
+          - `"context_compacted"`
+
+          - `"input_changed"`
+
+          - `"service_tier_changed"`
+
+        - `type: "cache_miss"`
+
+          - `"cache_miss"`
+
+        - `comparison_reusable_tokens: optional number`
+
+          The raw token count of the reusable prefix in the compared response.
+
+      - `CacheHit object { type }`
+
+        - `type: "cache_hit"`
+
+          - `"cache_hit"`
+
+      - `ComparisonResponseNotFound object { type }`
+
+        - `type: "comparison_response_not_found"`
+
+          - `"comparison_response_not_found"`
+
+      - `Unavailable object { type }`
+
+        - `type: "unavailable"`
+
+          - `"unavailable"`
+
     - `prompt_cache_key: optional string or null`
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
       The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -121041,6 +123336,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The minimum lifetime applied to each cache breakpoint.
 
         - `"30m"`
+
+      - `comparison_response_id: optional string or null`
+
+        The response ID supplied as the prompt cache diagnostics comparison.
 
     - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -121415,6 +123714,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
   An event that is emitted when a response finishes as incomplete.
 
+  Over WebSocket, steering can finish a response with
+  `response.incomplete_details.reason` set to `steered`, followed automatically
+  by a successor `response.created` that commits the queued steering input.
+
   - `response: BetaResponse`
 
     The response that was incomplete.
@@ -121431,7 +123734,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       An error object returned when the model fails to generate a Response.
 
-      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
         The error code for the response.
 
@@ -121444,6 +123747,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"data_residency_mismatch"`
 
         - `"bio_policy"`
+
+        - `"misalignment_policy_violation"`
 
         - `"vector_store_timeout"`
 
@@ -121479,13 +123784,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `incomplete_details: object { reason }  or null`
 
       Details about why the response is incomplete.
 
-      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-        The reason why the response is incomplete.
+        The reason why the response is incomplete. `steered` means
+        the response stopped at a safe output boundary after a
+        WebSocket `response.steer` event. The server can then create
+        a successor response automatically with the queued input.
 
         - `"max_output_tokens"`
 
@@ -121493,7 +123833,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"content_filter"`
 
-    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+        - `"steered"`
+
+    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
       A system (or developer) message inserted into the model's context.
 
@@ -121506,7 +123848,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `developer` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -122430,7 +124772,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -122441,6 +124783,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -122456,7 +124800,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -122490,6 +124834,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -122986,11 +125334,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -123019,6 +125367,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -123862,7 +126212,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -123883,6 +126233,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -123940,11 +126294,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -123959,6 +126313,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -123976,7 +126334,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -123997,6 +126355,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -124194,11 +126556,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -124227,6 +126589,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -124920,7 +127284,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -124941,6 +127305,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -124998,11 +127366,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -125017,6 +127385,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -125034,7 +127406,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -125055,6 +127427,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -125221,6 +127597,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -126185,7 +128608,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -126218,6 +128641,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -126364,19 +128791,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -126681,7 +129110,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The text that was retrieved from the file.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -126715,6 +129144,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -127163,7 +129596,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -127174,6 +129607,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -127536,11 +129971,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by tool search.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -127569,6 +130004,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -128262,7 +130699,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -128283,6 +130720,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -128340,11 +130781,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -128359,6 +130800,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -128376,7 +130821,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -128397,6 +130842,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -128590,11 +131039,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"tool"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The additional tool definitions made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -128623,6 +131072,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -129316,7 +131767,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -129337,6 +131788,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -129394,11 +131849,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -129413,6 +131868,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -129430,7 +131889,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -129451,6 +131910,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -130422,7 +132885,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional reason for the decision.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -130455,6 +132918,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -130747,7 +133214,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -130767,7 +133234,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -130796,6 +133263,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -131489,7 +133958,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -131510,6 +133979,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -131567,11 +134040,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -131586,6 +134059,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -131603,7 +134080,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -131624,6 +134101,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -131969,11 +134450,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional version of the prompt template.
 
+    - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+      Prompt cache diagnostics requested for this response.
+
+      - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+        - `cache_missed_tokens: number`
+
+          The estimated number of input tokens affected after the first detected divergence.
+
+        - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+          The reason prompt cache reuse did not occur.
+
+          - `"model_changed"`
+
+          - `"prompt_cache_key_changed"`
+
+          - `"tools_changed"`
+
+          - `"text_format_changed"`
+
+          - `"reasoning_effort_changed"`
+
+          - `"verbosity_changed"`
+
+          - `"context_compacted"`
+
+          - `"input_changed"`
+
+          - `"service_tier_changed"`
+
+        - `type: "cache_miss"`
+
+          - `"cache_miss"`
+
+        - `comparison_reusable_tokens: optional number`
+
+          The raw token count of the reusable prefix in the compared response.
+
+      - `CacheHit object { type }`
+
+        - `type: "cache_hit"`
+
+          - `"cache_hit"`
+
+      - `ComparisonResponseNotFound object { type }`
+
+        - `type: "comparison_response_not_found"`
+
+          - `"comparison_response_not_found"`
+
+      - `Unavailable object { type }`
+
+        - `type: "unavailable"`
+
+          - `"unavailable"`
+
     - `prompt_cache_key: optional string or null`
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
       The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -131990,6 +134529,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The minimum lifetime applied to each cache breakpoint.
 
         - `"30m"`
+
+      - `comparison_response_id: optional string or null`
+
+        The response ID supplied as the prompt cache diagnostics comparison.
 
     - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -132361,7 +134904,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
   The items are validated and committed atomically. Currently, the server
   accepts client-owned tool outputs that resume a waiting agent.
 
-  - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+  - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     Input items to inject into the active response.
 
@@ -133284,7 +135827,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -133295,6 +135838,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -133310,7 +135855,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -133344,6 +135889,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -133840,11 +136389,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
     - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by the tool search output.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -133873,6 +136422,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -134716,7 +137267,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -134737,6 +137288,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -134794,11 +137349,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -134813,6 +137368,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -134830,7 +137389,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -134851,6 +137410,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -135048,11 +137611,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"developer"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         A list of additional tools made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -135081,6 +137644,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -135774,7 +138339,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -135795,6 +138360,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -135852,11 +138421,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -135871,6 +138440,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -135888,7 +138461,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -135909,6 +138482,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -136075,6 +138652,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+      An update to the conversation's response configuration. The configuration
+      remains in effect for subsequent responses until it is replaced by another
+      configuration update.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `id: optional string or null`
+
+        The unique ID of the configuration update item.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        Updates to reasoning configuration. Only effort is supported.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort to use for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -137039,7 +139663,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"program"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -137072,6 +139696,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -137243,7 +139871,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       A human-readable description of the error.
 
-  - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+  - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     The raw input items that were not committed.
 
@@ -138166,7 +140794,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -138177,6 +140805,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -138192,7 +140822,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -138226,6 +140856,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -138722,11 +141356,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
     - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by the tool search output.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -138755,6 +141389,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -139598,7 +142234,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -139619,6 +142255,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -139676,11 +142316,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -139695,6 +142335,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -139712,7 +142356,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -139733,6 +142377,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -139930,11 +142578,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"developer"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         A list of additional tools made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -139963,6 +142611,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -140656,7 +143306,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -140677,6 +143327,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -140734,11 +143388,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -140753,6 +143407,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -140770,7 +143428,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -140791,6 +143449,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -140957,6 +143619,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+      An update to the conversation's response configuration. The configuration
+      remains in effect for subsequent responses until it is replaced by another
+      configuration update.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `id: optional string or null`
+
+        The unique ID of the configuration update item.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        Updates to reasoning configuration. Only effort is supported.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort to use for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -141921,7 +144630,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"program"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -141954,6 +144663,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -143058,7 +145771,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
 ### Beta Response Output Item
 
-- `BetaResponseOutputItem = BetaResponseOutputMessage or object { id, queries, status, 3 more }  or object { arguments, call_id, name, 6 more }  or 28 more`
+- `BetaResponseOutputItem = BetaResponseOutputMessage or object { id, queries, status, 3 more }  or object { arguments, call_id, name, 7 more }  or 28 more`
 
   An output message from the model.
 
@@ -143335,7 +146048,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         The text that was retrieved from the file.
 
-  - `FunctionCall object { arguments, call_id, name, 6 more }`
+  - `FunctionCall object { arguments, call_id, name, 7 more }`
 
     A tool call to run a function. See the
     [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -143369,6 +146082,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
       - `agent_name: string`
 
         The canonical name of the agent that produced this item.
+
+    - `async: optional boolean`
+
+      Whether the function tool call runs asynchronously.
 
     - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -143915,7 +146632,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The URL of the page searched for the pattern.
 
-    - `status: "in_progress" or "searching" or "completed" or "failed"`
+    - `status: "in_progress" or "searching" or "completed" or 2 more`
 
       The status of the web search tool call.
 
@@ -143926,6 +146643,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
       - `"completed"`
 
       - `"failed"`
+
+      - `"incomplete"`
 
     - `type: "web_search_call"`
 
@@ -144530,11 +147249,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `"incomplete"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       The loaded tool definitions returned by tool search.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -144563,6 +147282,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -145406,7 +148127,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `"container_reference"`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -145427,6 +148148,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -145484,11 +148209,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -145503,6 +148228,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -145520,7 +148249,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -145541,6 +148270,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -145734,11 +148467,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `"tool"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       The additional tool definitions made available at this item.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -145767,6 +148500,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -146460,7 +149195,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -146481,6 +149216,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -146538,11 +149277,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -146557,6 +149296,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -146574,7 +149317,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -146595,6 +149338,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -147594,7 +150341,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       Optional reason for the decision.
 
-  - `CustomToolCall object { call_id, input, name, 5 more }`
+  - `CustomToolCall object { call_id, input, name, 6 more }`
 
     A call to a custom tool created by the model.
 
@@ -147627,6 +150374,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
       - `agent_name: string`
 
         The canonical name of the agent that produced this item.
+
+    - `async: optional boolean`
+
+      Whether the custom tool call runs asynchronously.
 
     - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -148026,7 +150777,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The text that was retrieved from the file.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -148060,6 +150811,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -148606,7 +151361,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -148617,6 +151372,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -149221,11 +151978,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -149254,6 +152011,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -150097,7 +152856,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -150118,6 +152877,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -150175,11 +152938,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -150194,6 +152957,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -150211,7 +152978,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -150232,6 +152999,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -150425,11 +153196,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -150458,6 +153229,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -151151,7 +153924,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -151172,6 +153945,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -151229,11 +154006,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -151248,6 +154025,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -151265,7 +154046,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -151286,6 +154067,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -152285,7 +155070,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional reason for the decision.
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -152318,6 +155103,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -152736,7 +155525,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The text that was retrieved from the file.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -152770,6 +155559,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -153316,7 +156109,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -153327,6 +156120,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -153931,11 +156726,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -153964,6 +156759,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -154807,7 +157604,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -154828,6 +157625,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -154885,11 +157686,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -154904,6 +157705,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -154921,7 +157726,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -154942,6 +157747,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -155135,11 +157944,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -155168,6 +157977,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -155861,7 +158672,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -155882,6 +158693,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -155939,11 +158754,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -155958,6 +158773,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -155975,7 +158794,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -155996,6 +158815,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -156995,7 +159818,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional reason for the decision.
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -157028,6 +159851,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -157805,7 +160632,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       An error object returned when the model fails to generate a Response.
 
-      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+      - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
         The error code for the response.
 
@@ -157818,6 +160645,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
         - `"data_residency_mismatch"`
 
         - `"bio_policy"`
+
+        - `"misalignment_policy_violation"`
 
         - `"vector_store_timeout"`
 
@@ -157853,13 +160682,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
+
     - `incomplete_details: object { reason }  or null`
 
       Details about why the response is incomplete.
 
-      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+      - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-        The reason why the response is incomplete.
+        The reason why the response is incomplete. `steered` means
+        the response stopped at a safe output boundary after a
+        WebSocket `response.steer` event. The server can then create
+        a successor response automatically with the queued input.
 
         - `"max_output_tokens"`
 
@@ -157867,7 +160731,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `"content_filter"`
 
-    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+        - `"steered"`
+
+    - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
       A system (or developer) message inserted into the model's context.
 
@@ -157880,7 +160746,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `developer` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -158804,7 +161670,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -158815,6 +161681,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -158830,7 +161698,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -158864,6 +161732,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -159360,11 +162232,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -159393,6 +162265,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -160236,7 +163110,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -160257,6 +163131,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -160314,11 +163192,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -160333,6 +163211,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -160350,7 +163232,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -160371,6 +163253,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -160568,11 +163454,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -160601,6 +163487,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -161294,7 +164182,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -161315,6 +164203,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -161372,11 +164264,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -161391,6 +164283,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -161408,7 +164304,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -161429,6 +164325,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -161595,6 +164495,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -162559,7 +165506,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -162592,6 +165539,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -162738,19 +165689,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -163055,7 +166008,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The text that was retrieved from the file.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -163089,6 +166042,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -163537,7 +166494,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -163548,6 +166505,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -163910,11 +166869,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"incomplete"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by tool search.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -163943,6 +166902,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -164636,7 +167597,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -164657,6 +167618,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -164714,11 +167679,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -164733,6 +167698,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -164750,7 +167719,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -164771,6 +167740,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -164964,11 +167937,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"tool"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The additional tool definitions made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -164997,6 +167970,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -165690,7 +168665,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -165711,6 +168686,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -165768,11 +168747,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -165787,6 +168766,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -165804,7 +168787,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -165825,6 +168808,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -166796,7 +169783,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional reason for the decision.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -166829,6 +169816,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -167121,7 +170112,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -167141,7 +170132,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -167170,6 +170161,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -167863,7 +170856,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -167884,6 +170877,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -167941,11 +170938,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -167960,6 +170957,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -167977,7 +170978,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -167998,6 +170999,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -168343,11 +171348,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         Optional version of the prompt template.
 
+    - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+      Prompt cache diagnostics requested for this response.
+
+      - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+        - `cache_missed_tokens: number`
+
+          The estimated number of input tokens affected after the first detected divergence.
+
+        - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+          The reason prompt cache reuse did not occur.
+
+          - `"model_changed"`
+
+          - `"prompt_cache_key_changed"`
+
+          - `"tools_changed"`
+
+          - `"text_format_changed"`
+
+          - `"reasoning_effort_changed"`
+
+          - `"verbosity_changed"`
+
+          - `"context_compacted"`
+
+          - `"input_changed"`
+
+          - `"service_tier_changed"`
+
+        - `type: "cache_miss"`
+
+          - `"cache_miss"`
+
+        - `comparison_reusable_tokens: optional number`
+
+          The raw token count of the reusable prefix in the compared response.
+
+      - `CacheHit object { type }`
+
+        - `type: "cache_hit"`
+
+          - `"cache_hit"`
+
+      - `ComparisonResponseNotFound object { type }`
+
+        - `type: "comparison_response_not_found"`
+
+          - `"comparison_response_not_found"`
+
+      - `Unavailable object { type }`
+
+        - `type: "unavailable"`
+
+          - `"unavailable"`
+
     - `prompt_cache_key: optional string or null`
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
       The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -168364,6 +171427,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The minimum lifetime applied to each cache breakpoint.
 
         - `"30m"`
+
+      - `comparison_response_id: optional string or null`
+
+        The response ID supplied as the prompt cache diagnostics comparison.
 
     - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -169307,6 +172374,1291 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
   - `"incomplete"`
 
+### Beta Response Steer Accepted Event
+
+- `BetaResponseSteerAcceptedEvent object { sequence_number, steer, type, stream_id }`
+
+  Emitted when steering input has been validated and queued. Acceptance means
+  the server owns the input, not that it has been applied. The successor's
+  `response.created` event is the commit point. If accepted input cannot be
+  committed, `response.steer.failed` returns it with the same steering ID.
+
+  When the response stops for client-owned tool output or approval, the input
+  remains queued and `response.steer.pending` is emitted after
+  `response.completed`. Fill the pending event's `required_input` stubs with
+  saved results and send one matching explicit `response.create` per parent.
+  Do not resend accepted input while it is still queued.
+
+  - `sequence_number: number`
+
+    The sequence number for this event.
+
+  - `steer: object { id, previous_response_id }`
+
+    The accepted steering submission.
+
+    - `id: string`
+
+      The ID assigned to the steering submission.
+
+    - `previous_response_id: string`
+
+      The ID of the response being steered.
+
+  - `type: "response.steer.accepted"`
+
+    The event discriminator. Always `response.steer.accepted`.
+
+    - `"response.steer.accepted"`
+
+  - `stream_id: optional string`
+
+    The WebSocket lane that emitted this event. This field is present when
+    the target response's `response.create` event supplied a `stream_id`.
+
+### Beta Response Steer Error Code
+
+- `BetaResponseSteerErrorCode = "response_not_found" or "invalid_input" or "steering_not_supported" or 4 more or string`
+
+  A machine-readable steering error code. Clients should handle unknown
+  values because additional codes may be introduced. Known values include:
+
+  - `response_not_found`: The target response is not available on this connection.
+  - `invalid_input`: The event or input failed validation.
+  - `steering_not_supported`: The model or response execution mode does not support steering.
+  - `too_many_pending_steers`: Too much steering input is pending for the response.
+  - `response_already_completed`: The response completed and is no longer accepting steering input.
+  - `response_not_active`: The response is no longer accepting steering input.
+  - `successor_creation_failed`: The successor response could not be created.
+
+  - `"response_not_found" or "invalid_input" or "steering_not_supported" or 4 more`
+
+    A machine-readable steering error code. Clients should handle unknown
+    values because additional codes may be introduced. Known values include:
+
+    - `response_not_found`: The target response is not available on this connection.
+    - `invalid_input`: The event or input failed validation.
+    - `steering_not_supported`: The model or response execution mode does not support steering.
+    - `too_many_pending_steers`: Too much steering input is pending for the response.
+    - `response_already_completed`: The response completed and is no longer accepting steering input.
+    - `response_not_active`: The response is no longer accepting steering input.
+    - `successor_creation_failed`: The successor response could not be created.
+
+    - `"response_not_found"`
+
+    - `"invalid_input"`
+
+    - `"steering_not_supported"`
+
+    - `"too_many_pending_steers"`
+
+    - `"response_already_completed"`
+
+    - `"response_not_active"`
+
+    - `"successor_creation_failed"`
+
+  - `string`
+
+### Beta Response Steer Event
+
+- `BetaResponseSteerEvent object { input, previous_response_id, type }`
+
+  Queues user input to steer a response on this WebSocket connection. Input
+  can contain text, images, and files. Steering is supported only for
+  single-agent responses on models and execution modes that support steering.
+  Responses bound to a conversation or using automatic compaction do not
+  support steering.
+
+  A `response.steer.accepted` event acknowledges that the server owns the
+  queued input, not that it has been applied. The successor's `response.created`
+  event is the commit point. Input that cannot be committed is returned in
+  `response.steer.failed`.
+
+  Steering may cause the active response to finish at a safe output boundary
+  with `response.incomplete` and `incomplete_details.reason` set to `steered`,
+  followed automatically by a successor `response.created`. Normal completion
+  can also be followed by an automatic successor. Automatic successors inherit
+  the previous response's settings and continue from it with the queued input.
+
+  If the response stops for client-owned tool output or approval, accepted
+  steering input remains queued and `response.steer.pending` is emitted after
+  `response.completed`. Fill the `required_input` stubs from that event with
+  saved tool results or approval decisions, and send one explicit
+  `response.create` per parent with the same `previous_response_id` and
+  WebSocket lane. Do not rerun tools or resend accepted steering input. The
+  queued input is prepended in submission order to that request's input, and
+  the explicit request retains its own settings.
+
+  This event accepts only `type`, `previous_response_id`, and `input`. Do not
+  send `stream_id`; the target response determines the WebSocket lane.
+
+  - `input: BetaResponseSteerInput`
+
+    Input to queue for a continuation of the response. Uses the same string or
+    input-item shape as `response.create.input`, with a non-empty array when
+    supplying input items.
+
+    Steering accepts only messages with the `user` role. Each message may
+    contain only `type`, `role`, and `content`, with `content` as a string or an
+    array of `input_text`, `input_image`, and `input_file` parts. The optional
+    `type` must be `message`. Other roles, tool outputs, and item types are not
+    supported for steering.
+
+    - `TextInput = string`
+
+      A text input, equivalent to a message with the `user` role.
+
+    - `ResponseSteerInputItemList = array of object { content, role, type, 3 more }  or object { output, type, id, 6 more }`
+
+      A non-empty list of message inputs to queue for the response.
+
+      - `Message object { content, role, type, 3 more }`
+
+        - `content: array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent or string`
+
+          The message content, as an array of content parts.
+
+          - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+            - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+              A text input to the model.
+
+              - `text: string`
+
+                The text input to the model.
+
+              - `type: "input_text"`
+
+                The type of the input item. Always `input_text`.
+
+                - `"input_text"`
+
+              - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                - `mode: "explicit"`
+
+                  The breakpoint mode. Always `explicit`.
+
+                  - `"explicit"`
+
+            - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+              An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+              - `type: "input_image"`
+
+                The type of the input item. Always `input_image`.
+
+                - `"input_image"`
+
+              - `detail: optional BetaImageDetail or null`
+
+                The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+                - `"low"`
+
+                - `"high"`
+
+                - `"auto"`
+
+                - `"original"`
+
+              - `file_id: optional string or null`
+
+                The ID of the file to be sent to the model.
+
+              - `image_url: optional string or null`
+
+                The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+              - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                - `mode: "explicit"`
+
+                  The breakpoint mode. Always `explicit`.
+
+                  - `"explicit"`
+
+            - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+              A file input to the model.
+
+              - `type: "input_file"`
+
+                The type of the input item. Always `input_file`.
+
+                - `"input_file"`
+
+              - `detail: optional "auto" or "low" or "high"`
+
+                The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`.
+
+                - `"auto"`
+
+                - `"low"`
+
+                - `"high"`
+
+              - `file_data: optional string or null`
+
+                The base64-encoded data of the file to be sent to the model.
+
+              - `file_id: optional string or null`
+
+                The ID of the file to be sent to the model.
+
+              - `file_url: optional string or null`
+
+                The URL of the file to be sent to the model.
+
+              - `filename: optional string or null`
+
+                The name of the file to be sent to the model.
+
+              - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                - `mode: "explicit"`
+
+                  The breakpoint mode. Always `explicit`.
+
+                  - `"explicit"`
+
+          - `string`
+
+            The message content, as a single string.
+
+        - `role: "user"`
+
+          The message role. Always `user`.
+
+          - `"user"`
+
+        - `type: "message"`
+
+          The item type. Always `message`.
+
+          - `"message"`
+
+        - `id: optional string or null`
+
+          The unique ID of this message item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `status: optional string or null`
+
+          The status of the message item.
+
+      - `FunctionCallOutput object { output, type, id, 6 more }`
+
+        The output of a function tool call.
+
+        - `output: string or array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+          Text, image, or file output of the function tool call.
+
+          - `string`
+
+            A JSON string of the output of the function tool call.
+
+          - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+            An array of content outputs (text, image, file) for the function tool call.
+
+            - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+              A text input to the model.
+
+            - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+              An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+            - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+              A file input to the model.
+
+        - `type: "function_call_output"`
+
+          The type of the function tool call output. Always `function_call_output`.
+
+          - `"function_call_output"`
+
+        - `id: optional string or null`
+
+          The unique ID of the function tool call output. Populated when this item is returned via API.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `call_id: optional string or null`
+
+          The unique ID of the function tool call generated by the model.
+
+        - `caller: optional object { type }  or object { caller_id, type }  or null`
+
+          The execution context that produced this tool call.
+
+          - `Direct object { type }`
+
+            - `type: "direct"`
+
+              The caller type. Always `direct`.
+
+              - `"direct"`
+
+          - `Program object { caller_id, type }`
+
+            - `caller_id: string`
+
+              The call ID of the program item that produced this tool call.
+
+            - `type: "program"`
+
+              The caller type. Always `program`.
+
+              - `"program"`
+
+        - `name: optional string or null`
+
+          The name of the tool that produced the output.
+
+        - `namespace: optional string or null`
+
+          The namespace of the tool that produced the output.
+
+        - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+          The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+          - `"in_progress"`
+
+          - `"completed"`
+
+          - `"incomplete"`
+
+  - `previous_response_id: string`
+
+    The ID of the response to steer on this WebSocket connection.
+
+  - `type: "response.steer"`
+
+    The event discriminator. Always `response.steer`.
+
+    - `"response.steer"`
+
+### Beta Response Steer Failed Event
+
+- `BetaResponseSteerFailedEvent object { error, sequence_number, steer, 2 more }`
+
+  Emitted when steering input is rejected or cannot be committed to a
+  successor response. Returns the original, uncommitted input so the client
+  can carry it into `response.create` when appropriate. Invalid input must
+  be corrected before retrying.
+
+  Failures after acceptance include the same steering ID. Failures before an
+  ID is allocated omit `steer.id`. A lost connection or missing acknowledgement
+  leaves the outcome unknown; it is not proof that the input was rejected.
+
+  - `error: object { code, message, type }`
+
+    Information about why the input could not be committed.
+
+    - `code: BetaResponseSteerErrorCode`
+
+      A machine-readable steering error code. Clients should handle unknown
+      values because additional codes may be introduced. Known values include:
+
+      - `response_not_found`: The target response is not available on this connection.
+      - `invalid_input`: The event or input failed validation.
+      - `steering_not_supported`: The model or response execution mode does not support steering.
+      - `too_many_pending_steers`: Too much steering input is pending for the response.
+      - `response_already_completed`: The response completed and is no longer accepting steering input.
+      - `response_not_active`: The response is no longer accepting steering input.
+      - `successor_creation_failed`: The successor response could not be created.
+
+      - `"response_not_found" or "invalid_input" or "steering_not_supported" or 4 more`
+
+        A machine-readable steering error code. Clients should handle unknown
+        values because additional codes may be introduced. Known values include:
+
+        - `response_not_found`: The target response is not available on this connection.
+        - `invalid_input`: The event or input failed validation.
+        - `steering_not_supported`: The model or response execution mode does not support steering.
+        - `too_many_pending_steers`: Too much steering input is pending for the response.
+        - `response_already_completed`: The response completed and is no longer accepting steering input.
+        - `response_not_active`: The response is no longer accepting steering input.
+        - `successor_creation_failed`: The successor response could not be created.
+
+        - `"response_not_found"`
+
+        - `"invalid_input"`
+
+        - `"steering_not_supported"`
+
+        - `"too_many_pending_steers"`
+
+        - `"response_already_completed"`
+
+        - `"response_not_active"`
+
+        - `"successor_creation_failed"`
+
+      - `string`
+
+    - `message: string`
+
+      A human-readable description of the error.
+
+    - `type: "invalid_request_error"`
+
+      The error type. Always `invalid_request_error`.
+
+      - `"invalid_request_error"`
+
+  - `sequence_number: number`
+
+    The sequence number for this event.
+
+  - `steer: object { input, previous_response_id, id }`
+
+    The steering submission that could not be committed.
+
+    - `input: BetaResponseSteerInput`
+
+      Input to queue for a continuation of the response. Uses the same string or
+      input-item shape as `response.create.input`, with a non-empty array when
+      supplying input items.
+
+      Steering accepts only messages with the `user` role. Each message may
+      contain only `type`, `role`, and `content`, with `content` as a string or an
+      array of `input_text`, `input_image`, and `input_file` parts. The optional
+      `type` must be `message`. Other roles, tool outputs, and item types are not
+      supported for steering.
+
+      - `TextInput = string`
+
+        A text input, equivalent to a message with the `user` role.
+
+      - `ResponseSteerInputItemList = array of object { content, role, type, 3 more }  or object { output, type, id, 6 more }`
+
+        A non-empty list of message inputs to queue for the response.
+
+        - `Message object { content, role, type, 3 more }`
+
+          - `content: array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent or string`
+
+            The message content, as an array of content parts.
+
+            - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+              - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+                A text input to the model.
+
+                - `text: string`
+
+                  The text input to the model.
+
+                - `type: "input_text"`
+
+                  The type of the input item. Always `input_text`.
+
+                  - `"input_text"`
+
+                - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                  Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                  - `mode: "explicit"`
+
+                    The breakpoint mode. Always `explicit`.
+
+                    - `"explicit"`
+
+              - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+                An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+                - `type: "input_image"`
+
+                  The type of the input item. Always `input_image`.
+
+                  - `"input_image"`
+
+                - `detail: optional BetaImageDetail or null`
+
+                  The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+                  - `"low"`
+
+                  - `"high"`
+
+                  - `"auto"`
+
+                  - `"original"`
+
+                - `file_id: optional string or null`
+
+                  The ID of the file to be sent to the model.
+
+                - `image_url: optional string or null`
+
+                  The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+                - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                  Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                  - `mode: "explicit"`
+
+                    The breakpoint mode. Always `explicit`.
+
+                    - `"explicit"`
+
+              - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+                A file input to the model.
+
+                - `type: "input_file"`
+
+                  The type of the input item. Always `input_file`.
+
+                  - `"input_file"`
+
+                - `detail: optional "auto" or "low" or "high"`
+
+                  The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`.
+
+                  - `"auto"`
+
+                  - `"low"`
+
+                  - `"high"`
+
+                - `file_data: optional string or null`
+
+                  The base64-encoded data of the file to be sent to the model.
+
+                - `file_id: optional string or null`
+
+                  The ID of the file to be sent to the model.
+
+                - `file_url: optional string or null`
+
+                  The URL of the file to be sent to the model.
+
+                - `filename: optional string or null`
+
+                  The name of the file to be sent to the model.
+
+                - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                  Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                  - `mode: "explicit"`
+
+                    The breakpoint mode. Always `explicit`.
+
+                    - `"explicit"`
+
+            - `string`
+
+              The message content, as a single string.
+
+          - `role: "user"`
+
+            The message role. Always `user`.
+
+            - `"user"`
+
+          - `type: "message"`
+
+            The item type. Always `message`.
+
+            - `"message"`
+
+          - `id: optional string or null`
+
+            The unique ID of this message item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `status: optional string or null`
+
+            The status of the message item.
+
+        - `FunctionCallOutput object { output, type, id, 6 more }`
+
+          The output of a function tool call.
+
+          - `output: string or array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+            Text, image, or file output of the function tool call.
+
+            - `string`
+
+              A JSON string of the output of the function tool call.
+
+            - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+              An array of content outputs (text, image, file) for the function tool call.
+
+              - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+                A text input to the model.
+
+              - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+                An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+              - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+                A file input to the model.
+
+          - `type: "function_call_output"`
+
+            The type of the function tool call output. Always `function_call_output`.
+
+            - `"function_call_output"`
+
+          - `id: optional string or null`
+
+            The unique ID of the function tool call output. Populated when this item is returned via API.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `call_id: optional string or null`
+
+            The unique ID of the function tool call generated by the model.
+
+          - `caller: optional object { type }  or object { caller_id, type }  or null`
+
+            The execution context that produced this tool call.
+
+            - `Direct object { type }`
+
+              - `type: "direct"`
+
+                The caller type. Always `direct`.
+
+                - `"direct"`
+
+            - `Program object { caller_id, type }`
+
+              - `caller_id: string`
+
+                The call ID of the program item that produced this tool call.
+
+              - `type: "program"`
+
+                The caller type. Always `program`.
+
+                - `"program"`
+
+          - `name: optional string or null`
+
+            The name of the tool that produced the output.
+
+          - `namespace: optional string or null`
+
+            The namespace of the tool that produced the output.
+
+          - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+            The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+            - `"in_progress"`
+
+            - `"completed"`
+
+            - `"incomplete"`
+
+    - `previous_response_id: string`
+
+      The ID of the response that was targeted for steering.
+
+    - `id: optional string`
+
+      The ID assigned to the steering submission, if one was allocated.
+
+  - `type: "response.steer.failed"`
+
+    The event discriminator. Always `response.steer.failed`.
+
+    - `"response.steer.failed"`
+
+  - `stream_id: optional string`
+
+    The WebSocket lane that emitted this event, when the target response is
+    available and its `response.create` event supplied a `stream_id`.
+
+### Beta Response Steer Input
+
+- `BetaResponseSteerInput = string or array of object { content, role, type, 3 more }  or object { output, type, id, 6 more }`
+
+  Input to queue for a continuation of the response. Uses the same string or
+  input-item shape as `response.create.input`, with a non-empty array when
+  supplying input items.
+
+  Steering accepts only messages with the `user` role. Each message may
+  contain only `type`, `role`, and `content`, with `content` as a string or an
+  array of `input_text`, `input_image`, and `input_file` parts. The optional
+  `type` must be `message`. Other roles, tool outputs, and item types are not
+  supported for steering.
+
+  - `TextInput = string`
+
+    A text input, equivalent to a message with the `user` role.
+
+  - `ResponseSteerInputItemList = array of object { content, role, type, 3 more }  or object { output, type, id, 6 more }`
+
+    A non-empty list of message inputs to queue for the response.
+
+    - `Message object { content, role, type, 3 more }`
+
+      - `content: array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent or string`
+
+        The message content, as an array of content parts.
+
+        - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+          - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+            A text input to the model.
+
+            - `text: string`
+
+              The text input to the model.
+
+            - `type: "input_text"`
+
+              The type of the input item. Always `input_text`.
+
+              - `"input_text"`
+
+            - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit"`
+
+                The breakpoint mode. Always `explicit`.
+
+                - `"explicit"`
+
+          - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+            An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+            - `type: "input_image"`
+
+              The type of the input item. Always `input_image`.
+
+              - `"input_image"`
+
+            - `detail: optional BetaImageDetail or null`
+
+              The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+              - `"low"`
+
+              - `"high"`
+
+              - `"auto"`
+
+              - `"original"`
+
+            - `file_id: optional string or null`
+
+              The ID of the file to be sent to the model.
+
+            - `image_url: optional string or null`
+
+              The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+            - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit"`
+
+                The breakpoint mode. Always `explicit`.
+
+                - `"explicit"`
+
+          - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+            A file input to the model.
+
+            - `type: "input_file"`
+
+              The type of the input item. Always `input_file`.
+
+              - `"input_file"`
+
+            - `detail: optional "auto" or "low" or "high"`
+
+              The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`.
+
+              - `"auto"`
+
+              - `"low"`
+
+              - `"high"`
+
+            - `file_data: optional string or null`
+
+              The base64-encoded data of the file to be sent to the model.
+
+            - `file_id: optional string or null`
+
+              The ID of the file to be sent to the model.
+
+            - `file_url: optional string or null`
+
+              The URL of the file to be sent to the model.
+
+            - `filename: optional string or null`
+
+              The name of the file to be sent to the model.
+
+            - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+              Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+              - `mode: "explicit"`
+
+                The breakpoint mode. Always `explicit`.
+
+                - `"explicit"`
+
+        - `string`
+
+          The message content, as a single string.
+
+      - `role: "user"`
+
+        The message role. Always `user`.
+
+        - `"user"`
+
+      - `type: "message"`
+
+        The item type. Always `message`.
+
+        - `"message"`
+
+      - `id: optional string or null`
+
+        The unique ID of this message item.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `status: optional string or null`
+
+        The status of the message item.
+
+    - `FunctionCallOutput object { output, type, id, 6 more }`
+
+      The output of a function tool call.
+
+      - `output: string or array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+        Text, image, or file output of the function tool call.
+
+        - `string`
+
+          A JSON string of the output of the function tool call.
+
+        - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+          An array of content outputs (text, image, file) for the function tool call.
+
+          - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+            A text input to the model.
+
+          - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+            An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+          - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+            A file input to the model.
+
+      - `type: "function_call_output"`
+
+        The type of the function tool call output. Always `function_call_output`.
+
+        - `"function_call_output"`
+
+      - `id: optional string or null`
+
+        The unique ID of the function tool call output. Populated when this item is returned via API.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `call_id: optional string or null`
+
+        The unique ID of the function tool call generated by the model.
+
+      - `caller: optional object { type }  or object { caller_id, type }  or null`
+
+        The execution context that produced this tool call.
+
+        - `Direct object { type }`
+
+          - `type: "direct"`
+
+            The caller type. Always `direct`.
+
+            - `"direct"`
+
+        - `Program object { caller_id, type }`
+
+          - `caller_id: string`
+
+            The call ID of the program item that produced this tool call.
+
+          - `type: "program"`
+
+            The caller type. Always `program`.
+
+            - `"program"`
+
+      - `name: optional string or null`
+
+        The name of the tool that produced the output.
+
+      - `namespace: optional string or null`
+
+        The namespace of the tool that produced the output.
+
+      - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+        The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+        - `"in_progress"`
+
+        - `"completed"`
+
+        - `"incomplete"`
+
+### Beta Response Steer Pending Event
+
+- `BetaResponseSteerPendingEvent object { reason, required_input, sequence_number, 3 more }`
+
+  Emitted when accepted steering input remains queued after the target
+  response completes. The server still owns the input. Do not resend it.
+  The successor's `response.created` event is the commit point.
+
+  When `reason` is `waiting_for_required_input`, this event follows
+  `response.completed` while the response waits for the tool results or
+  approval decisions identified by `required_input`. Copy those stubs, fill
+  their result fields using the ordinary `response.create` input schemas,
+  and submit one continuation per parent with the same `previous_response_id`
+  and WebSocket lane. Use saved results without rerunning tools. The queued
+  steering input is prepended in submission order to the continuation's
+  input. That explicit request retains its own settings.
+
+  This notification is emitted at most once per steering submission. Multiple
+  submissions for the same parent can report the same required inputs; they
+  do not each require a separate continuation.
+
+  - `reason: BetaResponseSteerPendingReason`
+
+    An extensible enum describing why accepted steering input is still queued.
+    Clients should handle unknown values because additional reasons may be
+    introduced. Known values include:
+
+    - `waiting_for_required_input`: The response is waiting for the tool results or approval decisions identified by `required_input`.
+
+    - `"waiting_for_required_input"`
+
+      An extensible enum describing why accepted steering input is still queued.
+      Clients should handle unknown values because additional reasons may be
+      introduced. Known values include:
+
+      - `waiting_for_required_input`: The response is waiting for the tool results or approval decisions identified by `required_input`.
+
+      - `"waiting_for_required_input"`
+
+    - `string`
+
+  - `required_input: array of BetaResponseSteerRequiredInput`
+
+    Input stubs identifying outstanding client-owned tool results or
+    approval decisions. Each stub contains identifying fields only; the
+    client supplies the result before including it in `response.create`.
+
+    - `FunctionCallOutput object { call_id, name, type }`
+
+      Supply `output` using the function tool call output input schema.
+
+      - `call_id: string`
+
+      - `name: string`
+
+      - `type: "function_call_output"`
+
+        - `"function_call_output"`
+
+    - `CustomToolCallOutput object { call_id, type }`
+
+      Supply `output` using the custom tool call output input schema. The
+      original custom tool call supplies the tool's name.
+
+      - `call_id: string`
+
+      - `type: "custom_tool_call_output"`
+
+        - `"custom_tool_call_output"`
+
+    - `ComputerCallOutput object { call_id, type }`
+
+      Supply `output` using the computer tool call output input schema,
+      including any required `acknowledged_safety_checks`.
+
+      - `call_id: string`
+
+      - `type: "computer_call_output"`
+
+        - `"computer_call_output"`
+
+    - `ShellCallOutput object { call_id, type }`
+
+      Supply `output` using the shell tool call output input schema. Each
+      output entry includes `stdout`, `stderr`, and `outcome`.
+
+      - `call_id: string`
+
+      - `type: "shell_call_output"`
+
+        - `"shell_call_output"`
+
+    - `ApplyPatchCallOutput object { call_id, type }`
+
+      Supply `status` and optional `output` using the apply patch tool call
+      output input schema.
+
+      - `call_id: string`
+
+      - `type: "apply_patch_call_output"`
+
+        - `"apply_patch_call_output"`
+
+    - `ToolSearchOutput object { call_id, execution, type }`
+
+      Supply `tools` using the tool search output input schema, retaining
+      `execution: "client"`.
+
+      - `call_id: string`
+
+      - `execution: "client"`
+
+        - `"client"`
+
+      - `type: "tool_search_output"`
+
+        - `"tool_search_output"`
+
+    - `McpApprovalResponse object { approval_request_id, type }`
+
+      Supply `approve` using the MCP approval response input schema. An
+      optional `reason` can be supplied when denying the request. The original
+      approval request identifies the tool and server.
+
+      - `approval_request_id: string`
+
+      - `type: "mcp_approval_response"`
+
+        - `"mcp_approval_response"`
+
+  - `sequence_number: number`
+
+    The sequence number for this event.
+
+  - `steer: object { id, previous_response_id }`
+
+    The steering submission that remains queued.
+
+    - `id: string`
+
+      The ID assigned to the steering submission.
+
+    - `previous_response_id: string`
+
+      The ID of the response being steered.
+
+  - `type: "response.steer.pending"`
+
+    The event discriminator. Always `response.steer.pending`.
+
+    - `"response.steer.pending"`
+
+  - `stream_id: optional string`
+
+    The WebSocket lane that emitted this event. This field is present when
+    the target response's `response.create` event supplied a `stream_id`.
+
+### Beta Response Steer Pending Reason
+
+- `BetaResponseSteerPendingReason = "waiting_for_required_input" or string`
+
+  An extensible enum describing why accepted steering input is still queued.
+  Clients should handle unknown values because additional reasons may be
+  introduced. Known values include:
+
+  - `waiting_for_required_input`: The response is waiting for the tool results or approval decisions identified by `required_input`.
+
+  - `"waiting_for_required_input"`
+
+    An extensible enum describing why accepted steering input is still queued.
+    Clients should handle unknown values because additional reasons may be
+    introduced. Known values include:
+
+    - `waiting_for_required_input`: The response is waiting for the tool results or approval decisions identified by `required_input`.
+
+    - `"waiting_for_required_input"`
+
+  - `string`
+
+### Beta Response Steer Required Input
+
+- `BetaResponseSteerRequiredInput = object { call_id, name, type }  or object { call_id, type }  or object { call_id, type }  or 4 more`
+
+  An input stub identifying an outstanding client-owned tool result or
+  approval decision. Copy the stub and fill the result fields using the
+  corresponding `response.create` input schema. Use saved results without
+  rerunning the tool. The server does not supply results, approval decisions,
+  or safety acknowledgements in these stubs.
+
+  - `FunctionCallOutput object { call_id, name, type }`
+
+    Supply `output` using the function tool call output input schema.
+
+    - `call_id: string`
+
+    - `name: string`
+
+    - `type: "function_call_output"`
+
+      - `"function_call_output"`
+
+  - `CustomToolCallOutput object { call_id, type }`
+
+    Supply `output` using the custom tool call output input schema. The
+    original custom tool call supplies the tool's name.
+
+    - `call_id: string`
+
+    - `type: "custom_tool_call_output"`
+
+      - `"custom_tool_call_output"`
+
+  - `ComputerCallOutput object { call_id, type }`
+
+    Supply `output` using the computer tool call output input schema,
+    including any required `acknowledged_safety_checks`.
+
+    - `call_id: string`
+
+    - `type: "computer_call_output"`
+
+      - `"computer_call_output"`
+
+  - `ShellCallOutput object { call_id, type }`
+
+    Supply `output` using the shell tool call output input schema. Each
+    output entry includes `stdout`, `stderr`, and `outcome`.
+
+    - `call_id: string`
+
+    - `type: "shell_call_output"`
+
+      - `"shell_call_output"`
+
+  - `ApplyPatchCallOutput object { call_id, type }`
+
+    Supply `status` and optional `output` using the apply patch tool call
+    output input schema.
+
+    - `call_id: string`
+
+    - `type: "apply_patch_call_output"`
+
+      - `"apply_patch_call_output"`
+
+  - `ToolSearchOutput object { call_id, execution, type }`
+
+    Supply `tools` using the tool search output input schema, retaining
+    `execution: "client"`.
+
+    - `call_id: string`
+
+    - `execution: "client"`
+
+      - `"client"`
+
+    - `type: "tool_search_output"`
+
+      - `"tool_search_output"`
+
+  - `McpApprovalResponse object { approval_request_id, type }`
+
+    Supply `approve` using the MCP approval response input schema. An
+    optional `reason` can be supplied when denying the request. The original
+    approval request identifies the tool and server.
+
+    - `approval_request_id: string`
+
+    - `type: "mcp_approval_response"`
+
+      - `"mcp_approval_response"`
+
 ### Beta Response Stream Event
 
 - `BetaResponseStreamEvent = BetaResponseAudioDeltaEvent or BetaResponseAudioDoneEvent or BetaResponseAudioTranscriptDeltaEvent or 55 more`
@@ -169587,7 +173939,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         An error object returned when the model fails to generate a Response.
 
-        - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 17 more`
+        - `code: "server_error" or "rate_limit_exceeded" or "invalid_prompt" or 18 more`
 
           The error code for the response.
 
@@ -169600,6 +173952,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"data_residency_mismatch"`
 
           - `"bio_policy"`
+
+          - `"misalignment_policy_violation"`
 
           - `"vector_store_timeout"`
 
@@ -169635,13 +173989,48 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           A human-readable description of the error.
 
+        - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+          - `detailed_explanation: optional string`
+
+            The public explanation for this block.
+
+          - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `string`
+
+            - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+              An optional classification; clients must accept additional values.
+
+              - `"potentially_unintended_data_transfer"`
+
+              - `"potentially_unintended_data_access"`
+
+              - `"potentially_unintended_destructive_activity"`
+
+              - `"other"`
+
+          - `steer: optional object { message }`
+
+            An optional public continuation instruction.
+
+            - `message: string`
+
+              The public continuation instruction.
+
       - `incomplete_details: object { reason }  or null`
 
         Details about why the response is incomplete.
 
-        - `reason: optional "max_output_tokens" or "max_messages" or "content_filter"`
+        - `reason: optional "max_output_tokens" or "max_messages" or "content_filter" or "steered"`
 
-          The reason why the response is incomplete.
+          The reason why the response is incomplete. `steered` means
+          the response stopped at a safe output boundary after a
+          WebSocket `response.steer` event. The server can then create
+          a successor response automatically with the queued input.
 
           - `"max_output_tokens"`
 
@@ -169649,7 +174038,9 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"content_filter"`
 
-      - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+          - `"steered"`
+
+      - `instructions: string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
         A system (or developer) message inserted into the model's context.
 
@@ -169662,7 +174053,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
           A text input to the model, equivalent to a text input with the
           `developer` role.
 
-        - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+        - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
           A list of one or many input items to the model, containing
           different content types.
@@ -170586,7 +174977,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   The URL of the page searched for the pattern.
 
-            - `status: "in_progress" or "searching" or "completed" or "failed"`
+            - `status: "in_progress" or "searching" or "completed" or 2 more`
 
               The status of the web search tool call.
 
@@ -170597,6 +174988,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"completed"`
 
               - `"failed"`
+
+              - `"incomplete"`
 
             - `type: "web_search_call"`
 
@@ -170612,7 +175005,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The canonical name of the agent that produced this item.
 
-          - `FunctionCall object { arguments, call_id, name, 6 more }`
+          - `FunctionCall object { arguments, call_id, name, 7 more }`
 
             A tool call to run a function. See the
             [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -170646,6 +175039,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `agent_name: string`
 
                 The canonical name of the agent that produced this item.
+
+            - `async: optional boolean`
+
+              Whether the function tool call runs asynchronously.
 
             - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -171142,11 +175539,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-            - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+            - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
               The loaded tool definitions returned by the tool search output.
 
-              - `Function object { name, parameters, strict, 5 more }`
+              - `Function object { name, parameters, strict, 6 more }`
 
                 Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -171175,6 +175572,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
 
                 - `defer_loading: optional boolean`
 
@@ -172018,7 +176417,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                       - `"container_reference"`
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -172039,6 +176438,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -172096,11 +176499,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   The namespace name used in tool calls (for example, `crm`).
 
-                - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+                - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                   The function/custom tools available inside this namespace.
 
-                  - `Function object { name, type, allowed_callers, 5 more }`
+                  - `Function object { name, type, allowed_callers, 6 more }`
 
                     - `name: string`
 
@@ -172115,6 +176518,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                       - `"direct"`
 
                       - `"programmatic"`
+
+                    - `async: optional boolean`
+
+                      Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                     - `defer_loading: optional boolean`
 
@@ -172132,7 +176539,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                       Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                  - `Custom object { name, type, allowed_callers, 3 more }`
+                  - `Custom object { name, type, allowed_callers, 4 more }`
 
                     A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -172153,6 +176560,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                       - `"direct"`
 
                       - `"programmatic"`
+
+                    - `async: optional boolean`
+
+                      Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                     - `defer_loading: optional boolean`
 
@@ -172350,11 +176761,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `"developer"`
 
-            - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+            - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
               A list of additional tools made available at this item.
 
-              - `Function object { name, parameters, strict, 5 more }`
+              - `Function object { name, parameters, strict, 6 more }`
 
                 Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -172383,6 +176794,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
 
                 - `defer_loading: optional boolean`
 
@@ -173076,7 +177489,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   - `BetaContainerReference object { container_id, type }`
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -173097,6 +177510,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -173154,11 +177571,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   The namespace name used in tool calls (for example, `crm`).
 
-                - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+                - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                   The function/custom tools available inside this namespace.
 
-                  - `Function object { name, type, allowed_callers, 5 more }`
+                  - `Function object { name, type, allowed_callers, 6 more }`
 
                     - `name: string`
 
@@ -173173,6 +177590,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                       - `"direct"`
 
                       - `"programmatic"`
+
+                    - `async: optional boolean`
+
+                      Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                     - `defer_loading: optional boolean`
 
@@ -173190,7 +177611,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                       Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                  - `Custom object { name, type, allowed_callers, 3 more }`
+                  - `Custom object { name, type, allowed_callers, 4 more }`
 
                     A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -173211,6 +177632,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                       - `"direct"`
 
                       - `"programmatic"`
+
+                    - `async: optional boolean`
+
+                      Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                     - `defer_loading: optional boolean`
 
@@ -173377,6 +177802,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `agent_name: string`
 
                 The canonical name of the agent that produced this item.
+
+          - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+            An update to the conversation's response configuration. The configuration
+            remains in effect for subsequent responses until it is replaced by another
+            configuration update.
+
+            - `type: "configuration_update"`
+
+              The item type. Always `configuration_update`.
+
+              - `"configuration_update"`
+
+            - `id: optional string or null`
+
+              The unique ID of the configuration update item.
+
+            - `agent: optional object { agent_name }  or null`
+
+              The agent that produced this item.
+
+              - `agent_name: string`
+
+                The canonical name of the agent that produced this item.
+
+            - `reasoning: optional object { effort }`
+
+              Updates to reasoning configuration. Only effort is supported.
+
+              - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+                The reasoning effort to use for subsequent responses until another
+                configuration update replaces it.
+
+                - `"none"`
+
+                - `"minimal"`
+
+                - `"low"`
+
+                - `"medium"`
+
+                - `"high"`
+
+                - `"xhigh"`
+
+                - `"max"`
 
           - `Reasoning object { id, summary, type, 4 more }`
 
@@ -174341,7 +178813,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   - `"program"`
 
-          - `CustomToolCall object { call_id, input, name, 5 more }`
+          - `CustomToolCall object { call_id, input, name, 6 more }`
 
             A call to a custom tool created by the model.
 
@@ -174374,6 +178846,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `agent_name: string`
 
                 The canonical name of the agent that produced this item.
+
+            - `async: optional boolean`
+
+              Whether the custom tool call runs asynchronously.
 
             - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -174520,19 +178996,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
         Keys are strings with a maximum length of 64 characters. Values are strings
         with a maximum length of 512 characters.
 
-      - `model: "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+      - `model: "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
 
-        - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+        - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-          Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+          Model ID used to generate the response, like `gpt-6-astra`. OpenAI
           offers a wide range of models with different capabilities, performance
           characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
           to browse and compare available models.
+
+          - `"gpt-6-astra"`
 
           - `"gpt-5.6-sol"`
 
@@ -174837,7 +179315,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The text that was retrieved from the file.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -174871,6 +179349,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -175319,7 +179801,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -175330,6 +179812,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -175692,11 +180176,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"incomplete"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by tool search.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -175725,6 +180209,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -176418,7 +180904,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -176439,6 +180925,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -176496,11 +180986,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -176515,6 +181005,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -176532,7 +181026,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -176553,6 +181047,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -176746,11 +181244,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"tool"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The additional tool definitions made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -176779,6 +181277,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -177472,7 +181972,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -177493,6 +181993,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -177550,11 +182054,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -177569,6 +182073,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -177586,7 +182094,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -177607,6 +182115,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -178578,7 +183090,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             Optional reason for the decision.
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -178611,6 +183123,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -178903,7 +183419,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"shell"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         An array of tools the model may call while generating a response. You
         can specify which tool to use by setting the `tool_choice` parameter.
@@ -178923,7 +183439,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
           [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
           custom tools to call your own code.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -178952,6 +183468,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -179645,7 +184163,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -179666,6 +184184,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -179723,11 +184245,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -179742,6 +184264,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -179759,7 +184285,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -179780,6 +184306,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -180125,11 +184655,69 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           Optional version of the prompt template.
 
+      - `prompt_cache_diagnostics: optional object { cache_missed_tokens, reason, type, comparison_reusable_tokens }  or object { type }  or object { type }  or object { type }`
+
+        Prompt cache diagnostics requested for this response.
+
+        - `CacheMiss object { cache_missed_tokens, reason, type, comparison_reusable_tokens }`
+
+          - `cache_missed_tokens: number`
+
+            The estimated number of input tokens affected after the first detected divergence.
+
+          - `reason: "model_changed" or "prompt_cache_key_changed" or "tools_changed" or 6 more`
+
+            The reason prompt cache reuse did not occur.
+
+            - `"model_changed"`
+
+            - `"prompt_cache_key_changed"`
+
+            - `"tools_changed"`
+
+            - `"text_format_changed"`
+
+            - `"reasoning_effort_changed"`
+
+            - `"verbosity_changed"`
+
+            - `"context_compacted"`
+
+            - `"input_changed"`
+
+            - `"service_tier_changed"`
+
+          - `type: "cache_miss"`
+
+            - `"cache_miss"`
+
+          - `comparison_reusable_tokens: optional number`
+
+            The raw token count of the reusable prefix in the compared response.
+
+        - `CacheHit object { type }`
+
+          - `type: "cache_hit"`
+
+            - `"cache_hit"`
+
+        - `ComparisonResponseNotFound object { type }`
+
+          - `type: "comparison_response_not_found"`
+
+            - `"comparison_response_not_found"`
+
+        - `Unavailable object { type }`
+
+          - `type: "unavailable"`
+
+            - `"unavailable"`
+
       - `prompt_cache_key: optional string or null`
 
         Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-      - `prompt_cache_options: optional object { mode, ttl }`
+      - `prompt_cache_options: optional object { mode, ttl, comparison_response_id }`
 
         The prompt-caching options that were applied to the response. Supported for `gpt-5.6` and later models.
 
@@ -180146,6 +184734,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           The minimum lifetime applied to each cache breakpoint.
 
           - `"30m"`
+
+        - `comparison_response_id: optional string or null`
+
+          The response ID supplied as the prompt cache diagnostics comparison.
 
       - `prompt_cache_retention: optional "in_memory" or "24h" or null`
 
@@ -181109,6 +185701,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
     An event that is emitted when a response finishes as incomplete.
 
+    Over WebSocket, steering can finish a response with
+    `response.incomplete_details.reason` set to `steered`, followed automatically
+    by a successor `response.created` that commits the queued steering input.
+
     - `response: BetaResponse`
 
       The response that was incomplete.
@@ -181151,7 +185747,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         The results of a file search tool call. See the
         [file search guide](https://developers.openai.com/docs/guides/tools-file-search) for more information.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -181245,7 +185841,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A response to an MCP approval request.
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -182834,7 +187430,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
 ### Beta Responses Client Event
 
-- `BetaResponsesClientEvent = object { type, background, context_management, 31 more }  or BetaResponseInjectEvent`
+- `BetaResponsesClientEvent = object { type, background, context_management, 31 more }  or BetaResponseSteerEvent or BetaResponseInjectEvent`
 
   Client events accepted by the Responses WebSocket server.
 
@@ -182918,7 +187514,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `"message.output_text.logprobs"`
 
-    - `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       Text, image, or file inputs to the model, used to generate a response.
 
@@ -182935,7 +187531,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         A text input to the model, equivalent to a text input with the
         `user` role.
 
-      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+      - `InputItemList = array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
         A list of one or many input items to the model, containing
         different content types.
@@ -183859,7 +188455,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The URL of the page searched for the pattern.
 
-          - `status: "in_progress" or "searching" or "completed" or "failed"`
+          - `status: "in_progress" or "searching" or "completed" or 2 more`
 
             The status of the web search tool call.
 
@@ -183870,6 +188466,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `"completed"`
 
             - `"failed"`
+
+            - `"incomplete"`
 
           - `type: "web_search_call"`
 
@@ -183885,7 +188483,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The canonical name of the agent that produced this item.
 
-        - `FunctionCall object { arguments, call_id, name, 6 more }`
+        - `FunctionCall object { arguments, call_id, name, 7 more }`
 
           A tool call to run a function. See the
           [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -183919,6 +188517,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the function tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -184415,11 +189017,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             The loaded tool definitions returned by the tool search output.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -184448,6 +189050,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -185291,7 +189895,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     - `"container_reference"`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -185312,6 +189916,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -185369,11 +189977,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -185388,6 +189996,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -185405,7 +190017,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -185426,6 +190038,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -185623,11 +190239,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             - `"developer"`
 
-          - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+          - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
             A list of additional tools made available at this item.
 
-            - `Function object { name, parameters, strict, 5 more }`
+            - `Function object { name, parameters, strict, 6 more }`
 
               Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -185656,6 +190272,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
 
               - `defer_loading: optional boolean`
 
@@ -186349,7 +190967,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `BetaContainerReference object { container_id, type }`
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -186370,6 +190988,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -186427,11 +191049,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 The namespace name used in tool calls (for example, `crm`).
 
-              - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+              - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
                 The function/custom tools available inside this namespace.
 
-                - `Function object { name, type, allowed_callers, 5 more }`
+                - `Function object { name, type, allowed_callers, 6 more }`
 
                   - `name: string`
 
@@ -186446,6 +191068,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -186463,7 +191089,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                     Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-                - `Custom object { name, type, allowed_callers, 3 more }`
+                - `Custom object { name, type, allowed_callers, 4 more }`
 
                   A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -186484,6 +191110,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                     - `"direct"`
 
                     - `"programmatic"`
+
+                  - `async: optional boolean`
+
+                    Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                   - `defer_loading: optional boolean`
 
@@ -186650,6 +191280,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+        - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+          An update to the conversation's response configuration. The configuration
+          remains in effect for subsequent responses until it is replaced by another
+          configuration update.
+
+          - `type: "configuration_update"`
+
+            The item type. Always `configuration_update`.
+
+            - `"configuration_update"`
+
+          - `id: optional string or null`
+
+            The unique ID of the configuration update item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `reasoning: optional object { effort }`
+
+            Updates to reasoning configuration. Only effort is supported.
+
+            - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+              The reasoning effort to use for subsequent responses until another
+              configuration update replaces it.
+
+              - `"none"`
+
+              - `"minimal"`
+
+              - `"low"`
+
+              - `"medium"`
+
+              - `"high"`
+
+              - `"xhigh"`
+
+              - `"max"`
 
         - `Reasoning object { id, summary, type, 4 more }`
 
@@ -187614,7 +192291,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                 - `"program"`
 
-        - `CustomToolCall object { call_id, input, name, 5 more }`
+        - `CustomToolCall object { call_id, input, name, 6 more }`
 
           A call to a custom tool created by the model.
 
@@ -187647,6 +192324,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
             - `agent_name: string`
 
               The canonical name of the agent that produced this item.
+
+          - `async: optional boolean`
+
+            Whether the custom tool call runs asynchronously.
 
           - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -187809,19 +192490,21 @@ curl https://api.openai.com/v1/responses/resp_123 \
       Keys are strings with a maximum length of 64 characters. Values are strings
       with a maximum length of 512 characters.
 
-    - `model: optional "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more or string`
+    - `model: optional "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more or string`
 
-      Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+      Model ID used to generate the response, like `gpt-6-astra`. OpenAI
       offers a wide range of models with different capabilities, performance
       characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
       to browse and compare available models.
 
-      - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 99 more`
+      - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 100 more`
 
-        Model ID used to generate the response, like `gpt-5.6-sol`. OpenAI
+        Model ID used to generate the response, like `gpt-6-astra`. OpenAI
         offers a wide range of models with different capabilities, performance
         characteristics, and price points. Refer to the [model guide](https://developers.openai.com/docs/models)
         to browse and compare available models.
+
+        - `"gpt-6-astra"`
 
         - `"gpt-5.6-sol"`
 
@@ -188121,9 +192804,13 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       Used by OpenAI to cache responses for similar requests to optimize your cache hit rates. Replaces the `user` field. [Learn more](https://developers.openai.com/docs/guides/prompt-caching).
 
-    - `prompt_cache_options: optional object { mode, ttl }`
+    - `prompt_cache_options: optional object { comparison_response_id, mode, ttl }`
 
       Options for prompt caching. Supported for `gpt-5.6` and later models. By default, OpenAI automatically chooses one implicit cache breakpoint. You can add explicit breakpoints to content blocks with `prompt_cache_breakpoint`. Each request can write up to four breakpoints. For cache matching, OpenAI considers up to the latest 80 breakpoints in the conversation, without a content-block lookback limit. Set `mode` to `explicit` to disable the implicit breakpoint. The `ttl` defaults to `30m`, which is currently the only supported value. See the [prompt caching guide](https://developers.openai.com/docs/guides/prompt-caching) for current details.
+
+      - `comparison_response_id: optional string or null`
+
+        The ID of a response to compare when diagnosing prompt cache reuse. Supplying this field requests prompt cache diagnostics when the feature is enabled.
 
       - `mode: optional "implicit" or "explicit"`
 
@@ -188586,7 +193273,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"shell"`
 
-    - `tools: optional array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: optional array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       An array of tools the model may call while generating a response. You
       can specify which tool to use by setting the `tool_choice` parameter.
@@ -188606,7 +193293,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
         [function calling](https://developers.openai.com/docs/guides/function-calling). You can also use
         custom tools to call your own code.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -188635,6 +193322,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -189328,7 +194017,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `BetaContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -189349,6 +194038,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -189406,11 +194099,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -189425,6 +194118,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -189442,7 +194139,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -189463,6 +194160,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -189648,13 +194349,218 @@ curl https://api.openai.com/v1/responses/resp_123 \
       A stable identifier for your end-users.
       Used to boost cache hit rates by better bucketing similar requests and  to help OpenAI detect and prevent abuse. [Learn more](https://developers.openai.com/docs/guides/safety-best-practices#safety-identifiers).
 
+  - `BetaResponseSteerEvent object { input, previous_response_id, type }`
+
+    Queues user input to steer a response on this WebSocket connection. Input
+    can contain text, images, and files. Steering is supported only for
+    single-agent responses on models and execution modes that support steering.
+    Responses bound to a conversation or using automatic compaction do not
+    support steering.
+
+    A `response.steer.accepted` event acknowledges that the server owns the
+    queued input, not that it has been applied. The successor's `response.created`
+    event is the commit point. Input that cannot be committed is returned in
+    `response.steer.failed`.
+
+    Steering may cause the active response to finish at a safe output boundary
+    with `response.incomplete` and `incomplete_details.reason` set to `steered`,
+    followed automatically by a successor `response.created`. Normal completion
+    can also be followed by an automatic successor. Automatic successors inherit
+    the previous response's settings and continue from it with the queued input.
+
+    If the response stops for client-owned tool output or approval, accepted
+    steering input remains queued and `response.steer.pending` is emitted after
+    `response.completed`. Fill the `required_input` stubs from that event with
+    saved tool results or approval decisions, and send one explicit
+    `response.create` per parent with the same `previous_response_id` and
+    WebSocket lane. Do not rerun tools or resend accepted steering input. The
+    queued input is prepended in submission order to that request's input, and
+    the explicit request retains its own settings.
+
+    This event accepts only `type`, `previous_response_id`, and `input`. Do not
+    send `stream_id`; the target response determines the WebSocket lane.
+
+    - `input: BetaResponseSteerInput`
+
+      Input to queue for a continuation of the response. Uses the same string or
+      input-item shape as `response.create.input`, with a non-empty array when
+      supplying input items.
+
+      Steering accepts only messages with the `user` role. Each message may
+      contain only `type`, `role`, and `content`, with `content` as a string or an
+      array of `input_text`, `input_image`, and `input_file` parts. The optional
+      `type` must be `message`. Other roles, tool outputs, and item types are not
+      supported for steering.
+
+      - `TextInput = string`
+
+        A text input, equivalent to a message with the `user` role.
+
+      - `ResponseSteerInputItemList = array of object { content, role, type, 3 more }  or object { output, type, id, 6 more }`
+
+        A non-empty list of message inputs to queue for the response.
+
+        - `Message object { content, role, type, 3 more }`
+
+          - `content: array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent or string`
+
+            The message content, as an array of content parts.
+
+            - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+              - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+                A text input to the model.
+
+              - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+                An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+              - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+                A file input to the model.
+
+            - `string`
+
+              The message content, as a single string.
+
+          - `role: "user"`
+
+            The message role. Always `user`.
+
+            - `"user"`
+
+          - `type: "message"`
+
+            The item type. Always `message`.
+
+            - `"message"`
+
+          - `id: optional string or null`
+
+            The unique ID of this message item.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `status: optional string or null`
+
+            The status of the message item.
+
+        - `FunctionCallOutput object { output, type, id, 6 more }`
+
+          The output of a function tool call.
+
+          - `output: string or array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+            Text, image, or file output of the function tool call.
+
+            - `string`
+
+              A JSON string of the output of the function tool call.
+
+            - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+              An array of content outputs (text, image, file) for the function tool call.
+
+              - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+                A text input to the model.
+
+              - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+                An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+              - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+                A file input to the model.
+
+          - `type: "function_call_output"`
+
+            The type of the function tool call output. Always `function_call_output`.
+
+            - `"function_call_output"`
+
+          - `id: optional string or null`
+
+            The unique ID of the function tool call output. Populated when this item is returned via API.
+
+          - `agent: optional object { agent_name }  or null`
+
+            The agent that produced this item.
+
+            - `agent_name: string`
+
+              The canonical name of the agent that produced this item.
+
+          - `call_id: optional string or null`
+
+            The unique ID of the function tool call generated by the model.
+
+          - `caller: optional object { type }  or object { caller_id, type }  or null`
+
+            The execution context that produced this tool call.
+
+            - `Direct object { type }`
+
+              - `type: "direct"`
+
+                The caller type. Always `direct`.
+
+                - `"direct"`
+
+            - `Program object { caller_id, type }`
+
+              - `caller_id: string`
+
+                The call ID of the program item that produced this tool call.
+
+              - `type: "program"`
+
+                The caller type. Always `program`.
+
+                - `"program"`
+
+          - `name: optional string or null`
+
+            The name of the tool that produced the output.
+
+          - `namespace: optional string or null`
+
+            The namespace of the tool that produced the output.
+
+          - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+            The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+            - `"in_progress"`
+
+            - `"completed"`
+
+            - `"incomplete"`
+
+    - `previous_response_id: string`
+
+      The ID of the response to steer on this WebSocket connection.
+
+    - `type: "response.steer"`
+
+      The event discriminator. Always `response.steer`.
+
+      - `"response.steer"`
+
   - `BetaResponseInjectEvent object { input, response_id, type }`
 
     Injects input items into an active response over a WebSocket connection.
     The items are validated and committed atomically. Currently, the server
     accepts client-owned tool outputs that resume a waiting agent.
 
-    - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       Input items to inject into the active response.
 
@@ -189989,7 +194895,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -190000,6 +194906,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -190015,7 +194923,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The canonical name of the agent that produced this item.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -190049,6 +194957,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -190455,11 +195367,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by the tool search output.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -190488,6 +195400,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -191181,7 +196095,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -191202,6 +196116,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -191259,11 +196177,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -191278,6 +196196,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -191295,7 +196217,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -191316,6 +196238,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -191513,11 +196439,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"developer"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           A list of additional tools made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -191546,6 +196472,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -192239,7 +197167,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -192260,6 +197188,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -192317,11 +197249,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -192336,6 +197268,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -192353,7 +197289,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -192374,6 +197310,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -192540,6 +197480,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+      - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+        An update to the conversation's response configuration. The configuration
+        remains in effect for subsequent responses until it is replaced by another
+        configuration update.
+
+        - `type: "configuration_update"`
+
+          The item type. Always `configuration_update`.
+
+          - `"configuration_update"`
+
+        - `id: optional string or null`
+
+          The unique ID of the configuration update item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `reasoning: optional object { effort }`
+
+          Updates to reasoning configuration. Only effort is supported.
+
+          - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+            The reasoning effort to use for subsequent responses until another
+            configuration update replaces it.
+
+            - `"none"`
+
+            - `"minimal"`
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -193452,7 +198439,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `"program"`
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -193485,6 +198472,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -193634,7 +198625,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
 ### Beta Responses Server Event
 
-- `BetaResponsesServerEvent = BetaResponseAudioDeltaEvent or BetaResponseAudioDoneEvent or BetaResponseAudioTranscriptDeltaEvent or 57 more`
+- `BetaResponsesServerEvent = BetaResponseAudioDeltaEvent or BetaResponseAudioDoneEvent or BetaResponseAudioTranscriptDeltaEvent or 60 more`
 
   Server events emitted by the Responses WebSocket server.
 
@@ -193891,6 +198882,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
   - `BetaResponseWsIncomplete = BetaResponseIncompleteEvent`
 
     An event that is emitted when a response finishes as incomplete.
+
+    Over WebSocket, steering can finish a response with
+    `response.incomplete_details.reason` set to `steered`, followed automatically
+    by a successor `response.created` that commits the queued steering input.
 
     - `stream_id: optional string`
 
@@ -194212,7 +199207,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
     Emitted when an error occurs while processing a Responses WebSocket request.
 
-    - `error: object { code, message, param, 2 more }`
+    - `error: object { code, message, param, 3 more }`
 
       Details about the error.
 
@@ -194235,6 +199230,38 @@ curl https://api.openai.com/v1/responses/resp_123 \
       - `headers: optional map[string]`
 
         The response headers that were emitted with the error, if any.
+
+      - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+        - `detailed_explanation: optional string`
+
+          The public explanation for this block.
+
+        - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+          An optional classification; clients must accept additional values.
+
+          - `string`
+
+          - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+            An optional classification; clients must accept additional values.
+
+            - `"potentially_unintended_data_transfer"`
+
+            - `"potentially_unintended_data_access"`
+
+            - `"potentially_unintended_destructive_activity"`
+
+            - `"other"`
+
+        - `steer: optional object { message }`
+
+          An optional public continuation instruction.
+
+          - `message: string`
+
+            The public continuation instruction.
 
     - `type: "error"`
 
@@ -194262,6 +199289,557 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       The WebSocket lane that emitted this event. This field is present when the
       originating `response.create` event supplied a `stream_id`.
+
+  - `BetaResponseSteerAcceptedEvent object { sequence_number, steer, type, stream_id }`
+
+    Emitted when steering input has been validated and queued. Acceptance means
+    the server owns the input, not that it has been applied. The successor's
+    `response.created` event is the commit point. If accepted input cannot be
+    committed, `response.steer.failed` returns it with the same steering ID.
+
+    When the response stops for client-owned tool output or approval, the input
+    remains queued and `response.steer.pending` is emitted after
+    `response.completed`. Fill the pending event's `required_input` stubs with
+    saved results and send one matching explicit `response.create` per parent.
+    Do not resend accepted input while it is still queued.
+
+    - `sequence_number: number`
+
+      The sequence number for this event.
+
+    - `steer: object { id, previous_response_id }`
+
+      The accepted steering submission.
+
+      - `id: string`
+
+        The ID assigned to the steering submission.
+
+      - `previous_response_id: string`
+
+        The ID of the response being steered.
+
+    - `type: "response.steer.accepted"`
+
+      The event discriminator. Always `response.steer.accepted`.
+
+      - `"response.steer.accepted"`
+
+    - `stream_id: optional string`
+
+      The WebSocket lane that emitted this event. This field is present when
+      the target response's `response.create` event supplied a `stream_id`.
+
+  - `BetaResponseSteerPendingEvent object { reason, required_input, sequence_number, 3 more }`
+
+    Emitted when accepted steering input remains queued after the target
+    response completes. The server still owns the input. Do not resend it.
+    The successor's `response.created` event is the commit point.
+
+    When `reason` is `waiting_for_required_input`, this event follows
+    `response.completed` while the response waits for the tool results or
+    approval decisions identified by `required_input`. Copy those stubs, fill
+    their result fields using the ordinary `response.create` input schemas,
+    and submit one continuation per parent with the same `previous_response_id`
+    and WebSocket lane. Use saved results without rerunning tools. The queued
+    steering input is prepended in submission order to the continuation's
+    input. That explicit request retains its own settings.
+
+    This notification is emitted at most once per steering submission. Multiple
+    submissions for the same parent can report the same required inputs; they
+    do not each require a separate continuation.
+
+    - `reason: BetaResponseSteerPendingReason`
+
+      An extensible enum describing why accepted steering input is still queued.
+      Clients should handle unknown values because additional reasons may be
+      introduced. Known values include:
+
+      - `waiting_for_required_input`: The response is waiting for the tool results or approval decisions identified by `required_input`.
+
+      - `"waiting_for_required_input"`
+
+        An extensible enum describing why accepted steering input is still queued.
+        Clients should handle unknown values because additional reasons may be
+        introduced. Known values include:
+
+        - `waiting_for_required_input`: The response is waiting for the tool results or approval decisions identified by `required_input`.
+
+        - `"waiting_for_required_input"`
+
+      - `string`
+
+    - `required_input: array of BetaResponseSteerRequiredInput`
+
+      Input stubs identifying outstanding client-owned tool results or
+      approval decisions. Each stub contains identifying fields only; the
+      client supplies the result before including it in `response.create`.
+
+      - `FunctionCallOutput object { call_id, name, type }`
+
+        Supply `output` using the function tool call output input schema.
+
+        - `call_id: string`
+
+        - `name: string`
+
+        - `type: "function_call_output"`
+
+          - `"function_call_output"`
+
+      - `CustomToolCallOutput object { call_id, type }`
+
+        Supply `output` using the custom tool call output input schema. The
+        original custom tool call supplies the tool's name.
+
+        - `call_id: string`
+
+        - `type: "custom_tool_call_output"`
+
+          - `"custom_tool_call_output"`
+
+      - `ComputerCallOutput object { call_id, type }`
+
+        Supply `output` using the computer tool call output input schema,
+        including any required `acknowledged_safety_checks`.
+
+        - `call_id: string`
+
+        - `type: "computer_call_output"`
+
+          - `"computer_call_output"`
+
+      - `ShellCallOutput object { call_id, type }`
+
+        Supply `output` using the shell tool call output input schema. Each
+        output entry includes `stdout`, `stderr`, and `outcome`.
+
+        - `call_id: string`
+
+        - `type: "shell_call_output"`
+
+          - `"shell_call_output"`
+
+      - `ApplyPatchCallOutput object { call_id, type }`
+
+        Supply `status` and optional `output` using the apply patch tool call
+        output input schema.
+
+        - `call_id: string`
+
+        - `type: "apply_patch_call_output"`
+
+          - `"apply_patch_call_output"`
+
+      - `ToolSearchOutput object { call_id, execution, type }`
+
+        Supply `tools` using the tool search output input schema, retaining
+        `execution: "client"`.
+
+        - `call_id: string`
+
+        - `execution: "client"`
+
+          - `"client"`
+
+        - `type: "tool_search_output"`
+
+          - `"tool_search_output"`
+
+      - `McpApprovalResponse object { approval_request_id, type }`
+
+        Supply `approve` using the MCP approval response input schema. An
+        optional `reason` can be supplied when denying the request. The original
+        approval request identifies the tool and server.
+
+        - `approval_request_id: string`
+
+        - `type: "mcp_approval_response"`
+
+          - `"mcp_approval_response"`
+
+    - `sequence_number: number`
+
+      The sequence number for this event.
+
+    - `steer: object { id, previous_response_id }`
+
+      The steering submission that remains queued.
+
+      - `id: string`
+
+        The ID assigned to the steering submission.
+
+      - `previous_response_id: string`
+
+        The ID of the response being steered.
+
+    - `type: "response.steer.pending"`
+
+      The event discriminator. Always `response.steer.pending`.
+
+      - `"response.steer.pending"`
+
+    - `stream_id: optional string`
+
+      The WebSocket lane that emitted this event. This field is present when
+      the target response's `response.create` event supplied a `stream_id`.
+
+  - `BetaResponseSteerFailedEvent object { error, sequence_number, steer, 2 more }`
+
+    Emitted when steering input is rejected or cannot be committed to a
+    successor response. Returns the original, uncommitted input so the client
+    can carry it into `response.create` when appropriate. Invalid input must
+    be corrected before retrying.
+
+    Failures after acceptance include the same steering ID. Failures before an
+    ID is allocated omit `steer.id`. A lost connection or missing acknowledgement
+    leaves the outcome unknown; it is not proof that the input was rejected.
+
+    - `error: object { code, message, type }`
+
+      Information about why the input could not be committed.
+
+      - `code: BetaResponseSteerErrorCode`
+
+        A machine-readable steering error code. Clients should handle unknown
+        values because additional codes may be introduced. Known values include:
+
+        - `response_not_found`: The target response is not available on this connection.
+        - `invalid_input`: The event or input failed validation.
+        - `steering_not_supported`: The model or response execution mode does not support steering.
+        - `too_many_pending_steers`: Too much steering input is pending for the response.
+        - `response_already_completed`: The response completed and is no longer accepting steering input.
+        - `response_not_active`: The response is no longer accepting steering input.
+        - `successor_creation_failed`: The successor response could not be created.
+
+        - `"response_not_found" or "invalid_input" or "steering_not_supported" or 4 more`
+
+          A machine-readable steering error code. Clients should handle unknown
+          values because additional codes may be introduced. Known values include:
+
+          - `response_not_found`: The target response is not available on this connection.
+          - `invalid_input`: The event or input failed validation.
+          - `steering_not_supported`: The model or response execution mode does not support steering.
+          - `too_many_pending_steers`: Too much steering input is pending for the response.
+          - `response_already_completed`: The response completed and is no longer accepting steering input.
+          - `response_not_active`: The response is no longer accepting steering input.
+          - `successor_creation_failed`: The successor response could not be created.
+
+          - `"response_not_found"`
+
+          - `"invalid_input"`
+
+          - `"steering_not_supported"`
+
+          - `"too_many_pending_steers"`
+
+          - `"response_already_completed"`
+
+          - `"response_not_active"`
+
+          - `"successor_creation_failed"`
+
+        - `string`
+
+      - `message: string`
+
+        A human-readable description of the error.
+
+      - `type: "invalid_request_error"`
+
+        The error type. Always `invalid_request_error`.
+
+        - `"invalid_request_error"`
+
+    - `sequence_number: number`
+
+      The sequence number for this event.
+
+    - `steer: object { input, previous_response_id, id }`
+
+      The steering submission that could not be committed.
+
+      - `input: BetaResponseSteerInput`
+
+        Input to queue for a continuation of the response. Uses the same string or
+        input-item shape as `response.create.input`, with a non-empty array when
+        supplying input items.
+
+        Steering accepts only messages with the `user` role. Each message may
+        contain only `type`, `role`, and `content`, with `content` as a string or an
+        array of `input_text`, `input_image`, and `input_file` parts. The optional
+        `type` must be `message`. Other roles, tool outputs, and item types are not
+        supported for steering.
+
+        - `TextInput = string`
+
+          A text input, equivalent to a message with the `user` role.
+
+        - `ResponseSteerInputItemList = array of object { content, role, type, 3 more }  or object { output, type, id, 6 more }`
+
+          A non-empty list of message inputs to queue for the response.
+
+          - `Message object { content, role, type, 3 more }`
+
+            - `content: array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent or string`
+
+              The message content, as an array of content parts.
+
+              - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+                - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+                  A text input to the model.
+
+                  - `text: string`
+
+                    The text input to the model.
+
+                  - `type: "input_text"`
+
+                    The type of the input item. Always `input_text`.
+
+                    - `"input_text"`
+
+                  - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                    Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                    - `mode: "explicit"`
+
+                      The breakpoint mode. Always `explicit`.
+
+                      - `"explicit"`
+
+                - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+                  An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+                  - `type: "input_image"`
+
+                    The type of the input item. Always `input_image`.
+
+                    - `"input_image"`
+
+                  - `detail: optional BetaImageDetail or null`
+
+                    The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+                    - `"low"`
+
+                    - `"high"`
+
+                    - `"auto"`
+
+                    - `"original"`
+
+                  - `file_id: optional string or null`
+
+                    The ID of the file to be sent to the model.
+
+                  - `image_url: optional string or null`
+
+                    The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
+
+                  - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                    Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                    - `mode: "explicit"`
+
+                      The breakpoint mode. Always `explicit`.
+
+                      - `"explicit"`
+
+                - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+                  A file input to the model.
+
+                  - `type: "input_file"`
+
+                    The type of the input item. Always `input_file`.
+
+                    - `"input_file"`
+
+                  - `detail: optional "auto" or "low" or "high"`
+
+                    The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`.
+
+                    - `"auto"`
+
+                    - `"low"`
+
+                    - `"high"`
+
+                  - `file_data: optional string or null`
+
+                    The base64-encoded data of the file to be sent to the model.
+
+                  - `file_id: optional string or null`
+
+                    The ID of the file to be sent to the model.
+
+                  - `file_url: optional string or null`
+
+                    The URL of the file to be sent to the model.
+
+                  - `filename: optional string or null`
+
+                    The name of the file to be sent to the model.
+
+                  - `prompt_cache_breakpoint: optional object { mode }  or null`
+
+                    Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
+
+                    - `mode: "explicit"`
+
+                      The breakpoint mode. Always `explicit`.
+
+                      - `"explicit"`
+
+              - `string`
+
+                The message content, as a single string.
+
+            - `role: "user"`
+
+              The message role. Always `user`.
+
+              - `"user"`
+
+            - `type: "message"`
+
+              The item type. Always `message`.
+
+              - `"message"`
+
+            - `id: optional string or null`
+
+              The unique ID of this message item.
+
+            - `agent: optional object { agent_name }  or null`
+
+              The agent that produced this item.
+
+              - `agent_name: string`
+
+                The canonical name of the agent that produced this item.
+
+            - `status: optional string or null`
+
+              The status of the message item.
+
+          - `FunctionCallOutput object { output, type, id, 6 more }`
+
+            The output of a function tool call.
+
+            - `output: string or array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+              Text, image, or file output of the function tool call.
+
+              - `string`
+
+                A JSON string of the output of the function tool call.
+
+              - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
+
+                An array of content outputs (text, image, file) for the function tool call.
+
+                - `BetaResponseInputTextContent object { text, type, prompt_cache_breakpoint }`
+
+                  A text input to the model.
+
+                - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
+
+                  An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
+
+                - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
+
+                  A file input to the model.
+
+            - `type: "function_call_output"`
+
+              The type of the function tool call output. Always `function_call_output`.
+
+              - `"function_call_output"`
+
+            - `id: optional string or null`
+
+              The unique ID of the function tool call output. Populated when this item is returned via API.
+
+            - `agent: optional object { agent_name }  or null`
+
+              The agent that produced this item.
+
+              - `agent_name: string`
+
+                The canonical name of the agent that produced this item.
+
+            - `call_id: optional string or null`
+
+              The unique ID of the function tool call generated by the model.
+
+            - `caller: optional object { type }  or object { caller_id, type }  or null`
+
+              The execution context that produced this tool call.
+
+              - `Direct object { type }`
+
+                - `type: "direct"`
+
+                  The caller type. Always `direct`.
+
+                  - `"direct"`
+
+              - `Program object { caller_id, type }`
+
+                - `caller_id: string`
+
+                  The call ID of the program item that produced this tool call.
+
+                - `type: "program"`
+
+                  The caller type. Always `program`.
+
+                  - `"program"`
+
+            - `name: optional string or null`
+
+              The name of the tool that produced the output.
+
+            - `namespace: optional string or null`
+
+              The namespace of the tool that produced the output.
+
+            - `status: optional "in_progress" or "completed" or "incomplete" or null`
+
+              The status of the item. One of `in_progress`, `completed`, or `incomplete`. Populated when items are returned via API.
+
+              - `"in_progress"`
+
+              - `"completed"`
+
+              - `"incomplete"`
+
+      - `previous_response_id: string`
+
+        The ID of the response that was targeted for steering.
+
+      - `id: optional string`
+
+        The ID assigned to the steering submission, if one was allocated.
+
+    - `type: "response.steer.failed"`
+
+      The event discriminator. Always `response.steer.failed`.
+
+      - `"response.steer.failed"`
+
+    - `stream_id: optional string`
+
+      The WebSocket lane that emitted this event, when the target response is
+      available and its `response.create` event supplied a `stream_id`.
 
   - `BetaResponseInjectCreatedEvent object { response_id, sequence_number, type, stream_id }`
 
@@ -194309,7 +199887,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
         A human-readable description of the error.
 
-    - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+    - `input: array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
       The raw input items that were not committed.
 
@@ -194366,14 +199944,6 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `detail: BetaImageDetail`
 
                 The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
-
-                - `"low"`
-
-                - `"high"`
-
-                - `"auto"`
-
-                - `"original"`
 
               - `type: "input_image"`
 
@@ -195232,7 +200802,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The URL of the page searched for the pattern.
 
-        - `status: "in_progress" or "searching" or "completed" or "failed"`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
 
           The status of the web search tool call.
 
@@ -195243,6 +200813,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `"completed"`
 
           - `"failed"`
+
+          - `"incomplete"`
 
         - `type: "web_search_call"`
 
@@ -195258,7 +200830,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
             The canonical name of the agent that produced this item.
 
-      - `FunctionCall object { arguments, call_id, name, 6 more }`
+      - `FunctionCall object { arguments, call_id, name, 7 more }`
 
         A tool call to run a function. See the
         [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -195292,6 +200864,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the function tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -195348,103 +200924,13 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               A text input to the model.
 
-              - `text: string`
-
-                The text input to the model.
-
-              - `type: "input_text"`
-
-                The type of the input item. Always `input_text`.
-
-                - `"input_text"`
-
-              - `prompt_cache_breakpoint: optional object { mode }  or null`
-
-                Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
-
-                - `mode: "explicit"`
-
-                  The breakpoint mode. Always `explicit`.
-
-                  - `"explicit"`
-
             - `BetaResponseInputImageContent object { type, detail, file_id, 2 more }`
 
               An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision)
 
-              - `type: "input_image"`
-
-                The type of the input item. Always `input_image`.
-
-                - `"input_image"`
-
-              - `detail: optional BetaImageDetail or null`
-
-                The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
-
-              - `file_id: optional string or null`
-
-                The ID of the file to be sent to the model.
-
-              - `image_url: optional string or null`
-
-                The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
-
-              - `prompt_cache_breakpoint: optional object { mode }  or null`
-
-                Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
-
-                - `mode: "explicit"`
-
-                  The breakpoint mode. Always `explicit`.
-
-                  - `"explicit"`
-
             - `BetaResponseInputFileContent object { type, detail, file_data, 4 more }`
 
               A file input to the model.
-
-              - `type: "input_file"`
-
-                The type of the input item. Always `input_file`.
-
-                - `"input_file"`
-
-              - `detail: optional "auto" or "low" or "high"`
-
-                The detail level of the file to be sent to the model. Use `auto` to let the system select the detail level; for GPT-5.6 and later models, `auto` uses high-quality rendering, which may increase input token usage. Use `low` for lower-cost rendering, or `high` to render the file at higher quality. Defaults to `auto`.
-
-                - `"auto"`
-
-                - `"low"`
-
-                - `"high"`
-
-              - `file_data: optional string or null`
-
-                The base64-encoded data of the file to be sent to the model.
-
-              - `file_id: optional string or null`
-
-                The ID of the file to be sent to the model.
-
-              - `file_url: optional string or null`
-
-                The URL of the file to be sent to the model.
-
-              - `filename: optional string or null`
-
-                The name of the file to be sent to the model.
-
-              - `prompt_cache_breakpoint: optional object { mode }  or null`
-
-                Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
-
-                - `mode: "explicit"`
-
-                  The breakpoint mode. Always `explicit`.
-
-                  - `"explicit"`
 
         - `type: "function_call_output"`
 
@@ -195788,11 +201274,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
       - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           The loaded tool definitions returned by the tool search output.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -195821,6 +201307,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -196664,7 +202152,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   - `"container_reference"`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -196685,6 +202173,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -196742,11 +202234,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -196761,6 +202253,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -196778,7 +202274,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -196799,6 +202295,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -196996,11 +202496,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
           - `"developer"`
 
-        - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+        - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
           A list of additional tools made available at this item.
 
-          - `Function object { name, parameters, strict, 5 more }`
+          - `Function object { name, parameters, strict, 6 more }`
 
             Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -197029,6 +202529,8 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
 
             - `defer_loading: optional boolean`
 
@@ -197722,7 +203224,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `BetaContainerReference object { container_id, type }`
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -197743,6 +203245,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -197800,11 +203306,11 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               The namespace name used in tool calls (for example, `crm`).
 
-            - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+            - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
               The function/custom tools available inside this namespace.
 
-              - `Function object { name, type, allowed_callers, 5 more }`
+              - `Function object { name, type, allowed_callers, 6 more }`
 
                 - `name: string`
 
@@ -197819,6 +203325,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -197836,7 +203346,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
                   Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-              - `Custom object { name, type, allowed_callers, 3 more }`
+              - `Custom object { name, type, allowed_callers, 4 more }`
 
                 A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -197857,6 +203367,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
                   - `"direct"`
 
                   - `"programmatic"`
+
+                - `async: optional boolean`
+
+                  Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
                 - `defer_loading: optional boolean`
 
@@ -198023,6 +203537,53 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+      - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+        An update to the conversation's response configuration. The configuration
+        remains in effect for subsequent responses until it is replaced by another
+        configuration update.
+
+        - `type: "configuration_update"`
+
+          The item type. Always `configuration_update`.
+
+          - `"configuration_update"`
+
+        - `id: optional string or null`
+
+          The unique ID of the configuration update item.
+
+        - `agent: optional object { agent_name }  or null`
+
+          The agent that produced this item.
+
+          - `agent_name: string`
+
+            The canonical name of the agent that produced this item.
+
+        - `reasoning: optional object { effort }`
+
+          Updates to reasoning configuration. Only effort is supported.
+
+          - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+            The reasoning effort to use for subsequent responses until another
+            configuration update replaces it.
+
+            - `"none"`
+
+            - `"minimal"`
+
+            - `"low"`
+
+            - `"medium"`
+
+            - `"high"`
+
+            - `"xhigh"`
+
+            - `"max"`
 
       - `Reasoning object { id, summary, type, 4 more }`
 
@@ -198987,7 +204548,7 @@ curl https://api.openai.com/v1/responses/resp_123 \
 
               - `"program"`
 
-      - `CustomToolCall object { call_id, input, name, 5 more }`
+      - `CustomToolCall object { call_id, input, name, 6 more }`
 
         A call to a custom tool created by the model.
 
@@ -199020,6 +204581,10 @@ curl https://api.openai.com/v1/responses/resp_123 \
           - `agent_name: string`
 
             The canonical name of the agent that produced this item.
+
+        - `async: optional boolean`
+
+          Whether the custom tool call runs asynchronously.
 
         - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -199462,7 +205027,7 @@ Returns a list of input items for a given response.
 
   A list of Response items.
 
-  - `data: array of BetaResponseInputMessageItem or BetaResponseOutputMessage or object { id, queries, status, 3 more }  or 29 more`
+  - `data: array of BetaResponseInputMessageItem or BetaResponseOutputMessage or object { id, queries, status, 3 more }  or 30 more`
 
     A list of items used to generate this response.
 
@@ -200340,7 +205905,7 @@ Returns a list of input items for a given response.
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -200351,6 +205916,8 @@ Returns a list of input items for a given response.
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -200366,7 +205933,7 @@ Returns a list of input items for a given response.
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { id, arguments, call_id, 7 more }`
+    - `FunctionCall object { id, arguments, call_id, 8 more }`
 
       - `id: string`
 
@@ -200408,6 +205975,10 @@ Returns a list of input items for a given response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -200849,11 +206420,11 @@ Returns a list of input items for a given response.
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -200882,6 +206453,8 @@ Returns a list of input items for a given response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -201725,7 +207298,7 @@ Returns a list of input items for a given response.
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -201746,6 +207319,10 @@ Returns a list of input items for a given response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -201803,11 +207380,11 @@ Returns a list of input items for a given response.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -201822,6 +207399,10 @@ Returns a list of input items for a given response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -201839,7 +207420,7 @@ Returns a list of input items for a given response.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -201860,6 +207441,10 @@ Returns a list of input items for a given response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -202053,11 +207638,11 @@ Returns a list of input items for a given response.
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -202086,6 +207671,8 @@ Returns a list of input items for a given response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -202779,7 +208366,7 @@ Returns a list of input items for a given response.
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -202800,6 +208387,10 @@ Returns a list of input items for a given response.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -202857,11 +208448,11 @@ Returns a list of input items for a given response.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -202876,6 +208467,10 @@ Returns a list of input items for a given response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -202893,7 +208488,7 @@ Returns a list of input items for a given response.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -202914,6 +208509,10 @@ Returns a list of input items for a given response.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -203076,6 +208675,52 @@ Returns a list of input items for a given response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { id, type, agent, reasoning }`
+
+      A configuration update that applies to subsequent responses until it is
+      replaced by another configuration update.
+
+      - `id: string`
+
+        The unique ID of the configuration update item.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `agent: optional object { agent_name }`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        The reasoning configuration applied by this update.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort used for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -204057,7 +209702,7 @@ Returns a list of input items for a given response.
 
         - `"failed"`
 
-    - `CustomToolCall object { id, call_id, input, 7 more }`
+    - `CustomToolCall object { id, call_id, input, 8 more }`
 
       - `id: string`
 
@@ -204099,6 +209744,10 @@ Returns a list of input items for a given response.
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -204312,7 +209961,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
   A list of Response items.
 
-  - `data: array of BetaResponseInputMessageItem or BetaResponseOutputMessage or object { id, queries, status, 3 more }  or 29 more`
+  - `data: array of BetaResponseInputMessageItem or BetaResponseOutputMessage or object { id, queries, status, 3 more }  or 30 more`
 
     A list of items used to generate this response.
 
@@ -205190,7 +210839,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -205201,6 +210850,8 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -205216,7 +210867,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { id, arguments, call_id, 7 more }`
+    - `FunctionCall object { id, arguments, call_id, 8 more }`
 
       - `id: string`
 
@@ -205258,6 +210909,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -205699,11 +211354,11 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -205732,6 +211387,8 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -206575,7 +212232,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -206596,6 +212253,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -206653,11 +212314,11 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -206672,6 +212333,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -206689,7 +212354,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -206710,6 +212375,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -206903,11 +212572,11 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -206936,6 +212605,8 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -207629,7 +213300,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -207650,6 +213321,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -207707,11 +213382,11 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -207726,6 +213401,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -207743,7 +213422,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -207764,6 +213443,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -207926,6 +213609,52 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { id, type, agent, reasoning }`
+
+      A configuration update that applies to subsequent responses until it is
+      replaced by another configuration update.
+
+      - `id: string`
+
+        The unique ID of the configuration update item.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `agent: optional object { agent_name }`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        The reasoning configuration applied by this update.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort used for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -208907,7 +214636,7 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
 
         - `"failed"`
 
-    - `CustomToolCall object { id, call_id, input, 7 more }`
+    - `CustomToolCall object { id, call_id, input, 8 more }`
 
       - `id: string`
 
@@ -208949,6 +214678,10 @@ curl https://api.openai.com/v1/responses/resp_abc123/input_items \
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -209119,7 +214852,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       The unique ID of the conversation.
 
-- `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more or null`
+- `input: optional string or array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more or null`
 
   Text, image, or file inputs to the model, used to generate a response
 
@@ -209127,7 +214860,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A text input to the model, equivalent to a text input with the `user` role.
 
-  - `array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 32 more`
+  - `array of BetaEasyInputMessage or object { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     A list of one or many input items to the model, containing different content types.
 
@@ -210050,7 +215783,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -210061,6 +215794,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -210076,7 +215811,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The canonical name of the agent that produced this item.
 
-    - `FunctionCall object { arguments, call_id, name, 6 more }`
+    - `FunctionCall object { arguments, call_id, name, 7 more }`
 
       A tool call to run a function. See the
       [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -210110,6 +215845,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -210606,11 +216345,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     - `ToolSearchOutput object { tools, type, id, 4 more }`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by the tool search output.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -210639,6 +216378,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -211482,7 +217223,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -211503,6 +217244,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -211560,11 +217305,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -211579,6 +217324,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -211596,7 +217345,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -211617,6 +217366,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -211814,11 +217567,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"developer"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         A list of additional tools made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -211847,6 +217600,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -212540,7 +218295,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `BetaContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -212561,6 +218316,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -212618,11 +218377,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -212637,6 +218396,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -212654,7 +218417,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -212675,6 +218438,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -212841,6 +218608,53 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+    - `ConfigurationUpdate object { type, id, agent, reasoning }`
+
+      An update to the conversation's response configuration. The configuration
+      remains in effect for subsequent responses until it is replaced by another
+      configuration update.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `id: optional string or null`
+
+        The unique ID of the configuration update item.
+
+      - `agent: optional object { agent_name }  or null`
+
+        The agent that produced this item.
+
+        - `agent_name: string`
+
+          The canonical name of the agent that produced this item.
+
+      - `reasoning: optional object { effort }`
+
+        Updates to reasoning configuration. Only effort is supported.
+
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+
+          The reasoning effort to use for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 4 more }`
 
@@ -213805,7 +219619,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"program"`
 
-    - `CustomToolCall object { call_id, input, name, 5 more }`
+    - `CustomToolCall object { call_id, input, name, 6 more }`
 
       A call to a custom tool created by the model.
 
@@ -213838,6 +219652,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `agent_name: string`
 
           The canonical name of the agent that produced this item.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -214358,11 +220176,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"shell"`
 
-- `tools: optional array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more or null`
+- `tools: optional array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more or null`
 
   An array of tools the model may call while generating a response. You can specify which tool to use by setting the `tool_choice` parameter.
 
-  - `Function object { name, parameters, strict, 5 more }`
+  - `Function object { name, parameters, strict, 6 more }`
 
     Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -214391,6 +220209,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       - `"direct"`
 
       - `"programmatic"`
+
+    - `async: optional boolean`
 
     - `defer_loading: optional boolean`
 
@@ -215084,7 +220904,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `BetaContainerReference object { container_id, type }`
 
-  - `Custom object { name, type, allowed_callers, 3 more }`
+  - `Custom object { name, type, allowed_callers, 4 more }`
 
     A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -215105,6 +220925,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       - `"direct"`
 
       - `"programmatic"`
+
+    - `async: optional boolean`
+
+      Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
     - `defer_loading: optional boolean`
 
@@ -215162,11 +220986,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       The namespace name used in tool calls (for example, `crm`).
 
-    - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+    - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
       The function/custom tools available inside this namespace.
 
-      - `Function object { name, type, allowed_callers, 5 more }`
+      - `Function object { name, type, allowed_callers, 6 more }`
 
         - `name: string`
 
@@ -215181,6 +221005,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -215198,7 +221026,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -215219,6 +221047,10 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -215408,7 +221240,7 @@ curl -X POST https://api.openai.com/v1/responses/input_tokens \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d '{
-      "model": "gpt-5.6-sol",
+      "model": "gpt-6-astra",
       "input": "Tell me a joke."
     }'
 ```

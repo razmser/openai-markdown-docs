@@ -29,8 +29,64 @@ Schema name: `BetaResponsesClientEventResponseCreate`
 {
   "type": "response.create",
   "stream_id": "agent_1",
-  "model": "gpt-5.6-sol",
+  "model": "gpt-6-astra",
   "input": "Say hello."
+}
+```
+
+### response.steer
+
+Queues user input to steer a response on this WebSocket connection. Input
+can contain text, images, and files. Steering is supported only for
+single-agent responses on models and execution modes that support steering.
+Responses bound to a conversation or using automatic compaction do not
+support steering.
+
+A `response.steer.accepted` event acknowledges that the server owns the
+queued input, not that it has been applied. The successor's `response.created`
+event is the commit point. Input that cannot be committed is returned in
+`response.steer.failed`.
+
+Steering may cause the active response to finish at a safe output boundary
+with `response.incomplete` and `incomplete_details.reason` set to `steered`,
+followed automatically by a successor `response.created`. Normal completion
+can also be followed by an automatic successor. Automatic successors inherit
+the previous response's settings and continue from it with the queued input.
+
+If the response stops for client-owned tool output or approval, accepted
+steering input remains queued and `response.steer.pending` is emitted after
+`response.completed`. Fill the `required_input` stubs from that event with
+saved tool results or approval decisions, and send one explicit
+`response.create` per parent with the same `previous_response_id` and
+WebSocket lane. Do not rerun tools or resend accepted steering input. The
+queued input is prepended in submission order to that request's input, and
+the explicit request retains its own settings.
+
+This event accepts only `type`, `previous_response_id`, and `input`. Do not
+send `stream_id`; the target response determines the WebSocket lane.
+
+#### Schema
+
+Schema name: `BetaResponseSteerEvent`
+
+#### Example
+
+```json
+{
+  "type": "response.steer",
+  "previous_response_id": "resp_123",
+  "input": [
+    {
+      "type": "message",
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Prioritize the database rollout."
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -84,6 +140,125 @@ Schema name: `BetaResponseWsError`
     "code": "websocket_stream_limit_reached",
     "message": "This WebSocket connection has reached its stream limit.",
     "param": "stream_id"
+  }
+}
+```
+
+### response.steer.accepted
+
+Emitted when steering input has been validated and queued. Acceptance means
+the server owns the input, not that it has been applied. The successor's
+`response.created` event is the commit point. If accepted input cannot be
+committed, `response.steer.failed` returns it with the same steering ID.
+
+When the response stops for client-owned tool output or approval, the input
+remains queued and `response.steer.pending` is emitted after
+`response.completed`. Fill the pending event's `required_input` stubs with
+saved results and send one matching explicit `response.create` per parent.
+Do not resend accepted input while it is still queued.
+
+#### Schema
+
+Schema name: `BetaResponseSteerAcceptedEvent`
+
+#### Example
+
+```json
+{
+  "type": "response.steer.accepted",
+  "sequence_number": 2,
+  "steer": {
+    "id": "steer_456",
+    "previous_response_id": "resp_123"
+  }
+}
+```
+
+### response.steer.pending
+
+Emitted when accepted steering input remains queued after the target
+response completes. The server still owns the input. Do not resend it.
+The successor's `response.created` event is the commit point.
+
+When `reason` is `waiting_for_required_input`, this event follows
+`response.completed` while the response waits for the tool results or
+approval decisions identified by `required_input`. Copy those stubs, fill
+their result fields using the ordinary `response.create` input schemas,
+and submit one continuation per parent with the same `previous_response_id`
+and WebSocket lane. Use saved results without rerunning tools. The queued
+steering input is prepended in submission order to the continuation's
+input. That explicit request retains its own settings.
+
+This notification is emitted at most once per steering submission. Multiple
+submissions for the same parent can report the same required inputs; they
+do not each require a separate continuation.
+
+#### Schema
+
+Schema name: `BetaResponseSteerPendingEvent`
+
+#### Example
+
+```json
+{
+  "type": "response.steer.pending",
+  "sequence_number": 10,
+  "steer": {
+    "id": "steer_456",
+    "previous_response_id": "resp_123"
+  },
+  "reason": "waiting_for_required_input",
+  "required_input": [
+    {
+      "type": "function_call_output",
+      "call_id": "call_789",
+      "name": "lookup"
+    }
+  ]
+}
+```
+
+### response.steer.failed
+
+Emitted when steering input is rejected or cannot be committed to a
+successor response. Returns the original, uncommitted input so the client
+can carry it into `response.create` when appropriate. Invalid input must
+be corrected before retrying.
+
+Failures after acceptance include the same steering ID. Failures before an
+ID is allocated omit `steer.id`. A lost connection or missing acknowledgement
+leaves the outcome unknown; it is not proof that the input was rejected.
+
+#### Schema
+
+Schema name: `BetaResponseSteerFailedEvent`
+
+#### Example
+
+```json
+{
+  "type": "response.steer.failed",
+  "sequence_number": 5,
+  "steer": {
+    "id": "steer_456",
+    "previous_response_id": "resp_123",
+    "input": [
+      {
+        "type": "message",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Prioritize the database rollout."
+          }
+        ]
+      }
+    ]
+  },
+  "error": {
+    "type": "invalid_request_error",
+    "code": "successor_creation_failed",
+    "message": "We couldn't start the next response. Send this steering input again with response.create."
   }
 }
 ```
@@ -166,7 +341,7 @@ Schema name: `BetaResponseCreatedEvent`
     "incomplete_details": null,
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "parallel_tool_calls": true,
     "previous_response_id": null,
@@ -216,7 +391,7 @@ Schema name: `BetaResponseInProgressEvent`
     "incomplete_details": null,
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "parallel_tool_calls": true,
     "previous_response_id": null,
@@ -267,7 +442,7 @@ Schema name: `BetaResponseCompletedEvent`
     "input": [],
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [
       {
         "id": "msg_123",
@@ -336,7 +511,7 @@ Schema name: `BetaResponseFailedEvent`
     "incomplete_details": null,
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "previous_response_id": null,
     "reasoning_effort": null,
@@ -362,6 +537,10 @@ Schema name: `BetaResponseFailedEvent`
 
 An event that is emitted when a response finishes as incomplete.
 
+Over WebSocket, steering can finish a response with
+`response.incomplete_details.reason` set to `steered`, followed automatically
+by a successor `response.created` that commits the queued steering input.
+
 #### Schema
 
 Schema name: `BetaResponseIncompleteEvent`
@@ -383,7 +562,7 @@ Schema name: `BetaResponseIncompleteEvent`
     },
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "previous_response_id": null,
     "reasoning_effort": null,

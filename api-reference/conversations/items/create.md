@@ -33,7 +33,7 @@ Create items in a conversation with the given ID.
 
 ### Body Parameters
 
-- `items: array of EasyInputMessage or object { content, role, status, type }  or ResponseOutputMessage or 29 more`
+- `items: array of EasyInputMessage or object { content, role, status, type }  or ResponseOutputMessage or 30 more`
 
   The items to add to the conversation. You may add up to 20 items at a time.
 
@@ -916,7 +916,7 @@ Create items in a conversation with the given ID.
 
           The URL of the page searched for the pattern.
 
-    - `status: "in_progress" or "searching" or "completed" or "failed"`
+    - `status: "in_progress" or "searching" or "completed" or 2 more`
 
       The status of the web search tool call.
 
@@ -928,13 +928,15 @@ Create items in a conversation with the given ID.
 
       - `"failed"`
 
+      - `"incomplete"`
+
     - `type: "web_search_call"`
 
       The type of the web search tool call. Always `web_search_call`.
 
       - `"web_search_call"`
 
-  - `FunctionCall object { arguments, call_id, name, 5 more }`
+  - `FunctionCall object { arguments, call_id, name, 6 more }`
 
     A tool call to run a function. See the
     [function calling guide](https://developers.openai.com/docs/guides/function-calling) for more information.
@@ -960,6 +962,10 @@ Create items in a conversation with the given ID.
     - `id: optional string`
 
       The unique ID of the function tool call.
+
+    - `async: optional boolean`
+
+      Whether the function tool call runs asynchronously.
 
     - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -1210,11 +1216,11 @@ Create items in a conversation with the given ID.
 
   - `ToolSearchOutput object { tools, type, id, 3 more }`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       The loaded tool definitions returned by the tool search output.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -1243,6 +1249,8 @@ Create items in a conversation with the given ID.
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -2037,7 +2045,7 @@ Create items in a conversation with the given ID.
 
               - `"container_reference"`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -2058,6 +2066,10 @@ Create items in a conversation with the given ID.
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -2115,11 +2127,11 @@ Create items in a conversation with the given ID.
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -2134,6 +2146,10 @@ Create items in a conversation with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -2151,7 +2167,7 @@ Create items in a conversation with the given ID.
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -2172,6 +2188,10 @@ Create items in a conversation with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -2329,11 +2349,11 @@ Create items in a conversation with the given ID.
 
       - `"developer"`
 
-    - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+    - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
       A list of additional tools made available at this item.
 
-      - `Function object { name, parameters, strict, 5 more }`
+      - `Function object { name, parameters, strict, 6 more }`
 
         Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -2362,6 +2382,8 @@ Create items in a conversation with the given ID.
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
 
         - `defer_loading: optional boolean`
 
@@ -2939,7 +2961,7 @@ Create items in a conversation with the given ID.
 
           - `ContainerReference object { container_id, type }`
 
-      - `Custom object { name, type, allowed_callers, 3 more }`
+      - `Custom object { name, type, allowed_callers, 4 more }`
 
         A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -2960,6 +2982,10 @@ Create items in a conversation with the given ID.
           - `"direct"`
 
           - `"programmatic"`
+
+        - `async: optional boolean`
+
+          Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
         - `defer_loading: optional boolean`
 
@@ -2985,11 +3011,11 @@ Create items in a conversation with the given ID.
 
           The namespace name used in tool calls (for example, `crm`).
 
-        - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+        - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
           The function/custom tools available inside this namespace.
 
-          - `Function object { name, type, allowed_callers, 5 more }`
+          - `Function object { name, type, allowed_callers, 6 more }`
 
             - `name: string`
 
@@ -3004,6 +3030,10 @@ Create items in a conversation with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -3021,7 +3051,7 @@ Create items in a conversation with the given ID.
 
               Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-          - `Custom object { name, type, allowed_callers, 3 more }`
+          - `Custom object { name, type, allowed_callers, 4 more }`
 
             A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -3042,6 +3072,10 @@ Create items in a conversation with the given ID.
               - `"direct"`
 
               - `"programmatic"`
+
+            - `async: optional boolean`
+
+              Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
             - `defer_loading: optional boolean`
 
@@ -3168,6 +3202,45 @@ Create items in a conversation with the given ID.
     - `id: optional string or null`
 
       The unique ID of this additional tools item.
+
+  - `ConfigurationUpdate object { type, id, reasoning }`
+
+    An update to the conversation's response configuration. The configuration
+    remains in effect for subsequent responses until it is replaced by another
+    configuration update.
+
+    - `type: "configuration_update"`
+
+      The item type. Always `configuration_update`.
+
+      - `"configuration_update"`
+
+    - `id: optional string or null`
+
+      The unique ID of the configuration update item.
+
+    - `reasoning: optional object { effort }`
+
+      Updates to reasoning configuration. Only effort is supported.
+
+      - `effort: optional ReasoningEffort or null`
+
+        The reasoning effort to use for subsequent responses until another
+        configuration update replaces it.
+
+        - `"none"`
+
+        - `"minimal"`
+
+        - `"low"`
+
+        - `"medium"`
+
+        - `"high"`
+
+        - `"xhigh"`
+
+        - `"max"`
 
   - `Reasoning object { id, summary, type, 3 more }`
 
@@ -4012,7 +4085,7 @@ Create items in a conversation with the given ID.
 
           - `"program"`
 
-  - `CustomToolCall object { call_id, input, name, 4 more }`
+  - `CustomToolCall object { call_id, input, name, 5 more }`
 
     A call to a custom tool created by the model.
 
@@ -4037,6 +4110,10 @@ Create items in a conversation with the given ID.
     - `id: optional string`
 
       The unique ID of the custom tool call in the OpenAI platform.
+
+    - `async: optional boolean`
+
+      Whether the custom tool call runs asynchronously.
 
     - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -4532,7 +4609,7 @@ Create items in a conversation with the given ID.
 
         - `"final_answer"`
 
-    - `FunctionCall object { id, arguments, call_id, 6 more }`
+    - `FunctionCall object { id, arguments, call_id, 7 more }`
 
       - `id: string`
 
@@ -4566,6 +4643,10 @@ Create items in a conversation with the given ID.
         The type of the function tool call. Always `function_call`.
 
         - `"function_call"`
+
+      - `async: optional boolean`
+
+        Whether the function tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 
@@ -4829,7 +4910,7 @@ Create items in a conversation with the given ID.
 
             The URL of the page searched for the pattern.
 
-      - `status: "in_progress" or "searching" or "completed" or "failed"`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
 
         The status of the web search tool call.
 
@@ -4840,6 +4921,8 @@ Create items in a conversation with the given ID.
         - `"completed"`
 
         - `"failed"`
+
+        - `"incomplete"`
 
       - `type: "web_search_call"`
 
@@ -5298,11 +5381,11 @@ Create items in a conversation with the given ID.
 
         - `"incomplete"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The loaded tool definitions returned by tool search.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -5331,6 +5414,8 @@ Create items in a conversation with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -6125,7 +6210,7 @@ Create items in a conversation with the given ID.
 
                 - `"container_reference"`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -6146,6 +6231,10 @@ Create items in a conversation with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -6203,11 +6292,11 @@ Create items in a conversation with the given ID.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -6222,6 +6311,10 @@ Create items in a conversation with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -6239,7 +6332,7 @@ Create items in a conversation with the given ID.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -6260,6 +6353,10 @@ Create items in a conversation with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -6413,11 +6510,11 @@ Create items in a conversation with the given ID.
 
         - `"tool"`
 
-      - `tools: array of object { name, parameters, strict, 5 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
+      - `tools: array of object { name, parameters, strict, 6 more }  or object { type, vector_store_ids, filters, 2 more }  or object { type }  or 13 more`
 
         The additional tool definitions made available at this item.
 
-        - `Function object { name, parameters, strict, 5 more }`
+        - `Function object { name, parameters, strict, 6 more }`
 
           Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 
@@ -6446,6 +6543,8 @@ Create items in a conversation with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
 
           - `defer_loading: optional boolean`
 
@@ -7023,7 +7122,7 @@ Create items in a conversation with the given ID.
 
             - `ContainerReference object { container_id, type }`
 
-        - `Custom object { name, type, allowed_callers, 3 more }`
+        - `Custom object { name, type, allowed_callers, 4 more }`
 
           A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -7044,6 +7143,10 @@ Create items in a conversation with the given ID.
             - `"direct"`
 
             - `"programmatic"`
+
+          - `async: optional boolean`
+
+            Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
           - `defer_loading: optional boolean`
 
@@ -7069,11 +7172,11 @@ Create items in a conversation with the given ID.
 
             The namespace name used in tool calls (for example, `crm`).
 
-          - `tools: array of object { name, type, allowed_callers, 5 more }  or object { name, type, allowed_callers, 3 more }`
+          - `tools: array of object { name, type, allowed_callers, 6 more }  or object { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
 
-            - `Function object { name, type, allowed_callers, 5 more }`
+            - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
@@ -7088,6 +7191,10 @@ Create items in a conversation with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -7105,7 +7212,7 @@ Create items in a conversation with the given ID.
 
                 Whether to enforce strict parameter validation. If omitted, Responses attempts to use strict validation when the schema is compatible, and falls back to non-strict validation otherwise.
 
-            - `Custom object { name, type, allowed_callers, 3 more }`
+            - `Custom object { name, type, allowed_callers, 4 more }`
 
               A custom tool that processes input using a specified format. Learn more about   [custom tools](https://developers.openai.com/docs/guides/function-calling#custom-tools)
 
@@ -7126,6 +7233,10 @@ Create items in a conversation with the given ID.
                 - `"direct"`
 
                 - `"programmatic"`
+
+              - `async: optional boolean`
+
+                Whether the tool response can be returned asynchronously versus immediately returned on next response creation.
 
               - `defer_loading: optional boolean`
 
@@ -7248,6 +7359,44 @@ Create items in a conversation with the given ID.
         The type of the item. Always `additional_tools`.
 
         - `"additional_tools"`
+
+    - `ConfigurationUpdate object { id, type, reasoning }`
+
+      A configuration update that applies to subsequent responses until it is
+      replaced by another configuration update.
+
+      - `id: string`
+
+        The unique ID of the configuration update item.
+
+      - `type: "configuration_update"`
+
+        The item type. Always `configuration_update`.
+
+        - `"configuration_update"`
+
+      - `reasoning: optional object { effort }`
+
+        The reasoning configuration applied by this update.
+
+        - `effort: optional ReasoningEffort or null`
+
+          The reasoning effort used for subsequent responses until another
+          configuration update replaces it.
+
+          - `"none"`
+
+          - `"minimal"`
+
+          - `"low"`
+
+          - `"medium"`
+
+          - `"high"`
+
+          - `"xhigh"`
+
+          - `"max"`
 
     - `Reasoning object { id, summary, type, 3 more }`
 
@@ -8069,7 +8218,7 @@ Create items in a conversation with the given ID.
 
         - `"failed"`
 
-    - `CustomToolCall object { call_id, input, name, 4 more }`
+    - `CustomToolCall object { call_id, input, name, 5 more }`
 
       A call to a custom tool created by the model.
 
@@ -8094,6 +8243,10 @@ Create items in a conversation with the given ID.
       - `id: optional string`
 
         The unique ID of the custom tool call in the OpenAI platform.
+
+      - `async: optional boolean`
+
+        Whether the custom tool call runs asynchronously.
 
       - `caller: optional object { type }  or object { caller_id, type }  or null`
 

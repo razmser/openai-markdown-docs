@@ -2152,6 +2152,21 @@
       "scheme": "flat"
     },
     {
+      "text": "Safety",
+      "path": "resources/safety",
+      "scheme": "index"
+    },
+    {
+      "text": "Alerts",
+      "path": "resources/safety/subresources/alerts",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/safety/subresources/alerts/methods/retrieve",
+      "scheme": "index"
+    },
+    {
       "text": "Skills",
       "path": "resources/skills",
       "scheme": "index"

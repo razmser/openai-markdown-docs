@@ -4,11 +4,13 @@
 
 ### All Models
 
-- `AllModels = string or "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 80 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
+- `AllModels = string or "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
 
   - `string`
 
-  - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 80 more`
+  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more`
+
+    - `"gpt-6-astra"`
 
     - `"gpt-5.6-sol"`
 
@@ -384,7 +386,7 @@
 
 ### Error Object
 
-- `ErrorObject object { code, message, param, type }`
+- `ErrorObject object { code, message, param, 2 more }`
 
   - `code: string or null`
 
@@ -393,6 +395,38 @@
   - `param: string or null`
 
   - `type: string`
+
+  - `misalignment: optional object { detailed_explanation, error_type, steer }`
+
+    - `detailed_explanation: optional string`
+
+      The public explanation for this block.
+
+    - `error_type: optional string or "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+      An optional classification; clients must accept additional values.
+
+      - `string`
+
+      - `SafetyAlertErrorType = "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
+
+        An optional classification; clients must accept additional values.
+
+        - `"potentially_unintended_data_transfer"`
+
+        - `"potentially_unintended_data_access"`
+
+        - `"potentially_unintended_destructive_activity"`
+
+        - `"other"`
+
+    - `steer: optional object { message }`
+
+      An optional public continuation instruction.
+
+      - `message: string`
+
+        The public continuation instruction.
 
 ### Function Definition
 
@@ -653,11 +687,13 @@
 
 ### Responses Model
 
-- `ResponsesModel = string or "gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 80 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
+- `ResponsesModel = string or "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
 
   - `string`
 
-  - `"gpt-5.6-sol" or "gpt-5.6-terra" or "gpt-5.6-luna" or 80 more`
+  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more`
+
+    - `"gpt-6-astra"`
 
     - `"gpt-5.6-sol"`
 

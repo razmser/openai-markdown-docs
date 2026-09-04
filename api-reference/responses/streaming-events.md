@@ -32,7 +32,7 @@ Schema name: `ResponseCreatedEvent`
     "incomplete_details": null,
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "parallel_tool_calls": true,
     "previous_response_id": null,
@@ -82,7 +82,7 @@ Schema name: `ResponseInProgressEvent`
     "incomplete_details": null,
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "parallel_tool_calls": true,
     "previous_response_id": null,
@@ -133,7 +133,7 @@ Schema name: `ResponseCompletedEvent`
     "input": [],
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [
       {
         "id": "msg_123",
@@ -202,7 +202,7 @@ Schema name: `ResponseFailedEvent`
     "incomplete_details": null,
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "previous_response_id": null,
     "reasoning_effort": null,
@@ -228,6 +228,10 @@ Schema name: `ResponseFailedEvent`
 
 An event that is emitted when a response finishes as incomplete.
 
+Over WebSocket, steering can finish a response with
+`response.incomplete_details.reason` set to `steered`, followed automatically
+by a successor `response.created` that commits the queued steering input.
+
 ### Schema
 
 Schema name: `ResponseIncompleteEvent`
@@ -249,7 +253,7 @@ Schema name: `ResponseIncompleteEvent`
     },
     "instructions": null,
     "max_output_tokens": null,
-    "model": "gpt-5.6-sol",
+    "model": "gpt-6-astra",
     "output": [],
     "previous_response_id": null,
     "reasoning_effort": null,
