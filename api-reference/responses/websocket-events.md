@@ -733,7 +733,6 @@ Schema name: `ResponseFunctionCallArgumentsDoneEvent`
 {
   "type": "response.function_call_arguments.done",
   "item_id": "item-abc",
-  "name": "get_weather",
   "output_index": 1,
   "arguments": "{ \"arg\": 123 }",
   "sequence_number": 1

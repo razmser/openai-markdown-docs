@@ -807,6 +807,11 @@
       "scheme": "index"
     },
     {
+      "text": "Transcription streaming events",
+      "path": "resources/audio/subresources/transcriptions/streaming-events",
+      "scheme": "flat"
+    },
+    {
       "text": "Translations",
       "path": "resources/audio/subresources/translations",
       "scheme": "index"
