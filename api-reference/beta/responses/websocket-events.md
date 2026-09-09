@@ -316,7 +316,7 @@ Schema name: `BetaResponseInjectFailedEvent`
 ## Server events
 
 These events use the same payloads over WebSocket and
-[HTTP streaming](https://developers.openai.com/api/reference/resources/beta/subresources/responses/streaming-events).
+[HTTP streaming](https://developers.openai.com/api/reference/resources/responses/streaming-events).
 
 ### response.created
 

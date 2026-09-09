@@ -9,15 +9,15 @@ endpoint are rate-limited to 1,000 requests per minute per authenticated
 user.
 
 - The Assistants API supports files up to 2 million tokens and of specific
-  file types. See the [Assistants Tools guide](https://developers.openai.com/docs/assistants/tools) for
+  file types. See the [Assistants Tools guide](https://developers.openai.com/api/docs/guides/tools) for
   details.
 - The Fine-tuning API only supports `.jsonl` files. The input also has
   certain required formats for fine-tuning
-  [chat](../fine_tuning/index.md) or
-  [completions](https://developers.openai.com/docs/api-reference/fine-tuning/completions-input) models.
+  [chat](https://developers.openai.com/api/docs/guides/supervised-fine-tuning#formatting-your-data) or
+  [completions](https://developers.openai.com/api/docs/guides/supervised-fine-tuning#formatting-your-data) models.
 - The Batch API only supports `.jsonl` files up to 200 MB in size. The input
   also has a specific required
-  [format](../batches/index.md).
+  [format](https://developers.openai.com/api/docs/guides/batch#1-prepare-your-batch-file).
 - For Retrieval or `file_search` ingestion, upload files here first. If
   you need to attach multiple uploaded files to the same vector store, use
   [`/vector_stores/{vector_store_id}/file_batches`](../vector_stores/file_batches/create.md)

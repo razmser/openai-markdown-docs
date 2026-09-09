@@ -5,7 +5,7 @@
 **post** `/moderations`
 
 Classifies if text and/or image inputs are potentially harmful. Learn
-more in the [moderation guide](https://developers.openai.com/docs/guides/moderation).
+more in the [moderation guide](https://developers.openai.com/api/docs/guides/moderation).
 
 ### Body Parameters
 
@@ -61,8 +61,8 @@ more in the [moderation guide](https://developers.openai.com/docs/guides/moderat
 - `model: optional string or ModerationModel`
 
   The content moderation model you would like to use. Learn more in
-  [the moderation guide](https://developers.openai.com/docs/guides/moderation), and learn about
-  available models [here](https://developers.openai.com/docs/models#moderation).
+  [the moderation guide](https://developers.openai.com/api/docs/guides/moderation), and learn about
+  available models [here](https://developers.openai.com/api/docs/guides/moderation).
 
   - `string`
 

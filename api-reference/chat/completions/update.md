@@ -134,7 +134,7 @@ the only supported modification is to update the `metadata` field.
       - `annotations: optional array of object { type, url_citation }`
 
         Annotations for the message, when applicable, as when using the
-        [web search tool](https://developers.openai.com/docs/guides/tools-web-search?api-mode=chat).
+        [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
         - `type: "url_citation"`
 
@@ -165,7 +165,7 @@ the only supported modification is to update the `metadata` field.
       - `audio: optional ChatCompletionAudio or null`
 
         If the audio output modality is requested, this object contains data
-        about the audio response from the model. [Learn more](https://developers.openai.com/docs/guides/audio).
+        about the audio response from the model. [Learn more](https://developers.openai.com/api/docs/guides/audio).
 
         - `id: string`
 
@@ -428,7 +428,7 @@ the only supported modification is to update the `metadata` field.
 
     - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
     - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
-    - If set to '[flex](https://developers.openai.com/docs/guides/flex-processing)', then the request will be processed with the Flex Processing service tier.
+    - If set to '[flex](https://developers.openai.com/api/docs/guides/flex-processing)', then the request will be processed with the Flex Processing service tier.
     - To opt-in to [Fast mode](https://developers.openai.com/api/docs/guides/fast-mode) at the request level, include the `service_tier=fast` or `service_tier=priority` parameter for Responses or Chat Completions. The response will show `service_tier=priority` regardless of if you specify `service_tier=fast` or `priority` in your request.
     - When not set, the default behavior is 'auto'.
 

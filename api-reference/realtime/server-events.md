@@ -947,7 +947,7 @@ Schema name: `RealtimeServerEventSessionUpdated`
 **WebRTC/SIP Only:** Emitted when the server begins streaming audio to the client. This event is
 emitted after an audio content part has been added (`response.content_part.added`)
 to the response.
-[Learn more](https://developers.openai.com/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
+[Learn more](https://developers.openai.com/api/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
 
 ### Schema
 
@@ -964,7 +964,7 @@ Schema name: `(resource) realtime > (model) realtime_server_event > (schema) > (
 **WebRTC/SIP Only:** Emitted when the output audio buffer has been completely drained on the server,
 and no more audio is forthcoming. This event is emitted after the full response
 data has been sent to the client (`response.done`).
-[Learn more](https://developers.openai.com/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
+[Learn more](https://developers.openai.com/api/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
 
 ### Schema
 
@@ -982,7 +982,7 @@ Schema name: `(resource) realtime > (model) realtime_server_event > (schema) > (
 mode when the user has interrupted (`input_audio_buffer.speech_started`),
 or when the client has emitted the `output_audio_buffer.clear` event to manually
 cut off the current audio response.
-[Learn more](https://developers.openai.com/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
+[Learn more](https://developers.openai.com/api/docs/guides/realtime-conversations#client-and-server-events-for-audio-in-webrtc).
 
 ### Schema
 

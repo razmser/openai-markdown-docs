@@ -395,7 +395,7 @@ curl https://api.openai.com/v1/uploads/upload_abc123/complete
 **post** `/uploads`
 
 Creates an intermediate [Upload](index.md) object
-that you can add [Parts](index.md) to.
+that you can add [Parts](parts/index.md) to.
 Currently, an Upload can accept at most 8 GB in total and expires after an
 hour after you create it.
 
@@ -406,7 +406,7 @@ File object.
 
 For certain `purpose` values, the correct `mime_type` must be specified.
 Please refer to documentation for the
-[supported MIME types for your use case](https://developers.openai.com/docs/assistants/tools/file-search#supported-files).
+[supported MIME types for your use case](https://developers.openai.com/api/docs/guides/tools-file-search#supported-files).
 
 For guidance on the proper filename extensions for each purpose, please
 follow the documentation on [creating a
@@ -764,11 +764,11 @@ curl https://api.openai.com/v1/uploads \
 
 **post** `/uploads/{upload_id}/parts`
 
-Adds a [Part](index.md) to an [Upload](index.md) object. A Part represents a chunk of bytes from the file you are trying to upload.
+Adds a [Part](parts/index.md) to an [Upload](index.md) object. A Part represents a chunk of bytes from the file you are trying to upload.
 
 Each Part can be at most 64 MB, and you can add Parts until you hit the Upload maximum of 8 GB.
 
-It is possible to add multiple Parts in parallel. You can decide the intended order of the Parts when you [complete the Upload](index.md).
+It is possible to add multiple Parts in parallel. You can decide the intended order of the Parts when you [complete the Upload](complete.md).
 
 ### Path Parameters
 

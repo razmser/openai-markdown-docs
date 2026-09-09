@@ -79,7 +79,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 - `prompt: optional ResponsePrompt or null`
 
   Reference to a prompt template and its variables.
-  [Learn more](https://developers.openai.com/docs/guides/text?api-mode=responses#reusable-prompts).
+  [Learn more](https://developers.openai.com/api/docs/guides/text?api-mode=responses#version-prompts-in-code).
 
   - `id: string`
 
@@ -119,7 +119,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 
     - `ResponseInputImage object { detail, type, file_id, 2 more }`
 
-      An image input to the model. Learn about [image inputs](https://developers.openai.com/docs/guides/vision).
+      An image input to the model. Learn about [image inputs](https://developers.openai.com/api/docs/guides/images-vision).
 
       - `detail: ImageDetail`
 

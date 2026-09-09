@@ -4,13 +4,13 @@
 
 Stream Chat Completions in real time. Receive chunks of completions
 returned from the model using server-sent events.
-[Learn more](https://developers.openai.com/docs/guides/streaming-responses?api-mode=chat).
+[Learn more](https://developers.openai.com/api/docs/guides/streaming-responses).
 
 ## chat.completion.chunk
 
 Represents a streamed chunk of a chat completion response returned
 by the model, based on the provided input.
-[Learn more](https://developers.openai.com/docs/guides/streaming-responses).
+[Learn more](https://developers.openai.com/api/docs/guides/streaming-responses).
 
 ### Schema
 

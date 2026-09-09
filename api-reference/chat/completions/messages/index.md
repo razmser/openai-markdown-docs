@@ -47,7 +47,7 @@ returned.
 
     - `ChatCompletionContentPartText object { text, type, prompt_cache_breakpoint }`
 
-      Learn about [text inputs](https://developers.openai.com/docs/guides/text-generation).
+      Learn about [text inputs](https://developers.openai.com/api/docs/guides/text).
 
       - `text: string`
 
@@ -71,7 +71,7 @@ returned.
 
     - `ChatCompletionContentPartImage object { image_url, type, prompt_cache_breakpoint }`
 
-      Learn about [image inputs](https://developers.openai.com/docs/guides/vision).
+      Learn about [image inputs](https://developers.openai.com/api/docs/guides/images-vision).
 
       - `image_url: object { url, detail }`
 
@@ -81,7 +81,7 @@ returned.
 
         - `detail: optional "auto" or "low" or "high"`
 
-          Specifies the detail level of the image. Learn more in the [Vision guide](https://developers.openai.com/docs/guides/vision#low-or-high-fidelity-image-understanding).
+          Specifies the detail level of the image. Learn more in the [Vision guide](https://developers.openai.com/api/docs/guides/images-vision#choose-an-image-detail-level).
 
           - `"auto"`
 

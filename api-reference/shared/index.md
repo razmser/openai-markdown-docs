@@ -442,19 +442,19 @@
 
   - `parameters: optional FunctionParameters`
 
-    The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://developers.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+    The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://developers.openai.com/api/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
 
     Omitting `parameters` defines a function with an empty parameter list.
 
   - `strict: optional boolean or null`
 
-    Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](https://developers.openai.com/docs/guides/function-calling).
+    Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](https://developers.openai.com/api/docs/guides/function-calling).
 
 ### Function Parameters
 
 - `FunctionParameters = map[unknown]`
 
-  The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://developers.openai.com/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
+  The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://developers.openai.com/api/docs/guides/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.
 
   Omitting `parameters` defines a function with an empty parameter list.
 
@@ -474,7 +474,7 @@
 - `Reasoning object { context, effort, generate_summary, 2 more }`
 
   Configuration options for
-  [reasoning models](https://platform.openai.com/docs/guides/reasoning).
+  [reasoning models](https://developers.openai.com/api/docs/guides/reasoning).
 
   - `context: optional "auto" or "current_turn" or "all_turns" or null`
 
@@ -499,7 +499,7 @@
     Reducing reasoning effort can result in faster responses and fewer tokens
     used on reasoning in a response. Not all reasoning models support every
     value. See the
-    [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+    [reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)
     for model-specific support.
 
     - `"none"`
@@ -571,7 +571,7 @@
   Reducing reasoning effort can result in faster responses and fewer tokens
   used on reasoning in a response. Not all reasoning models support every
   value. See the
-  [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+  [reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)
   for model-specific support.
 
   - `"none"`
@@ -608,7 +608,7 @@
 - `ResponseFormatJSONSchema object { json_schema, type }`
 
   JSON Schema response format. Used to generate structured JSON responses.
-  Learn more about [Structured Outputs](https://developers.openai.com/docs/guides/structured-outputs).
+  Learn more about [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
 
   - `json_schema: object { name, description, schema, strict }`
 
@@ -635,7 +635,7 @@
       If set to true, the model will always follow the exact schema defined
       in the `schema` field. Only a subset of JSON Schema is supported when
       `strict` is `true`. To learn more, read the [Structured Outputs
-      guide](https://developers.openai.com/docs/guides/structured-outputs).
+      guide](https://developers.openai.com/api/docs/guides/structured-outputs).
 
   - `type: "json_schema"`
 
@@ -660,7 +660,7 @@
 - `ResponseFormatTextGrammar object { grammar, type }`
 
   A custom grammar for the model to follow when generating text.
-  Learn more in the [custom grammars guide](https://developers.openai.com/docs/guides/custom-grammars).
+  Learn more in the [custom grammars guide](https://developers.openai.com/api/docs/guides/function-calling#context-free-grammars).
 
   - `grammar: string`
 
@@ -677,7 +677,7 @@
 - `ResponseFormatTextPython object { type }`
 
   Configure the model to generate valid Python code. See the
-  [custom grammars guide](https://developers.openai.com/docs/guides/custom-grammars) for more details.
+  [custom grammars guide](https://developers.openai.com/api/docs/guides/function-calling#context-free-grammars) for more details.
 
   - `type: "python"`
 

@@ -99,7 +99,7 @@ Pause a fine-tune job.
 
   - `result_files: array of string`
 
-    The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](../../files/retrieve.md).
+    The compiled results file ID(s) for the fine-tuning job. You can retrieve the results with the [Files API](../../files/content.md).
 
   - `seed: number`
 
@@ -127,11 +127,11 @@ Pause a fine-tune job.
 
   - `training_file: string`
 
-    The file ID used for training. You can retrieve the training data with the [Files API](../../files/retrieve.md).
+    The file ID used for training. You can retrieve the training data with the [Files API](../../files/content.md).
 
   - `validation_file: string or null`
 
-    The file ID used for validation. You can retrieve the validation results with the [Files API](../../files/retrieve.md).
+    The file ID used for validation. You can retrieve the validation results with the [Files API](../../files/content.md).
 
   - `estimated_finish: optional number or null`
 
@@ -554,7 +554,7 @@ Pause a fine-tune job.
               Reducing reasoning effort can result in faster responses and fewer tokens
               used on reasoning in a response. Not all reasoning models support every
               value. See the
-              [reasoning guide](https://platform.openai.com/docs/guides/reasoning)
+              [reasoning guide](https://developers.openai.com/api/docs/guides/reasoning)
               for model-specific support.
 
               - `"none"`

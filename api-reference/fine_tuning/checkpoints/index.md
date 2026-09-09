@@ -6,7 +6,7 @@
 
 **post** `/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions`
 
-**NOTE:** Calling this endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/fine_tuning/subresources/admin-api-keys).
+**NOTE:** Calling this endpoint requires an [admin API key](../../admin/organization/admin_api_keys/index.md).
 
 This enables organization owners to share fine-tuned models with other projects in their organization.
 
@@ -115,7 +115,7 @@ curl https://api.openai.com/v1/fine_tuning/checkpoints/ft:gpt-4o-mini-2024-07-18
 
 **delete** `/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions/{permission_id}`
 
-**NOTE:** This endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/fine_tuning/subresources/admin-api-keys).
+**NOTE:** This endpoint requires an [admin API key](../../admin/organization/admin_api_keys/index.md).
 
 Organization owners can use this endpoint to delete a permission for a fine-tuned model checkpoint.
 
@@ -180,7 +180,7 @@ curl https://api.openai.com/v1/fine_tuning/checkpoints/ft:gpt-4o-mini-2024-07-18
 
 **get** `/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions`
 
-**NOTE:** This endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/fine_tuning/subresources/admin-api-keys).
+**NOTE:** This endpoint requires an [admin API key](../../admin/organization/admin_api_keys/index.md).
 
 Organization owners can use this endpoint to view all permissions for a fine-tuned model checkpoint.
 
@@ -304,7 +304,7 @@ curl https://api.openai.com/v1/fine_tuning/checkpoints/ft:gpt-4o-mini-2024-07-18
 
 **get** `/fine_tuning/checkpoints/{fine_tuned_model_checkpoint}/permissions`
 
-**NOTE:** This endpoint requires an [admin API key](https://developers.openai.com/api/reference/resources/fine_tuning/subresources/admin-api-keys).
+**NOTE:** This endpoint requires an [admin API key](../../admin/organization/admin_api_keys/index.md).
 
 Organization owners can use this endpoint to view all permissions for a fine-tuned model checkpoint.
 

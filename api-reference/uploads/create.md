@@ -3,7 +3,7 @@
 **post** `/uploads`
 
 Creates an intermediate [Upload](index.md) object
-that you can add [Parts](index.md) to.
+that you can add [Parts](parts/index.md) to.
 Currently, an Upload can accept at most 8 GB in total and expires after an
 hour after you create it.
 
@@ -14,7 +14,7 @@ File object.
 
 For certain `purpose` values, the correct `mime_type` must be specified.
 Please refer to documentation for the
-[supported MIME types for your use case](https://developers.openai.com/docs/assistants/tools/file-search#supported-files).
+[supported MIME types for your use case](https://developers.openai.com/api/docs/guides/tools-file-search#supported-files).
 
 For guidance on the proper filename extensions for each purpose, please
 follow the documentation on [creating a
