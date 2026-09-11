@@ -326,11 +326,14 @@ messages.auto_paging_each do |message|
     case part
     when OpenAI::Models::Beta::Threads::TextContentBlock
       type = if message.role == OpenAI::Models::Beta::Threads::Message::Role::USER
-        :input_text
-      else
-        :output_text
-      end
-      {type: type, text: part.text.value}
+               :input_text
+             else
+               :output_text
+             end
+      {
+        type: type,
+        text: part.text.value
+      }
     when OpenAI::Models::Beta::Threads::ImageURLContentBlock
       {
         type: :input_image,
@@ -339,7 +342,10 @@ messages.auto_paging_each do |message|
       }
     end
   end
-  items << {role: message.role, content: content}
+  items << {
+    role: message.role,
+    content: content
+  }
 end
 conversation = client.conversations.create(
   items: items
@@ -424,13 +430,15 @@ handle_message = lambda do |session_id:, content:|
     order: :desc,
     limit: 1
   )
-  {content: messages.data&.first&.content}
+  { content: messages.data&.first&.content }
 end
 
-puts(handle_message.call(
-  session_id: "example-session",
-  content: "What are the five Ds of dodgeball?"
-))
+puts(
+  handle_message.call(
+    session_id: "example-session",
+    content: "What are the five Ds of dodgeball?"
+  )
+)
 ```
 
   
@@ -529,15 +537,22 @@ handle_message = lambda do |session_id:, content:|
   end
 
   response = client.responses.create(
-    prompt: {id: ENV.fetch("OPENAI_PROMPT_ID")},
-    input: [{role: :user, content: content}],
+    prompt: { id: ENV.fetch("OPENAI_PROMPT_ID") },
+    input: [
+      {
+        role: :user,
+        content: content
+      }
+    ],
     conversation: conversation_id
   )
-  {content: response.output_text}
+  { content: response.output_text }
 end
 
-puts(handle_message.call(
-  session_id: "example-session",
-  content: "What are the five Ds of dodgeball?"
-))
+puts(
+  handle_message.call(
+    session_id: "example-session",
+    content: "What are the five Ds of dodgeball?"
+  )
+)
 ```

@@ -892,6 +892,296 @@
       "scheme": "index"
     },
     {
+      "text": "Agents",
+      "path": "resources/beta/subresources/agents",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/agents/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/agents/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Agents streaming events",
+      "path": "resources/beta/subresources/agents/streaming-events",
+      "scheme": "flat"
+    },
+    {
+      "text": "Environments",
+      "path": "resources/beta/subresources/agents/subresources/environments",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/environments/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Files",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/files",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/files/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/files/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Templates",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/templates",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/templates/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/templates/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/templates/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/templates/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/agents/subresources/environments/subresources/templates/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Sessions",
+      "path": "resources/beta/subresources/agents/subresources/sessions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/sessions/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/agents/subresources/sessions/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/sessions/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/agents/subresources/sessions/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Artifacts",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/artifacts",
+      "scheme": "index"
+    },
+    {
+      "text": "Content",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/artifacts/methods/content",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/artifacts/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/artifacts/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/artifacts/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Events",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/events",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/events/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Stream",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/events/methods/stream",
+      "scheme": "index"
+    },
+    {
+      "text": "Items",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Subagents",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Items",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Turns",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/turns",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/turns/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/turns/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Items",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/turns/subresources/items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/subagents/subresources/turns/subresources/items/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Turns",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/turns",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/turns/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/turns/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Vaults",
+      "path": "resources/beta/subresources/agents/subresources/vaults",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/vaults/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/agents/subresources/vaults/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/vaults/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/vaults/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Credentials",
+      "path": "resources/beta/subresources/agents/subresources/vaults/subresources/credentials",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/vaults/subresources/credentials/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/beta/subresources/agents/subresources/vaults/subresources/credentials/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/vaults/subresources/credentials/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/beta/subresources/agents/subresources/vaults/subresources/credentials/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/agents/subresources/vaults/subresources/credentials/methods/update",
+      "scheme": "index"
+    },
+    {
       "text": "Assistants",
       "path": "resources/beta/subresources/assistants",
       "scheme": "index"
@@ -1589,6 +1879,91 @@
     {
       "text": "Generate",
       "path": "resources/images/methods/generate",
+      "scheme": "index"
+    },
+    {
+      "text": "Live",
+      "path": "resources/live",
+      "scheme": "index"
+    },
+    {
+      "text": "Live fork WebSocket",
+      "path": "resources/live/fork-websocket",
+      "scheme": "flat"
+    },
+    {
+      "text": "Connect",
+      "path": "resources/live/methods/connect",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/live/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Live primary WebSocket",
+      "path": "resources/live/primary-websocket",
+      "scheme": "flat"
+    },
+    {
+      "text": "Live sideband WebSocket",
+      "path": "resources/live/sideband-websocket",
+      "scheme": "flat"
+    },
+    {
+      "text": "Forks",
+      "path": "resources/live/subresources/forks",
+      "scheme": "index"
+    },
+    {
+      "text": "Connect",
+      "path": "resources/live/subresources/forks/methods/connect",
+      "scheme": "index"
+    },
+    {
+      "text": "Sessions",
+      "path": "resources/live/subresources/sessions",
+      "scheme": "index"
+    },
+    {
+      "text": "Accept",
+      "path": "resources/live/subresources/sessions/methods/accept",
+      "scheme": "index"
+    },
+    {
+      "text": "Download Recording",
+      "path": "resources/live/subresources/sessions/methods/download_recording",
+      "scheme": "index"
+    },
+    {
+      "text": "Fork",
+      "path": "resources/live/subresources/sessions/methods/fork",
+      "scheme": "index"
+    },
+    {
+      "text": "Hangup",
+      "path": "resources/live/subresources/sessions/methods/hangup",
+      "scheme": "index"
+    },
+    {
+      "text": "Refer",
+      "path": "resources/live/subresources/sessions/methods/refer",
+      "scheme": "index"
+    },
+    {
+      "text": "Reject",
+      "path": "resources/live/subresources/sessions/methods/reject",
+      "scheme": "index"
+    },
+    {
+      "text": "Sideband",
+      "path": "resources/live/subresources/sideband",
+      "scheme": "index"
+    },
+    {
+      "text": "Connect",
+      "path": "resources/live/subresources/sideband/methods/connect",
       "scheme": "index"
     },
     {

@@ -94,30 +94,6 @@ Schema name: `ResponseSteerEvent`
 
 Events emitted only over a Responses API WebSocket connection.
 
-### error
-
-Emitted when an error occurs while processing a Responses WebSocket request.
-
-#### Schema
-
-Schema name: `ResponseWsError`
-
-#### Example
-
-```json
-{
-  "type": "error",
-  "status": 400,
-  "stream_id": "agent_1",
-  "error": {
-    "type": "invalid_request_error",
-    "code": "websocket_stream_limit_reached",
-    "message": "This WebSocket connection has reached its stream limit.",
-    "param": "stream_id"
-  }
-}
-```
-
 ### response.steer.accepted
 
 Emitted when steering input has been validated and queued. Acceptance means
@@ -233,6 +209,30 @@ Schema name: `ResponseSteerFailedEvent`
     "type": "invalid_request_error",
     "code": "successor_creation_failed",
     "message": "We couldn't start the next response. Send this steering input again with response.create."
+  }
+}
+```
+
+### error
+
+Emitted when an error occurs while processing a Responses WebSocket request.
+
+#### Schema
+
+Schema name: `ResponseWsError`
+
+#### Example
+
+```json
+{
+  "type": "error",
+  "status": 400,
+  "stream_id": "agent_1",
+  "error": {
+    "type": "invalid_request_error",
+    "code": "websocket_stream_limit_reached",
+    "message": "This WebSocket connection has reached its stream limit.",
+    "param": "stream_id"
   }
 }
 ```
