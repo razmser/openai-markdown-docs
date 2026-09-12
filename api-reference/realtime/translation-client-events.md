@@ -4,6 +4,8 @@
 
 These are events that the OpenAI Realtime Translation WebSocket server will accept from the client.
 
+<a id="session.update"></a>
+
 ## session.update
 
 Send this event to update the translation session configuration. Translation
@@ -13,6 +15,55 @@ and `audio.input.noise_reduction`.
 ### Schema
 
 Schema name: `RealtimeTranslationClientEventSessionUpdate`
+
+- `session: RealtimeTranslationSessionUpdateRequest`
+
+  Translation session fields to update. The session `type` and `model` are set
+  at creation and cannot be changed with `session.update`.
+
+  - `audio: optional object { input, output }`
+
+    Configuration for translation input and output audio.
+
+    - `input: optional object { noise_reduction, transcription }`
+
+      - `noise_reduction: optional object { type }  or null`
+
+        Optional input noise reduction. Set to `null` to disable it.
+
+        - `type: NoiseReductionType`
+
+          Type of noise reduction. `near_field` is for close-talking microphones such as headphones, `far_field` is for far-field microphones such as laptop or conference room microphones.
+
+          - `"near_field"`
+
+          - `"far_field"`
+
+      - `transcription: optional object { model }  or null`
+
+        Optional source-language transcription. When configured, the server emits
+        `session.input_transcript.delta` events. Translation itself still runs from
+        the input audio stream.
+
+        - `model: string`
+
+          The transcription model to use for source transcript deltas.
+
+    - `output: optional object { language }`
+
+      - `language: optional string`
+
+        Target language for translated output audio and transcript deltas.
+
+- `type: "session.update"`
+
+  The event type, must be `session.update`.
+
+  - `"session.update"`
+
+- `event_id: optional string`
+
+  Optional client-generated ID used to identify this event.
 
 ### Example
 
@@ -34,6 +85,8 @@ Schema name: `RealtimeTranslationClientEventSessionUpdate`
   }
 }
 ```
+
+<a id="session.input_audio_buffer.append"></a>
 
 ## session.input_audio_buffer.append
 
@@ -57,6 +110,20 @@ the previous audio rather than as a real-world pause.
 
 Schema name: `RealtimeTranslationClientEventInputAudioBufferAppend`
 
+- `audio: string`
+
+  Base64-encoded 24 kHz PCM16 mono audio bytes.
+
+- `type: "session.input_audio_buffer.append"`
+
+  The event type, must be `session.input_audio_buffer.append`.
+
+  - `"session.input_audio_buffer.append"`
+
+- `event_id: optional string`
+
+  Optional client-generated ID used to identify this event.
+
 ### Example
 
 ```json
@@ -67,6 +134,8 @@ Schema name: `RealtimeTranslationClientEventInputAudioBufferAppend`
 }
 ```
 
+<a id="session.close"></a>
+
 ## session.close
 
 Gracefully close the realtime translation session. The server flushes pending
@@ -76,6 +145,16 @@ session.
 ### Schema
 
 Schema name: `RealtimeTranslationClientEventSessionClose`
+
+- `type: "session.close"`
+
+  The event type, must be `session.close`.
+
+  - `"session.close"`
+
+- `event_id: optional string`
+
+  Optional client-generated ID used to identify this event.
 
 ### Example
 
