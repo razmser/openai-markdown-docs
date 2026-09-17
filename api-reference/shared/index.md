@@ -4,11 +4,11 @@
 
 ### All Models
 
-- `AllModels = string or "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
+- `AllModels = string or "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 82 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
 
   - `string`
 
-  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more`
+  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 82 more`
 
     - `"gpt-6-astra"`
 
@@ -49,8 +49,6 @@
     - `"gpt-5.1-2025-11-13"`
 
     - `"gpt-5.1-codex"`
-
-    - `"gpt-5.1-mini"`
 
     - `"gpt-5.1-chat-latest"`
 
@@ -111,6 +109,10 @@
     - `"gpt-4o-2024-08-06"`
 
     - `"gpt-4o-2024-05-13"`
+
+    - `"gpt-audio-mini"`
+
+    - `"gpt-audio-mini-2025-12-15"`
 
     - `"gpt-4o-audio-preview"`
 
@@ -687,11 +689,11 @@
 
 ### Responses Model
 
-- `ResponsesModel = string or "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
+- `ResponsesModel = string or "gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 82 more or "o1-pro" or "o1-pro-2025-03-19" or "o3-pro" or 16 more`
 
   - `string`
 
-  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 81 more`
+  - `"gpt-6-astra" or "gpt-5.6-sol" or "gpt-5.6-terra" or 82 more`
 
     - `"gpt-6-astra"`
 
@@ -732,8 +734,6 @@
     - `"gpt-5.1-2025-11-13"`
 
     - `"gpt-5.1-codex"`
-
-    - `"gpt-5.1-mini"`
 
     - `"gpt-5.1-chat-latest"`
 
@@ -794,6 +794,10 @@
     - `"gpt-4o-2024-08-06"`
 
     - `"gpt-4o-2024-05-13"`
+
+    - `"gpt-audio-mini"`
+
+    - `"gpt-audio-mini-2025-12-15"`
 
     - `"gpt-4o-audio-preview"`
 

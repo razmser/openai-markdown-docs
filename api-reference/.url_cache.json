@@ -2807,8 +2807,53 @@
       "scheme": "index"
     },
     {
+      "text": "Create",
+      "path": "resources/webhooks/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/webhooks/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/webhooks/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/webhooks/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Rotate Secret",
+      "path": "resources/webhooks/methods/rotate_secret",
+      "scheme": "index"
+    },
+    {
+      "text": "Test",
+      "path": "resources/webhooks/methods/test",
+      "scheme": "index"
+    },
+    {
       "text": "Unwrap",
       "path": "resources/webhooks/methods/unwrap",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/webhooks/methods/update",
+      "scheme": "index"
+    },
+    {
+      "text": "Event Types",
+      "path": "resources/webhooks/subresources/event_types",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/webhooks/subresources/event_types/methods/list",
       "scheme": "index"
     },
     {
