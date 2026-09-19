@@ -127,6 +127,36 @@
       "scheme": "index"
     },
     {
+      "text": "External Storage",
+      "path": "resources/admin/subresources/organization/subresources/external_storage",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/admin/subresources/organization/subresources/external_storage/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "Delete",
+      "path": "resources/admin/subresources/organization/subresources/external_storage/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/admin/subresources/organization/subresources/external_storage/methods/list",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/admin/subresources/organization/subresources/external_storage/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Validate",
+      "path": "resources/admin/subresources/organization/subresources/external_storage/methods/validate",
+      "scheme": "index"
+    },
+    {
       "text": "Groups",
       "path": "resources/admin/subresources/organization/subresources/groups",
       "scheme": "index"
