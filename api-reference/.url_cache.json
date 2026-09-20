@@ -2577,6 +2577,16 @@
       "scheme": "index"
     },
     {
+      "text": "Cases",
+      "path": "resources/safety/subresources/cases",
+      "scheme": "index"
+    },
+    {
+      "text": "Retrieve",
+      "path": "resources/safety/subresources/cases/methods/retrieve",
+      "scheme": "index"
+    },
+    {
       "text": "Skills",
       "path": "resources/skills",
       "scheme": "index"
