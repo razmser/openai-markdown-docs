@@ -24,7 +24,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
   - `OpenAIHosted object { type, capability_directories, env, 7 more }`
 
-    An OpenAI-hosted environment, optionally based on a reusable template.
+    An existing OpenAI-hosted environment or new inline/template-based hosted configuration.
 
     - `type: "openai_hosted"`
 
@@ -4296,7 +4296,7 @@ Streams live events for an agent session. See [session events](https://developer
 
 ### Returns
 
-- `AgentSessionEvent = AgentSessionErrorEvent or AgentSessionEnvironmentReadyEvent or object { environment_id, event_id, reset_count, 3 more }  or 28 more`
+- `AgentSessionEvent = AgentSessionErrorEvent or AgentSessionEnvironmentReadyEvent or AgentSessionEnvironmentResetEvent or 28 more`
 
   An event emitted by a Managed Agents session.
 
@@ -4412,7 +4412,7 @@ Streams live events for an agent session. See [session events](https://developer
 
       - `"agent.session.environment.ready"`
 
-  - `AgentSessionEnvironmentReset object { environment_id, event_id, reset_count, 3 more }`
+  - `AgentSessionEnvironmentResetEvent object { environment_id, event_id, reset_count, 3 more }`
 
     Emitted after a hosted sandbox is replaced. Conversation history survives; changes to the previous sandbox's files and processes do not.
 
