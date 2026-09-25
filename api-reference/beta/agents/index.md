@@ -74,7 +74,7 @@ Creates a reusable agent without storing credentials. See [agent configuration](
 
       Automatically selects the most detailed summary supported by the model.
 
-- `service_tier: optional "auto" or "default" or "flex" or 2 more or null`
+- `service_tier: optional "auto" or "default" or "flex" or 3 more or null`
 
   The service tier used for model requests. Defaults to `auto`.
 
@@ -97,6 +97,10 @@ Creates a reusable agent without storing credentials. See [agent configuration](
   - `"fast"`
 
     Uses the fast service tier.
+
+  - `"ultrafast"`
+
+    Uses the ultrafast service tier.
 
 - `text: optional AgentTextParam or null`
 
@@ -436,7 +440,7 @@ Creates a reusable agent without storing credentials. See [agent configuration](
 
         Automatically selects the most detailed summary supported by the model.
 
-  - `service_tier: "auto" or "default" or "flex" or 2 more`
+  - `service_tier: "auto" or "default" or "flex" or 3 more`
 
     The resolved service-tier policy used for model requests.
 
@@ -449,6 +453,8 @@ Creates a reusable agent without storing credentials. See [agent configuration](
     - `"priority"`
 
     - `"fast"`
+
+    - `"ultrafast"`
 
   - `text: AgentText`
 
@@ -908,7 +914,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         Automatically selects the most detailed summary supported by the model.
 
-  - `service_tier: "auto" or "default" or "flex" or 2 more`
+  - `service_tier: "auto" or "default" or "flex" or 3 more`
 
     The resolved service-tier policy used for model requests.
 
@@ -921,6 +927,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
     - `"priority"`
 
     - `"fast"`
+
+    - `"ultrafast"`
 
   - `text: AgentText`
 
@@ -1335,7 +1343,7 @@ Retrieves a reusable agent by ID. See [agent configuration](https://developers.o
 
         Automatically selects the most detailed summary supported by the model.
 
-  - `service_tier: "auto" or "default" or "flex" or 2 more`
+  - `service_tier: "auto" or "default" or "flex" or 3 more`
 
     The resolved service-tier policy used for model requests.
 
@@ -1348,6 +1356,8 @@ Retrieves a reusable agent by ID. See [agent configuration](https://developers.o
     - `"priority"`
 
     - `"fast"`
+
+    - `"ultrafast"`
 
   - `text: AgentText`
 
@@ -1718,7 +1728,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       Automatically selects the most detailed summary supported by the model.
 
-- `service_tier: optional "auto" or "default" or "flex" or 2 more or null`
+- `service_tier: optional "auto" or "default" or "flex" or 3 more or null`
 
   The service tier used for model requests.
 
@@ -1741,6 +1751,10 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
   - `"fast"`
 
     Uses the fast service tier.
+
+  - `"ultrafast"`
+
+    Uses the ultrafast service tier.
 
 - `text: optional AgentTextParam or null`
 
@@ -2080,7 +2094,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         Automatically selects the most detailed summary supported by the model.
 
-  - `service_tier: "auto" or "default" or "flex" or 2 more`
+  - `service_tier: "auto" or "default" or "flex" or 3 more`
 
     The resolved service-tier policy used for model requests.
 
@@ -2093,6 +2107,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
     - `"priority"`
 
     - `"fast"`
+
+    - `"ultrafast"`
 
   - `text: AgentText`
 
@@ -2474,7 +2490,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
         Automatically selects the most detailed summary supported by the model.
 
-  - `service_tier: "auto" or "default" or "flex" or 2 more`
+  - `service_tier: "auto" or "default" or "flex" or 3 more`
 
     The resolved service-tier policy used for model requests.
 
@@ -2487,6 +2503,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
     - `"priority"`
 
     - `"fast"`
+
+    - `"ultrafast"`
 
   - `text: AgentText`
 
@@ -4200,7 +4218,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
           Automatically selects the most detailed summary supported by the model.
 
-    - `service_tier: "auto" or "default" or "flex" or 2 more`
+    - `service_tier: "auto" or "default" or "flex" or 3 more`
 
       The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -4213,6 +4231,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
       - `"priority"`
 
       - `"fast"`
+
+      - `"ultrafast"`
 
     - `text: AgentText`
 
@@ -4930,7 +4950,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
             Automatically selects the most detailed summary supported by the model.
 
-      - `service_tier: "auto" or "default" or "flex" or 2 more`
+      - `service_tier: "auto" or "default" or "flex" or 3 more`
 
         The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -4943,6 +4963,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"priority"`
 
         - `"fast"`
+
+        - `"ultrafast"`
 
       - `text: AgentText`
 
@@ -6304,7 +6326,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
               Automatically selects the most detailed summary supported by the model.
 
-        - `service_tier: "auto" or "default" or "flex" or 2 more`
+        - `service_tier: "auto" or "default" or "flex" or 3 more`
 
           The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -6317,6 +6339,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
           - `"priority"`
 
           - `"fast"`
+
+          - `"ultrafast"`
 
         - `text: AgentText`
 
@@ -6920,7 +6944,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
         A customer-safe error. Non-null only for a failed turn.
 
-        - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+        - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
           A stable, machine-readable failure category.
 
@@ -6951,6 +6975,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
           - `"cyber_policy"`
 
             The request was rejected by a safety policy.
+
+          - `"misalignment_policy_violation"`
+
+            The request was blocked by the safety systems.
 
           - `"connection_failed"`
 
@@ -8718,7 +8746,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
             Automatically selects the most detailed summary supported by the model.
 
-      - `service_tier: "auto" or "default" or "flex" or 2 more`
+      - `service_tier: "auto" or "default" or "flex" or 3 more`
 
         The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -8731,6 +8759,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"priority"`
 
         - `"fast"`
+
+        - `"ultrafast"`
 
       - `text: AgentText`
 
@@ -9386,7 +9416,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
             Automatically selects the most detailed summary supported by the model.
 
-      - `service_tier: "auto" or "default" or "flex" or 2 more`
+      - `service_tier: "auto" or "default" or "flex" or 3 more`
 
         The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -9399,6 +9429,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"priority"`
 
         - `"fast"`
+
+        - `"ultrafast"`
 
       - `text: AgentText`
 
@@ -10054,7 +10086,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
             Automatically selects the most detailed summary supported by the model.
 
-      - `service_tier: "auto" or "default" or "flex" or 2 more`
+      - `service_tier: "auto" or "default" or "flex" or 3 more`
 
         The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -10067,6 +10099,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"priority"`
 
         - `"fast"`
+
+        - `"ultrafast"`
 
       - `text: AgentText`
 
@@ -11744,7 +11778,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
             Automatically selects the most detailed summary supported by the model.
 
-      - `service_tier: "auto" or "default" or "flex" or 2 more`
+      - `service_tier: "auto" or "default" or "flex" or 3 more`
 
         The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -11757,6 +11791,8 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"priority"`
 
         - `"fast"`
+
+        - `"ultrafast"`
 
       - `text: AgentText`
 
@@ -12644,7 +12680,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
       A customer-safe error. Non-null only for a failed turn.
 
-      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
         A stable, machine-readable failure category.
 
@@ -12675,6 +12711,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"cyber_policy"`
 
           The request was rejected by a safety policy.
+
+        - `"misalignment_policy_violation"`
+
+          The request was blocked by the safety systems.
 
         - `"connection_failed"`
 
@@ -12850,7 +12890,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
       A customer-safe error. Non-null only for a failed turn.
 
-      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
         A stable, machine-readable failure category.
 
@@ -12881,6 +12921,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"cyber_policy"`
 
           The request was rejected by a safety policy.
+
+        - `"misalignment_policy_violation"`
+
+          The request was blocked by the safety systems.
 
         - `"connection_failed"`
 
@@ -13156,7 +13200,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
       A customer-safe error. Non-null only for a failed turn.
 
-      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
         A stable, machine-readable failure category.
 
@@ -13187,6 +13231,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"cyber_policy"`
 
           The request was rejected by a safety policy.
+
+        - `"misalignment_policy_violation"`
+
+          The request was blocked by the safety systems.
 
         - `"connection_failed"`
 
@@ -13358,7 +13406,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
       A customer-safe error. Non-null only for a failed turn.
 
-      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
         A stable, machine-readable failure category.
 
@@ -13389,6 +13437,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"cyber_policy"`
 
           The request was rejected by a safety policy.
+
+        - `"misalignment_policy_violation"`
+
+          The request was blocked by the safety systems.
 
         - `"connection_failed"`
 
@@ -13564,7 +13616,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
       A customer-safe error. Non-null only for a failed turn.
 
-      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+      - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
         A stable, machine-readable failure category.
 
@@ -13595,6 +13647,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
         - `"cyber_policy"`
 
           The request was rejected by a safety policy.
+
+        - `"misalignment_policy_violation"`
+
+          The request was blocked by the safety systems.
 
         - `"connection_failed"`
 
@@ -17506,7 +17562,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
 
   A customer-safe error describing why a session request failed.
 
-  - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+  - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
     A stable, machine-readable failure category.
 
@@ -17537,6 +17593,10 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
     - `"cyber_policy"`
 
       The request was rejected by a safety policy.
+
+    - `"misalignment_policy_violation"`
+
+      The request was blocked by the safety systems.
 
     - `"connection_failed"`
 
@@ -20377,7 +20437,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
         Automatically selects the most detailed summary supported by the model.
 
-  - `service_tier: optional "auto" or "default" or "flex" or 2 more or null`
+  - `service_tier: optional "auto" or "default" or "flex" or 3 more or null`
 
     The service tier used for model requests.
 
@@ -20400,6 +20460,10 @@ Creates a managed agent session, optionally submits initial input, and returns t
     - `"fast"`
 
       Uses the fast service tier.
+
+    - `"ultrafast"`
+
+      Uses the ultrafast service tier.
 
   - `text: optional AgentTextParam or null`
 
@@ -20809,7 +20873,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
           Automatically selects the most detailed summary supported by the model.
 
-    - `service_tier: "auto" or "default" or "flex" or 2 more`
+    - `service_tier: "auto" or "default" or "flex" or 3 more`
 
       The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -20822,6 +20886,8 @@ Creates a managed agent session, optionally submits initial input, and returns t
       - `"priority"`
 
       - `"fast"`
+
+      - `"ultrafast"`
 
     - `text: AgentText`
 
@@ -21632,7 +21698,7 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
 
           Automatically selects the most detailed summary supported by the model.
 
-    - `service_tier: "auto" or "default" or "flex" or 2 more`
+    - `service_tier: "auto" or "default" or "flex" or 3 more`
 
       The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -21645,6 +21711,8 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
       - `"priority"`
 
       - `"fast"`
+
+      - `"ultrafast"`
 
     - `text: AgentText`
 
@@ -22404,7 +22472,7 @@ Retrieves the current state of a managed agent session. See [managing sessions](
 
           Automatically selects the most detailed summary supported by the model.
 
-    - `service_tier: "auto" or "default" or "flex" or 2 more`
+    - `service_tier: "auto" or "default" or "flex" or 3 more`
 
       The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -22417,6 +22485,8 @@ Retrieves the current state of a managed agent session. See [managing sessions](
       - `"priority"`
 
       - `"fast"`
+
+      - `"ultrafast"`
 
     - `text: AgentText`
 
@@ -23102,7 +23172,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
       - `"max"`
 
-  - `service_tier: optional "auto" or "default" or "flex" or 2 more or null`
+  - `service_tier: optional "auto" or "default" or "flex" or 3 more or null`
 
     Omit to keep the current tier. Null resets it to auto.
 
@@ -23125,6 +23195,10 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
     - `"fast"`
 
       Uses the fast service tier.
+
+    - `"ultrafast"`
+
+      Uses the ultrafast service tier.
 
 - `metadata: optional map[string] or null`
 
@@ -23210,7 +23284,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           Automatically selects the most detailed summary supported by the model.
 
-    - `service_tier: "auto" or "default" or "flex" or 2 more`
+    - `service_tier: "auto" or "default" or "flex" or 3 more`
 
       The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -23223,6 +23297,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
       - `"priority"`
 
       - `"fast"`
+
+      - `"ultrafast"`
 
     - `text: AgentText`
 
@@ -24639,7 +24715,7 @@ Streams live events for an agent session. See [session events](https://developer
 
               Automatically selects the most detailed summary supported by the model.
 
-        - `service_tier: "auto" or "default" or "flex" or 2 more`
+        - `service_tier: "auto" or "default" or "flex" or 3 more`
 
           The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -24652,6 +24728,8 @@ Streams live events for an agent session. See [session events](https://developer
           - `"priority"`
 
           - `"fast"`
+
+          - `"ultrafast"`
 
         - `text: AgentText`
 
@@ -25255,7 +25333,7 @@ Streams live events for an agent session. See [session events](https://developer
 
         A customer-safe error. Non-null only for a failed turn.
 
-        - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+        - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
           A stable, machine-readable failure category.
 
@@ -25286,6 +25364,10 @@ Streams live events for an agent session. See [session events](https://developer
           - `"cyber_policy"`
 
             The request was rejected by a safety policy.
+
+          - `"misalignment_policy_violation"`
+
+            The request was blocked by the safety systems.
 
           - `"connection_failed"`
 
@@ -28913,7 +28995,7 @@ Lists all turns of this subagent, including turns after a resume. See [subagent 
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
       A stable, machine-readable failure category.
 
@@ -28944,6 +29026,10 @@ Lists all turns of this subagent, including turns after a resume. See [subagent 
       - `"cyber_policy"`
 
         The request was rejected by a safety policy.
+
+      - `"misalignment_policy_violation"`
+
+        The request was blocked by the safety systems.
 
       - `"connection_failed"`
 
@@ -29172,7 +29258,7 @@ Retrieves a turn belonging to this subagent. See [subagent workflows](https://de
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
       A stable, machine-readable failure category.
 
@@ -29203,6 +29289,10 @@ Retrieves a turn belonging to this subagent. See [subagent workflows](https://de
       - `"cyber_policy"`
 
         The request was rejected by a safety policy.
+
+      - `"misalignment_policy_violation"`
+
+        The request was blocked by the safety systems.
 
       - `"connection_failed"`
 
@@ -30222,7 +30312,7 @@ Lists turns by creation time and turn ID. The after cursor is exclusive in the s
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
       A stable, machine-readable failure category.
 
@@ -30253,6 +30343,10 @@ Lists turns by creation time and turn ID. The after cursor is exclusive in the s
       - `"cyber_policy"`
 
         The request was rejected by a safety policy.
+
+      - `"misalignment_policy_violation"`
+
+        The request was blocked by the safety systems.
 
       - `"connection_failed"`
 
@@ -30479,7 +30573,7 @@ Retrieves a turn's current status, timestamps, usage, and error. Returns 404 if 
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
       A stable, machine-readable failure category.
 
@@ -30510,6 +30604,10 @@ Retrieves a turn's current status, timestamps, usage, and error. Returns 404 if 
       - `"cyber_policy"`
 
         The request was rejected by a safety policy.
+
+      - `"misalignment_policy_violation"`
+
+        The request was blocked by the safety systems.
 
       - `"connection_failed"`
 
@@ -30700,7 +30798,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/turns/$TURN_ID \
 
     A customer-safe error. Non-null only for a failed turn.
 
-    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+    - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
       A stable, machine-readable failure category.
 
@@ -30731,6 +30829,10 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/turns/$TURN_ID \
       - `"cyber_policy"`
 
         The request was rejected by a safety policy.
+
+      - `"misalignment_policy_violation"`
+
+        The request was blocked by the safety systems.
 
       - `"connection_failed"`
 

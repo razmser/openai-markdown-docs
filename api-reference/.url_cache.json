@@ -2787,61 +2787,6 @@
       "scheme": "index"
     },
     {
-      "text": "Videos",
-      "path": "resources/videos",
-      "scheme": "index"
-    },
-    {
-      "text": "Create",
-      "path": "resources/videos/methods/create",
-      "scheme": "index"
-    },
-    {
-      "text": "Create Character",
-      "path": "resources/videos/methods/create_character",
-      "scheme": "index"
-    },
-    {
-      "text": "Delete",
-      "path": "resources/videos/methods/delete",
-      "scheme": "index"
-    },
-    {
-      "text": "Download Content",
-      "path": "resources/videos/methods/download_content",
-      "scheme": "index"
-    },
-    {
-      "text": "Edit",
-      "path": "resources/videos/methods/edit",
-      "scheme": "index"
-    },
-    {
-      "text": "Extend",
-      "path": "resources/videos/methods/extend",
-      "scheme": "index"
-    },
-    {
-      "text": "Get Character",
-      "path": "resources/videos/methods/get_character",
-      "scheme": "index"
-    },
-    {
-      "text": "List",
-      "path": "resources/videos/methods/list",
-      "scheme": "index"
-    },
-    {
-      "text": "Remix",
-      "path": "resources/videos/methods/remix",
-      "scheme": "index"
-    },
-    {
-      "text": "Retrieve",
-      "path": "resources/videos/methods/retrieve",
-      "scheme": "index"
-    },
-    {
       "text": "Webhooks",
       "path": "resources/webhooks",
       "scheme": "index"

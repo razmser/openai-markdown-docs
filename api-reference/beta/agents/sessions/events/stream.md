@@ -276,7 +276,7 @@ Streams live events for an agent session. See [session events](https://developer
 
               Automatically selects the most detailed summary supported by the model.
 
-        - `service_tier: "auto" or "default" or "flex" or 2 more`
+        - `service_tier: "auto" or "default" or "flex" or 3 more`
 
           The effective service-tier policy for model requests. Defaults to `auto`.
 
@@ -289,6 +289,8 @@ Streams live events for an agent session. See [session events](https://developer
           - `"priority"`
 
           - `"fast"`
+
+          - `"ultrafast"`
 
         - `text: AgentText`
 
@@ -892,7 +894,7 @@ Streams live events for an agent session. See [session events](https://developer
 
         A customer-safe error. Non-null only for a failed turn.
 
-        - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 14 more`
+        - `code: "context_length_exceeded" or "session_budget_exceeded" or "usage_limit_exceeded" or 15 more`
 
           A stable, machine-readable failure category.
 
@@ -923,6 +925,10 @@ Streams live events for an agent session. See [session events](https://developer
           - `"cyber_policy"`
 
             The request was rejected by a safety policy.
+
+          - `"misalignment_policy_violation"`
+
+            The request was blocked by the safety systems.
 
           - `"connection_failed"`
 
