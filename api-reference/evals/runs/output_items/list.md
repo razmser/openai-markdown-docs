@@ -101,7 +101,7 @@ Get a list of output items for an evaluation run.
 
     A sample containing the input and output of the evaluation run.
 
-    - `error: EvalAPIError`
+    - `error: EvalAPIError or null`
 
       An object representing an error response from the Eval API.
 

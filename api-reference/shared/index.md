@@ -289,7 +289,7 @@
 
   Combine multiple filters using `and` or `or`.
 
-  - `filters: array of ComparisonFilter or unknown`
+  - `filters: array of ComparisonFilter or CompoundFilter`
 
     Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.
 
@@ -346,7 +346,9 @@
 
           - `number`
 
-    - `unknown`
+    - `CompoundFilter object { filters, type }`
+
+      Combine multiple filters using `and` or `or`.
 
   - `type: "and" or "or"`
 

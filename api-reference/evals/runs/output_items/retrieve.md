@@ -72,7 +72,7 @@ Get an evaluation run output item by ID.
 
   A sample containing the input and output of the evaluation run.
 
-  - `error: EvalAPIError`
+  - `error: EvalAPIError or null`
 
     An object representing an error response from the Eval API.
 

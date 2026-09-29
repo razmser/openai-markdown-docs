@@ -1004,7 +1004,7 @@ the `background` parameter set to `true` can be cancelled.
 
           - `"incomplete"`
 
-      - `WebSearchCall object { id, action, status, 2 more }`
+      - `WebSearchCall object { id, status, type, 2 more }`
 
         The results of a web search tool call. See the
         [web search guide](https://developers.openai.com/api/docs/guides/tools-web-search) for more information.
@@ -1013,7 +1013,27 @@ the `background` parameter set to `true` can be cancelled.
 
           The unique ID of the web search tool call.
 
-        - `action: object { type, queries, query, sources }  or object { type, url }  or object { pattern, type, url }`
+        - `status: "in_progress" or "searching" or "completed" or 2 more`
+
+          The status of the web search tool call.
+
+          - `"in_progress"`
+
+          - `"searching"`
+
+          - `"completed"`
+
+          - `"failed"`
+
+          - `"incomplete"`
+
+        - `type: "web_search_call"`
+
+          The type of the web search tool call. Always `web_search_call`.
+
+          - `"web_search_call"`
+
+        - `action: optional object { type, queries, query, sources }  or object { type, url }  or object { pattern, type, url }`
 
           An object describing the specific action taken in this web search call.
           Includes details on how the model used the web (search, open_page, find_in_page).
@@ -1081,26 +1101,6 @@ the `background` parameter set to `true` can be cancelled.
             - `url: string`
 
               The URL of the page searched for the pattern.
-
-        - `status: "in_progress" or "searching" or "completed" or 2 more`
-
-          The status of the web search tool call.
-
-          - `"in_progress"`
-
-          - `"searching"`
-
-          - `"completed"`
-
-          - `"failed"`
-
-          - `"incomplete"`
-
-        - `type: "web_search_call"`
-
-          The type of the web search tool call. Always `web_search_call`.
-
-          - `"web_search_call"`
 
         - `agent: optional object { agent_name }  or null`
 
@@ -1706,7 +1706,7 @@ the `background` parameter set to `true` can be cancelled.
 
               The IDs of the vector stores to search.
 
-            - `filters: optional object { key, type, value }  or object { filters, type }  or null`
+            - `filters: optional object { key, type, value }  or unknown or null`
 
               A filter to apply.
 
@@ -1763,76 +1763,9 @@ the `background` parameter set to `true` can be cancelled.
 
                     - `number`
 
-              - `CompoundFilter object { filters, type }`
+              - `BetaCompoundFilter = unknown`
 
                 Combine multiple filters using `and` or `or`.
-
-                - `filters: array of object { key, type, value }  or unknown`
-
-                  Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.
-
-                  - `ComparisonFilter object { key, type, value }`
-
-                    A filter used to compare a specified attribute key to a given value using a defined comparison operation.
-
-                    - `key: string`
-
-                      The key to compare against the value.
-
-                    - `type: "eq" or "ne" or "gt" or 5 more`
-
-                      Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-
-                      - `eq`: equals
-                      - `ne`: not equal
-                      - `gt`: greater than
-                      - `gte`: greater than or equal
-                      - `lt`: less than
-                      - `lte`: less than or equal
-                      - `in`: in
-                      - `nin`: not in
-
-                      - `"eq"`
-
-                      - `"ne"`
-
-                      - `"gt"`
-
-                      - `"gte"`
-
-                      - `"lt"`
-
-                      - `"lte"`
-
-                      - `"in"`
-
-                      - `"nin"`
-
-                    - `value: string or number or boolean or array of string or number`
-
-                      The value to compare against the attribute key; supports string, number, or boolean types.
-
-                      - `string`
-
-                      - `number`
-
-                      - `boolean`
-
-                      - `array of string or number`
-
-                        - `string`
-
-                        - `number`
-
-                  - `unknown`
-
-                - `type: "and" or "or"`
-
-                  Type of operation: `and` or `or`.
-
-                  - `"and"`
-
-                  - `"or"`
 
             - `max_num_results: optional number`
 
@@ -2954,7 +2887,7 @@ the `background` parameter set to `true` can be cancelled.
 
               The IDs of the vector stores to search.
 
-            - `filters: optional object { key, type, value }  or object { filters, type }  or null`
+            - `filters: optional object { key, type, value }  or unknown or null`
 
               A filter to apply.
 
@@ -3011,76 +2944,9 @@ the `background` parameter set to `true` can be cancelled.
 
                     - `number`
 
-              - `CompoundFilter object { filters, type }`
+              - `BetaCompoundFilter = unknown`
 
                 Combine multiple filters using `and` or `or`.
-
-                - `filters: array of object { key, type, value }  or unknown`
-
-                  Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.
-
-                  - `ComparisonFilter object { key, type, value }`
-
-                    A filter used to compare a specified attribute key to a given value using a defined comparison operation.
-
-                    - `key: string`
-
-                      The key to compare against the value.
-
-                    - `type: "eq" or "ne" or "gt" or 5 more`
-
-                      Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-
-                      - `eq`: equals
-                      - `ne`: not equal
-                      - `gt`: greater than
-                      - `gte`: greater than or equal
-                      - `lt`: less than
-                      - `lte`: less than or equal
-                      - `in`: in
-                      - `nin`: not in
-
-                      - `"eq"`
-
-                      - `"ne"`
-
-                      - `"gt"`
-
-                      - `"gte"`
-
-                      - `"lt"`
-
-                      - `"lte"`
-
-                      - `"in"`
-
-                      - `"nin"`
-
-                    - `value: string or number or boolean or array of string or number`
-
-                      The value to compare against the attribute key; supports string, number, or boolean types.
-
-                      - `string`
-
-                      - `number`
-
-                      - `boolean`
-
-                      - `array of string or number`
-
-                        - `string`
-
-                        - `number`
-
-                  - `unknown`
-
-                - `type: "and" or "or"`
-
-                  Type of operation: `and` or `or`.
-
-                  - `"and"`
-
-                  - `"or"`
 
             - `max_num_results: optional number`
 
@@ -5956,7 +5822,7 @@ the `background` parameter set to `true` can be cancelled.
 
           The canonical name of the agent that produced this item.
 
-    - `WebSearchCall object { id, action, status, 2 more }`
+    - `WebSearchCall object { id, status, type, 2 more }`
 
       The results of a web search tool call. See the
       [web search guide](https://developers.openai.com/api/docs/guides/tools-web-search) for more information.
@@ -5965,7 +5831,27 @@ the `background` parameter set to `true` can be cancelled.
 
         The unique ID of the web search tool call.
 
-      - `action: object { type, queries, query, sources }  or object { type, url }  or object { pattern, type, url }`
+      - `status: "in_progress" or "searching" or "completed" or 2 more`
+
+        The status of the web search tool call.
+
+        - `"in_progress"`
+
+        - `"searching"`
+
+        - `"completed"`
+
+        - `"failed"`
+
+        - `"incomplete"`
+
+      - `type: "web_search_call"`
+
+        The type of the web search tool call. Always `web_search_call`.
+
+        - `"web_search_call"`
+
+      - `action: optional object { type, queries, query, sources }  or object { type, url }  or object { pattern, type, url }`
 
         An object describing the specific action taken in this web search call.
         Includes details on how the model used the web (search, open_page, find_in_page).
@@ -6033,26 +5919,6 @@ the `background` parameter set to `true` can be cancelled.
           - `url: string`
 
             The URL of the page searched for the pattern.
-
-      - `status: "in_progress" or "searching" or "completed" or 2 more`
-
-        The status of the web search tool call.
-
-        - `"in_progress"`
-
-        - `"searching"`
-
-        - `"completed"`
-
-        - `"failed"`
-
-        - `"incomplete"`
-
-      - `type: "web_search_call"`
-
-        The type of the web search tool call. Always `web_search_call`.
-
-        - `"web_search_call"`
 
       - `agent: optional object { agent_name }  or null`
 
@@ -6471,7 +6337,7 @@ the `background` parameter set to `true` can be cancelled.
 
             The IDs of the vector stores to search.
 
-          - `filters: optional object { key, type, value }  or object { filters, type }  or null`
+          - `filters: optional object { key, type, value }  or unknown or null`
 
             A filter to apply.
 
@@ -6528,76 +6394,9 @@ the `background` parameter set to `true` can be cancelled.
 
                   - `number`
 
-            - `CompoundFilter object { filters, type }`
+            - `BetaCompoundFilter = unknown`
 
               Combine multiple filters using `and` or `or`.
-
-              - `filters: array of object { key, type, value }  or unknown`
-
-                Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.
-
-                - `ComparisonFilter object { key, type, value }`
-
-                  A filter used to compare a specified attribute key to a given value using a defined comparison operation.
-
-                  - `key: string`
-
-                    The key to compare against the value.
-
-                  - `type: "eq" or "ne" or "gt" or 5 more`
-
-                    Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-
-                    - `eq`: equals
-                    - `ne`: not equal
-                    - `gt`: greater than
-                    - `gte`: greater than or equal
-                    - `lt`: less than
-                    - `lte`: less than or equal
-                    - `in`: in
-                    - `nin`: not in
-
-                    - `"eq"`
-
-                    - `"ne"`
-
-                    - `"gt"`
-
-                    - `"gte"`
-
-                    - `"lt"`
-
-                    - `"lte"`
-
-                    - `"in"`
-
-                    - `"nin"`
-
-                  - `value: string or number or boolean or array of string or number`
-
-                    The value to compare against the attribute key; supports string, number, or boolean types.
-
-                    - `string`
-
-                    - `number`
-
-                    - `boolean`
-
-                    - `array of string or number`
-
-                      - `string`
-
-                      - `number`
-
-                - `unknown`
-
-              - `type: "and" or "or"`
-
-                Type of operation: `and` or `or`.
-
-                - `"and"`
-
-                - `"or"`
 
           - `max_num_results: optional number`
 
@@ -7565,7 +7364,7 @@ the `background` parameter set to `true` can be cancelled.
 
             The IDs of the vector stores to search.
 
-          - `filters: optional object { key, type, value }  or object { filters, type }  or null`
+          - `filters: optional object { key, type, value }  or unknown or null`
 
             A filter to apply.
 
@@ -7622,76 +7421,9 @@ the `background` parameter set to `true` can be cancelled.
 
                   - `number`
 
-            - `CompoundFilter object { filters, type }`
+            - `BetaCompoundFilter = unknown`
 
               Combine multiple filters using `and` or `or`.
-
-              - `filters: array of object { key, type, value }  or unknown`
-
-                Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.
-
-                - `ComparisonFilter object { key, type, value }`
-
-                  A filter used to compare a specified attribute key to a given value using a defined comparison operation.
-
-                  - `key: string`
-
-                    The key to compare against the value.
-
-                  - `type: "eq" or "ne" or "gt" or 5 more`
-
-                    Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-
-                    - `eq`: equals
-                    - `ne`: not equal
-                    - `gt`: greater than
-                    - `gte`: greater than or equal
-                    - `lt`: less than
-                    - `lte`: less than or equal
-                    - `in`: in
-                    - `nin`: not in
-
-                    - `"eq"`
-
-                    - `"ne"`
-
-                    - `"gt"`
-
-                    - `"gte"`
-
-                    - `"lt"`
-
-                    - `"lte"`
-
-                    - `"in"`
-
-                    - `"nin"`
-
-                  - `value: string or number or boolean or array of string or number`
-
-                    The value to compare against the attribute key; supports string, number, or boolean types.
-
-                    - `string`
-
-                    - `number`
-
-                    - `boolean`
-
-                    - `array of string or number`
-
-                      - `string`
-
-                      - `number`
-
-                - `unknown`
-
-              - `type: "and" or "or"`
-
-                Type of operation: `and` or `or`.
-
-                - `"and"`
-
-                - `"or"`
 
           - `max_num_results: optional number`
 
@@ -9848,7 +9580,7 @@ the `background` parameter set to `true` can be cancelled.
 
         The IDs of the vector stores to search.
 
-      - `filters: optional object { key, type, value }  or object { filters, type }  or null`
+      - `filters: optional object { key, type, value }  or unknown or null`
 
         A filter to apply.
 
@@ -9905,76 +9637,9 @@ the `background` parameter set to `true` can be cancelled.
 
               - `number`
 
-        - `CompoundFilter object { filters, type }`
+        - `BetaCompoundFilter = unknown`
 
           Combine multiple filters using `and` or `or`.
-
-          - `filters: array of object { key, type, value }  or unknown`
-
-            Array of filters to combine. Items can be `ComparisonFilter` or `CompoundFilter`.
-
-            - `ComparisonFilter object { key, type, value }`
-
-              A filter used to compare a specified attribute key to a given value using a defined comparison operation.
-
-              - `key: string`
-
-                The key to compare against the value.
-
-              - `type: "eq" or "ne" or "gt" or 5 more`
-
-                Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
-
-                - `eq`: equals
-                - `ne`: not equal
-                - `gt`: greater than
-                - `gte`: greater than or equal
-                - `lt`: less than
-                - `lte`: less than or equal
-                - `in`: in
-                - `nin`: not in
-
-                - `"eq"`
-
-                - `"ne"`
-
-                - `"gt"`
-
-                - `"gte"`
-
-                - `"lt"`
-
-                - `"lte"`
-
-                - `"in"`
-
-                - `"nin"`
-
-              - `value: string or number or boolean or array of string or number`
-
-                The value to compare against the attribute key; supports string, number, or boolean types.
-
-                - `string`
-
-                - `number`
-
-                - `boolean`
-
-                - `array of string or number`
-
-                  - `string`
-
-                  - `number`
-
-            - `unknown`
-
-          - `type: "and" or "or"`
-
-            Type of operation: `and` or `or`.
-
-            - `"and"`
-
-            - `"or"`
 
       - `max_num_results: optional number`
 
@@ -11390,7 +11055,7 @@ the `background` parameter set to `true` can be cancelled.
 
     - `"disabled"`
 
-  - `usage: optional BetaResponseUsage`
+  - `usage: optional BetaResponseUsage or null`
 
     Represents token usage details including input tokens, output tokens,
     a breakdown of output tokens, and the total tokens used.
@@ -11428,7 +11093,7 @@ the `background` parameter set to `true` can be cancelled.
 
       The total number of tokens used.
 
-  - `user: optional string`
+  - `user: optional string or null`
 
     This field is being replaced by `safety_identifier` and `prompt_cache_key`. Use `prompt_cache_key` instead to maintain caching optimizations.
     A stable identifier for your end-users.
@@ -11446,105 +11111,68 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID/cancel \
 
 ```json
 {
-  "id": "id",
-  "access_programs": {
-    "cyber": "standard"
-  },
-  "created_at": 0,
-  "error": {
-    "code": "server_error",
-    "message": "message",
-    "misalignment": {
-      "detailed_explanation": "detailed_explanation",
-      "error_type": "potentially_unintended_data_transfer",
-      "steer": {
-        "message": "message"
-      }
-    }
-  },
-  "incomplete_details": {
-    "reason": "max_output_tokens"
-  },
-  "instructions": "string",
-  "metadata": {
-    "foo": "string"
-  },
-  "model": "gpt-6-astra",
+  "id": "resp_67ccd3a9da748190baa7f1570fe91ac604becb25c45c1d41",
   "object": "response",
+  "access_programs": null,
+  "created_at": 1741476777,
+  "status": "completed",
+  "completed_at": 1741476778,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-6-astra",
   "output": [
     {
-      "id": "id",
+      "type": "message",
+      "id": "msg_67ccd3acc8d48190a77525dc6de64b4104becb25c45c1d41",
+      "status": "completed",
+      "role": "assistant",
       "content": [
         {
-          "annotations": [
-            {
-              "file_id": "file_id",
-              "filename": "filename",
-              "index": 0,
-              "type": "file_citation"
-            }
-          ],
-          "logprobs": [
-            {
-              "token": "token",
-              "bytes": [
-                0
-              ],
-              "logprob": 0,
-              "top_logprobs": [
-                {
-                  "token": "token",
-                  "bytes": [
-                    0
-                  ],
-                  "logprob": 0
-                }
-              ]
-            }
-          ],
-          "text": "text",
-          "type": "output_text"
+          "type": "output_text",
+          "text": "The image depicts a scenic landscape with a wooden boardwalk or pathway leading through lush, green grass under a blue sky with some clouds. The setting suggests a peaceful natural area, possibly a park or nature reserve. There are trees and shrubs in the background.",
+          "annotations": [],
+          "logprobs": []
         }
-      ],
-      "role": "assistant",
-      "status": "in_progress",
-      "type": "message",
-      "agent": {
-        "agent_name": "agent_name"
-      },
-      "phase": "commentary"
+      ]
     }
   ],
   "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null,
+    "context": null
+  },
+  "store": true,
   "temperature": 1,
-  "tool_choice": "none",
-  "tools": [
-    {
-      "name": "name",
-      "parameters": {
-        "foo": "bar"
-      },
-      "strict": true,
-      "type": "function",
-      "allowed_callers": [
-        "direct"
-      ],
-      "async": true,
-      "defer_loading": true,
-      "description": "description",
-      "output_schema": {
-        "foo": "bar"
-      }
+  "text": {
+    "format": {
+      "type": "text"
     }
-  ],
+  },
+  "tool_choice": "auto",
+  "tools": [],
   "top_p": 1,
-  "background": true,
-  "completed_at": 0,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 328,
+    "input_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "output_tokens": 52,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 380
+  },
+  "user": null,
+  "metadata": {},
   "conversation": {
     "id": "id"
   },
-  "max_output_tokens": 0,
-  "max_tool_calls": 0,
   "moderation": {
     "input": {
       "categories": {
@@ -11580,58 +11208,18 @@ curl https://api.openai.com/v1/responses/$RESPONSE_ID/cancel \
     }
   },
   "output_text": "output_text",
-  "previous_response_id": "previous_response_id",
-  "prompt": {
-    "id": "id",
-    "variables": {
-      "foo": "string"
-    },
-    "version": "version"
-  },
   "prompt_cache_diagnostics": {
     "cache_missed_tokens": 0,
     "reason": "model_changed",
     "type": "cache_miss",
     "comparison_reusable_tokens": 0
   },
-  "prompt_cache_key": "prompt-cache-key-1234",
   "prompt_cache_options": {
     "mode": "implicit",
     "ttl": "30m",
     "comparison_response_id": "comparison_response_id"
   },
-  "prompt_cache_retention": "in_memory",
-  "reasoning": {
-    "context": "auto",
-    "effort": "none",
-    "generate_summary": "auto",
-    "mode": "standard",
-    "summary": "auto"
-  },
-  "safety_identifier": "safety-identifier-1234",
-  "service_tier": "auto",
-  "status": "completed",
-  "text": {
-    "format": {
-      "type": "text"
-    },
-    "verbosity": "low"
-  },
-  "top_logprobs": 0,
-  "truncation": "auto",
-  "usage": {
-    "input_tokens": 0,
-    "input_tokens_details": {
-      "cache_write_tokens": 0,
-      "cached_tokens": 0
-    },
-    "output_tokens": 0,
-    "output_tokens_details": {
-      "reasoning_tokens": 0
-    },
-    "total_tokens": 0
-  },
-  "user": "user-1234"
+  "service_tier": "auto"
 }
 ```
 
@@ -11669,7 +11257,8 @@ curl -X POST https://api.openai.com/v1/responses/resp_123/cancel \
         {
           "type": "output_text",
           "text": "Silent circuits hum,  \nThoughts emerge in data streams—  \nDigital dawn breaks.",
-          "annotations": []
+          "annotations": [],
+          "logprobs": []
         }
       ]
     }
