@@ -1142,6 +1142,16 @@
       "scheme": "index"
     },
     {
+      "text": "Traces",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/traces",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/traces/methods/list",
+      "scheme": "index"
+    },
+    {
       "text": "Turns",
       "path": "resources/beta/subresources/agents/subresources/sessions/subresources/turns",
       "scheme": "index"
