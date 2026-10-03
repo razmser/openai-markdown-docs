@@ -1167,6 +1167,16 @@
       "scheme": "index"
     },
     {
+      "text": "Items",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/turns/subresources/items",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/sessions/subresources/turns/subresources/items/methods/list",
+      "scheme": "index"
+    },
+    {
       "text": "Vaults",
       "path": "resources/beta/subresources/agents/subresources/vaults",
       "scheme": "index"
