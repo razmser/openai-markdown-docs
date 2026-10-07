@@ -1662,6 +1662,16 @@
       "scheme": "index"
     },
     {
+      "text": "Decisions",
+      "path": "resources/decisions",
+      "scheme": "index"
+    },
+    {
+      "text": "Create",
+      "path": "resources/decisions/methods/create",
+      "scheme": "index"
+    },
+    {
       "text": "Embeddings",
       "path": "resources/embeddings",
       "scheme": "index"
