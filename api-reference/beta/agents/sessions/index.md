@@ -1643,13 +1643,13 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
 
   Only return sessions whose root agent has this ID. Omit to return sessions for all agents.
 
-- `limit: optional number or null`
+- `limit: optional number`
 
-  The maximum number of resources to return.
+  The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
 - `order: optional "asc" or "desc"`
 
-  Sort order by the `created_at` timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `desc`.
+  The order in which resources are returned. Defaults to `desc`.
 
   - `"asc"`
 
@@ -4503,21 +4503,21 @@ Lists immutable artifacts published by completed hosted session turns. See [sess
 
 ### Query Parameters
 
-- `after: optional string or null`
+- `after: optional string`
 
-  Return artifacts after this immutable artifact ID.
+  Return resources after this resource ID in the selected order.
 
 - `environment_id: optional string or null`
 
   Restrict the listing to artifacts produced by this environment.
 
-- `limit: optional number or null`
+- `limit: optional number`
 
-  The maximum number of artifacts to return, between 1 and 100.
+  The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
 - `order: optional "asc" or "desc"`
 
-  Sort by creation time and ID. Defaults to descending.
+  The order in which resources are returned. Defaults to `desc`.
 
   - `"asc"`
 

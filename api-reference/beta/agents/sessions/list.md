@@ -14,13 +14,13 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
 
   Only return sessions whose root agent has this ID. Omit to return sessions for all agents.
 
-- `limit: optional number or null`
+- `limit: optional number`
 
-  The maximum number of resources to return.
+  The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
 - `order: optional "asc" or "desc"`
 
-  Sort order by the `created_at` timestamp. Use `asc` for ascending order or `desc` for descending order. Defaults to `desc`.
+  The order in which resources are returned. Defaults to `desc`.
 
   - `"asc"`
 
