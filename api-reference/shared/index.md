@@ -362,7 +362,7 @@
 
 ### Custom Tool Input Format
 
-- `CustomToolInputFormat = object { type }  or object { definition, syntax, type }`
+- `CustomToolInputFormat = Text { type }  or Grammar { definition, syntax, type }`
 
   The input format for the custom tool. Default is unconstrained text.
 

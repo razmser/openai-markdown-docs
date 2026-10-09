@@ -1,18 +1,42 @@
-## Retrieve an agent environment
+## List agent environments
 
-**get** `/agents/environments/{environment_id}`
+**get** `/agents/environments`
 
-Retrieves an execution environment's connection status and safe installed metadata. See [environment lifecycle](https://developers.openai.com/api/docs/guides/agents-api/environments/lifecycle).
+Lists OpenAI-hosted environments owned by the authenticated principal. Requires access to the prewarming beta.
 
-### Path Parameters
+### Query Parameters
 
-- `environment_id: string`
+- `after: optional string`
+
+  Return resources after this resource ID in the selected order.
+
+- `limit: optional number`
+
+  The maximum number of resources to return, between 1 and 100. Defaults to 20.
+
+- `order: optional "asc" or "desc"`
+
+  The order in which resources are returned. Defaults to `desc`.
+
+  - `"asc"`
+
+    Returns resources in ascending order.
+
+  - `"desc"`
+
+    Returns resources in descending order.
+
+- `type: optional "openai_hosted"`
+
+  The hosting type to list. Defaults to `openai_hosted`.
+
+  - `"openai_hosted"`
 
 ### Returns
 
-- `EnvironmentInfo object { id, files, object, 4 more }`
+- `data: array of EnvironmentInfo`
 
-  Safe metadata for a first-class execution environment.
+  The resources returned in this page, in the requested sort order.
 
   - `id: string`
 
@@ -172,10 +196,28 @@ Retrieves an execution environment's connection status and safe installed metada
 
     - `"self_hosted"`
 
+- `first_id: string or null`
+
+  The ID of the first resource in `data`, or `null` if the page is empty.
+
+- `has_more: boolean`
+
+  Whether there are more resources to retrieve after this page.
+
+- `last_id: string or null`
+
+  The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
+
+- `object: "list"`
+
+  The object type, which is always `list`.
+
+  - `"list"`
+
 ### Example
 
 ```http
-curl https://api.openai.com/v1/agents/environments/$ENVIRONMENT_ID \
+curl https://api.openai.com/v1/agents/environments \
     -H 'OpenAI-Beta: agents=v1' \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
@@ -184,34 +226,42 @@ curl https://api.openai.com/v1/agents/environments/$ENVIRONMENT_ID \
 
 ```json
 {
-  "id": "id",
-  "files": [
+  "data": [
     {
       "id": "id",
-      "file_id": "file_id",
-      "path": "path",
-      "size_bytes": 0,
-      "type": "file_id"
+      "files": [
+        {
+          "id": "id",
+          "file_id": "file_id",
+          "path": "path",
+          "size_bytes": 0,
+          "type": "file_id"
+        }
+      ],
+      "object": "agent.environment",
+      "plugins": [
+        {
+          "description": "description",
+          "name": "name",
+          "type": "inline"
+        }
+      ],
+      "skills": [
+        {
+          "description": "description",
+          "name": "name",
+          "skill_id": "skill_id",
+          "type": "skill_reference",
+          "version": "version"
+        }
+      ],
+      "status": "pending",
+      "type": "openai_hosted"
     }
   ],
-  "object": "agent.environment",
-  "plugins": [
-    {
-      "description": "description",
-      "name": "name",
-      "type": "inline"
-    }
-  ],
-  "skills": [
-    {
-      "description": "description",
-      "name": "name",
-      "skill_id": "skill_id",
-      "type": "skill_reference",
-      "version": "version"
-    }
-  ],
-  "status": "pending",
-  "type": "openai_hosted"
+  "first_id": "first_id",
+  "has_more": true,
+  "last_id": "last_id",
+  "object": "list"
 }
 ```

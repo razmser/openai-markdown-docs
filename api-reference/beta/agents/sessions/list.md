@@ -618,7 +618,7 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
 
     - `"agent.session"`
 
-  - `required_actions: array of object { request, request_id, turn_id, type }  or object { arguments, call_id, name, 2 more }  or object { environment_id, type }`
+  - `required_actions: array of ComputerUseApprovalRequest { request, request_id, turn_id, type }  or FunctionCall { arguments, call_id, name, 2 more }  or EnvironmentConnection { environment_id, type }`
 
     Actions that must be completed before the session can continue.
 
@@ -626,7 +626,7 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
 
       Respond to a computer-use request.
 
-      - `request: object { credential_origin, fields, options, 2 more }  or object { origin, reason, type }`
+      - `request: BrowserAuthentication { credential_origin, fields, options, 2 more }  or BrowserOriginAccess { origin, reason, type }`
 
         The information needed to render the request.
 
@@ -812,6 +812,18 @@ Lists managed agent sessions using ID-based pagination and the requested sort or
 
     The IDs of vaults made available to the session.
 
+  - `spend_control: optional object { consumed, limit }`
+
+    Configured spending limit and best-effort consumption, in USD cents. Unlimited sessions omit this object.
+
+    - `consumed: number or null`
+
+      Best-effort recorded spend floored to whole USD cents, or null when unavailable.
+
+    - `limit: number`
+
+      The configured positive limit in USD cents.
+
 - `first_id: string or null`
 
   The ID of the first resource in `data`, or `null` if the page is empty.
@@ -930,7 +942,11 @@ curl https://api.openai.com/v1/agents/sessions \
       },
       "vault_ids": [
         "string"
-      ]
+      ],
+      "spend_control": {
+        "consumed": 0,
+        "limit": 1
+      }
     }
   ],
   "first_id": "first_id",

@@ -962,6 +962,16 @@
       "scheme": "index"
     },
     {
+      "text": "Create",
+      "path": "resources/beta/subresources/agents/subresources/environments/methods/create",
+      "scheme": "index"
+    },
+    {
+      "text": "List",
+      "path": "resources/beta/subresources/agents/subresources/environments/methods/list",
+      "scheme": "index"
+    },
+    {
       "text": "Retrieve",
       "path": "resources/beta/subresources/agents/subresources/environments/methods/retrieve",
       "scheme": "index"
@@ -1199,6 +1209,11 @@
     {
       "text": "Retrieve",
       "path": "resources/beta/subresources/agents/subresources/vaults/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "text": "Update",
+      "path": "resources/beta/subresources/agents/subresources/vaults/methods/update",
       "scheme": "index"
     },
     {

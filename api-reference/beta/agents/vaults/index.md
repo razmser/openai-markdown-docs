@@ -302,6 +302,78 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
 }
 ```
 
+## Update a vault
+
+**post** `/vaults/{vault_id}`
+
+Updates the name or metadata of an active vault. Omitted fields remain unchanged. See [vaults](https://developers.openai.com/api/docs/guides/agents-api/tools/vaults).
+
+### Path Parameters
+
+- `vault_id: string`
+
+### Body Parameters
+
+- `metadata: optional map[string]`
+
+  Replaces all metadata. Omit to leave unchanged, or pass {} to clear it. Up to 16 string key-value pairs, with keys up to 64 and values up to 512 characters.
+
+- `name: optional string or null`
+
+  A replacement name. Omit to leave unchanged, or pass null to clear it. The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.
+
+### Returns
+
+- `Vault object { id, created_at, metadata, 2 more }`
+
+  A collection of credentials for MCP servers and OpenAI-hosted environments.
+
+  - `id: string`
+
+    The ID of the vault.
+
+  - `created_at: number`
+
+    The Unix timestamp, in seconds, when the vault was created.
+
+  - `metadata: map[string]`
+
+    Key-value pairs associated with the vault, such as an application or team identifier.
+
+  - `name: string or null`
+
+    The human-readable name of the vault, if set.
+
+  - `object: "vault"`
+
+    The object type. Always `vault`.
+
+    - `"vault"`
+
+### Example
+
+```http
+curl https://api.openai.com/v1/vaults/$VAULT_ID \
+    -H 'Content-Type: application/json' \
+    -H 'OpenAI-Beta: agents=v1' \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d '{}'
+```
+
+#### Response
+
+```json
+{
+  "id": "id",
+  "created_at": 0,
+  "metadata": {
+    "foo": "string"
+  },
+  "name": "name",
+  "object": "vault"
+}
+```
+
 ## Domain Types
 
 ### Vault
@@ -1822,7 +1894,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Credential Auth
 
-- `CredentialAuth = object { expires_at, mcp_server_url, refresh, type }  or object { mcp_server_url, type }  or object { networking, secret_name, type }`
+- `CredentialAuth = McpOauth { expires_at, mcp_server_url, refresh, type }  or StaticBearer { mcp_server_url, type }  or EnvironmentVariable { networking, secret_name, type }`
 
   The authentication configuration of a vault credential, excluding secrets.
 
@@ -1956,7 +2028,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Credential Auth Create Param
 
-- `CredentialAuthCreateParam = object { access_token, mcp_server_url, type, 2 more }  or object { token, mcp_server_url, type }  or object { networking, secret_name, secret_value, type }`
+- `CredentialAuthCreateParam = McpOauth { access_token, mcp_server_url, type, 2 more }  or StaticBearer { token, mcp_server_url, type }  or EnvironmentVariable { networking, secret_name, secret_value, type }`
 
   Authentication credentials for an MCP server or an OpenAI-hosted environment.
 
@@ -2114,7 +2186,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Credential Auth Rotate Param
 
-- `CredentialAuthRotateParam = object { type, access_token, expires_at, refresh }  or object { token, type }  or object { secret_value, type }`
+- `CredentialAuthRotateParam = McpOauth { type, access_token, expires_at, refresh }  or StaticBearer { token, type }  or EnvironmentVariable { secret_value, type }`
 
   Updates to a vault credential without changing its authentication method or destination configuration.
 
@@ -2230,7 +2302,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Credential Networking
 
-- `CredentialNetworking = object { type }  or object { allowed_hosts, type }`
+- `CredentialNetworking = Unrestricted { type }  or Limited { allowed_hosts, type }`
 
   Destination permissions for an environment-variable credential. These do not grant network access to the environment.
 
@@ -2260,7 +2332,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Credential Networking Param
 
-- `CredentialNetworkingParam = object { type }  or object { allowed_hosts, type }`
+- `CredentialNetworkingParam = Unrestricted { type }  or Limited { allowed_hosts, type }`
 
   Destination permissions for an environment-variable credential. These do not grant network access to the environment.
 
@@ -2290,7 +2362,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Mcp OAuth Token Endpoint Auth
 
-- `McpOauthTokenEndpointAuth = object { type }  or object { type }  or object { type }`
+- `McpOauthTokenEndpointAuth = None { type }  or ClientSecretBasic { type }  or ClientSecretPost { type }`
 
   The client authentication method used for OAuth token refresh.
 
@@ -2326,7 +2398,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Mcp OAuth Token Endpoint Auth Create Param
 
-- `McpOauthTokenEndpointAuthCreateParam = object { type }  or object { client_secret, type }  or object { client_secret, type }`
+- `McpOauthTokenEndpointAuthCreateParam = None { type }  or ClientSecretBasic { client_secret, type }  or ClientSecretPost { client_secret, type }`
 
   Client authentication credentials for OAuth token refresh.
 
@@ -2370,7 +2442,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
 ### Mcp OAuth Token Endpoint Auth Rotate Param
 
-- `McpOauthTokenEndpointAuthRotateParam = object { type, client_secret }  or object { type, client_secret }`
+- `McpOauthTokenEndpointAuthRotateParam = ClientSecretBasic { type, client_secret }  or ClientSecretPost { type, client_secret }`
 
   Client-secret updates that preserve the credential's OAuth authentication method.
 

@@ -1280,7 +1280,7 @@ Lists items belonging to one root-agent turn, including its interactions with su
 
       The registered request answered by this item.
 
-    - `response: object { action, selected_option, type }  or object { action, type }`
+    - `response: Submit { action, selected_option, type }  or Cancel { action, type }`
 
       The admitted response, without submitted credential values.
 

@@ -20,7 +20,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
       - `"none"`
 
-  - `OpenAIHosted object { type, capability_directories, container_size, 9 more }`
+  - `OpenAIHosted object { type, capability_directories, container_size, 10 more }`
 
     An existing OpenAI-hosted environment or new inline/template-based hosted configuration.
 
@@ -55,6 +55,10 @@ Creates a managed agent session, optionally submits initial input, and returns t
     - `env: optional map[string] or null`
 
       Environment variables made available to the agent.
+
+    - `environment_id: optional string`
+
+      An existing prewarmed environment. Cannot be combined with a template or inline configuration.
 
     - `environment_template_id: optional string`
 
@@ -678,6 +682,14 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
   Up to 16 string key-value pairs, with keys up to 64 and values up to 512 characters. Omission or null defaults to an empty map.
 
+- `spend_control: optional object { limit }  or null`
+
+  Optional spending limit in USD cents. Omission or null creates an unlimited session.
+
+  - `limit: number or null`
+
+    Positive USD cents, or null to remove the limit.
+
 - `stream: optional boolean`
 
   Whether to stream session events as server-sent events. Defaults to `false`.
@@ -688,7 +700,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
 ### Returns
 
-- `AgentSession object { id, agent, created_at, 9 more }`
+- `AgentSession object { id, agent, created_at, 10 more }`
 
   A Managed Agents session.
 
@@ -1274,7 +1286,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
     - `"agent.session"`
 
-  - `required_actions: array of object { request, request_id, turn_id, type }  or object { arguments, call_id, name, 2 more }  or object { environment_id, type }`
+  - `required_actions: array of ComputerUseApprovalRequest { request, request_id, turn_id, type }  or FunctionCall { arguments, call_id, name, 2 more }  or EnvironmentConnection { environment_id, type }`
 
     Actions that must be completed before the session can continue.
 
@@ -1282,7 +1294,7 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
       Respond to a computer-use request.
 
-      - `request: object { credential_origin, fields, options, 2 more }  or object { origin, reason, type }`
+      - `request: BrowserAuthentication { credential_origin, fields, options, 2 more }  or BrowserOriginAccess { origin, reason, type }`
 
         The information needed to render the request.
 
@@ -1468,6 +1480,18 @@ Creates a managed agent session, optionally submits initial input, and returns t
 
     The IDs of vaults made available to the session.
 
+  - `spend_control: optional object { consumed, limit }`
+
+    Configured spending limit and best-effort consumption, in USD cents. Unlimited sessions omit this object.
+
+    - `consumed: number or null`
+
+      Best-effort recorded spend floored to whole USD cents, or null when unavailable.
+
+    - `limit: number`
+
+      The configured positive limit in USD cents.
+
 ### Example
 
 ```http
@@ -1572,6 +1596,10 @@ curl https://api.openai.com/v1/agents/sessions \
   },
   "vault_ids": [
     "string"
-  ]
+  ],
+  "spend_control": {
+    "consumed": 0,
+    "limit": 1
+  }
 }
 ```
