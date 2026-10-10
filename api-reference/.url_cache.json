@@ -732,6 +732,11 @@
       "scheme": "index"
     },
     {
+      "text": "Decisions",
+      "path": "resources/admin/subresources/organization/subresources/usage/methods/decisions",
+      "scheme": "index"
+    },
+    {
       "text": "Embeddings",
       "path": "resources/admin/subresources/organization/subresources/usage/methods/embeddings",
       "scheme": "index"
