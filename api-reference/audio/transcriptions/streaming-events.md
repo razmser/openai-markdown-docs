@@ -6,7 +6,7 @@
 
 ## transcript.text.segment
 
-Emitted when a diarized transcription returns a completed segment with speaker information. Only emitted when you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with `stream` set to `true` and `response_format` set to `diarized_json`.
+Emitted when a diarized transcription returns a completed segment with speaker information. Only emitted when you [create a transcription](create.md) with `stream` set to `true` and `response_format` set to `diarized_json`.
 
 ### Schema
 
@@ -55,7 +55,7 @@ Schema name: `TranscriptTextSegmentEvent`
 
 ## transcript.text.delta
 
-Emitted when there is an additional text delta. This is also the first event emitted when the transcription starts. Only emitted when you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `Stream` parameter set to `true`.
+Emitted when there is an additional text delta. This is also the first event emitted when the transcription starts. Only emitted when you [create a transcription](create.md) with the `Stream` parameter set to `true`.
 
 ### Schema
 
@@ -73,7 +73,7 @@ Schema name: `TranscriptTextDeltaEvent`
 
 - `logprobs: optional array of object { token, bytes, logprob }`
 
-  The log probabilities of the delta. Only included if you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `include[]` parameter set to `logprobs`.
+  The log probabilities of the delta. Only included if you [create a transcription](create.md) with the `include[]` parameter set to `logprobs`.
 
   - `token: optional string`
 
@@ -104,7 +104,7 @@ Schema name: `TranscriptTextDeltaEvent`
 
 ## transcript.text.done
 
-Emitted when the transcription is complete. Contains the complete transcription text. Only emitted when you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `Stream` parameter set to `true`.
+Emitted when the transcription is complete. Contains the complete transcription text. Only emitted when you [create a transcription](create.md) with the `Stream` parameter set to `true`.
 
 ### Schema
 
@@ -130,7 +130,7 @@ Schema name: `TranscriptTextDoneEvent`
 
 - `logprobs: optional array of object { token, bytes, logprob }`
 
-  The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](https://developers.openai.com/api/reference/resources/audio/subresources/transcriptions/methods/create) with the `include[]` parameter set to `logprobs`.
+  The log probabilities of the individual tokens in the transcription. Only included if you [create a transcription](create.md) with the `include[]` parameter set to `logprobs`.
 
   - `token: optional string`
 

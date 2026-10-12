@@ -9,12 +9,12 @@ authentication, errors, rate limits, and request IDs.
 ## Start here
 
 1. Choose the API surface for your application:
-   - [Responses](https://developers.openai.com/api/reference/responses/overview) for direct model requests, tool use, audio, image, and text inputs, and stateful interactions.
-   - [Realtime API](https://developers.openai.com/api/docs/guides/realtime) for low-latency voice or audio sessions over WebRTC, WebSocket, or SIP. Use the [client events](https://developers.openai.com/api/reference/resources/realtime/client-events) and [server events](https://developers.openai.com/api/reference/resources/realtime/server-events) references while building sessions.
-   - [Administration](https://developers.openai.com/api/reference/administration/overview) for organization workflows such as users, invites, projects, API keys, and audit logs.
+   - [Responses](responses/overview.md) for direct model requests, tool use, audio, image, and text inputs, and stateful interactions.
+   - [Realtime API](https://developers.openai.com/api/docs/guides/realtime) for low-latency voice or audio sessions over WebRTC, WebSocket, or SIP. Use the [client events](realtime/client-events.md) and [server events](realtime/server-events.md) references while building sessions.
+   - [Administration](administration/overview.md) for organization workflows such as users, invites, projects, API keys, and audit logs.
 2. Create credentials. Use a standard [API key](https://platform.openai.com/settings/organization/api-keys) for application requests, an [Admin API key](https://platform.openai.com/settings/organization/admin-keys) for Administration endpoints, or [workload identity federation](https://developers.openai.com/api/docs/guides/workload-identity-federation) for short-lived access tokens.
 3. Install an official client library from the [libraries page](https://developers.openai.com/api/docs/libraries), or call the HTTP API directly from any environment that supports HTTP requests.
-4. Make a first request with the [developer quickstart](https://developers.openai.com/api/docs/quickstart) or go straight to the [Responses create reference](https://developers.openai.com/api/reference/resources/responses/methods/create).
+4. Make a first request with the [developer quickstart](https://developers.openai.com/api/docs/quickstart) or go straight to the [Responses create reference](responses/create.md).
 5. Before production, review [error codes](https://developers.openai.com/api/docs/guides/error-codes), [rate limits](https://developers.openai.com/api/docs/guides/rate-limits), and request ID logging below.
 
 ## Authentication

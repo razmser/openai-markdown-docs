@@ -15,6 +15,6 @@ Related guides:
 - [Function calling](https://developers.openai.com/docs/guides/function-calling?api-mode=chat)
 - [Conversation state](https://developers.openai.com/docs/guides/conversation-state?api-mode=chat)
 
-**Starting a new project?** We recommend trying [Responses](https://developers.openai.com/docs/api-reference/responses)
+**Starting a new project?** We recommend trying [Responses](../responses/index.md)
 to take advantage of the latest OpenAI platform features. Compare
 [Chat Completions with Responses](https://developers.openai.com/docs/guides/responses-vs-chat-completions?api-mode=responses).
