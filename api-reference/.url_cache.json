@@ -250,6 +250,10 @@
       "scheme": "index"
     },
     {
+      "path": "resources/admin/subresources/organization/subresources/projects/subresources/api_keys/methods/update",
+      "scheme": "index"
+    },
+    {
       "path": "resources/admin/subresources/organization/subresources/projects/subresources/certificates",
       "scheme": "index"
     },
