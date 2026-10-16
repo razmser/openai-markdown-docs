@@ -2026,6 +2026,10 @@
       "scheme": "index"
     },
     {
+      "path": "resources/realtime/subresources/translations/methods/connect",
+      "scheme": "index"
+    },
+    {
       "path": "resources/realtime/subresources/translations/subresources/client_secrets",
       "scheme": "index"
     },
