@@ -236,7 +236,7 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
 - `questions: array of Predicate { instructions, type, name }  or Choice { choices, instructions, type, name }  or Score { instructions, levels, type, name }`
 
-  Ask 1–200 questions about the input. Each question can be a predicate, choice, or score. Answers come back in the same order.
+  Ask 1–400 questions about the input. Each question can be a predicate, choice, or score. Answers come back in the same order.
 
   - `Predicate object { instructions, type, name }`
 

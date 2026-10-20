@@ -10098,7 +10098,11 @@ the new request. The response contains only the redacted key, not its secret.
 curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/api_keys/$API_KEY_ID \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY" \
-    -d '{}'
+    -d '{
+          "scopes": [
+            "api.all.read"
+          ]
+        }'
 ```
 
 #### Response
@@ -18851,7 +18855,7 @@ Get audio speeches usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -19482,7 +19486,7 @@ Get audio transcriptions usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -20095,7 +20099,7 @@ Get code interpreter sessions usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -20732,7 +20736,7 @@ Get completions usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -21369,7 +21373,7 @@ Get costs details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -22009,7 +22013,7 @@ Get Decisions API usage details for the organization.
 
     - `input_cache_write_tokens: optional number or null`
 
-      The aggregated number of input tokens written to the cache with a 30-minute retention period.
+      The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
     - `input_cached_audio_tokens: optional number or null`
 
@@ -22302,7 +22306,7 @@ Get embeddings usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -22933,7 +22937,7 @@ Get file search calls usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -23591,7 +23595,7 @@ Get images usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -24224,7 +24228,7 @@ Get moderations usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -24837,7 +24841,7 @@ Get vector stores usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -25478,7 +25482,7 @@ Get web search calls usage details for the organization.
 
       - `input_cache_write_tokens: optional number`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number`
 
@@ -26076,7 +26080,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -26554,7 +26558,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -27032,7 +27036,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -27510,7 +27514,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -27988,7 +27992,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -28462,7 +28466,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
       - `input_cache_write_tokens: optional number or null`
 
-        The aggregated number of input tokens written to the cache with a 30-minute retention period.
+        The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
       - `input_cached_audio_tokens: optional number or null`
 
@@ -28594,7 +28598,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -29072,7 +29076,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -29550,7 +29554,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -30028,7 +30032,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -30506,7 +30510,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
@@ -30984,7 +30988,7 @@ curl "https://api.openai.com/v1/organization/usage/web_search_calls?start_time=1
 
         - `input_cache_write_tokens: optional number`
 
-          The aggregated number of input tokens written to the cache with a 30-minute retention period.
+          The aggregated number of input tokens written to the cache across 30-minute and 12-hour retention periods.
 
         - `input_cached_audio_tokens: optional number`
 
