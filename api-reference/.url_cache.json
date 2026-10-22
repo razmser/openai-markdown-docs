@@ -722,6 +722,10 @@
       "scheme": "index"
     },
     {
+      "path": "resources/audio/subresources/voices/methods/delete",
+      "scheme": "index"
+    },
+    {
       "path": "resources/batches",
       "scheme": "index"
     },
