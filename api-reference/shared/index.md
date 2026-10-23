@@ -398,6 +398,110 @@
 
       - `"grammar"`
 
+### Decision Input JSON
+
+- `DecisionInputJSON object { data, type }`
+
+  A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+  - `data: map[unknown] or array of map[unknown]`
+
+    - `map[unknown]`
+
+    - `array of map[unknown]`
+
+  - `type: "input_json"`
+
+    - `"input_json"`
+
+### Decision Question Input Image
+
+- `DecisionQuestionInputImage object { image_url, type, detail }`
+
+  An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+  - `image_url: string`
+
+    A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+
+  - `type: "input_image"`
+
+    - `"input_image"`
+
+  - `detail: optional "low" or "high" or "auto" or "original" or null`
+
+    The image detail level, using the selected model's image profile. Defaults to auto.
+
+    - `"low"`
+
+    - `"high"`
+
+    - `"auto"`
+
+    - `"original"`
+
+### Decision Question Input Part
+
+- `DecisionQuestionInputPart = DecisionQuestionInputText or DecisionQuestionInputImage or DecisionInputJSON`
+
+  A text, image, or JSON content part in a question instruction.
+
+  - `DecisionQuestionInputText object { text, type }`
+
+    - `text: string`
+
+    - `type: "input_text"`
+
+      - `"input_text"`
+
+  - `DecisionQuestionInputImage object { image_url, type, detail }`
+
+    An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
+
+    - `image_url: string`
+
+      A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
+
+    - `type: "input_image"`
+
+      - `"input_image"`
+
+    - `detail: optional "low" or "high" or "auto" or "original" or null`
+
+      The image detail level, using the selected model's image profile. Defaults to auto.
+
+      - `"low"`
+
+      - `"high"`
+
+      - `"auto"`
+
+      - `"original"`
+
+  - `DecisionInputJSON object { data, type }`
+
+    A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
+
+    - `data: map[unknown] or array of map[unknown]`
+
+      - `map[unknown]`
+
+      - `array of map[unknown]`
+
+    - `type: "input_json"`
+
+      - `"input_json"`
+
+### Decision Question Input Text
+
+- `DecisionQuestionInputText object { text, type }`
+
+  - `text: string`
+
+  - `type: "input_text"`
+
+    - `"input_text"`
+
 ### Error Object
 
 - `ErrorObject object { code, message, param, 2 more }`
