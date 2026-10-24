@@ -778,6 +778,54 @@
       "scheme": "flat"
     },
     {
+      "path": "resources/beta/subresources/agents/subresources/automations",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/create",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/list",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/pause",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/resume",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/methods/update",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/subresources/invocations",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/subresources/invocations/methods/create",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/subresources/invocations/methods/list",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/beta/subresources/agents/subresources/automations/subresources/invocations/methods/retrieve",
+      "scheme": "index"
+    },
+    {
       "path": "resources/beta/subresources/agents/subresources/environments",
       "scheme": "index"
     },

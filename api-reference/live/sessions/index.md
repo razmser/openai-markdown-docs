@@ -752,13 +752,13 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         - `model: string`
 
-        - `questions: array of Choice { choices, instructions, type, name }  or Predicate { instructions, type, name }  or Score { instructions, levels, type, name }`
+        - `questions: array of DecisionQuestion`
 
           Native Decision API questions evaluated together, in order.
 
           - `Choice object { choices, instructions, type, name }`
 
-            - `choices: array of object { value, description }`
+            - `choices: array of DecisionChoiceOption`
 
               - `value: string or boolean`
 
@@ -768,7 +768,55 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `description: optional string`
 
-            - `instructions: string`
+            - `instructions: string or array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
+
+              - `string`
+
+              - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
+
+                - `DecisionInputText object { text, type }`
+
+                  - `text: string`
+
+                    The text input to the model.
+
+                  - `type: "input_text"`
+
+                    - `"input_text"`
+
+                - `InputImage object { image_url, type, detail }`
+
+                  - `image_url: string`
+
+                    A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
+
+                  - `type: "input_image"`
+
+                    - `"input_image"`
+
+                  - `detail: optional "low" or "high" or "auto" or "original" or null`
+
+                    The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+                    - `"low"`
+
+                    - `"high"`
+
+                    - `"auto"`
+
+                    - `"original"`
+
+                - `InputJSON object { data, type }`
+
+                  - `data: map[unknown] or array of map[unknown]`
+
+                    - `LiveDecisionJSONObject = map[unknown]`
+
+                    - `array of map[unknown]`
+
+                  - `type: "input_json"`
+
+                    - `"input_json"`
 
             - `type: "choice"`
 
@@ -778,7 +826,47 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `Predicate object { instructions, type, name }`
 
-            - `instructions: string`
+            - `instructions: string or array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
+
+              - `string`
+
+              - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
+
+                - `DecisionInputText object { text, type }`
+
+                - `InputImage object { image_url, type, detail }`
+
+                  - `image_url: string`
+
+                    A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
+
+                  - `type: "input_image"`
+
+                    - `"input_image"`
+
+                  - `detail: optional "low" or "high" or "auto" or "original" or null`
+
+                    The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+                    - `"low"`
+
+                    - `"high"`
+
+                    - `"auto"`
+
+                    - `"original"`
+
+                - `InputJSON object { data, type }`
+
+                  - `data: map[unknown] or array of map[unknown]`
+
+                    - `LiveDecisionJSONObject = map[unknown]`
+
+                    - `array of map[unknown]`
+
+                  - `type: "input_json"`
+
+                    - `"input_json"`
 
             - `type: "predicate"`
 
@@ -788,7 +876,47 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `Score object { instructions, levels, type, name }`
 
-            - `instructions: string`
+            - `instructions: string or array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
+
+              - `string`
+
+              - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
+
+                - `DecisionInputText object { text, type }`
+
+                - `InputImage object { image_url, type, detail }`
+
+                  - `image_url: string`
+
+                    A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
+
+                  - `type: "input_image"`
+
+                    - `"input_image"`
+
+                  - `detail: optional "low" or "high" or "auto" or "original" or null`
+
+                    The detail level of the image to be sent to the model. One of `high`, `low`, `auto`, or `original`. Defaults to `auto`.
+
+                    - `"low"`
+
+                    - `"high"`
+
+                    - `"auto"`
+
+                    - `"original"`
+
+                - `InputJSON object { data, type }`
+
+                  - `data: map[unknown] or array of map[unknown]`
+
+                    - `LiveDecisionJSONObject = map[unknown]`
+
+                    - `array of map[unknown]`
+
+                  - `type: "input_json"`
+
+                    - `"input_json"`
 
             - `levels: array of object { label, description }`
 
@@ -974,55 +1102,15 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
       Questions evaluated using the current transcript and the session's shared Decision items.
 
-      - `questions: array of Choice { choices, instructions, type, name }  or Predicate { instructions, type, name }  or Score { instructions, levels, type, name }`
+      - `questions: array of DecisionQuestion`
 
         Native Decision API questions evaluated together, in order.
 
         - `Choice object { choices, instructions, type, name }`
 
-          - `choices: array of object { value, description }`
-
-            - `value: string or boolean`
-
-              - `string`
-
-              - `boolean`
-
-            - `description: optional string`
-
-          - `instructions: string`
-
-          - `type: "choice"`
-
-            - `"choice"`
-
-          - `name: optional string`
-
         - `Predicate object { instructions, type, name }`
 
-          - `instructions: string`
-
-          - `type: "predicate"`
-
-            - `"predicate"`
-
-          - `name: optional string`
-
         - `Score object { instructions, levels, type, name }`
-
-          - `instructions: string`
-
-          - `levels: array of object { label, description }`
-
-            - `label: string`
-
-            - `description: optional string`
-
-          - `type: "score"`
-
-            - `"score"`
-
-          - `name: optional string`
 
     - `event_type: "session.input_transcript.delta" or "session.output_transcript.delta"`
 
