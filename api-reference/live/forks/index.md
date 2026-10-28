@@ -3377,7 +3377,7 @@ Use Bearer Auth (header Authorization).
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -4445,7 +4445,7 @@ Use Bearer Auth (header Authorization).
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -8272,7 +8272,7 @@ Use Bearer Auth (header Authorization).
 
       - `"transport.dtmf.received"`
 
-  - `TransportDtmfSend object { event, event_id, type, client_event_id }`
+  - `TransportDtmfSent object { event, event_id, type, client_event_id }`
 
     A SIP DTMF keypress successfully sent to the SIP trunk. Delivered only to sideband observers; this is not a client command.
 
@@ -8280,9 +8280,9 @@ Use Bearer Auth (header Authorization).
 
     - `event_id: string`
 
-    - `type: "transport.dtmf.send"`
+    - `type: "transport.dtmf.sent"`
 
-      - `"transport.dtmf.send"`
+      - `"transport.dtmf.sent"`
 
     - `client_event_id: optional string`
 

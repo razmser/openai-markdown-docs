@@ -102,6 +102,30 @@
       "scheme": "index"
     },
     {
+      "path": "resources/admin/subresources/organization/subresources/external_keys",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/admin/subresources/organization/subresources/external_keys/methods/create",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/admin/subresources/organization/subresources/external_keys/methods/delete",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/admin/subresources/organization/subresources/external_keys/methods/list",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/admin/subresources/organization/subresources/external_keys/methods/retrieve",
+      "scheme": "index"
+    },
+    {
+      "path": "resources/admin/subresources/organization/subresources/external_keys/methods/validate",
+      "scheme": "index"
+    },
+    {
       "path": "resources/admin/subresources/organization/subresources/external_storage",
       "scheme": "index"
     },

@@ -5682,7 +5682,7 @@ jq -n '{
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -6750,7 +6750,7 @@ jq -n '{
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -15892,7 +15892,7 @@ jq -n '{
 
           - `input_fidelity: optional "high" or "low" or null`
 
-            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
             - `"high"`
 
@@ -16960,7 +16960,7 @@ jq -n '{
 
           - `input_fidelity: optional "high" or "low" or null`
 
-            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+            Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
             - `"high"`
 
@@ -21955,7 +21955,7 @@ jq -n '{
 
       - `"transport.dtmf.received"`
 
-  - `TransportDtmfSend object { event, event_id, type, client_event_id }`
+  - `TransportDtmfSent object { event, event_id, type, client_event_id }`
 
     A SIP DTMF keypress successfully sent to the SIP trunk. Delivered only to sideband observers; this is not a client command.
 
@@ -21963,9 +21963,9 @@ jq -n '{
 
     - `event_id: string`
 
-    - `type: "transport.dtmf.send"`
+    - `type: "transport.dtmf.sent"`
 
-      - `"transport.dtmf.send"`
+      - `"transport.dtmf.sent"`
 
     - `client_event_id: optional string`
 
@@ -34560,7 +34560,7 @@ Use Bearer Auth (header Authorization).
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -35628,7 +35628,7 @@ Use Bearer Auth (header Authorization).
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -39455,7 +39455,7 @@ Use Bearer Auth (header Authorization).
 
       - `"transport.dtmf.received"`
 
-  - `TransportDtmfSend object { event, event_id, type, client_event_id }`
+  - `TransportDtmfSent object { event, event_id, type, client_event_id }`
 
     A SIP DTMF keypress successfully sent to the SIP trunk. Delivered only to sideband observers; this is not a client command.
 
@@ -39463,9 +39463,9 @@ Use Bearer Auth (header Authorization).
 
     - `event_id: string`
 
-    - `type: "transport.dtmf.send"`
+    - `type: "transport.dtmf.sent"`
 
-      - `"transport.dtmf.send"`
+      - `"transport.dtmf.sent"`
 
     - `client_event_id: optional string`
 
@@ -41563,7 +41563,7 @@ Use Bearer Auth (header Authorization).
 
 ### Sideband Client Event
 
-- `SidebandClientEvent = SessionUpdateEvent or InputAudioMuteEvent or InputAudioUnmuteEvent or 10 more`
+- `SidebandClientEvent = SessionUpdateEvent or InputAudioMuteEvent or InputAudioUnmuteEvent or 11 more`
 
   Client events accepted by an attached Live sideband WebSocket. The session has already started. Send input audio over the primary connection.
 
@@ -42472,6 +42472,22 @@ Use Bearer Auth (header Authorization).
     - `type: "session.output_audio.fixture.play"`
 
       - `"session.output_audio.fixture.play"`
+
+    - `event_id: optional string or null`
+
+      Optional client identifier for correlating this command with a server event's client_event_id or error.client_event_id.
+
+  - `TransportDtmfSend object { event, type, event_id }`
+
+    Send one DTMF keypress to the SIP trunk through a Live sideband connection. This command is supported only for SIP calls. A successful send emits `transport.dtmf.sent` on sideband. If you provide `event_id`, the success notification includes it as `client_event_id`; a failure includes it as `error.client_event_id`. Send separate events for multiple keypresses.
+
+    - `event: string`
+
+      The DTMF key to send: one of `0`–`9`, `A`–`D`, `*`, or `#`.
+
+    - `type: "transport.dtmf.send"`
+
+      - `"transport.dtmf.send"`
 
     - `event_id: optional string or null`
 
@@ -44764,7 +44780,7 @@ Use Bearer Auth (header Authorization).
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -45832,7 +45848,7 @@ Use Bearer Auth (header Authorization).
 
             - `input_fidelity: optional "high" or "low" or null`
 
-              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1` and `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
+              Control how much effort the model will exert to match the style and features, especially facial features, of input images. Supports `high` and `low` on `gpt-image-1.5`; `gpt-image-1-mini` supports only `low`. For `gpt-image-2`, omit this parameter. Defaults to `low` on supported models.
 
               - `"high"`
 
@@ -47397,7 +47413,7 @@ Use Bearer Auth (header Authorization).
 
 ### Sideband Server Event
 
-- `SidebandServerEvent = TransportRinging { event_id, session_id, type }  or TransportAnswered { event_id, session_id, type }  or TransportFailed { error, event_id, session_id, type }  or 20 more`
+- `SidebandServerEvent = TransportRinging { event_id, session_id, type }  or TransportAnswered { event_id, session_id, type }  or TransportFailed { error, event_id, session_id, type }  or 22 more`
 
   Server events received by an attached Live sideband WebSocket. Audio deltas are delivered over the primary connection.
 
@@ -47458,6 +47474,34 @@ Use Bearer Auth (header Authorization).
     - `type: "transport.failed"`
 
       - `"transport.failed"`
+
+  - `TransportDtmfReceived object { event, event_id, type }`
+
+    A SIP DTMF keypress received from the caller. Delivered only to sideband observers.
+
+    - `event: string`
+
+    - `event_id: string`
+
+    - `type: "transport.dtmf.received"`
+
+      - `"transport.dtmf.received"`
+
+  - `TransportDtmfSent object { event, event_id, type, client_event_id }`
+
+    A SIP DTMF keypress successfully sent to the SIP trunk. Delivered only to sideband observers; this is not a client command.
+
+    - `event: string`
+
+    - `event_id: string`
+
+    - `type: "transport.dtmf.sent"`
+
+      - `"transport.dtmf.sent"`
+
+    - `client_event_id: optional string`
+
+      The event_id of the client command, when supplied.
 
   - `SessionStartedEvent object { event_id, session, type, client_event_id }`
 
