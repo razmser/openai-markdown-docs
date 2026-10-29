@@ -8,21 +8,27 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Query Parameters
 
 - `after: optional string`
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
+
+  `format: int64`, `minimum: 1`, `maximum: 100`
 
 - `metadata: optional map[string]`
 
   Exact string matches supplied as `metadata[key]=value`. All supplied pairs must match. Up to 16 pairs, with keys from 1 to 64 characters and values up to 512 characters. Filtering is eventually consistent; metadata changes may take time to appear.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -48,6 +54,8 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
   - `array of VaultStatus`
 
+    `minItems: 0`, `maxItems: 16384`
+
     - `"active"`
 
     - `"archived"`
@@ -58,9 +66,13 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The ID of the credential.
+
+    `minLength: 0`
 
   - `auth: CredentialAuth`
 
@@ -74,9 +86,13 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
         When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+        `minLength: 0`
+
       - `mcp_server_url: string`
 
         The HTTPS MCP server URL authorized by this credential.
+
+        `minLength: 0`
 
       - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -86,17 +102,25 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
           The OAuth client ID used when requesting a new access token.
 
+          `minLength: 0`
+
         - `resource: string or null`
 
           The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+          `minLength: 0`
 
         - `scope: string or null`
 
           Space-separated OAuth scopes requested during refresh, if configured.
 
+          `minLength: 0`
+
         - `token_endpoint: string`
 
           The HTTPS OAuth token endpoint used for refresh.
+
+          `minLength: 0`
 
         - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -106,7 +130,7 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             Sends the client ID without a client secret.
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -116,7 +140,7 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             Sends the client ID and secret using HTTP Basic authentication.
 
-            - `type: "client_secret_basic"`
+            - `type: "client_secret_basic" (default: "client_secret_basic")`
 
               The type of the object. Always `client_secret_basic`.
 
@@ -126,13 +150,13 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             Sends the client ID and secret in the token request body.
 
-            - `type: "client_secret_post"`
+            - `type: "client_secret_post" (default: "client_secret_post")`
 
               The type of the object. Always `client_secret_post`.
 
               - `"client_secret_post"`
 
-      - `type: "mcp_oauth"`
+      - `type: "mcp_oauth" (default: "mcp_oauth")`
 
         The type of the object. Always `mcp_oauth`.
 
@@ -146,7 +170,9 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
         The HTTPS MCP server URL authorized by this credential.
 
-      - `type: "static_bearer"`
+        `minLength: 0`
+
+      - `type: "static_bearer" (default: "static_bearer")`
 
         The type of the object. Always `static_bearer`.
 
@@ -164,7 +190,7 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
           Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-          - `type: "unrestricted"`
+          - `type: "unrestricted" (default: "unrestricted")`
 
             The type of the object. Always `unrestricted`.
 
@@ -178,7 +204,9 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-          - `type: "limited"`
+            `minItems: 1`, `maxItems: 16`
+
+          - `type: "limited" (default: "limited")`
 
             The type of the object. Always `limited`.
 
@@ -188,15 +216,19 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
         The environment variable name that receives the placeholder in the sandbox.
 
-      - `type: "environment_variable"`
+        `minLength: 0`
+
+      - `type: "environment_variable" (default: "environment_variable")`
 
         The type of the object. Always `environment_variable`.
 
         - `"environment_variable"`
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the credential was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -206,23 +238,31 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
     The human-readable name of the credential.
 
-  - `object: "vault.credential"`
+    `minLength: 0`
+
+  - `object: "vault.credential" (default: "vault.credential")`
 
     The object type. Always `vault.credential`.
 
     - `"vault.credential"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the credential was last updated.
+
+    `format: int64`
 
   - `vault_id: string`
 
     The ID of the vault containing this credential.
 
+    `minLength: 0`
+
 - `first_id: string or null`
 
   The ID of the first resource in `data`, or `null` if the page is empty.
+
+  `minLength: 0`
 
 - `has_more: boolean`
 
@@ -232,7 +272,9 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -246,7 +288,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

@@ -21,7 +21,7 @@ Returns the created Realtime transcription session object, plus an ephemeral key
 
   - `"item.input_audio_transcription.logprobs"`
 
-- `input_audio_format: optional "pcm16" or "g711_ulaw" or "g711_alaw"`
+- `input_audio_format: optional "pcm16" or "g711_ulaw" or "g711_alaw" (default: "pcm16")`
 
   The format of input audio. Options are `pcm16`, `g711_ulaw`, or `g711_alaw`.
   For `pcm16`, input audio must be 16-bit PCM at a 24kHz sample rate,
@@ -81,6 +81,8 @@ Returns the created Realtime transcription session object, plus an ephemeral key
 
     Possible languages of the input audio, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format. Supported by `gpt-transcribe` and `gpt-live-transcribe`.
 
+    `minItems: 1`
+
   - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
     The model to use for transcription. Current options are `whisper-1`, `gpt-transcribe`, `gpt-live-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `gpt-4o-transcribe`, `gpt-4o-transcribe-diarize`, and `gpt-realtime-whisper`. Use `gpt-4o-transcribe-diarize` when you need diarization with speaker labels.
@@ -119,12 +121,12 @@ Returns the created Realtime transcription session object, plus an ephemeral key
 
   Configuration for turn detection. Can be set to `null` to turn off. Server VAD means that the model will detect the start and end of speech based on audio volume and respond at the end of user speech.
 
-  - `prefix_padding_ms: optional number`
+  - `prefix_padding_ms: optional integer`
 
     Amount of audio to include before the VAD detected speech (in
     milliseconds). Defaults to 300ms.
 
-  - `silence_duration_ms: optional number`
+  - `silence_duration_ms: optional integer`
 
     Duration of silence to detect speech stop (in milliseconds). Defaults
     to 500ms. With shorter values the model will respond more quickly,
@@ -149,10 +151,12 @@ Returns the created Realtime transcription session object, plus an ephemeral key
   Ephemeral key returned by the API. Only present when the session is
   created on the server via REST API.
 
-  - `expires_at: number`
+  - `expires_at: integer`
 
     Timestamp for when the token expires. Currently, all tokens expire
     after one minute.
+
+    `format: unixtime`
 
   - `value: string`
 
@@ -175,6 +179,8 @@ Returns the created Realtime transcription session object, plus an ephemeral key
   - `languages: optional array of string`
 
     The possible input audio languages configured for transcription, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.
+
+    `minItems: 1`
 
   - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
@@ -221,12 +227,12 @@ Returns the created Realtime transcription session object, plus an ephemeral key
   VAD means that the model will detect the start and end of speech based on
   audio volume and respond at the end of user speech.
 
-  - `prefix_padding_ms: optional number`
+  - `prefix_padding_ms: optional integer`
 
     Amount of audio to include before the VAD detected speech (in
     milliseconds). Defaults to 300ms.
 
-  - `silence_duration_ms: optional number`
+  - `silence_duration_ms: optional integer`
 
     Duration of silence to detect speech stop (in milliseconds). Defaults
     to 500ms. With shorter values the model will respond more quickly,
@@ -251,7 +257,7 @@ curl https://api.openai.com/v1/realtime/transcription_sessions \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -289,7 +295,7 @@ curl -X POST https://api.openai.com/v1/realtime/transcription_sessions \
   -d '{}'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

@@ -8,17 +8,23 @@ Lists published root-turn traces as OTLP JSON, ordered by turn creation time and
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Query Parameters
 
 - `after: optional string`
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `format: int64`, `minimum: 1`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -36,15 +42,21 @@ Lists published root-turn traces as OTLP JSON, ordered by turn creation time and
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The root turn ID. Use this ID as the pagination anchor.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp in seconds when the root turn was created.
 
-  - `object: "agent.session.trace"`
+    `format: int64`
+
+  - `object: "agent.session.trace" (default: "agent.session.trace")`
 
     The object type, which is always `agent.session.trace`.
 
@@ -58,9 +70,13 @@ Lists published root-turn traces as OTLP JSON, ordered by turn creation time and
 
     The session that owns this trace.
 
+    `minLength: 0`
+
 - `first_id: string or null`
 
   The ID of the first resource in `data`, or `null` if the page is empty.
+
+  `minLength: 0`
 
 - `has_more: boolean`
 
@@ -70,7 +86,9 @@ Lists published root-turn traces as OTLP JSON, ordered by turn creation time and
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -84,7 +102,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/traces \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

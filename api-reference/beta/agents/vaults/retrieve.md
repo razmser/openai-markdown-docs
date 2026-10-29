@@ -8,6 +8,8 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `Vault object { id, created_at, metadata, 2 more }`
@@ -18,9 +20,13 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -30,7 +36,9 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -44,7 +52,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

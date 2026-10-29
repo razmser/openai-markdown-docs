@@ -8,6 +8,8 @@ Deletes a reusable agent. See [agent configuration](https://developers.openai.co
 
 - `agent_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `AgentDeleted object { id, deleted, object }`
@@ -18,11 +20,13 @@ Deletes a reusable agent. See [agent configuration](https://developers.openai.co
 
     The ID of the deleted agent.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the agent was deleted. Always `true`.
 
-  - `object: "agent.deleted"`
+  - `object: "agent.deleted" (default: "agent.deleted")`
 
     The object type. Always `agent.deleted`.
 
@@ -37,7 +41,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

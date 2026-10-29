@@ -242,7 +242,7 @@
 
     The key to compare against the value.
 
-  - `type: "eq" or "ne" or "gt" or 5 more`
+  - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
     Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -305,7 +305,7 @@
 
         The key to compare against the value.
 
-      - `type: "eq" or "ne" or "gt" or 5 more`
+      - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
         Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -372,7 +372,7 @@
 
     Unconstrained free-form text.
 
-    - `type: "text"`
+    - `type: "text" (default: "text")`
 
       Unconstrained text format. Always `text`.
 
@@ -394,7 +394,7 @@
 
       - `"regex"`
 
-    - `type: "grammar"`
+    - `type: "grammar" (default: "grammar")`
 
       Grammar format. Always `grammar`.
 
@@ -412,7 +412,9 @@
 
     - `array of map[unknown]`
 
-  - `type: "input_json"`
+      `minItems: 0`
+
+  - `type: "input_json" (default: "input_json")`
 
     - `"input_json"`
 
@@ -426,11 +428,13 @@
 
     A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-  - `type: "input_image"`
+    `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+  - `type: "input_image" (default: "input_image")`
 
     - `"input_image"`
 
-  - `detail: optional "low" or "high" or "auto" or "original" or null`
+  - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
     The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -452,7 +456,9 @@
 
     - `text: string`
 
-    - `type: "input_text"`
+      `minLength: 0`, `maxLength: 10485760`
+
+    - `type: "input_text" (default: "input_text")`
 
       - `"input_text"`
 
@@ -464,11 +470,13 @@
 
       A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-    - `type: "input_image"`
+      `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+    - `type: "input_image" (default: "input_image")`
 
       - `"input_image"`
 
-    - `detail: optional "low" or "high" or "auto" or "original" or null`
+    - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
       The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -490,7 +498,9 @@
 
       - `array of map[unknown]`
 
-    - `type: "input_json"`
+        `minItems: 0`
+
+    - `type: "input_json" (default: "input_json")`
 
       - `"input_json"`
 
@@ -500,7 +510,9 @@
 
   - `text: string`
 
-  - `type: "input_text"`
+    `minLength: 0`, `maxLength: 10485760`
+
+  - `type: "input_text" (default: "input_text")`
 
     - `"input_text"`
 
@@ -544,6 +556,8 @@
 
       An opaque target for explicitly continuing this review, or null when unavailable.
 
+      `pattern: ^[A-Za-z0-9._~:-]+$`, `minLength: 1`, `maxLength: 96`
+
     - `steer: optional object { message }`
 
       An optional public continuation instruction.
@@ -570,7 +584,7 @@
 
     Omitting `parameters` defines a function with an empty parameter list.
 
-  - `strict: optional boolean or null`
+  - `strict: optional boolean or null (default: false)`
 
     Whether to enable strict schema adherence when generating the function call. If set to true, the model will follow the exact schema defined in the `parameters` field. Only a subset of JSON Schema is supported when `strict` is `true`. Learn more about Structured Outputs in the [function calling guide](https://developers.openai.com/api/docs/guides/function-calling).
 
@@ -616,7 +630,7 @@
 
     - `"all_turns"`
 
-  - `effort: optional ReasoningEffort or null`
+  - `effort: optional ReasoningEffort or null (default: "medium")`
 
     Constrains effort on reasoning for reasoning models. Currently supported
     values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -753,7 +767,7 @@
       The schema for the response format, described as a JSON Schema object.
       Learn how to build JSON schemas [here](https://json-schema.org/).
 
-    - `strict: optional boolean or null`
+    - `strict: optional boolean or null (default: false)`
 
       Whether to enable strict schema adherence when generating the output.
       If set to true, the model will always follow the exact schema defined

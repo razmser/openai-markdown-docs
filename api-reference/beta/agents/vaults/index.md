@@ -16,6 +16,8 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
   The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.
 
+  `minLength: 1`, `maxLength: 1048576`
+
 ### Returns
 
 - `Vault object { id, created_at, metadata, 2 more }`
@@ -26,9 +28,13 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -38,7 +44,9 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -53,7 +61,7 @@ curl https://api.openai.com/v1/vaults \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 201 — Example
 
 ```json
 {
@@ -77,6 +85,8 @@ Deletes a vault and all its credentials. See [vaults](https://developers.openai.
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `VaultDeleted object { id, deleted, object }`
@@ -87,11 +97,13 @@ Deletes a vault and all its credentials. See [vaults](https://developers.openai.
 
     The ID of the deleted vault.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the resource was deleted. Always `true`.
 
-  - `object: "vault.deleted"`
+  - `object: "vault.deleted" (default: "vault.deleted")`
 
     The object type. Always `vault.deleted`.
 
@@ -106,7 +118,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -128,15 +140,19 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
+
+  `format: int64`, `minimum: 1`, `maximum: 100`
 
 - `metadata: optional map[string]`
 
   Exact string matches supplied as `metadata[key]=value`. All supplied pairs must match. Up to 16 pairs, with keys from 1 to 64 characters and values up to 512 characters. Filtering is eventually consistent; metadata changes may take time to appear.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -162,6 +178,8 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   - `array of VaultStatus`
 
+    `minItems: 0`, `maxItems: 16384`
+
     - `"active"`
 
     - `"archived"`
@@ -172,13 +190,19 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -188,7 +212,9 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -198,6 +224,8 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   The ID of the first resource in `data`, or `null` if the page is empty.
 
+  `minLength: 0`
+
 - `has_more: boolean`
 
   Whether there are more resources to retrieve after this page.
@@ -206,7 +234,9 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -220,7 +250,7 @@ curl https://api.openai.com/v1/vaults \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -252,6 +282,8 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `Vault object { id, created_at, metadata, 2 more }`
@@ -262,9 +294,13 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -274,7 +310,9 @@ Retrieves a vault by its ID. See [vaults](https://developers.openai.com/api/docs
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -288,7 +326,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -312,6 +350,8 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Body Parameters
 
 - `metadata: optional map[string]`
@@ -321,6 +361,8 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 - `name: optional string or null`
 
   A replacement name. Omit to leave unchanged, or pass null to clear it. The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.
+
+  `minLength: 1`, `maxLength: 1048576`
 
 ### Returns
 
@@ -332,9 +374,13 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -344,7 +390,9 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -360,7 +408,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -386,9 +434,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -398,7 +450,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -414,11 +468,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
 
     The ID of the deleted vault.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the resource was deleted. Always `true`.
 
-  - `object: "vault.deleted"`
+  - `object: "vault.deleted" (default: "vault.deleted")`
 
     The object type. Always `vault.deleted`.
 
@@ -450,6 +506,8 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
 
   - `array of VaultStatus`
 
+    `minItems: 0`, `maxItems: 16384`
+
     - `"active"`
 
     - `"archived"`
@@ -466,6 +524,8 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Body Parameters
 
 - `auth: CredentialAuthCreateParam`
@@ -480,11 +540,15 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
       A write-only OAuth access token; never returned by credential resources.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `mcp_server_url: string`
 
       The HTTPS MCP server URL authorized by this credential.
 
-    - `type: "mcp_oauth"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "mcp_oauth" (default: "mcp_oauth")`
 
       The type of the object. Always `mcp_oauth`.
 
@@ -494,6 +558,8 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
       When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `refresh: optional object { client_id, refresh_token, token_endpoint, 3 more }  or null`
 
       Optional refresh configuration for an HTTPS OAuth token endpoint.
@@ -502,13 +568,19 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
         The OAuth client ID used when requesting a new access token.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `refresh_token: string`
 
         The refresh token to store. This secret is never returned in credential resources.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `token_endpoint: string`
 
         The HTTPS OAuth token endpoint used to exchange the refresh token for a new access token.
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `token_endpoint_auth: McpOauthTokenEndpointAuthCreateParam`
 
@@ -518,7 +590,7 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
           Sends the client ID without a client secret.
 
-          - `type: "none"`
+          - `type: "none" (default: "none")`
 
             The type of the object. Always `none`.
 
@@ -532,7 +604,9 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
             The OAuth client secret to store. Never returned in credential resources.
 
-          - `type: "client_secret_basic"`
+            `minLength: 0`, `maxLength: 1048576`
+
+          - `type: "client_secret_basic" (default: "client_secret_basic")`
 
             The type of the object. Always `client_secret_basic`.
 
@@ -546,7 +620,9 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
             The OAuth client secret to store. Never returned in credential resources.
 
-          - `type: "client_secret_post"`
+            `minLength: 0`, `maxLength: 1048576`
+
+          - `type: "client_secret_post" (default: "client_secret_post")`
 
             The type of the object. Always `client_secret_post`.
 
@@ -556,9 +632,13 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
         The resource URI to send to the OAuth token endpoint during refresh, if required.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `scope: optional string or null`
 
         Space-separated OAuth scopes to request during refresh, if required.
+
+        `minLength: 0`, `maxLength: 1048576`
 
   - `StaticBearer object { token, mcp_server_url, type }`
 
@@ -568,11 +648,15 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
       The bearer token to store. This secret is never returned in credential resources.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `mcp_server_url: string`
 
       The HTTPS MCP server URL authorized by this credential.
 
-    - `type: "static_bearer"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "static_bearer" (default: "static_bearer")`
 
       The type of the object. Always `static_bearer`.
 
@@ -590,7 +674,7 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
         Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-        - `type: "unrestricted"`
+        - `type: "unrestricted" (default: "unrestricted")`
 
           The type of the object. Always `unrestricted`.
 
@@ -604,7 +688,9 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
           The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-        - `type: "limited"`
+          `minItems: 1`, `maxItems: 16`
+
+        - `type: "limited" (default: "limited")`
 
           The type of the object. Always `limited`.
 
@@ -614,11 +700,15 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
       The environment variable name that receives the placeholder, such as `SERVICE_API_KEY`. Use ASCII letters, digits, and underscores, starting with a letter or underscore. Names starting with `CODEX_` and managed proxy or certificate variable names are reserved.
 
+      `minLength: 1`, `maxLength: 1048576`
+
     - `secret_value: string`
 
       The write-only secret to store. Never returned in credential resources or supplied directly to sandbox code. Must be nonempty and must not contain carriage returns, newlines, or NUL bytes.
 
-    - `type: "environment_variable"`
+      `minLength: 1`, `maxLength: 1048576`
+
+    - `type: "environment_variable" (default: "environment_variable")`
 
       The type of the object. Always `environment_variable`.
 
@@ -627,6 +717,8 @@ Creates a vault credential. Secret values are write-only and are never returned.
 - `name: string`
 
   The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.
+
+  `minLength: 1`, `maxLength: 1048576`
 
 - `metadata: optional map[string]`
 
@@ -642,6 +734,8 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
     The ID of the credential.
 
+    `minLength: 0`
+
   - `auth: CredentialAuth`
 
     The authentication method and non-secret configuration of the credential.
@@ -654,9 +748,13 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
         When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+        `minLength: 0`
+
       - `mcp_server_url: string`
 
         The HTTPS MCP server URL authorized by this credential.
+
+        `minLength: 0`
 
       - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -666,17 +764,25 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
           The OAuth client ID used when requesting a new access token.
 
+          `minLength: 0`
+
         - `resource: string or null`
 
           The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+          `minLength: 0`
 
         - `scope: string or null`
 
           Space-separated OAuth scopes requested during refresh, if configured.
 
+          `minLength: 0`
+
         - `token_endpoint: string`
 
           The HTTPS OAuth token endpoint used for refresh.
+
+          `minLength: 0`
 
         - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -686,7 +792,7 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
             Sends the client ID without a client secret.
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -696,7 +802,7 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
             Sends the client ID and secret using HTTP Basic authentication.
 
-            - `type: "client_secret_basic"`
+            - `type: "client_secret_basic" (default: "client_secret_basic")`
 
               The type of the object. Always `client_secret_basic`.
 
@@ -706,13 +812,13 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
             Sends the client ID and secret in the token request body.
 
-            - `type: "client_secret_post"`
+            - `type: "client_secret_post" (default: "client_secret_post")`
 
               The type of the object. Always `client_secret_post`.
 
               - `"client_secret_post"`
 
-      - `type: "mcp_oauth"`
+      - `type: "mcp_oauth" (default: "mcp_oauth")`
 
         The type of the object. Always `mcp_oauth`.
 
@@ -726,7 +832,9 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
         The HTTPS MCP server URL authorized by this credential.
 
-      - `type: "static_bearer"`
+        `minLength: 0`
+
+      - `type: "static_bearer" (default: "static_bearer")`
 
         The type of the object. Always `static_bearer`.
 
@@ -744,7 +852,7 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
           Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-          - `type: "unrestricted"`
+          - `type: "unrestricted" (default: "unrestricted")`
 
             The type of the object. Always `unrestricted`.
 
@@ -758,7 +866,9 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
             The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-          - `type: "limited"`
+            `minItems: 1`, `maxItems: 16`
+
+          - `type: "limited" (default: "limited")`
 
             The type of the object. Always `limited`.
 
@@ -768,15 +878,19 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
         The environment variable name that receives the placeholder in the sandbox.
 
-      - `type: "environment_variable"`
+        `minLength: 0`
+
+      - `type: "environment_variable" (default: "environment_variable")`
 
         The type of the object. Always `environment_variable`.
 
         - `"environment_variable"`
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the credential was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -786,19 +900,25 @@ Creates a vault credential. Secret values are write-only and are never returned.
 
     The human-readable name of the credential.
 
-  - `object: "vault.credential"`
+    `minLength: 0`
+
+  - `object: "vault.credential" (default: "vault.credential")`
 
     The object type. Always `vault.credential`.
 
     - `"vault.credential"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the credential was last updated.
+
+    `format: int64`
 
   - `vault_id: string`
 
     The ID of the vault containing this credential.
+
+    `minLength: 0`
 
 ### Example
 
@@ -817,7 +937,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials \
         }'
 ```
 
-#### Response
+#### 201 — Example
 
 ```json
 {
@@ -857,7 +977,11 @@ Deletes a vault credential. See [vaults](https://developers.openai.com/api/docs/
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `credential_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
 
@@ -869,11 +993,13 @@ Deletes a vault credential. See [vaults](https://developers.openai.com/api/docs/
 
     The ID of the deleted credential.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the resource was deleted. Always `true`.
 
-  - `object: "vault.credential.deleted"`
+  - `object: "vault.credential.deleted" (default: "vault.credential.deleted")`
 
     The object type. Always `vault.credential.deleted`.
 
@@ -888,7 +1014,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -908,21 +1034,27 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Query Parameters
 
 - `after: optional string`
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
+
+  `format: int64`, `minimum: 1`, `maximum: 100`
 
 - `metadata: optional map[string]`
 
   Exact string matches supplied as `metadata[key]=value`. All supplied pairs must match. Up to 16 pairs, with keys from 1 to 64 characters and values up to 512 characters. Filtering is eventually consistent; metadata changes may take time to appear.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -948,6 +1080,8 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
   - `array of VaultStatus`
 
+    `minItems: 0`, `maxItems: 16384`
+
     - `"active"`
 
     - `"archived"`
@@ -958,9 +1092,13 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The ID of the credential.
+
+    `minLength: 0`
 
   - `auth: CredentialAuth`
 
@@ -974,9 +1112,13 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
         When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+        `minLength: 0`
+
       - `mcp_server_url: string`
 
         The HTTPS MCP server URL authorized by this credential.
+
+        `minLength: 0`
 
       - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -986,17 +1128,25 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
           The OAuth client ID used when requesting a new access token.
 
+          `minLength: 0`
+
         - `resource: string or null`
 
           The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+          `minLength: 0`
 
         - `scope: string or null`
 
           Space-separated OAuth scopes requested during refresh, if configured.
 
+          `minLength: 0`
+
         - `token_endpoint: string`
 
           The HTTPS OAuth token endpoint used for refresh.
+
+          `minLength: 0`
 
         - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -1006,7 +1156,7 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             Sends the client ID without a client secret.
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -1016,7 +1166,7 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             Sends the client ID and secret using HTTP Basic authentication.
 
-            - `type: "client_secret_basic"`
+            - `type: "client_secret_basic" (default: "client_secret_basic")`
 
               The type of the object. Always `client_secret_basic`.
 
@@ -1026,13 +1176,13 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             Sends the client ID and secret in the token request body.
 
-            - `type: "client_secret_post"`
+            - `type: "client_secret_post" (default: "client_secret_post")`
 
               The type of the object. Always `client_secret_post`.
 
               - `"client_secret_post"`
 
-      - `type: "mcp_oauth"`
+      - `type: "mcp_oauth" (default: "mcp_oauth")`
 
         The type of the object. Always `mcp_oauth`.
 
@@ -1046,7 +1196,9 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
         The HTTPS MCP server URL authorized by this credential.
 
-      - `type: "static_bearer"`
+        `minLength: 0`
+
+      - `type: "static_bearer" (default: "static_bearer")`
 
         The type of the object. Always `static_bearer`.
 
@@ -1064,7 +1216,7 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
           Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-          - `type: "unrestricted"`
+          - `type: "unrestricted" (default: "unrestricted")`
 
             The type of the object. Always `unrestricted`.
 
@@ -1078,7 +1230,9 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
             The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-          - `type: "limited"`
+            `minItems: 1`, `maxItems: 16`
+
+          - `type: "limited" (default: "limited")`
 
             The type of the object. Always `limited`.
 
@@ -1088,15 +1242,19 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
         The environment variable name that receives the placeholder in the sandbox.
 
-      - `type: "environment_variable"`
+        `minLength: 0`
+
+      - `type: "environment_variable" (default: "environment_variable")`
 
         The type of the object. Always `environment_variable`.
 
         - `"environment_variable"`
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the credential was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -1106,23 +1264,31 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
     The human-readable name of the credential.
 
-  - `object: "vault.credential"`
+    `minLength: 0`
+
+  - `object: "vault.credential" (default: "vault.credential")`
 
     The object type. Always `vault.credential`.
 
     - `"vault.credential"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the credential was last updated.
+
+    `format: int64`
 
   - `vault_id: string`
 
     The ID of the vault containing this credential.
 
+    `minLength: 0`
+
 - `first_id: string or null`
 
   The ID of the first resource in `data`, or `null` if the page is empty.
+
+  `minLength: 0`
 
 - `has_more: boolean`
 
@@ -1132,7 +1298,9 @@ Lists a vault's credentials using ID-based pagination without returning secret v
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -1146,7 +1314,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -1194,7 +1362,11 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `credential_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
 
@@ -1205,6 +1377,8 @@ Retrieves vault credential metadata without returning secret values. See [vaults
   - `id: string`
 
     The ID of the credential.
+
+    `minLength: 0`
 
   - `auth: CredentialAuth`
 
@@ -1218,9 +1392,13 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
         When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+        `minLength: 0`
+
       - `mcp_server_url: string`
 
         The HTTPS MCP server URL authorized by this credential.
+
+        `minLength: 0`
 
       - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -1230,17 +1408,25 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
           The OAuth client ID used when requesting a new access token.
 
+          `minLength: 0`
+
         - `resource: string or null`
 
           The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+          `minLength: 0`
 
         - `scope: string or null`
 
           Space-separated OAuth scopes requested during refresh, if configured.
 
+          `minLength: 0`
+
         - `token_endpoint: string`
 
           The HTTPS OAuth token endpoint used for refresh.
+
+          `minLength: 0`
 
         - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -1250,7 +1436,7 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
             Sends the client ID without a client secret.
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -1260,7 +1446,7 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
             Sends the client ID and secret using HTTP Basic authentication.
 
-            - `type: "client_secret_basic"`
+            - `type: "client_secret_basic" (default: "client_secret_basic")`
 
               The type of the object. Always `client_secret_basic`.
 
@@ -1270,13 +1456,13 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
             Sends the client ID and secret in the token request body.
 
-            - `type: "client_secret_post"`
+            - `type: "client_secret_post" (default: "client_secret_post")`
 
               The type of the object. Always `client_secret_post`.
 
               - `"client_secret_post"`
 
-      - `type: "mcp_oauth"`
+      - `type: "mcp_oauth" (default: "mcp_oauth")`
 
         The type of the object. Always `mcp_oauth`.
 
@@ -1290,7 +1476,9 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
         The HTTPS MCP server URL authorized by this credential.
 
-      - `type: "static_bearer"`
+        `minLength: 0`
+
+      - `type: "static_bearer" (default: "static_bearer")`
 
         The type of the object. Always `static_bearer`.
 
@@ -1308,7 +1496,7 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
           Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-          - `type: "unrestricted"`
+          - `type: "unrestricted" (default: "unrestricted")`
 
             The type of the object. Always `unrestricted`.
 
@@ -1322,7 +1510,9 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
             The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-          - `type: "limited"`
+            `minItems: 1`, `maxItems: 16`
+
+          - `type: "limited" (default: "limited")`
 
             The type of the object. Always `limited`.
 
@@ -1332,15 +1522,19 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
         The environment variable name that receives the placeholder in the sandbox.
 
-      - `type: "environment_variable"`
+        `minLength: 0`
+
+      - `type: "environment_variable" (default: "environment_variable")`
 
         The type of the object. Always `environment_variable`.
 
         - `"environment_variable"`
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the credential was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -1350,19 +1544,25 @@ Retrieves vault credential metadata without returning secret values. See [vaults
 
     The human-readable name of the credential.
 
-  - `object: "vault.credential"`
+    `minLength: 0`
+
+  - `object: "vault.credential" (default: "vault.credential")`
 
     The object type. Always `vault.credential`.
 
     - `"vault.credential"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the credential was last updated.
+
+    `format: int64`
 
   - `vault_id: string`
 
     The ID of the vault containing this credential.
+
+    `minLength: 0`
 
 ### Example
 
@@ -1372,7 +1572,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -1412,7 +1612,11 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `credential_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
 
@@ -1424,7 +1628,7 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
     Rotate an OAuth credential for an HTTPS MCP destination.
 
-    - `type: "mcp_oauth"`
+    - `type: "mcp_oauth" (default: "mcp_oauth")`
 
       The type of the object. Always `mcp_oauth`.
 
@@ -1434,9 +1638,13 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
       A write-only replacement OAuth access token.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `expires_at: optional string or null`
 
       The replacement expiry as an RFC 3339 timestamp, or `null` to clear it. Omitting this field preserves the expiry unless a new access token is supplied, in which case the expiry is cleared.
+
+      `minLength: 0`, `maxLength: 1048576`
 
     - `refresh: optional object { refresh_token, scope, token_endpoint_auth }  or null`
 
@@ -1446,9 +1654,13 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
         The replacement refresh token. Omit or pass `null` to keep the stored token. This secret is never returned in resources.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `scope: optional string or null`
 
         Replacement space-separated OAuth scopes for refresh requests. Omit to keep the scopes, or pass `null` to stop sending a scope parameter.
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `token_endpoint_auth: optional McpOauthTokenEndpointAuthRotateParam or null`
 
@@ -1458,7 +1670,7 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
           Updates credentials sent using HTTP Basic authentication.
 
-          - `type: "client_secret_basic"`
+          - `type: "client_secret_basic" (default: "client_secret_basic")`
 
             The type of the object. Always `client_secret_basic`.
 
@@ -1468,11 +1680,13 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
             The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.
 
+            `minLength: 0`, `maxLength: 1048576`
+
         - `ClientSecretPost object { type, client_secret }`
 
           Updates credentials sent in the token request body.
 
-          - `type: "client_secret_post"`
+          - `type: "client_secret_post" (default: "client_secret_post")`
 
             The type of the object. Always `client_secret_post`.
 
@@ -1482,6 +1696,8 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
             The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.
 
+            `minLength: 0`, `maxLength: 1048576`
+
   - `StaticBearer object { token, type }`
 
     Replace the bearer token for the credential's MCP server.
@@ -1490,7 +1706,9 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
       The replacement bearer token. This secret is never returned in credential resources.
 
-    - `type: "static_bearer"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "static_bearer" (default: "static_bearer")`
 
       The type of the object. Always `static_bearer`.
 
@@ -1504,7 +1722,9 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
       The write-only replacement secret. Never returned in credential resources or supplied directly to sandbox code. Must be nonempty and must not contain carriage returns, newlines, or NUL bytes.
 
-    - `type: "environment_variable"`
+      `minLength: 1`, `maxLength: 1048576`
+
+    - `type: "environment_variable" (default: "environment_variable")`
 
       The type of the object. Always `environment_variable`.
 
@@ -1524,6 +1744,8 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
     The ID of the credential.
 
+    `minLength: 0`
+
   - `auth: CredentialAuth`
 
     The authentication method and non-secret configuration of the credential.
@@ -1536,9 +1758,13 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
         When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+        `minLength: 0`
+
       - `mcp_server_url: string`
 
         The HTTPS MCP server URL authorized by this credential.
+
+        `minLength: 0`
 
       - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -1548,17 +1774,25 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
           The OAuth client ID used when requesting a new access token.
 
+          `minLength: 0`
+
         - `resource: string or null`
 
           The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+          `minLength: 0`
 
         - `scope: string or null`
 
           Space-separated OAuth scopes requested during refresh, if configured.
 
+          `minLength: 0`
+
         - `token_endpoint: string`
 
           The HTTPS OAuth token endpoint used for refresh.
+
+          `minLength: 0`
 
         - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -1568,7 +1802,7 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
             Sends the client ID without a client secret.
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -1578,7 +1812,7 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
             Sends the client ID and secret using HTTP Basic authentication.
 
-            - `type: "client_secret_basic"`
+            - `type: "client_secret_basic" (default: "client_secret_basic")`
 
               The type of the object. Always `client_secret_basic`.
 
@@ -1588,13 +1822,13 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
             Sends the client ID and secret in the token request body.
 
-            - `type: "client_secret_post"`
+            - `type: "client_secret_post" (default: "client_secret_post")`
 
               The type of the object. Always `client_secret_post`.
 
               - `"client_secret_post"`
 
-      - `type: "mcp_oauth"`
+      - `type: "mcp_oauth" (default: "mcp_oauth")`
 
         The type of the object. Always `mcp_oauth`.
 
@@ -1608,7 +1842,9 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
         The HTTPS MCP server URL authorized by this credential.
 
-      - `type: "static_bearer"`
+        `minLength: 0`
+
+      - `type: "static_bearer" (default: "static_bearer")`
 
         The type of the object. Always `static_bearer`.
 
@@ -1626,7 +1862,7 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
           Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-          - `type: "unrestricted"`
+          - `type: "unrestricted" (default: "unrestricted")`
 
             The type of the object. Always `unrestricted`.
 
@@ -1640,7 +1876,9 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
             The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-          - `type: "limited"`
+            `minItems: 1`, `maxItems: 16`
+
+          - `type: "limited" (default: "limited")`
 
             The type of the object. Always `limited`.
 
@@ -1650,15 +1888,19 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
         The environment variable name that receives the placeholder in the sandbox.
 
-      - `type: "environment_variable"`
+        `minLength: 0`
+
+      - `type: "environment_variable" (default: "environment_variable")`
 
         The type of the object. Always `environment_variable`.
 
         - `"environment_variable"`
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the credential was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -1668,19 +1910,25 @@ Updates credential metadata or rotates its write-only secret. See [vaults](https
 
     The human-readable name of the credential.
 
-  - `object: "vault.credential"`
+    `minLength: 0`
+
+  - `object: "vault.credential" (default: "vault.credential")`
 
     The object type. Always `vault.credential`.
 
     - `"vault.credential"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the credential was last updated.
+
+    `format: int64`
 
   - `vault_id: string`
 
     The ID of the vault containing this credential.
+
+    `minLength: 0`
 
 ### Example
 
@@ -1689,10 +1937,12 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -H 'Content-Type: application/json' \
     -H 'OpenAI-Beta: agents=v1' \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
-    -d '{}'
+    -d '{
+          "metadata": {}
+        }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -1734,6 +1984,8 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     The ID of the credential.
 
+    `minLength: 0`
+
   - `auth: CredentialAuth`
 
     The authentication method and non-secret configuration of the credential.
@@ -1746,9 +1998,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+        `minLength: 0`
+
       - `mcp_server_url: string`
 
         The HTTPS MCP server URL authorized by this credential.
+
+        `minLength: 0`
 
       - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -1758,17 +2014,25 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           The OAuth client ID used when requesting a new access token.
 
+          `minLength: 0`
+
         - `resource: string or null`
 
           The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+          `minLength: 0`
 
         - `scope: string or null`
 
           Space-separated OAuth scopes requested during refresh, if configured.
 
+          `minLength: 0`
+
         - `token_endpoint: string`
 
           The HTTPS OAuth token endpoint used for refresh.
+
+          `minLength: 0`
 
         - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -1778,7 +2042,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             Sends the client ID without a client secret.
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -1788,7 +2052,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             Sends the client ID and secret using HTTP Basic authentication.
 
-            - `type: "client_secret_basic"`
+            - `type: "client_secret_basic" (default: "client_secret_basic")`
 
               The type of the object. Always `client_secret_basic`.
 
@@ -1798,13 +2062,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             Sends the client ID and secret in the token request body.
 
-            - `type: "client_secret_post"`
+            - `type: "client_secret_post" (default: "client_secret_post")`
 
               The type of the object. Always `client_secret_post`.
 
               - `"client_secret_post"`
 
-      - `type: "mcp_oauth"`
+      - `type: "mcp_oauth" (default: "mcp_oauth")`
 
         The type of the object. Always `mcp_oauth`.
 
@@ -1818,7 +2082,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         The HTTPS MCP server URL authorized by this credential.
 
-      - `type: "static_bearer"`
+        `minLength: 0`
+
+      - `type: "static_bearer" (default: "static_bearer")`
 
         The type of the object. Always `static_bearer`.
 
@@ -1836,7 +2102,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-          - `type: "unrestricted"`
+          - `type: "unrestricted" (default: "unrestricted")`
 
             The type of the object. Always `unrestricted`.
 
@@ -1850,7 +2116,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-          - `type: "limited"`
+            `minItems: 1`, `maxItems: 16`
+
+          - `type: "limited" (default: "limited")`
 
             The type of the object. Always `limited`.
 
@@ -1860,15 +2128,19 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         The environment variable name that receives the placeholder in the sandbox.
 
-      - `type: "environment_variable"`
+        `minLength: 0`
+
+      - `type: "environment_variable" (default: "environment_variable")`
 
         The type of the object. Always `environment_variable`.
 
         - `"environment_variable"`
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the credential was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -1878,19 +2150,25 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     The human-readable name of the credential.
 
-  - `object: "vault.credential"`
+    `minLength: 0`
+
+  - `object: "vault.credential" (default: "vault.credential")`
 
     The object type. Always `vault.credential`.
 
     - `"vault.credential"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the credential was last updated.
+
+    `format: int64`
 
   - `vault_id: string`
 
     The ID of the vault containing this credential.
+
+    `minLength: 0`
 
 ### Credential Auth
 
@@ -1906,9 +2184,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+      `minLength: 0`
+
     - `mcp_server_url: string`
 
       The HTTPS MCP server URL authorized by this credential.
+
+      `minLength: 0`
 
     - `refresh: object { client_id, resource, scope, 2 more }  or null`
 
@@ -1918,17 +2200,25 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         The OAuth client ID used when requesting a new access token.
 
+        `minLength: 0`
+
       - `resource: string or null`
 
         The resource URI sent to the OAuth token endpoint during refresh, if configured.
+
+        `minLength: 0`
 
       - `scope: string or null`
 
         Space-separated OAuth scopes requested during refresh, if configured.
 
+        `minLength: 0`
+
       - `token_endpoint: string`
 
         The HTTPS OAuth token endpoint used for refresh.
+
+        `minLength: 0`
 
       - `token_endpoint_auth: McpOauthTokenEndpointAuth`
 
@@ -1938,7 +2228,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           Sends the client ID without a client secret.
 
-          - `type: "none"`
+          - `type: "none" (default: "none")`
 
             The type of the object. Always `none`.
 
@@ -1948,7 +2238,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           Sends the client ID and secret using HTTP Basic authentication.
 
-          - `type: "client_secret_basic"`
+          - `type: "client_secret_basic" (default: "client_secret_basic")`
 
             The type of the object. Always `client_secret_basic`.
 
@@ -1958,13 +2248,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           Sends the client ID and secret in the token request body.
 
-          - `type: "client_secret_post"`
+          - `type: "client_secret_post" (default: "client_secret_post")`
 
             The type of the object. Always `client_secret_post`.
 
             - `"client_secret_post"`
 
-    - `type: "mcp_oauth"`
+    - `type: "mcp_oauth" (default: "mcp_oauth")`
 
       The type of the object. Always `mcp_oauth`.
 
@@ -1978,7 +2268,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The HTTPS MCP server URL authorized by this credential.
 
-    - `type: "static_bearer"`
+      `minLength: 0`
+
+    - `type: "static_bearer" (default: "static_bearer")`
 
       The type of the object. Always `static_bearer`.
 
@@ -1996,7 +2288,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-        - `type: "unrestricted"`
+        - `type: "unrestricted" (default: "unrestricted")`
 
           The type of the object. Always `unrestricted`.
 
@@ -2010,7 +2302,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-        - `type: "limited"`
+          `minItems: 1`, `maxItems: 16`
+
+        - `type: "limited" (default: "limited")`
 
           The type of the object. Always `limited`.
 
@@ -2020,7 +2314,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The environment variable name that receives the placeholder in the sandbox.
 
-    - `type: "environment_variable"`
+      `minLength: 0`
+
+    - `type: "environment_variable" (default: "environment_variable")`
 
       The type of the object. Always `environment_variable`.
 
@@ -2040,11 +2336,15 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       A write-only OAuth access token; never returned by credential resources.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `mcp_server_url: string`
 
       The HTTPS MCP server URL authorized by this credential.
 
-    - `type: "mcp_oauth"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "mcp_oauth" (default: "mcp_oauth")`
 
       The type of the object. Always `mcp_oauth`.
 
@@ -2054,6 +2354,8 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       When the OAuth access token expires, as an RFC 3339 timestamp, if known.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `refresh: optional object { client_id, refresh_token, token_endpoint, 3 more }  or null`
 
       Optional refresh configuration for an HTTPS OAuth token endpoint.
@@ -2062,13 +2364,19 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         The OAuth client ID used when requesting a new access token.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `refresh_token: string`
 
         The refresh token to store. This secret is never returned in credential resources.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `token_endpoint: string`
 
         The HTTPS OAuth token endpoint used to exchange the refresh token for a new access token.
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `token_endpoint_auth: McpOauthTokenEndpointAuthCreateParam`
 
@@ -2078,7 +2386,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           Sends the client ID without a client secret.
 
-          - `type: "none"`
+          - `type: "none" (default: "none")`
 
             The type of the object. Always `none`.
 
@@ -2092,7 +2400,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             The OAuth client secret to store. Never returned in credential resources.
 
-          - `type: "client_secret_basic"`
+            `minLength: 0`, `maxLength: 1048576`
+
+          - `type: "client_secret_basic" (default: "client_secret_basic")`
 
             The type of the object. Always `client_secret_basic`.
 
@@ -2106,7 +2416,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             The OAuth client secret to store. Never returned in credential resources.
 
-          - `type: "client_secret_post"`
+            `minLength: 0`, `maxLength: 1048576`
+
+          - `type: "client_secret_post" (default: "client_secret_post")`
 
             The type of the object. Always `client_secret_post`.
 
@@ -2116,9 +2428,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         The resource URI to send to the OAuth token endpoint during refresh, if required.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `scope: optional string or null`
 
         Space-separated OAuth scopes to request during refresh, if required.
+
+        `minLength: 0`, `maxLength: 1048576`
 
   - `StaticBearer object { token, mcp_server_url, type }`
 
@@ -2128,11 +2444,15 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The bearer token to store. This secret is never returned in credential resources.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `mcp_server_url: string`
 
       The HTTPS MCP server URL authorized by this credential.
 
-    - `type: "static_bearer"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "static_bearer" (default: "static_bearer")`
 
       The type of the object. Always `static_bearer`.
 
@@ -2150,7 +2470,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-        - `type: "unrestricted"`
+        - `type: "unrestricted" (default: "unrestricted")`
 
           The type of the object. Always `unrestricted`.
 
@@ -2164,7 +2484,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-        - `type: "limited"`
+          `minItems: 1`, `maxItems: 16`
+
+        - `type: "limited" (default: "limited")`
 
           The type of the object. Always `limited`.
 
@@ -2174,11 +2496,15 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The environment variable name that receives the placeholder, such as `SERVICE_API_KEY`. Use ASCII letters, digits, and underscores, starting with a letter or underscore. Names starting with `CODEX_` and managed proxy or certificate variable names are reserved.
 
+      `minLength: 1`, `maxLength: 1048576`
+
     - `secret_value: string`
 
       The write-only secret to store. Never returned in credential resources or supplied directly to sandbox code. Must be nonempty and must not contain carriage returns, newlines, or NUL bytes.
 
-    - `type: "environment_variable"`
+      `minLength: 1`, `maxLength: 1048576`
+
+    - `type: "environment_variable" (default: "environment_variable")`
 
       The type of the object. Always `environment_variable`.
 
@@ -2194,7 +2520,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Rotate an OAuth credential for an HTTPS MCP destination.
 
-    - `type: "mcp_oauth"`
+    - `type: "mcp_oauth" (default: "mcp_oauth")`
 
       The type of the object. Always `mcp_oauth`.
 
@@ -2204,9 +2530,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       A write-only replacement OAuth access token.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `expires_at: optional string or null`
 
       The replacement expiry as an RFC 3339 timestamp, or `null` to clear it. Omitting this field preserves the expiry unless a new access token is supplied, in which case the expiry is cleared.
+
+      `minLength: 0`, `maxLength: 1048576`
 
     - `refresh: optional object { refresh_token, scope, token_endpoint_auth }  or null`
 
@@ -2216,9 +2546,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
         The replacement refresh token. Omit or pass `null` to keep the stored token. This secret is never returned in resources.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `scope: optional string or null`
 
         Replacement space-separated OAuth scopes for refresh requests. Omit to keep the scopes, or pass `null` to stop sending a scope parameter.
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `token_endpoint_auth: optional McpOauthTokenEndpointAuthRotateParam or null`
 
@@ -2228,7 +2562,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
           Updates credentials sent using HTTP Basic authentication.
 
-          - `type: "client_secret_basic"`
+          - `type: "client_secret_basic" (default: "client_secret_basic")`
 
             The type of the object. Always `client_secret_basic`.
 
@@ -2238,11 +2572,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.
 
+            `minLength: 0`, `maxLength: 1048576`
+
         - `ClientSecretPost object { type, client_secret }`
 
           Updates credentials sent in the token request body.
 
-          - `type: "client_secret_post"`
+          - `type: "client_secret_post" (default: "client_secret_post")`
 
             The type of the object. Always `client_secret_post`.
 
@@ -2252,6 +2588,8 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
             The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.
 
+            `minLength: 0`, `maxLength: 1048576`
+
   - `StaticBearer object { token, type }`
 
     Replace the bearer token for the credential's MCP server.
@@ -2260,7 +2598,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The replacement bearer token. This secret is never returned in credential resources.
 
-    - `type: "static_bearer"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "static_bearer" (default: "static_bearer")`
 
       The type of the object. Always `static_bearer`.
 
@@ -2274,7 +2614,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The write-only replacement secret. Never returned in credential resources or supplied directly to sandbox code. Must be nonempty and must not contain carriage returns, newlines, or NUL bytes.
 
-    - `type: "environment_variable"`
+      `minLength: 1`, `maxLength: 1048576`
+
+    - `type: "environment_variable" (default: "environment_variable")`
 
       The type of the object. Always `environment_variable`.
 
@@ -2290,11 +2632,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     The ID of the deleted credential.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the resource was deleted. Always `true`.
 
-  - `object: "vault.credential.deleted"`
+  - `object: "vault.credential.deleted" (default: "vault.credential.deleted")`
 
     The object type. Always `vault.credential.deleted`.
 
@@ -2310,7 +2654,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-    - `type: "unrestricted"`
+    - `type: "unrestricted" (default: "unrestricted")`
 
       The type of the object. Always `unrestricted`.
 
@@ -2324,7 +2668,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-    - `type: "limited"`
+      `minItems: 1`, `maxItems: 16`
+
+    - `type: "limited" (default: "limited")`
 
       The type of the object. Always `limited`.
 
@@ -2340,7 +2686,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Allows substitution for destinations permitted by the environment network policy. Requires `environment.network.access` to be `restricted`, with explicit `allowed_domains`.
 
-    - `type: "unrestricted"`
+    - `type: "unrestricted" (default: "unrestricted")`
 
       The type of the object. Always `unrestricted`.
 
@@ -2354,7 +2700,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The 1 to 16 distinct allowed hostnames or IPv4 addresses, normalized to lowercase. Entries contain no scheme, path, port, or wildcard. IPv6 addresses are not supported.
 
-    - `type: "limited"`
+      `minItems: 1`, `maxItems: 16`
+
+    - `type: "limited" (default: "limited")`
 
       The type of the object. Always `limited`.
 
@@ -2370,7 +2718,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Sends the client ID without a client secret.
 
-    - `type: "none"`
+    - `type: "none" (default: "none")`
 
       The type of the object. Always `none`.
 
@@ -2380,7 +2728,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Sends the client ID and secret using HTTP Basic authentication.
 
-    - `type: "client_secret_basic"`
+    - `type: "client_secret_basic" (default: "client_secret_basic")`
 
       The type of the object. Always `client_secret_basic`.
 
@@ -2390,7 +2738,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Sends the client ID and secret in the token request body.
 
-    - `type: "client_secret_post"`
+    - `type: "client_secret_post" (default: "client_secret_post")`
 
       The type of the object. Always `client_secret_post`.
 
@@ -2406,7 +2754,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Sends the client ID without a client secret.
 
-    - `type: "none"`
+    - `type: "none" (default: "none")`
 
       The type of the object. Always `none`.
 
@@ -2420,7 +2768,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The OAuth client secret to store. Never returned in credential resources.
 
-    - `type: "client_secret_basic"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "client_secret_basic" (default: "client_secret_basic")`
 
       The type of the object. Always `client_secret_basic`.
 
@@ -2434,7 +2784,9 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The OAuth client secret to store. Never returned in credential resources.
 
-    - `type: "client_secret_post"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "client_secret_post" (default: "client_secret_post")`
 
       The type of the object. Always `client_secret_post`.
 
@@ -2450,7 +2802,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
     Updates credentials sent using HTTP Basic authentication.
 
-    - `type: "client_secret_basic"`
+    - `type: "client_secret_basic" (default: "client_secret_basic")`
 
       The type of the object. Always `client_secret_basic`.
 
@@ -2460,11 +2812,13 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
 
       The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.
 
+      `minLength: 0`, `maxLength: 1048576`
+
   - `ClientSecretPost object { type, client_secret }`
 
     Updates credentials sent in the token request body.
 
-    - `type: "client_secret_post"`
+    - `type: "client_secret_post" (default: "client_secret_post")`
 
       The type of the object. Always `client_secret_post`.
 
@@ -2473,3 +2827,5 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     - `client_secret: optional string or null`
 
       The replacement OAuth client secret. Omit or pass `null` to keep the stored secret. This secret is never returned in resources.
+
+      `minLength: 0`, `maxLength: 1048576`

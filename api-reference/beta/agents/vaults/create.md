@@ -14,6 +14,8 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
   The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.
 
+  `minLength: 1`, `maxLength: 1048576`
+
 ### Returns
 
 - `Vault object { id, created_at, metadata, 2 more }`
@@ -24,9 +26,13 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -36,7 +42,9 @@ Creates a vault for the current project. See [vaults](https://developers.openai.
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -51,7 +59,7 @@ curl https://api.openai.com/v1/vaults \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 201 — Example
 
 ```json
 {

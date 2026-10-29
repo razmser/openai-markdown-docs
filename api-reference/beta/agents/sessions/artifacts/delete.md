@@ -8,7 +8,11 @@ Deletes an immutable session artifact without deleting its live environment file
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `artifact_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
 
@@ -20,11 +24,13 @@ Deletes an immutable session artifact without deleting its live environment file
 
     The ID of the deleted session artifact.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the session artifact was deleted. Always `true`.
 
-  - `object: "agent.session.artifact.deleted"`
+  - `object: "agent.session.artifact.deleted" (default: "agent.session.artifact.deleted")`
 
     The object type. Always `agent.session.artifact.deleted`.
 
@@ -39,7 +45,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/artifacts/$ARTIFACT_I
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

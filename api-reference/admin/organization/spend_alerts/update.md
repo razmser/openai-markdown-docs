@@ -40,9 +40,11 @@ Updates an organization spend alert.
 
     Optional subject prefix for alert emails.
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The alert threshold amount, in cents.
+
+  `minimum: 0`
 
 ### Returns
 
@@ -90,7 +92,7 @@ Updates an organization spend alert.
 
     - `"organization.spend_alert"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The alert threshold amount, in cents.
 
@@ -113,7 +115,7 @@ curl https://api.openai.com/v1/organization/spend_alerts/$ALERT_ID \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -150,7 +152,7 @@ curl -X POST https://api.openai.com/v1/organization/spend_alerts/alert_abc123 \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

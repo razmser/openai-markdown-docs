@@ -10,15 +10,21 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
 - `"Idempotency-Key": optional string`
 
+  `minLength: 1`, `maxLength: 256`
+
 ### Path Parameters
 
 - `session_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Body Parameters
 
 - `events: array of AgentSessionInputParam`
 
   The input events to submit to the session.
+
+  `minItems: 0`, `maxItems: 16384`
 
   - `AgentSessionInputComputerUseApprovalRequestResult object { request_id, response, type }`
 
@@ -28,13 +34,15 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
       The registered request ID from the required action.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `response: AgentBrowserAuthenticationSubmitParam or AgentBrowserAuthenticationCancelParam or AgentBrowserOriginAccessParam`
 
       The response for this request type.
 
       - `AgentBrowserAuthenticationSubmitParam object { action, fields, type, selected_option }`
 
-        - `action: "submit"`
+        - `action: "submit" (default: "submit")`
 
           - `"submit"`
 
@@ -42,15 +50,21 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
           Values for up to six active fields in the required action. The submitted field-value mapping and selected option must fit within 120 KiB of JSON.
 
+          `minItems: 0`, `maxItems: 6`
+
           - `field_id: string`
 
             The field ID from the required action.
+
+            `minLength: 0`, `maxLength: 1048576`
 
           - `value: string`
 
             The value to enter into the registered control.
 
-        - `type: "browser_authentication"`
+            `minLength: 0`, `maxLength: 16384`
+
+        - `type: "browser_authentication" (default: "browser_authentication")`
 
           - `"browser_authentication"`
 
@@ -58,13 +72,15 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
           The chosen method. Required when the required action contains options.
 
+          `minLength: 0`, `maxLength: 1048576`
+
       - `AgentBrowserAuthenticationCancelParam object { action, type }`
 
-        - `action: "cancel"`
+        - `action: "cancel" (default: "cancel")`
 
           - `"cancel"`
 
-        - `type: "browser_authentication"`
+        - `type: "browser_authentication" (default: "browser_authentication")`
 
           - `"browser_authentication"`
 
@@ -86,11 +102,11 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
             Dismiss this request without approving access.
 
-        - `type: "browser_origin_access"`
+        - `type: "browser_origin_access" (default: "browser_origin_access")`
 
           - `"browser_origin_access"`
 
-    - `type: "agent.session.input.computer_use_approval_request_result"`
+    - `type: "agent.session.input.computer_use_approval_request_result" (default: "agent.session.input.computer_use_approval_request_result")`
 
       The type of the object. Always `agent.session.input.computer_use_approval_request_result`.
 
@@ -104,9 +120,13 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
       The user messages to add to the session.
 
+      `minItems: 0`, `maxItems: 16384`
+
       - `content: array of InputContentParam`
 
         The content of the message.
+
+        `minItems: 0`, `maxItems: 16384`
 
         - `InputText object { text, type }`
 
@@ -116,7 +136,9 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
             The text sent to the model.
 
-          - `type: "input_text"`
+            `minLength: 0`, `maxLength: 1048576`
+
+          - `type: "input_text" (default: "input_text")`
 
             The type of the object. Always `input_text`.
 
@@ -130,25 +152,27 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
             The URL of the image sent to the model.
 
-          - `type: "input_image"`
+            `minLength: 0`, `maxLength: 1048576`
+
+          - `type: "input_image" (default: "input_image")`
 
             The type of the object. Always `input_image`.
 
             - `"input_image"`
 
-      - `role: "user"`
+      - `role: "user" (default: "user")`
 
         The role of the message author. Always `user`.
 
         - `"user"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The type of the input item. Always `message`.
 
         - `"message"`
 
-    - `type: "agent.session.input.message"`
+    - `type: "agent.session.input.message" (default: "agent.session.input.message")`
 
       The type of the object. Always `agent.session.input.message`.
 
@@ -158,7 +182,7 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
     Cancels the session's active turn.
 
-    - `type: "agent.session.input.cancel"`
+    - `type: "agent.session.input.cancel" (default: "agent.session.input.cancel")`
 
       The type of the object. Always `agent.session.input.cancel`.
 
@@ -172,6 +196,8 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
       The ID of the function call.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `success: boolean`
 
       Whether the function call succeeded.
@@ -180,7 +206,9 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
       The ID of the turn that requested the function call.
 
-    - `type: "agent.session.input.tool_result"`
+      `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "agent.session.input.tool_result" (default: "agent.session.input.tool_result")`
 
       The type of the object. Always `agent.session.input.tool_result`.
 
@@ -190,13 +218,19 @@ Submits message, cancellation, tool-result, or computer-use approval-response ev
 
       The error message when the call failed.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `output: optional AgentFunctionCallOutputParam or null`
 
       The function result when the call succeeded.
 
       - `string`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `array of InputContentParam`
+
+        `minItems: 0`, `maxItems: 16384`
 
         - `InputText object { text, type }`
 
@@ -243,6 +277,8 @@ Streams live events for an agent session. See [session events](https://developer
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `AgentSessionEvent = AgentSessionErrorEvent or AgentSessionEnvironmentReadyEvent or AgentSessionEnvironmentSuspendedEvent or 30 more`
@@ -261,27 +297,39 @@ Streams live events for an agent session. See [session events](https://developer
 
         The machine-readable error code, if any.
 
+        `minLength: 0`
+
       - `message: string`
 
         A customer-safe explanation of the error.
+
+        `minLength: 0`
 
       - `param: string or null`
 
         The request parameter associated with the error, if any.
 
+        `minLength: 0`
+
       - `type: string`
 
         The error type.
+
+        `minLength: 0`
 
     - `event_id: string`
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
 
-    - `type: "error"`
+      `minLength: 0`
+
+    - `type: "error" (default: "error")`
 
       The type of the object. Always `error`.
 
@@ -299,6 +347,8 @@ Streams live events for an agent session. See [session events](https://developer
 
         The public ID of the environment.
 
+        `minLength: 0`
+
       - `error: object { code, message, type }  or null`
 
         The error reported while preparing the environment, if any.
@@ -307,13 +357,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           A machine-readable error code.
 
+          `minLength: 0`
+
         - `message: string`
 
           A human-readable error message.
 
+          `minLength: 0`
+
         - `type: string`
 
           The error type.
+
+          `minLength: 0`
 
       - `status: "pending" or "ready" or "connected" or 4 more`
 
@@ -351,19 +407,27 @@ Streams live events for an agent session. See [session events](https://developer
 
         The environment type.
 
+        `minLength: 0`
+
     - `event_id: string`
 
       The unique ID of the event.
+
+      `minLength: 0`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.ready"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.ready" (default: "agent.session.environment.ready")`
 
       The type of the object. Always `agent.session.environment.ready`.
 
@@ -381,15 +445,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.suspended"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.suspended" (default: "agent.session.environment.suspended")`
 
       The type of the object. Always `agent.session.environment.suspended`.
 
@@ -407,15 +477,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.expired"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.expired" (default: "agent.session.environment.expired")`
 
       The type of the object. Always `agent.session.environment.expired`.
 
@@ -429,23 +505,33 @@ Streams live events for an agent session. See [session events](https://developer
 
       The stable environment ID, retained across sandbox replacements.
 
+      `minLength: 0`
+
     - `event_id: string`
 
       The unique ID of the event.
 
-    - `reset_count: number`
+      `minLength: 0`
+
+    - `reset_count: integer`
 
       Monotonically increasing reset number. Repeated notifications share this number.
+
+      `format: int64`, `minimum: 0`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The associated turn, when applicable.
 
-    - `type: "agent.session.environment.reset"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.reset" (default: "agent.session.environment.reset")`
 
       The type of the object. Always `agent.session.environment.reset`.
 
@@ -459,27 +545,39 @@ Streams live events for an agent session. See [session events](https://developer
 
       The output text that was appended.
 
+      `minLength: 0`
+
     - `event_id: string`
 
       The unique ID of the event.
+
+      `minLength: 0`
 
     - `item_id: string`
 
       The ID of the command execution item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.output.command_execution_output.delta"`
+      `minLength: 0`
+
+    - `type: "agent.output.command_execution_output.delta" (default: "agent.output.command_execution_output.delta")`
 
       The type of the object. Always `agent.output.command_execution_output.delta`.
 
@@ -493,6 +591,8 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session: AgentSession`
 
       The session that was created.
@@ -501,7 +601,9 @@ Streams live events for an agent session. See [session events](https://developer
 
         The ID of the session.
 
-      - `agent: object { id, instructions, model, 6 more }`
+        `minLength: 0`
+
+      - `agent: object { id, instructions, model, 8 more }`
 
         The agent running in the session.
 
@@ -509,13 +611,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the agent.
 
+          `minLength: 0`
+
         - `instructions: string or null`
 
           Custom instructions appended to the agent's default base instructions.
 
+          `minLength: 0`
+
         - `model: string`
 
           The model used by the agent.
+
+          `minLength: 0`
 
         - `multi_agent: MultiAgentConfig`
 
@@ -525,13 +633,17 @@ Streams live events for an agent session. See [session events](https://developer
 
             Whether subagent tools are enabled. Defaults to false.
 
-          - `max_concurrent_subagents: number or null`
+          - `max_concurrent_subagents: integer or null`
 
             Maximum number of subagents that may run concurrently, or null when disabled. Defaults to 6 when enabled.
+
+            `format: int64`, `minimum: 1`, `maximum: 4294967295`
 
         - `name: string or null`
 
           The reusable agent's name when the session was created, or null if no name was saved. Later changes to the agent's name do not affect this value.
+
+          `minLength: 0`
 
         - `reasoning: AgentReasoning`
 
@@ -599,7 +711,7 @@ Streams live events for an agent session. See [session events](https://developer
 
               Generates ordinary text without a structured-output constraint.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 The type of the object. Always `text`.
 
@@ -613,7 +725,7 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The JSON Schema that generated text must match.
 
-              - `type: "json_schema"`
+              - `type: "json_schema" (default: "json_schema")`
 
                 The type of the object. Always `json_schema`.
 
@@ -633,6 +745,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           Tools available to the agent.
 
+          `minItems: 0`, `maxItems: 2000`
+
           - `Function object { defer_loading, description, name, 2 more }`
 
             A function defined by the application.
@@ -645,15 +759,19 @@ Streams live events for an agent session. See [session events](https://developer
 
               A description of what the function does.
 
+              `minLength: 0`
+
             - `name: string`
 
               The name of the function.
+
+              `minLength: 0`
 
             - `parameters: map[unknown]`
 
               A JSON Schema object describing the function's arguments.
 
-            - `type: "function"`
+            - `type: "function" (default: "function")`
 
               The type of the object. Always `function`.
 
@@ -667,7 +785,7 @@ Streams live events for an agent session. See [session events](https://developer
 
               Whether tools can be called from model-generated code.
 
-            - `type: "programmatic_tool_calling"`
+            - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
               The type of the object. Always `programmatic_tool_calling`.
 
@@ -681,6 +799,8 @@ Streams live events for an agent session. See [session events](https://developer
 
               The MCP tools the agent may call.
 
+              `minItems: 0`, `maxItems: 2000`
+
             - `connection_origin: "service" or "environment"`
 
               Where outbound MCP HTTP connections originate.
@@ -692,6 +812,8 @@ Streams live events for an agent session. See [session events](https://developer
             - `credential_id: string or null`
 
               The attached vault credential selected for this MCP server, if any. Optional when exactly one attached credential matches the server URL.
+
+              `minLength: 0`
 
             - `request_metadata: map[unknown]`
 
@@ -705,6 +827,8 @@ Streams live events for an agent session. See [session events](https://developer
 
               A label used to identify the MCP server in tool calls.
 
+              `minLength: 0`
+
             - `transport: McpTransport`
 
               The transport used to connect to the MCP server.
@@ -717,7 +841,9 @@ Streams live events for an agent session. See [session events](https://developer
 
                   The URL of the MCP server.
 
-                - `type: "http"`
+                  `minLength: 0`
+
+                - `type: "http" (default: "http")`
 
                   The type of the object. Always `http`.
 
@@ -731,25 +857,33 @@ Streams live events for an agent session. See [session events](https://developer
 
                   Arguments passed to the MCP server command.
 
+                  `minItems: 0`, `maxItems: 2000`
+
                 - `command: string`
 
                   The command used to start the MCP server.
+
+                  `minLength: 0`
 
                 - `cwd: string`
 
                   The working directory used to start the MCP server.
 
+                  `minLength: 0`
+
                 - `env_vars: array of string`
 
                   Environment variable names inherited from the execution environment.
 
-                - `type: "stdio"`
+                  `minItems: 0`, `maxItems: 2000`
+
+                - `type: "stdio" (default: "stdio")`
 
                   The type of the object. Always `stdio`.
 
                   - `"stdio"`
 
-            - `type: "mcp"`
+            - `type: "mcp" (default: "mcp")`
 
               The type of the object. Always `mcp`.
 
@@ -762,6 +896,8 @@ Streams live events for an agent session. See [session events](https://developer
             - `allowed_domains: array of string or null`
 
               Allowed search domains, or `null` when the search is unrestricted.
+
+              `minItems: 0`, `maxItems: 2000`
 
             - `context_size: "low" or "medium" or "high"`
 
@@ -781,17 +917,25 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The city name.
 
+                `minLength: 0`
+
               - `country: string or null`
 
                 The two-letter ISO country code, such as `US`.
+
+                `minLength: 0`
 
               - `region: string or null`
 
                 The region or state name.
 
+                `minLength: 0`
+
               - `timezone: string or null`
 
                 The IANA timezone, such as `America/Los_Angeles`.
+
+                `minLength: 0`
 
             - `mode: "disabled" or "cached" or "live"`
 
@@ -803,7 +947,7 @@ Streams live events for an agent session. See [session events](https://developer
 
               - `"live"`
 
-            - `type: "web_search"`
+            - `type: "web_search" (default: "web_search")`
 
               The type of the object. Always `web_search`.
 
@@ -817,7 +961,7 @@ Streams live events for an agent session. See [session events](https://developer
 
               Whether computer tool outputs include screenshots.
 
-            - `type: "computer_use"`
+            - `type: "computer_use" (default: "computer_use")`
 
               The type of the object. Always `computer_use`.
 
@@ -827,15 +971,33 @@ Streams live events for an agent session. See [session events](https://developer
 
             Lets the agent manage its own scheduled wakeups.
 
-            - `type: "automations"`
+            - `type: "automations" (default: "automations")`
 
               The type of the object. Always `automations`.
 
               - `"automations"`
 
-      - `created_at: number`
+        - `compaction: optional object { async }`
+
+          The effective context compaction settings.
+
+          - `async: boolean`
+
+            Whether context is compacted in the background. Defaults to true.
+
+        - `experimental: optional object { time_awareness }`
+
+          The effective experimental settings for the agent.
+
+          - `time_awareness: boolean`
+
+            Whether the model receives periodic current-time reminders.
+
+      - `created_at: integer`
 
         The Unix timestamp, in seconds, when the session was created.
+
+        `format: int64`
 
       - `environment: Environment`
 
@@ -845,7 +1007,7 @@ Streams live events for an agent session. See [session events](https://developer
 
           The session talks to CCA without selecting or provisioning an execution environment.
 
-          - `type: "none"`
+          - `type: "none" (default: "none")`
 
             The type of the object. Always `none`.
 
@@ -859,9 +1021,13 @@ Streams live events for an agent session. See [session events](https://developer
 
             The public ID of the environment.
 
+            `minLength: 0`
+
           - `capability_directories: array of string`
 
             Directories that contain capabilities exposed to the agent.
+
+            `minItems: 0`, `maxItems: 2000`
 
           - `desktop: object { enabled }`
 
@@ -875,6 +1041,8 @@ Streams live events for an agent session. See [session events](https://developer
 
             Files available in the environment, excluding their contents.
 
+            `minItems: 0`, `maxItems: 50`
+
             - `HostedEnvironmentFileID object { id, file_id, path, 2 more }`
 
               A file copied from the OpenAI Files API.
@@ -883,19 +1051,27 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The session-scoped ID of the file in the execution environment.
 
+                `minLength: 0`
+
               - `file_id: string`
 
                 The ID of the uploaded file.
+
+                `minLength: 0`
 
               - `path: string`
 
                 The file's absolute path inside the environment.
 
-              - `size_bytes: number`
+                `minLength: 0`
+
+              - `size_bytes: integer`
 
                 The decoded file size in bytes.
 
-              - `type: "file_id"`
+                `format: int64`, `minimum: 0`
+
+              - `type: "file_id" (default: "file_id")`
 
                 The type of the object. Always `file_id`.
 
@@ -909,15 +1085,21 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The session-scoped ID of the file in the execution environment.
 
+                `minLength: 0`
+
               - `path: string`
 
                 The file's absolute path inside the environment.
 
-              - `size_bytes: number`
+                `minLength: 0`
+
+              - `size_bytes: integer`
 
                 The decoded file size in bytes.
 
-              - `type: "inline"`
+                `format: int64`, `minimum: 0`
+
+              - `type: "inline" (default: "inline")`
 
                 The type of the object. Always `inline`.
 
@@ -947,6 +1129,8 @@ Streams live events for an agent session. See [session events](https://developer
 
               Domains the environment may access when network access is restricted.
 
+              `minItems: 0`, `maxItems: 2000`
+
           - `packages: object { npm, python, system }`
 
             Packages installed in the environment.
@@ -955,27 +1139,39 @@ Streams live events for an agent session. See [session events](https://developer
 
               npm packages installed globally in the environment.
 
+              `minItems: 0`, `maxItems: 16384`
+
             - `python: array of string`
 
               Python packages installed in the environment.
+
+              `minItems: 0`, `maxItems: 16384`
 
             - `system: array of string`
 
               System packages installed in the environment.
 
+              `minItems: 0`, `maxItems: 16384`
+
           - `plugins: array of HostedPlugin`
 
             Plugins installed in the environment, excluding their archive contents.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `description: string`
 
               The installed plugin description.
 
+              `minLength: 0`
+
             - `name: string`
 
               The installed plugin name.
 
-            - `type: "inline"`
+              `minLength: 0`
+
+            - `type: "inline" (default: "inline")`
 
               The type of the object. Always `inline`.
 
@@ -985,6 +1181,8 @@ Streams live events for an agent session. See [session events](https://developer
 
             Skills installed in the environment, excluding their archive contents.
 
+            `minItems: 0`, `maxItems: 2000`
+
             - `HostedSkillReference object { description, name, skill_id, 2 more }`
 
               A skill installed from the Skills API.
@@ -993,15 +1191,21 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The installed skill description.
 
+                `minLength: 0`
+
               - `name: string`
 
                 The installed skill name.
+
+                `minLength: 0`
 
               - `skill_id: string`
 
                 The referenced skill ID.
 
-              - `type: "skill_reference"`
+                `minLength: 0`
+
+              - `type: "skill_reference" (default: "skill_reference")`
 
                 The type of the object. Always `skill_reference`.
 
@@ -1011,6 +1215,8 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The concrete skill version installed for this session.
 
+                `minLength: 0`
+
             - `Inline object { description, name, type }`
 
               A skill installed from an inline ZIP archive.
@@ -1019,17 +1225,21 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The installed skill description.
 
+                `minLength: 0`
+
               - `name: string`
 
                 The installed skill name.
 
-              - `type: "inline"`
+                `minLength: 0`
+
+              - `type: "inline" (default: "inline")`
 
                 The type of the object. Always `inline`.
 
                 - `"inline"`
 
-          - `type: "openai_hosted"`
+          - `type: "openai_hosted" (default: "openai_hosted")`
 
             The type of the object. Always `openai_hosted`.
 
@@ -1053,15 +1263,21 @@ Streams live events for an agent session. See [session events](https://developer
 
             The public ID of the environment.
 
+            `minLength: 0`
+
           - `capability_directories: array of string`
 
             Directories that contain capabilities exposed to the agent.
+
+            `minItems: 0`, `maxItems: 2000`
 
           - `remote_url: string`
 
             Pass this URL unchanged to `codex exec-server --remote` when connecting this environment.
 
-          - `type: "self_hosted"`
+            `minLength: 0`
+
+          - `type: "self_hosted" (default: "self_hosted")`
 
             The type of the object. Always `self_hosted`.
 
@@ -1071,19 +1287,25 @@ Streams live events for an agent session. See [session events](https://developer
 
             The absolute project directory inside the environment. Defaults to `/workspace`.
 
+            `minLength: 0`
+
       - `error: string or null`
 
         The error that caused the session to fail, if any.
 
-      - `last_active_at: number`
+        `minLength: 0`
+
+      - `last_active_at: integer`
 
         The Unix timestamp, in seconds, when the session was last active.
+
+        `format: int64`
 
       - `metadata: map[string]`
 
         Custom string key-value pairs attached to the session.
 
-      - `object: "agent.session"`
+      - `object: "agent.session" (default: "agent.session")`
 
         The object type. Always `agent.session`.
 
@@ -1092,6 +1314,8 @@ Streams live events for an agent session. See [session events](https://developer
       - `required_actions: array of ComputerUseApprovalRequest { request, request_id, turn_id, type }  or FunctionCall { arguments, call_id, name, 2 more }  or EnvironmentConnection { environment_id, type }`
 
         Actions that must be completed before the session can continue.
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `ComputerUseApprovalRequest object { request, request_id, turn_id, type }`
 
@@ -1109,17 +1333,25 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The registered form or frame origin where values will be entered.
 
+                `minLength: 0`
+
               - `fields: array of object { id, label, required, type }`
 
                 Controls to render. All submitted values are sensitive.
+
+                `minItems: 0`, `maxItems: 2000`
 
                 - `id: string`
 
                   The field ID to submit as field_id in a fields entry.
 
+                  `minLength: 0`
+
                 - `label: string`
 
                   The label to display beside the control.
+
+                  `minLength: 0`
 
                 - `required: boolean`
 
@@ -1129,27 +1361,39 @@ Streams live events for an agent session. See [session events](https://developer
 
                   The rendering type, such as email, password, or text.
 
+                  `minLength: 0`
+
               - `options: array of object { id, field_ids, label }`
 
                 Sign-in methods. Empty for a plain form.
+
+                `minItems: 0`, `maxItems: 2000`
 
                 - `id: string`
 
                   The option ID to submit as selected_option.
 
+                  `minLength: 0`
+
                 - `field_ids: array of string`
 
                   IDs from the registered fields that this method accepts.
+
+                  `minItems: 0`, `maxItems: 2000`
 
                 - `label: string`
 
                   The method label to display.
 
+                  `minLength: 0`
+
               - `reason: string or null`
 
                 Why the agent needs the user to sign in.
 
-              - `type: "browser_authentication"`
+                `minLength: 0`
+
+              - `type: "browser_authentication" (default: "browser_authentication")`
 
                 The type of the object. Always `browser_authentication`.
 
@@ -1163,11 +1407,15 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The origin the browser needs permission to access.
 
+                `minLength: 0`
+
               - `reason: string or null`
 
                 The browser's explanation for this request, or null when unavailable.
 
-              - `type: "browser_origin_access"`
+                `minLength: 0`
+
+              - `type: "browser_origin_access" (default: "browser_origin_access")`
 
                 The type of the object. Always `browser_origin_access`.
 
@@ -1177,11 +1425,15 @@ Streams live events for an agent session. See [session events](https://developer
 
             The registered request ID to echo when responding.
 
+            `minLength: 0`
+
           - `turn_id: string`
 
             The turn that requested approval.
 
-          - `type: "computer_use_approval_request"`
+            `minLength: 0`
+
+          - `type: "computer_use_approval_request" (default: "computer_use_approval_request")`
 
             The type of the object. Always `computer_use_approval_request`.
 
@@ -1199,15 +1451,21 @@ Streams live events for an agent session. See [session events](https://developer
 
             The ID to include when submitting the function result.
 
+            `minLength: 0`
+
           - `name: string`
 
             The function name.
+
+            `minLength: 0`
 
           - `turn_id: string`
 
             The ID of the turn that requested the function call.
 
-          - `type: "function_call"`
+            `minLength: 0`
+
+          - `type: "function_call" (default: "function_call")`
 
             The type of the object. Always `function_call`.
 
@@ -1221,7 +1479,9 @@ Streams live events for an agent session. See [session events](https://developer
 
             The ID of the environment to reconnect.
 
-          - `type: "environment_connection"`
+            `minLength: 0`
+
+          - `type: "environment_connection" (default: "environment_connection")`
 
             The type of the object. Always `environment_connection`.
 
@@ -1251,39 +1511,51 @@ Streams live events for an agent session. See [session events](https://developer
 
         Best-effort token usage for the session, or null if unknown. Recorded usage may change.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           The number of input tokens used by the agent.
+
+          `format: int64`
 
         - `input_tokens_details: object { cached_tokens }`
 
           A breakdown of the agent's input token usage.
 
-          - `cached_tokens: number`
+          - `cached_tokens: integer`
 
             The number of input tokens retrieved from the prompt cache.
 
-        - `output_tokens: number`
+            `format: int64`
+
+        - `output_tokens: integer`
 
           The number of output tokens generated by the agent.
+
+          `format: int64`
 
         - `output_tokens_details: object { reasoning_tokens }`
 
           A breakdown of the agent's output token usage.
 
-          - `reasoning_tokens: number`
+          - `reasoning_tokens: integer`
 
             The number of output tokens used for reasoning.
 
-        - `total_tokens: number`
+            `format: int64`
+
+        - `total_tokens: integer`
 
           The total number of input and output tokens used by the agent.
+
+          `format: int64`
 
       - `vault_ids: array of string`
 
         The IDs of vaults made available to the session.
 
-    - `type: "agent.session.created"`
+        `minItems: 0`, `maxItems: 2000`
+
+    - `type: "agent.session.created" (default: "agent.session.created")`
 
       The type of the object. Always `agent.session.created`.
 
@@ -1297,9 +1569,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn: Turn`
 
@@ -1309,17 +1585,25 @@ Streams live events for an agent session. See [session events](https://developer
 
         The ID of the turn.
 
+        `minLength: 0`
+
       - `agent_id: string`
 
         The ID of the agent that ran the turn.
 
-      - `completed_at: number or null`
+        `minLength: 0`
+
+      - `completed_at: integer or null`
 
         The Unix timestamp, in seconds, when the turn reached a terminal state.
 
-      - `created_at: number`
+        `format: int64`
+
+      - `created_at: integer`
 
         The Unix timestamp, in seconds, used to order the turn by creation time. Subagent turns use their start time, falling back to completion time or the subagent opening time when the preceding timestamps are unavailable.
+
+        `format: int64`
 
       - `error: SessionTurnError or null`
 
@@ -1425,7 +1709,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           A customer-safe explanation of the failure.
 
-      - `object: "agent.session.turn"`
+          `minLength: 0`
+
+      - `object: "agent.session.turn" (default: "agent.session.turn")`
 
         The object type. Always `agent.session.turn`.
 
@@ -1435,9 +1721,13 @@ Streams live events for an agent session. See [session events](https://developer
 
         The ID of the session that owns the turn.
 
-      - `started_at: number or null`
+        `minLength: 0`
+
+      - `started_at: integer or null`
 
         The Unix timestamp, in seconds, when the turn started.
+
+        `format: int64`
 
       - `status: "queued" or "in_progress" or "waiting" or 3 more`
 
@@ -1471,6 +1761,8 @@ Streams live events for an agent session. See [session events](https://developer
 
         The ID of the subagent that ran the turn, if applicable.
 
+        `minLength: 0`
+
       - `usage: TokenUsage or null`
 
         Best-effort token usage for the turn, or null if unknown. Recorded usage may change.
@@ -1479,7 +1771,9 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the turn associated with the event.
 
-    - `type: "agent.session.turn.created"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.created" (default: "agent.session.turn.created")`
 
       The type of the object. Always `agent.session.turn.created`.
 
@@ -1493,9 +1787,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn: Turn`
 
@@ -1505,7 +1803,9 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the turn associated with the event.
 
-    - `type: "agent.session.turn.in_progress"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.in_progress" (default: "agent.session.turn.in_progress")`
 
       The type of the object. Always `agent.session.turn.in_progress`.
 
@@ -1519,9 +1819,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn: Turn`
 
@@ -1531,7 +1835,9 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the turn associated with the event.
 
-    - `type: "agent.session.turn.completed"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.completed" (default: "agent.session.turn.completed")`
 
       The type of the object. Always `agent.session.turn.completed`.
 
@@ -1549,9 +1855,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn: Turn`
 
@@ -1561,7 +1871,9 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the turn associated with the event.
 
-    - `type: "agent.session.turn.failed"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.failed" (default: "agent.session.turn.failed")`
 
       The type of the object. Always `agent.session.turn.failed`.
 
@@ -1579,9 +1891,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn: Turn`
 
@@ -1591,7 +1907,9 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the turn associated with the event.
 
-    - `type: "agent.session.turn.cancelled"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.cancelled" (default: "agent.session.turn.cancelled")`
 
       The type of the object. Always `agent.session.turn.cancelled`.
 
@@ -1609,6 +1927,8 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item: AgentSessionItem`
 
       The item that was added.
@@ -1621,9 +1941,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of this item, or null for legacy user messages whose ID was not recorded.
 
+          `minLength: 0`
+
         - `content: array of AgentSessionMessageContent`
 
           The content of the message. User messages contain input text or images; assistant messages contain output text.
+
+          `minItems: 0`, `maxItems: 2000`
 
           - `InputText object { text, type }`
 
@@ -1633,7 +1957,9 @@ Streams live events for an agent session. See [session events](https://developer
 
               The text supplied by the user.
 
-            - `type: "input_text"`
+              `minLength: 0`
+
+            - `type: "input_text" (default: "input_text")`
 
               The type of the object. Always `input_text`.
 
@@ -1647,7 +1973,9 @@ Streams live events for an agent session. See [session events](https://developer
 
               The URL of the image supplied by the user, which may be a base64-encoded data URL.
 
-            - `type: "input_image"`
+              `minLength: 0`
+
+            - `type: "input_image" (default: "input_image")`
 
               The type of the object. Always `input_image`.
 
@@ -1661,7 +1989,9 @@ Streams live events for an agent session. See [session events](https://developer
 
               The text produced by the assistant.
 
-            - `type: "output_text"`
+              `minLength: 0`
+
+            - `type: "output_text" (default: "output_text")`
 
               The type of the object. Always `output_text`.
 
@@ -1707,7 +2037,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "message"`
+          `minLength: 0`
+
+        - `type: "message" (default: "message")`
 
           The item type. Always `message`.
 
@@ -1721,6 +2053,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the reasoning item.
 
+          `minLength: 0`
+
         - `status: AgentOutputItemStatus or null`
 
           The status of the reasoning item.
@@ -1729,11 +2063,15 @@ Streams live events for an agent session. See [session events](https://developer
 
           The reasoning summaries produced by the agent.
 
+          `minItems: 0`, `maxItems: 2000`
+
           - `text: string`
 
             The reasoning summary text.
 
-          - `type: "summary_text"`
+            `minLength: 0`
+
+          - `type: "summary_text" (default: "summary_text")`
 
             The content type. Always `summary_text`.
 
@@ -1743,7 +2081,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "reasoning"`
+          `minLength: 0`
+
+        - `type: "reasoning" (default: "reasoning")`
 
           The item type. Always `reasoning`.
 
@@ -1757,6 +2097,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the function call item.
 
+          `minLength: 0`
+
         - `arguments: unknown`
 
           The arguments to pass to the function.
@@ -1765,9 +2107,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID used to submit the function result.
 
+          `minLength: 0`
+
         - `name: string`
 
           The name of the function to call.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -1793,7 +2139,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "function_call"`
+          `minLength: 0`
+
+        - `type: "function_call" (default: "function_call")`
 
           The item type. Always `function_call`.
 
@@ -1807,13 +2155,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the function call output item.
 
+          `minLength: 0`
+
         - `call_id: string`
 
           The ID of the function call that produced this output.
 
+          `minLength: 0`
+
         - `error: string or null`
 
           The error message, if the call failed.
+
+          `minLength: 0`
 
         - `output: AgentFunctionCallOutput or null`
 
@@ -1821,7 +2175,11 @@ Streams live events for an agent session. See [session events](https://developer
 
           - `string`
 
+            `minLength: 0`
+
           - `array of InputContent`
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `InputText object { text, type }`
 
@@ -1831,7 +2189,9 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The text supplied to the agent.
 
-              - `type: "input_text"`
+                `minLength: 0`
+
+              - `type: "input_text" (default: "input_text")`
 
                 The type of the object. Always `input_text`.
 
@@ -1845,7 +2205,9 @@ Streams live events for an agent session. See [session events](https://developer
 
                 The URL of the image supplied to the agent, which may be a base64-encoded data URL.
 
-              - `type: "input_image"`
+                `minLength: 0`
+
+              - `type: "input_image" (default: "input_image")`
 
                 The type of the object. Always `input_image`.
 
@@ -1859,7 +2221,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "function_call_output"`
+          `minLength: 0`
+
+        - `type: "function_call_output" (default: "function_call_output")`
 
           The item type. Always `function_call_output`.
 
@@ -1873,9 +2237,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the message.
 
+          `minLength: 0`
+
         - `content: array of AgentContent`
 
           The content exchanged between the agents.
+
+          `minItems: 0`, `maxItems: 2000`
 
           - `OutputText object { text, type }`
 
@@ -1885,7 +2253,9 @@ Streams live events for an agent session. See [session events](https://developer
 
               The text produced by the agent.
 
-            - `type: "output_text"`
+              `minLength: 0`
+
+            - `type: "output_text" (default: "output_text")`
 
               The content type. Always `output_text`.
 
@@ -1899,7 +2269,9 @@ Streams live events for an agent session. See [session events](https://developer
 
               The encrypted content payload.
 
-            - `type: "encrypted_content"`
+              `minLength: 0`
+
+            - `type: "encrypted_content" (default: "encrypted_content")`
 
               The content type. Always `encrypted_content`.
 
@@ -1909,15 +2281,21 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID or name of the receiving agent.
 
+          `minLength: 0`
+
         - `sender_agent_id: string`
 
           The ID or name of the sending agent.
+
+          `minLength: 0`
 
         - `turn_id: string`
 
           The ID of the turn that contains this item.
 
-        - `type: "agent_message"`
+          `minLength: 0`
+
+        - `type: "agent_message" (default: "agent_message")`
 
           The item type. Always `agent_message`.
 
@@ -1931,6 +2309,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the MCP call item.
 
+          `minLength: 0`
+
         - `arguments: unknown`
 
           The arguments passed to the MCP tool.
@@ -1943,6 +2323,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The name of the MCP tool.
 
+          `minLength: 0`
+
         - `output: unknown`
 
           The output returned by the MCP tool, if any.
@@ -1950,6 +2332,8 @@ Streams live events for an agent session. See [session events](https://developer
         - `server_label: string`
 
           The label of the MCP server.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -1959,7 +2343,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "mcp_call"`
+          `minLength: 0`
+
+        - `type: "mcp_call" (default: "mcp_call")`
 
           The item type. Always `mcp_call`.
 
@@ -1973,6 +2359,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the activity item.
 
+          `minLength: 0`
+
         - `output: object { image_url, type }  or null`
 
           The last screenshot emitted by the model. Null when screenshot inclusion is disabled or the call emitted no screenshot.
@@ -1981,7 +2369,9 @@ Streams live events for an agent session. See [session events](https://developer
 
             The complete JPEG image as a base64 data URL.
 
-          - `type: "computer_screenshot"`
+            `minLength: 0`
+
+          - `type: "computer_screenshot" (default: "computer_screenshot")`
 
             The content type. Always `computer_screenshot`.
 
@@ -1995,11 +2385,15 @@ Streams live events for an agent session. See [session events](https://developer
 
           A model-generated description of the activity, when available.
 
+          `minLength: 0`
+
         - `turn_id: string`
 
           The ID of the turn that contains this item.
 
-        - `type: "computer_use_call"`
+          `minLength: 0`
+
+        - `type: "computer_use_call" (default: "computer_use_call")`
 
           The item type. Always `computer_use_call`.
 
@@ -2013,6 +2407,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The stable history item ID.
 
+          `minLength: 0`
+
         - `request: object { credential_origin, fields, options, 2 more }`
 
           A registered form awaiting the application's response.
@@ -2021,17 +2417,25 @@ Streams live events for an agent session. See [session events](https://developer
 
             The registered form or frame origin where values will be entered.
 
+            `minLength: 0`
+
           - `fields: array of object { id, label, required, type }`
 
             Controls to render. All submitted values are sensitive.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `id: string`
 
               The field ID to submit as field_id in a fields entry.
 
+              `minLength: 0`
+
             - `label: string`
 
               The label to display beside the control.
+
+              `minLength: 0`
 
             - `required: boolean`
 
@@ -2041,27 +2445,39 @@ Streams live events for an agent session. See [session events](https://developer
 
               The rendering type, such as email, password, or text.
 
+              `minLength: 0`
+
           - `options: array of object { id, field_ids, label }`
 
             Sign-in methods. Empty for a plain form.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `id: string`
 
               The option ID to submit as selected_option.
 
+              `minLength: 0`
+
             - `field_ids: array of string`
 
               IDs from the registered fields that this method accepts.
+
+              `minItems: 0`, `maxItems: 2000`
 
             - `label: string`
 
               The method label to display.
 
+              `minLength: 0`
+
           - `reason: string or null`
 
             Why the agent needs the user to sign in.
 
-          - `type: "browser_authentication"`
+            `minLength: 0`
+
+          - `type: "browser_authentication" (default: "browser_authentication")`
 
             The type of the object. Always `browser_authentication`.
 
@@ -2069,9 +2485,13 @@ Streams live events for an agent session. See [session events](https://developer
 
         - `request_id: string`
 
+          `minLength: 0`
+
         - `turn_id: string`
 
-        - `type: "computer_use_approval_request"`
+          `minLength: 0`
+
+        - `type: "computer_use_approval_request" (default: "computer_use_approval_request")`
 
           The item type. Always computer_use_approval_request.
 
@@ -2085,9 +2505,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The stable history item ID.
 
+          `minLength: 0`
+
         - `request_id: string`
 
           The registered request answered by this item.
+
+          `minLength: 0`
 
         - `response: Submit { action, selected_option, type }  or Cancel { action, type }`
 
@@ -2095,7 +2519,7 @@ Streams live events for an agent session. See [session events](https://developer
 
           - `Submit object { action, selected_option, type }`
 
-            - `action: "submit"`
+            - `action: "submit" (default: "submit")`
 
               - `"submit"`
 
@@ -2103,17 +2527,19 @@ Streams live events for an agent session. See [session events](https://developer
 
               The chosen sign-in method, or null when no options were offered.
 
-            - `type: "browser_authentication"`
+              `minLength: 0`
+
+            - `type: "browser_authentication" (default: "browser_authentication")`
 
               - `"browser_authentication"`
 
           - `Cancel object { action, type }`
 
-            - `action: "cancel"`
+            - `action: "cancel" (default: "cancel")`
 
               - `"cancel"`
 
-            - `type: "browser_authentication"`
+            - `type: "browser_authentication" (default: "browser_authentication")`
 
               - `"browser_authentication"`
 
@@ -2121,7 +2547,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "computer_use_approval_request_result"`
+          `minLength: 0`
+
+        - `type: "computer_use_approval_request_result" (default: "computer_use_approval_request_result")`
 
           - `"computer_use_approval_request_result"`
 
@@ -2132,6 +2560,8 @@ Streams live events for an agent session. See [session events](https://developer
         - `id: string`
 
           The ID of the web search call.
+
+          `minLength: 0`
 
         - `action: WebSearchAction or null`
 
@@ -2145,11 +2575,15 @@ Streams live events for an agent session. See [session events](https://developer
 
               The search queries, when multiple queries were used.
 
+              `minItems: 0`, `maxItems: 2000`
+
             - `query: string or null`
 
               The search query, when a single query was used.
 
-            - `type: "search"`
+              `minLength: 0`
+
+            - `type: "search" (default: "search")`
 
               The type of the object. Always `search`.
 
@@ -2159,7 +2593,7 @@ Streams live events for an agent session. See [session events](https://developer
 
             Opens a web page.
 
-            - `type: "open_page"`
+            - `type: "open_page" (default: "open_page")`
 
               The type of the object. Always `open_page`.
 
@@ -2169,6 +2603,8 @@ Streams live events for an agent session. See [session events](https://developer
 
               The URL of the page that was opened.
 
+              `minLength: 0`
+
           - `FindInPage object { pattern, type, url }`
 
             Finds text within a web page.
@@ -2177,7 +2613,9 @@ Streams live events for an agent session. See [session events](https://developer
 
               The text pattern that was searched for.
 
-            - `type: "find_in_page"`
+              `minLength: 0`
+
+            - `type: "find_in_page" (default: "find_in_page")`
 
               The type of the object. Always `find_in_page`.
 
@@ -2187,11 +2625,13 @@ Streams live events for an agent session. See [session events](https://developer
 
               The URL of the page that was searched.
 
+              `minLength: 0`
+
           - `Other object { type }`
 
             Another web search action.
 
-            - `type: "other"`
+            - `type: "other" (default: "other")`
 
               The type of the object. Always `other`.
 
@@ -2205,7 +2645,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "web_search_call"`
+          `minLength: 0`
+
+        - `type: "web_search_call" (default: "web_search_call")`
 
           The item type. Always `web_search_call`.
 
@@ -2219,25 +2661,37 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the command execution item.
 
+          `minLength: 0`
+
         - `command: string`
 
           The command that was executed.
+
+          `minLength: 0`
 
         - `cwd: string or null`
 
           The working directory used to execute the command.
 
-        - `duration_ms: number or null`
+          `minLength: 0`
+
+        - `duration_ms: integer or null`
 
           The command duration in milliseconds.
 
-        - `exit_code: number or null`
+          `format: int64`
+
+        - `exit_code: integer or null`
 
           The process exit code, if the command completed.
+
+          `format: int64`
 
         - `output: string or null`
 
           The command output, if available.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2247,7 +2701,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "command_execution"`
+          `minLength: 0`
+
+        - `type: "command_execution" (default: "command_execution")`
 
           The item type. Always `command_execution`.
 
@@ -2261,13 +2717,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the tool call item.
 
+          `minLength: 0`
+
         - `agent_id: string`
 
           The ID of the agent that requested the subagent.
 
+          `minLength: 0`
+
         - `content: array of AgentContent`
 
           The task given to the spawned agent.
+
+          `minItems: 0`, `maxItems: 2000`
 
           - `OutputText object { text, type }`
 
@@ -2281,9 +2743,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The model requested for the spawned agent.
 
+          `minLength: 0`
+
         - `reasoning_effort: string or null`
 
           The reasoning effort requested for the spawned agent.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2293,7 +2759,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "create_subagent_call"`
+          `minLength: 0`
+
+        - `type: "create_subagent_call" (default: "create_subagent_call")`
 
           The item type. Always `create_subagent_call`.
 
@@ -2309,9 +2777,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the tool call item.
 
+          `minLength: 0`
+
         - `content: array of AgentContent`
 
           The input sent to the receiving agent.
+
+          `minItems: 0`, `maxItems: 2000`
 
           - `OutputText object { text, type }`
 
@@ -2325,9 +2797,13 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the agent receiving the input.
 
+          `minLength: 0`
+
         - `sender_agent_id: string`
 
           The ID of the agent sending the input.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2337,7 +2813,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "send_subagent_input_call"`
+          `minLength: 0`
+
+        - `type: "send_subagent_input_call" (default: "send_subagent_input_call")`
 
           The item type. Always `send_subagent_input_call`.
 
@@ -2353,13 +2831,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the tool call item.
 
+          `minLength: 0`
+
         - `recipient_agent_id: string`
 
           The ID of the agent to resume.
 
+          `minLength: 0`
+
         - `sender_agent_id: string`
 
           The ID of the agent requesting the resume.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2369,7 +2853,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "resume_subagent_call"`
+          `minLength: 0`
+
+        - `type: "resume_subagent_call" (default: "resume_subagent_call")`
 
           The item type. Always `resume_subagent_call`.
 
@@ -2385,13 +2871,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the tool call item.
 
+          `minLength: 0`
+
         - `recipient_agent_ids: array of string`
 
           The IDs of the agents to wait for.
 
+          `minItems: 0`, `maxItems: 2000`
+
         - `sender_agent_id: string`
 
           The ID of the agent waiting for results.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2401,7 +2893,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "wait_for_subagents_call"`
+          `minLength: 0`
+
+        - `type: "wait_for_subagents_call" (default: "wait_for_subagents_call")`
 
           The item type. Always `wait_for_subagents_call`.
 
@@ -2417,13 +2911,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the tool call item.
 
+          `minLength: 0`
+
         - `recipient_agent_id: string`
 
           The ID of the agent to interrupt.
 
+          `minLength: 0`
+
         - `sender_agent_id: string`
 
           The ID of the agent requesting the interrupt.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2433,7 +2933,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "interrupt_subagent_call"`
+          `minLength: 0`
+
+        - `type: "interrupt_subagent_call" (default: "interrupt_subagent_call")`
 
           The item type. Always `interrupt_subagent_call`.
 
@@ -2449,13 +2951,19 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the tool call item.
 
+          `minLength: 0`
+
         - `recipient_agent_id: string`
 
           The ID of the agent to close.
 
+          `minLength: 0`
+
         - `sender_agent_id: string`
 
           The ID of the agent requesting the close.
+
+          `minLength: 0`
 
         - `status: AgentFunctionCallStatus`
 
@@ -2465,7 +2973,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "close_subagent_call"`
+          `minLength: 0`
+
+        - `type: "close_subagent_call" (default: "close_subagent_call")`
 
           The item type. Always `close_subagent_call`.
 
@@ -2473,19 +2983,25 @@ Streams live events for an agent session. See [session events](https://developer
 
             The current public item type.
 
-    - `output_index: number or null`
+    - `output_index: integer or null`
 
       The index of the item in the turn output, when the item is agent output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.item.added"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.item.added" (default: "agent.session.turn.item.added")`
 
       The type of the object. Always `agent.session.turn.item.added`.
 
@@ -2499,11 +3015,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session: AgentSession`
 
       The session that became idle.
 
-    - `type: "agent.session.idle"`
+    - `type: "agent.session.idle" (default: "agent.session.idle")`
 
       The type of the object. Always `agent.session.idle`.
 
@@ -2517,11 +3035,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session: AgentSession`
 
       The session that started processing.
 
-    - `type: "agent.session.in_progress"`
+    - `type: "agent.session.in_progress" (default: "agent.session.in_progress")`
 
       The type of the object. Always `agent.session.in_progress`.
 
@@ -2535,11 +3055,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session: AgentSession`
 
       The session and its current required actions.
 
-    - `type: "agent.session.requires_action"`
+    - `type: "agent.session.requires_action" (default: "agent.session.requires_action")`
 
       The type of the object. Always `agent.session.requires_action`.
 
@@ -2553,11 +3075,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session: AgentSession`
 
       The failed session.
 
-    - `type: "agent.session.failed"`
+    - `type: "agent.session.failed" (default: "agent.session.failed")`
 
       The type of the object. Always `agent.session.failed`.
 
@@ -2575,15 +3099,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.pending"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.pending" (default: "agent.session.environment.pending")`
 
       The type of the object. Always `agent.session.environment.pending`.
 
@@ -2601,15 +3131,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.connected"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.connected" (default: "agent.session.environment.connected")`
 
       The type of the object. Always `agent.session.environment.connected`.
 
@@ -2627,15 +3163,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.disconnected"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.disconnected" (default: "agent.session.environment.disconnected")`
 
       The type of the object. Always `agent.session.environment.disconnected`.
 
@@ -2653,15 +3195,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `session_id: string`
 
       The ID of the session associated with the event.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.environment.failed"`
+      `minLength: 0`
+
+    - `type: "agent.session.environment.failed" (default: "agent.session.environment.failed")`
 
       The type of the object. Always `agent.session.environment.failed`.
 
@@ -2675,6 +3223,8 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `subagent: Subagent`
 
       The subagent that was created.
@@ -2683,13 +3233,19 @@ Streams live events for an agent session. See [session events](https://developer
 
         The ID of the subagent.
 
-      - `closed_at: number or null`
+        `minLength: 0`
+
+      - `closed_at: integer or null`
 
         The Unix timestamp, in seconds, when the subagent was closed. Null while active, including after resume.
+
+        `format: int64`
 
       - `instructions: array of AgentContent or null`
 
         Initial task content, or null when unavailable. Text may contain placeholders for images or audio when only a preview is available.
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `OutputText object { text, type }`
 
@@ -2703,23 +3259,31 @@ Streams live events for an agent session. See [session events](https://developer
 
         The runner-assigned nickname, or null when unavailable.
 
-      - `object: "agent.session.subagent"`
+        `minLength: 0`
+
+      - `object: "agent.session.subagent" (default: "agent.session.subagent")`
 
         The object type. Always `agent.session.subagent`.
 
         - `"agent.session.subagent"`
 
-      - `opened_at: number`
+      - `opened_at: integer`
 
         The Unix timestamp, in seconds, when the subagent was first opened. Resuming does not change it.
+
+        `format: int64`
 
       - `parent_agent_id: string`
 
         The ID of the agent that created this subagent.
 
+        `minLength: 0`
+
       - `session_id: string`
 
         The ID of the session that owns the subagent.
+
+        `minLength: 0`
 
       - `status: "active" or "closed"`
 
@@ -2733,7 +3297,7 @@ Streams live events for an agent session. See [session events](https://developer
 
           The subagent is closed.
 
-    - `type: "agent.session.subagent.created"`
+    - `type: "agent.session.subagent.created" (default: "agent.session.subagent.created")`
 
       The type of the object. Always `agent.session.subagent.created`.
 
@@ -2747,11 +3311,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `subagent: Subagent`
 
       The subagent that resumed.
 
-    - `type: "agent.session.subagent.active"`
+    - `type: "agent.session.subagent.active" (default: "agent.session.subagent.active")`
 
       The type of the object. Always `agent.session.subagent.active`.
 
@@ -2765,11 +3331,13 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `subagent: Subagent`
 
       The subagent that was closed.
 
-    - `type: "agent.session.subagent.closed"`
+    - `type: "agent.session.subagent.closed" (default: "agent.session.subagent.closed")`
 
       The type of the object. Always `agent.session.subagent.closed`.
 
@@ -2783,6 +3351,8 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item: AgentOutputItem`
 
       The completed output item.
@@ -2795,15 +3365,21 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the message.
 
+          `minLength: 0`
+
         - `content: array of OutputText`
 
           The content of the message.
+
+          `minItems: 0`, `maxItems: 2000`
 
           - `text: string`
 
             The text produced by the agent.
 
-          - `type: "output_text"`
+            `minLength: 0`
+
+          - `type: "output_text" (default: "output_text")`
 
             The content type. Always `output_text`.
 
@@ -2819,7 +3395,7 @@ Streams live events for an agent session. See [session events](https://developer
 
             The agent's final answer.
 
-        - `role: "assistant"`
+        - `role: "assistant" (default: "assistant")`
 
           The role of the message author. Always `assistant`.
 
@@ -2833,7 +3409,9 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the turn that contains this item.
 
-        - `type: "message"`
+          `minLength: 0`
+
+        - `type: "message" (default: "message")`
 
           The item type. Always `message`.
 
@@ -2859,6 +3437,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The ID of the activity item.
 
+          `minLength: 0`
+
         - `output: object { image_url, type }  or null`
 
           The last screenshot emitted by the model. Null when screenshot inclusion is disabled or the call emitted no screenshot.
@@ -2867,7 +3447,9 @@ Streams live events for an agent session. See [session events](https://developer
 
             The complete JPEG image as a base64 data URL.
 
-          - `type: "computer_screenshot"`
+            `minLength: 0`
+
+          - `type: "computer_screenshot" (default: "computer_screenshot")`
 
             The content type. Always `computer_screenshot`.
 
@@ -2881,11 +3463,15 @@ Streams live events for an agent session. See [session events](https://developer
 
           A model-generated description of the activity, when available.
 
+          `minLength: 0`
+
         - `turn_id: string`
 
           The ID of the turn that contains this item.
 
-        - `type: "computer_use_call"`
+          `minLength: 0`
+
+        - `type: "computer_use_call" (default: "computer_use_call")`
 
           The item type. Always `computer_use_call`.
 
@@ -2899,6 +3485,8 @@ Streams live events for an agent session. See [session events](https://developer
 
           The stable history item ID.
 
+          `minLength: 0`
+
         - `request: object { credential_origin, fields, options, 2 more }`
 
           A registered form awaiting the application's response.
@@ -2907,17 +3495,25 @@ Streams live events for an agent session. See [session events](https://developer
 
             The registered form or frame origin where values will be entered.
 
+            `minLength: 0`
+
           - `fields: array of object { id, label, required, type }`
 
             Controls to render. All submitted values are sensitive.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `id: string`
 
               The field ID to submit as field_id in a fields entry.
 
+              `minLength: 0`
+
             - `label: string`
 
               The label to display beside the control.
+
+              `minLength: 0`
 
             - `required: boolean`
 
@@ -2927,27 +3523,39 @@ Streams live events for an agent session. See [session events](https://developer
 
               The rendering type, such as email, password, or text.
 
+              `minLength: 0`
+
           - `options: array of object { id, field_ids, label }`
 
             Sign-in methods. Empty for a plain form.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `id: string`
 
               The option ID to submit as selected_option.
 
+              `minLength: 0`
+
             - `field_ids: array of string`
 
               IDs from the registered fields that this method accepts.
+
+              `minItems: 0`, `maxItems: 2000`
 
             - `label: string`
 
               The method label to display.
 
+              `minLength: 0`
+
           - `reason: string or null`
 
             Why the agent needs the user to sign in.
 
-          - `type: "browser_authentication"`
+            `minLength: 0`
+
+          - `type: "browser_authentication" (default: "browser_authentication")`
 
             The type of the object. Always `browser_authentication`.
 
@@ -2955,9 +3563,13 @@ Streams live events for an agent session. See [session events](https://developer
 
         - `request_id: string`
 
+          `minLength: 0`
+
         - `turn_id: string`
 
-        - `type: "computer_use_approval_request"`
+          `minLength: 0`
+
+        - `type: "computer_use_approval_request" (default: "computer_use_approval_request")`
 
           The item type. Always computer_use_approval_request.
 
@@ -2995,19 +3607,25 @@ Streams live events for an agent session. See [session events](https://developer
 
         A request to close a subagent.
 
-    - `output_index: number`
+    - `output_index: integer`
 
       The index of the output item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.item.done"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.item.done" (default: "agent.session.turn.item.done")`
 
       The type of the object. Always `agent.session.turn.item.done`.
 
@@ -3017,21 +3635,29 @@ Streams live events for an agent session. See [session events](https://developer
 
     Emitted when an output text content part is added.
 
-    - `content_index: number`
+    - `content_index: integer`
 
       The index of the content part in the message.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `event_id: string`
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item_id: string`
 
       The ID of the message item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `part: OutputText`
 
@@ -3041,11 +3667,15 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.content_part.added"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.content_part.added" (default: "agent.session.turn.content_part.added")`
 
       The type of the object. Always `agent.session.turn.content_part.added`.
 
@@ -3055,21 +3685,29 @@ Streams live events for an agent session. See [session events](https://developer
 
     Emitted when an output content part is complete.
 
-    - `content_index: number`
+    - `content_index: integer`
 
       The index of the content part in the message.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `event_id: string`
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item_id: string`
 
       The ID of the message item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `part: OutputText`
 
@@ -3079,11 +3717,15 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.content_part.done"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.content_part.done" (default: "agent.session.turn.content_part.done")`
 
       The type of the object. Always `agent.session.turn.content_part.done`.
 
@@ -3093,35 +3735,49 @@ Streams live events for an agent session. See [session events](https://developer
 
     Emitted when text is appended to an output text content part.
 
-    - `content_index: number`
+    - `content_index: integer`
 
       The index of the content part in the message.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `delta: string`
 
       The text that was appended.
 
+      `minLength: 0`
+
     - `event_id: string`
 
       The unique ID of the event.
+
+      `minLength: 0`
 
     - `item_id: string`
 
       The ID of the message item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.output_text.delta"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.output_text.delta" (default: "agent.session.turn.output_text.delta")`
 
       The type of the object. Always `agent.session.turn.output_text.delta`.
 
@@ -3131,35 +3787,49 @@ Streams live events for an agent session. See [session events](https://developer
 
     Emitted when an output text content part is complete.
 
-    - `content_index: number`
+    - `content_index: integer`
 
       The index of the content part in the message.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `event_id: string`
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item_id: string`
 
       The ID of the message item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `text: string`
 
       The complete output text.
+
+      `minLength: 0`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.output_text.done"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.output_text.done" (default: "agent.session.turn.output_text.done")`
 
       The type of the object. Always `agent.session.turn.output_text.done`.
 
@@ -3173,13 +3843,19 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item_id: string`
 
       The ID of the reasoning item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `part: SummaryText`
 
@@ -3189,7 +3865,9 @@ Streams live events for an agent session. See [session events](https://developer
 
         The reasoning summary text.
 
-      - `type: "summary_text"`
+        `minLength: 0`
+
+      - `type: "summary_text" (default: "summary_text")`
 
         The content type. Always `summary_text`.
 
@@ -3197,15 +3875,21 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the session associated with the event.
 
-    - `summary_index: number`
+      `minLength: 0`
+
+    - `summary_index: integer`
 
       The index of the summary content part.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.reasoning_summary_part.added"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.reasoning_summary_part.added" (default: "agent.session.turn.reasoning_summary_part.added")`
 
       The type of the object. Always `agent.session.turn.reasoning_summary_part.added`.
 
@@ -3219,13 +3903,19 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item_id: string`
 
       The ID of the reasoning item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `part: SummaryText`
 
@@ -3235,21 +3925,27 @@ Streams live events for an agent session. See [session events](https://developer
 
       The ID of the session associated with the event.
 
+      `minLength: 0`
+
     - `status: "incomplete" or null`
 
       Present as `incomplete` when summary generation was interrupted.
 
       - `"incomplete"`
 
-    - `summary_index: number`
+    - `summary_index: integer`
 
       The index of the summary part.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.reasoning_summary_part.done"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.reasoning_summary_part.done" (default: "agent.session.turn.reasoning_summary_part.done")`
 
       The type of the object. Always `agent.session.turn.reasoning_summary_part.done`.
 
@@ -3263,31 +3959,45 @@ Streams live events for an agent session. See [session events](https://developer
 
       The summary text that was appended.
 
+      `minLength: 0`
+
     - `event_id: string`
 
       The unique ID of the event.
+
+      `minLength: 0`
 
     - `item_id: string`
 
       The ID of the reasoning item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
-    - `summary_index: number`
+      `minLength: 0`
+
+    - `summary_index: integer`
 
       The index of the summary content part.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.reasoning_summary_text.delta"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.reasoning_summary_text.delta" (default: "agent.session.turn.reasoning_summary_text.delta")`
 
       The type of the object. Always `agent.session.turn.reasoning_summary_text.delta`.
 
@@ -3301,31 +4011,45 @@ Streams live events for an agent session. See [session events](https://developer
 
       The unique ID of the event.
 
+      `minLength: 0`
+
     - `item_id: string`
 
       The ID of the reasoning item.
 
-    - `output_index: number`
+      `minLength: 0`
+
+    - `output_index: integer`
 
       The index of the item in the turn output.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `session_id: string`
 
       The ID of the session associated with the event.
 
-    - `summary_index: number`
+      `minLength: 0`
+
+    - `summary_index: integer`
 
       The index of the summary content part.
+
+      `format: int64`, `minimum: 0`, `maximum: 4294967295`
 
     - `text: string`
 
       The complete reasoning summary text.
 
+      `minLength: 0`
+
     - `turn_id: string or null`
 
       The ID of the turn associated with the event, when applicable.
 
-    - `type: "agent.session.turn.reasoning_summary_text.done"`
+      `minLength: 0`
+
+    - `type: "agent.session.turn.reasoning_summary_text.done" (default: "agent.session.turn.reasoning_summary_text.done")`
 
       The type of the object. Always `agent.session.turn.reasoning_summary_text.done`.
 

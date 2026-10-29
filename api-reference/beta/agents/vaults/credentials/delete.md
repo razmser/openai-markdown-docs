@@ -8,7 +8,11 @@ Deletes a vault credential. See [vaults](https://developers.openai.com/api/docs/
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `credential_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
 
@@ -20,11 +24,13 @@ Deletes a vault credential. See [vaults](https://developers.openai.com/api/docs/
 
     The ID of the deleted credential.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the resource was deleted. Always `true`.
 
-  - `object: "vault.credential.deleted"`
+  - `object: "vault.credential.deleted" (default: "vault.credential.deleted")`
 
     The object type. Always `vault.credential.deleted`.
 
@@ -39,7 +45,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID/credentials/$CREDENTIAL_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

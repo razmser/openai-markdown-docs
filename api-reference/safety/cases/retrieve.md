@@ -10,13 +10,17 @@ Get a safety case by ID.
 
   Safety case ID
 
+  `maxLength: 128`
+
 ### Returns
 
 - `SafetyCase object { id, created_at, entity_identifier, 3 more }`
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `entity_identifier: string`
 
@@ -28,7 +32,7 @@ Get a safety case by ID.
 
       - `"deactivation"`
 
-  - `object: "safety.case"`
+  - `object: "safety.case" (default: "safety.case")`
 
     - `"safety.case"`
 
@@ -41,7 +45,7 @@ curl https://api.openai.com/v1/safety/cases/$ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -63,7 +67,7 @@ curl https://api.openai.com/v1/safety/cases/C-abc123 \
   -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

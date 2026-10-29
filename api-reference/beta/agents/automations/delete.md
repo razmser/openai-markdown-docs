@@ -8,6 +8,8 @@ Deletes the automation and prevents future invocations without deleting its targ
 
 - `automation_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `AutomationDeleted object { id, deleted, object }`
@@ -16,11 +18,13 @@ Deletes the automation and prevents future invocations without deleting its targ
 
     The deleted automation ID.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Always true.
 
-  - `object: "agent.automation.deleted"`
+  - `object: "agent.automation.deleted" (default: "agent.automation.deleted")`
 
     Always `agent.automation.deleted`.
 
@@ -35,7 +39,7 @@ curl https://api.openai.com/v1/agents/automations/$AUTOMATION_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

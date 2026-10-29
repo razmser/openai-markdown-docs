@@ -22,9 +22,11 @@ Create or replace a project's hard spend limit.
 
   - `"month"`
 
-- `threshold_amount: number`
+- `threshold_amount: integer`
 
   The hard spend limit amount, in cents.
+
+  `minimum: 1`
 
 ### Returns
 
@@ -74,13 +76,13 @@ Create or replace a project's hard spend limit.
 
       - `"month"`
 
-  - `object: "project.spend_limit"`
+  - `object: "project.spend_limit" (default: "project.spend_limit")`
 
     The object type, which is always `project.spend_limit`.
 
     - `"project.spend_limit"`
 
-  - `threshold_amount: number`
+  - `threshold_amount: integer`
 
     The hard spend limit amount, in cents.
 
@@ -97,7 +99,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/spend_limit \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -124,7 +126,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/spend_limi
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

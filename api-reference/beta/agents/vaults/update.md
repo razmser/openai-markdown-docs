@@ -8,6 +8,8 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
 - `vault_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Body Parameters
 
 - `metadata: optional map[string]`
@@ -17,6 +19,8 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 - `name: optional string or null`
 
   A replacement name. Omit to leave unchanged, or pass null to clear it. The name is trimmed before storage. It must contain 1 to 256 UTF-8 bytes after trimming.
+
+  `minLength: 1`, `maxLength: 1048576`
 
 ### Returns
 
@@ -28,9 +32,13 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -40,7 +48,9 @@ Updates the name or metadata of an active vault. Omitted fields remain unchanged
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -56,7 +66,7 @@ curl https://api.openai.com/v1/vaults/$VAULT_ID \
     -d '{}'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

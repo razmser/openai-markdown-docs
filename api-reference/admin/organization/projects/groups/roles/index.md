@@ -28,9 +28,11 @@ Assigns a project role to a group within a project.
 
     Identifier for the group.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     Unix timestamp (in seconds) when the group was created.
+
+    `format: unixtime`
 
   - `name: string`
 
@@ -97,7 +99,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -134,7 +136,7 @@ curl -X POST https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8A
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -193,7 +195,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles/$ROLE
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -210,7 +212,7 @@ curl -X DELETE https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -237,9 +239,11 @@ Lists the project roles assigned to a group within a project.
 
   Cursor for pagination. Provide the value from the previous response's `next` field to continue listing project roles.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   A limit on the number of project role assignments to return.
+
+  `minimum: 0`, `maximum: 1000`
 
 - `order: optional "asc" or "desc"`
 
@@ -267,9 +271,11 @@ Lists the project roles assigned to a group within a project.
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -303,9 +309,11 @@ Lists the project roles assigned to a group within a project.
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 - `has_more: boolean`
 
@@ -328,7 +336,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -373,7 +381,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -439,9 +447,11 @@ Retrieves a project role assigned to a group.
 
   - `principal_type: string`
 
-- `created_at: number or null`
+- `created_at: integer or null`
 
   When the role was created.
+
+  `format: unixtime`
 
 - `created_by: string or null`
 
@@ -475,9 +485,11 @@ Retrieves a project role assigned to a group.
 
   Resource type the role applies to.
 
-- `updated_at: number or null`
+- `updated_at: integer or null`
 
   When the role was last updated.
+
+  `format: unixtime`
 
 ### Example
 
@@ -486,7 +498,7 @@ curl https://api.openai.com/v1/projects/$PROJECT_ID/groups/$GROUP_ID/roles/$ROLE
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -524,7 +536,7 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -562,9 +574,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
       Identifier for the group.
 
-    - `created_at: number`
+    - `created_at: integer`
 
       Unix timestamp (in seconds) when the group was created.
+
+      `format: unixtime`
 
     - `name: string`
 
@@ -652,9 +666,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -688,9 +704,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`
 
 ### Role Retrieve Response
 
@@ -710,9 +728,11 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     - `principal_type: string`
 
-  - `created_at: number or null`
+  - `created_at: integer or null`
 
     When the role was created.
+
+    `format: unixtime`
 
   - `created_by: string or null`
 
@@ -746,6 +766,8 @@ curl https://api.openai.com/v1/projects/proj_abc123/groups/group_01J1F8ABCDXYZ/r
 
     Resource type the role applies to.
 
-  - `updated_at: number or null`
+  - `updated_at: integer or null`
 
     When the role was last updated.
+
+    `format: unixtime`

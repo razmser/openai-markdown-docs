@@ -18,6 +18,8 @@ Fork a stored Live session onto a new WebRTC connection.
 
     Session Description Protocol message for the WebRTC connection.
 
+    `minLength: 1`
+
   - `type: "webrtc"`
 
     The transport used for the Live session. Always `webrtc`.
@@ -46,6 +48,8 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `array of string`
 
+          `maxItems: 256`
+
       - `allowed_server_events: optional "all" or array of ServerEventSelector`
 
         Server events that may be sent to the frontend data channel. Use 'all' to allow every server event; an empty array allows none. Omission preserves the existing allow-all behavior. Responses events use an object with type 'response.event' and a response_event selector.
@@ -56,27 +60,35 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `array of ServerEventSelector`
 
+          `maxItems: 256`
+
           - `type: string`
 
             The outer Live server event type. Use 'response.event' for Responses events.
+
+            `minLength: 1`, `maxLength: 256`
 
           - `response_event: optional string`
 
             The nested Responses event type. Required when type is 'response.event'; forbidden for other event types.
 
+            `minLength: 1`, `maxLength: 256`
+
   - `delegation: optional object { type, acknowledgement_delay_ms, responses }`
 
     Update the Responses backend for an existing Live session without changing delegation ownership.
 
-    - `type: "responses"`
+    - `type: "responses" (default: "responses")`
 
       The delegation owner. Always `responses` for tasks handled by the Responses API.
 
       - `"responses"`
 
-    - `acknowledgement_delay_ms: optional number`
+    - `acknowledgement_delay_ms: optional integer`
 
       Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations.
+
+      `minimum: 0`, `maximum: 800`
 
     - `responses: optional ResponsesDelegationUpdateConfig`
 
@@ -86,9 +98,11 @@ Fork a stored Live session onto a new WebRTC connection.
 
         Instructions for the delegated Responses model, separate from Live instructions. See [backend prompting](https://developers.openai.com/api/docs/guides/live-delegation#start-with-your-existing-backend-prompt).
 
-      - `max_output_tokens: optional number or null`
+      - `max_output_tokens: optional integer or null`
 
         Maximum number of output tokens for each delegated response.
+
+        `minimum: 16`
 
       - `model: optional string`
 
@@ -176,7 +190,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             The name of the function tool to call.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The tool to call. Always `function`.
 
@@ -188,7 +202,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             The label of the MCP server to call.
 
-          - `type: "mcp"`
+          - `type: "mcp" (default: "mcp")`
 
             The tool to call. Always `mcp`.
 
@@ -200,7 +214,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `FileSearch object { type }`
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The tool to call. Always `file_search`.
 
@@ -208,7 +222,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `WebSearch object { type }`
 
-          - `type: "web_search"`
+          - `type: "web_search" (default: "web_search")`
 
             The tool to call. Always `web_search`.
 
@@ -216,7 +230,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `WebSearchPreview object { type }`
 
-          - `type: "web_search_preview"`
+          - `type: "web_search_preview" (default: "web_search_preview")`
 
             The tool to call. Always `web_search_preview`.
 
@@ -224,7 +238,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `ImageGeneration object { type }`
 
-          - `type: "image_generation"`
+          - `type: "image_generation" (default: "image_generation")`
 
             The tool to call. Always `image_generation`.
 
@@ -232,7 +246,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `Computer object { type }`
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The tool to call. Always `computer`.
 
@@ -240,7 +254,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `CodeInterpreter object { type }`
 
-          - `type: "code_interpreter"`
+          - `type: "code_interpreter" (default: "code_interpreter")`
 
             The tool to call. Always `code_interpreter`.
 
@@ -248,7 +262,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The tool to call. Always `programmatic_tool_calling`.
 
@@ -258,7 +272,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
           Forces the model to call the shell tool when a tool call is required.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The tool to call. Always `shell`.
 
@@ -270,7 +284,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             The name of the custom tool to call.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The tool to call. Always `custom`.
 
@@ -280,7 +294,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
           Forces the model to call the apply_patch tool when executing a tool call.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The tool to call. Always `apply_patch`.
 
@@ -292,13 +306,15 @@ Fork a stored Live session onto a new WebRTC connection.
 
             The tools that the delegated Responses model may call.
 
+            `minItems: 1`, `maxItems: 128`
+
             - `Function object { name, type }`
 
               - `name: string`
 
                 The name of the function tool to call.
 
-              - `type: "function"`
+              - `type: "function" (default: "function")`
 
                 The tool to call. Always `function`.
 
@@ -310,7 +326,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
                 The label of the MCP server to call.
 
-              - `type: "mcp"`
+              - `type: "mcp" (default: "mcp")`
 
                 The tool to call. Always `mcp`.
 
@@ -322,7 +338,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `FileSearch object { type }`
 
-              - `type: "file_search"`
+              - `type: "file_search" (default: "file_search")`
 
                 The tool to call. Always `file_search`.
 
@@ -330,7 +346,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `WebSearch object { type }`
 
-              - `type: "web_search"`
+              - `type: "web_search" (default: "web_search")`
 
                 The tool to call. Always `web_search`.
 
@@ -338,7 +354,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `WebSearchPreview object { type }`
 
-              - `type: "web_search_preview"`
+              - `type: "web_search_preview" (default: "web_search_preview")`
 
                 The tool to call. Always `web_search_preview`.
 
@@ -346,7 +362,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `ImageGeneration object { type }`
 
-              - `type: "image_generation"`
+              - `type: "image_generation" (default: "image_generation")`
 
                 The tool to call. Always `image_generation`.
 
@@ -354,7 +370,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `Computer object { type }`
 
-              - `type: "computer"`
+              - `type: "computer" (default: "computer")`
 
                 The tool to call. Always `computer`.
 
@@ -362,7 +378,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `CodeInterpreter object { type }`
 
-              - `type: "code_interpreter"`
+              - `type: "code_interpreter" (default: "code_interpreter")`
 
                 The tool to call. Always `code_interpreter`.
 
@@ -370,7 +386,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `ProgrammaticToolCalling object { type }`
 
-              - `type: "programmatic_tool_calling"`
+              - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
                 The tool to call. Always `programmatic_tool_calling`.
 
@@ -380,7 +396,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
               Forces the model to call the shell tool when a tool call is required.
 
-              - `type: "shell"`
+              - `type: "shell" (default: "shell")`
 
                 The tool to call. Always `shell`.
 
@@ -392,7 +408,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
                 The name of the custom tool to call.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The tool to call. Always `custom`.
 
@@ -402,13 +418,13 @@ Fork a stored Live session onto a new WebRTC connection.
 
               Forces the model to call the apply_patch tool when executing a tool call.
 
-              - `type: "apply_patch"`
+              - `type: "apply_patch" (default: "apply_patch")`
 
                 The tool to call. Always `apply_patch`.
 
                 - `"apply_patch"`
 
-          - `type: "allowed_tools"`
+          - `type: "allowed_tools" (default: "allowed_tools")`
 
             The tool choice type. Always `allowed_tools`.
 
@@ -436,7 +452,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             The name the delegated Responses model uses when calling this function.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The tool type. Always `function`.
 
@@ -458,7 +474,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
           A web search tool available to the Live session’s Responses backend.
 
-          - `type: "web_search"`
+          - `type: "web_search" (default: "web_search")`
 
             The tool type. Always `web_search`.
 
@@ -466,13 +482,13 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `FileSearch object { type }`
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             - `"file_search"`
 
         - `CodeInterpreter object { type }`
 
-          - `type: "code_interpreter"`
+          - `type: "code_interpreter" (default: "code_interpreter")`
 
             - `"code_interpreter"`
 
@@ -480,7 +496,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
           A Responses shell tool. Use a hosted container or return local shell results with response.item.create. Domain secrets are not supported.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             - `"shell"`
 
@@ -488,7 +504,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `ContainerAuto object { type, file_ids, memory_limit, 2 more }`
 
-              - `type: "container_auto"`
+              - `type: "container_auto" (default: "container_auto")`
 
                 Automatically creates a container for this request
 
@@ -497,6 +513,8 @@ Fork a stored Live session onto a new WebRTC connection.
               - `file_ids: optional array of string or null`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -516,7 +534,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
                 - `Disabled object { type }`
 
-                  - `type: "disabled"`
+                  - `type: "disabled" (default: "disabled")`
 
                     Disable outbound network access. Always `disabled`.
 
@@ -528,7 +546,9 @@ Fork a stored Live session onto a new WebRTC connection.
 
                     A list of allowed domains when type is `allowlist`.
 
-                  - `type: "allowlist"`
+                    `minItems: 1`
+
+                  - `type: "allowlist" (default: "allowlist")`
 
                     Allow outbound network access only to specified domains. Always `allowlist`.
 
@@ -538,13 +558,17 @@ Fork a stored Live session onto a new WebRTC connection.
 
                 An optional list of skills referenced by id or inline data.
 
+                `maxItems: 200`
+
                 - `SkillReference object { skill_id, type, version }`
 
                   - `skill_id: string`
 
                     The ID of the referenced skill.
 
-                  - `type: "skill_reference"`
+                    `minLength: 1`, `maxLength: 64`
+
+                  - `type: "skill_reference" (default: "skill_reference")`
 
                     References a skill created with the /v1/skills endpoint.
 
@@ -572,19 +596,21 @@ Fork a stored Live session onto a new WebRTC connection.
 
                       Base64-encoded skill zip bundle.
 
-                    - `media_type: "application/zip"`
+                      `minLength: 1`, `maxLength: 70254592`
+
+                    - `media_type: "application/zip" (default: "application/zip")`
 
                       The media type of the inline skill payload. Must be `application/zip`.
 
                       - `"application/zip"`
 
-                    - `type: "base64"`
+                    - `type: "base64" (default: "base64")`
 
                       The type of the inline skill source. Must be `base64`.
 
                       - `"base64"`
 
-                  - `type: "inline"`
+                  - `type: "inline" (default: "inline")`
 
                     Defines an inline skill for this request.
 
@@ -596,7 +622,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
                 The ID of the referenced container.
 
-              - `type: "container_reference"`
+              - `type: "container_reference" (default: "container_reference")`
 
                 References a container created with the /v1/containers endpoint
 
@@ -604,7 +630,7 @@ Fork a stored Live session onto a new WebRTC connection.
 
             - `Local object { type, skills }`
 
-              - `type: "local"`
+              - `type: "local" (default: "local")`
 
                 Use a local computer environment.
 
@@ -613,6 +639,8 @@ Fork a stored Live session onto a new WebRTC connection.
               - `skills: optional array of object { description, name, path }  or null`
 
                 An optional list of skills.
+
+                `maxItems: 200`
 
                 - `description: string`
 
@@ -628,49 +656,49 @@ Fork a stored Live session onto a new WebRTC connection.
 
         - `ImageGeneration object { type }`
 
-          - `type: "image_generation"`
+          - `type: "image_generation" (default: "image_generation")`
 
             - `"image_generation"`
 
         - `Mcp object { type }`
 
-          - `type: "mcp"`
+          - `type: "mcp" (default: "mcp")`
 
             - `"mcp"`
 
         - `Custom object { type }`
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             - `"custom"`
 
         - `Namespace object { type }`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             - `"namespace"`
 
         - `ToolSearch object { type }`
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             - `"tool_search"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             - `"programmatic_tool_calling"`
 
         - `Computer object { type }`
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             - `"computer"`
 
         - `ApplyPatch object { type }`
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             - `"apply_patch"`
 
@@ -696,6 +724,8 @@ Fork a stored Live session onto a new WebRTC connection.
 
     Session Description Protocol message for the WebRTC connection.
 
+    `minLength: 1`
+
   - `type: "webrtc"`
 
     The transport used for the Live session. Always `webrtc`.
@@ -716,7 +746,7 @@ curl https://api.openai.com/v1/live/sessions/$SESSION_ID/fork \
         }'
 ```
 
-#### Response
+#### 201 — Example
 
 ```json
 {

@@ -12,7 +12,11 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
   - `string`
 
+    `minLength: 0`, `maxLength: 10485760`
+
   - `array of DecisionInputUserMessage { content, role, type }  or DecisionInputDeveloperMessage { content, role, type }  or DecisionInputSystemMessage { content, role, type }  or 5 more`
+
+    `minItems: 0`, `maxItems: 131072`
 
     - `DecisionInputUserMessage object { content, role, type }`
 
@@ -24,13 +28,19 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
         - `string`
 
+          `minLength: 0`, `maxLength: 10485760`
+
         - `Parts = array of DecisionInputPart`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
 
             - `text: string`
 
-            - `type: "input_text"`
+              `minLength: 0`, `maxLength: 10485760`
+
+            - `type: "input_text" (default: "input_text")`
 
               - `"input_text"`
 
@@ -38,7 +48,7 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
               Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -52,11 +62,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
               A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-            - `type: "input_image"`
+              `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+            - `type: "input_image" (default: "input_image")`
 
               - `"input_image"`
 
-            - `detail: optional "low" or "high" or "auto" or "original" or null`
+            - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
               The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -72,7 +84,7 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
               Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -88,15 +100,17 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
               - `array of map[unknown]`
 
-            - `type: "input_json"`
+                `minItems: 0`
+
+            - `type: "input_json" (default: "input_json")`
 
               - `"input_json"`
 
-      - `role: "user"`
+      - `role: "user" (default: "user")`
 
         - `"user"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         - `"message"`
 
@@ -110,21 +124,27 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
         - `string`
 
+          `minLength: 0`, `maxLength: 10485760`
+
         - `Parts = array of DecisionInputText`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `text: string`
 
-          - `type: "input_text"`
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
 
           - `prompt_cache_breakpoint: optional object { mode }  or null`
 
             Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-      - `role: "developer"`
+      - `role: "developer" (default: "developer")`
 
         - `"developer"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         - `"message"`
 
@@ -138,21 +158,27 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
         - `string`
 
+          `minLength: 0`, `maxLength: 10485760`
+
         - `Parts = array of DecisionInputText`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `text: string`
 
-          - `type: "input_text"`
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
 
           - `prompt_cache_breakpoint: optional object { mode }  or null`
 
             Marks the exact end of a reusable prompt prefix. The breakpoint inherits its TTL from the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-      - `role: "system"`
+      - `role: "system" (default: "system")`
 
         - `"system"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         - `"message"`
 
@@ -166,13 +192,19 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
         - `string`
 
+          `minLength: 0`, `maxLength: 10485760`
+
         - `Parts = array of OutputText { text, type }  or Refusal { refusal, type }`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `OutputText object { text, type }`
 
             - `text: string`
 
-            - `type: "output_text"`
+              `minLength: 0`, `maxLength: 10485760`
+
+            - `type: "output_text" (default: "output_text")`
 
               - `"output_text"`
 
@@ -180,11 +212,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
             - `refusal: string`
 
-            - `type: "refusal"`
+              `minLength: 0`, `maxLength: 10485760`
+
+            - `type: "refusal" (default: "refusal")`
 
               - `"refusal"`
 
-      - `role: "assistant"`
+      - `role: "assistant" (default: "assistant")`
 
         - `"assistant"`
 
@@ -196,7 +230,7 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
         - `"final_answer"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         - `"message"`
 
@@ -204,17 +238,27 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `arguments: string`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `call_id: string`
+
+        `minLength: 1`, `maxLength: 64`
 
       - `name: string`
 
-      - `type: "function_call"`
+        `pattern: ^[a-zA-Z0-9_.-]+$`, `minLength: 1`, `maxLength: 128`
+
+      - `type: "function_call" (default: "function_call")`
 
         - `"function_call"`
 
       - `id: optional string or null`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `namespace: optional string or null`
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
 
       - `status: optional "in_progress" or "completed" or "incomplete" or null`
 
@@ -228,13 +272,19 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `call_id: string`
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: string or array of DecisionInputText or DecisionInputImage`
 
         Text evidence or an ordered list of text and image parts.
 
         - `string`
 
+          `minLength: 0`, `maxLength: 10485760`
+
         - `Parts = array of DecisionInputText or DecisionInputImage`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
 
@@ -242,11 +292,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
             An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
 
-      - `type: "function_call_output"`
+      - `type: "function_call_output" (default: "function_call_output")`
 
         - `"function_call_output"`
 
       - `id: optional string or null`
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `status: optional "in_progress" or "completed" or "incomplete" or null`
 
@@ -260,17 +312,27 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `call_id: string`
 
+        `minLength: 1`, `maxLength: 64`
+
       - `input: string`
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `name: string`
 
-      - `type: "custom_tool_call"`
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
+
+      - `type: "custom_tool_call" (default: "custom_tool_call")`
 
         - `"custom_tool_call"`
 
       - `id: optional string or null`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `namespace: optional string or null`
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
 
       - `status: optional "in_progress" or "completed" or "incomplete" or null`
 
@@ -284,13 +346,19 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `call_id: string`
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: string or array of DecisionInputText or DecisionInputImage`
 
         Text evidence or an ordered list of text and image parts.
 
         - `string`
 
+          `minLength: 0`, `maxLength: 10485760`
+
         - `Parts = array of DecisionInputText or DecisionInputImage`
+
+          `minItems: 0`, `maxItems: 16384`
 
           - `DecisionInputText object { text, type, prompt_cache_breakpoint }`
 
@@ -298,11 +366,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
             An image provided as a base64 data URL or a publicly accessible HTTP(S) URL. File IDs are not supported.
 
-      - `type: "custom_tool_call_output"`
+      - `type: "custom_tool_call_output" (default: "custom_tool_call_output")`
 
         - `"custom_tool_call_output"`
 
       - `id: optional string or null`
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `status: optional "in_progress" or "completed" or "incomplete" or null`
 
@@ -316,9 +386,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
   The model to use. Only `gpt-6-luna` is supported.
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `questions: array of Predicate { instructions, type, name }  or Choice { choices, instructions, type, name }  or Score { instructions, levels, type, name }`
 
   Ask 1–400 questions about the input. Each question can be a predicate, choice, or score. Answers come back in the same order.
+
+  `minItems: 1`, `maxItems: 400`
 
   - `Predicate object { instructions, type, name }`
 
@@ -328,13 +402,19 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `string`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `array of DecisionQuestionInputPart`
+
+        `minItems: 1`, `maxItems: 16384`
 
         - `DecisionQuestionInputText object { text, type }`
 
           - `text: string`
 
-          - `type: "input_text"`
+            `minLength: 0`, `maxLength: 10485760`
+
+          - `type: "input_text" (default: "input_text")`
 
             - `"input_text"`
 
@@ -346,11 +426,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
             A base64-encoded image in a data URL or a publicly accessible HTTP(S) image URL.
 
-          - `type: "input_image"`
+            `pattern: ^(data:|https?://)`, `minLength: 0`, `maxLength: 1073741824`
+
+          - `type: "input_image" (default: "input_image")`
 
             - `"input_image"`
 
-          - `detail: optional "low" or "high" or "auto" or "original" or null`
+          - `detail: optional "low" or "high" or "auto" or "original" or null (default: "auto")`
 
             The image detail level, using the selected model's image profile. Defaults to auto.
 
@@ -366,13 +448,15 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
           A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
 
-    - `type: "predicate"`
+    - `type: "predicate" (default: "predicate")`
 
       The type of the object. Always `predicate`.
 
       - `"predicate"`
 
     - `name: optional string`
+
+      `minLength: 0`, `maxLength: 1048576`
 
   - `Choice object { choices, instructions, type, name }`
 
@@ -382,21 +466,31 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       Provide between 2 and 255 choices. Each choice must be unique.
 
+      `minItems: 2`, `maxItems: 255`
+
       - `value: string or boolean`
 
         Choice values are typed: a string and a boolean with the same text are distinct.
 
         - `string`
 
+          `minLength: 0`, `maxLength: 1048576`
+
         - `boolean`
 
       - `description: optional string`
+
+        `minLength: 0`, `maxLength: 1048576`
 
     - `instructions: string or array of DecisionQuestionInputPart`
 
       - `string`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `array of DecisionQuestionInputPart`
+
+        `minItems: 1`, `maxItems: 16384`
 
         - `DecisionQuestionInputText object { text, type }`
 
@@ -408,13 +502,15 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
           A JSON object or an array of objects rendered as text. Nested values may be any JSON value. Limited to 32 container levels, 10,000 values, and 256 KiB of compact UTF-8 JSON.
 
-    - `type: "choice"`
+    - `type: "choice" (default: "choice")`
 
       The type of the object. Always `choice`.
 
       - `"choice"`
 
     - `name: optional string`
+
+      `minLength: 0`, `maxLength: 1048576`
 
   - `Score object { instructions, levels, type, name }`
 
@@ -424,7 +520,11 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `string`
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `array of DecisionQuestionInputPart`
+
+        `minItems: 1`, `maxItems: 16384`
 
         - `DecisionQuestionInputText object { text, type }`
 
@@ -438,11 +538,17 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
     - `levels: array of object { label, description }`
 
+      `minItems: 2`, `maxItems: 10`
+
       - `label: string`
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `description: optional string`
 
-    - `type: "score"`
+        `minLength: 0`, `maxLength: 1048576`
+
+    - `type: "score" (default: "score")`
 
       The type of the object. Always `score`.
 
@@ -450,9 +556,13 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
     - `name: optional string`
 
+      `minLength: 0`, `maxLength: 1048576`
+
 - `prompt_cache_key: optional string or null`
 
   Partition prompt cache reuse by caller-provided key.
+
+  `minLength: 0`, `maxLength: 64`
 
 - `prompt_cache_options: optional object { mode, ttl }  or null`
 
@@ -466,7 +576,7 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
     - `"explicit"`
 
-  - `ttl: optional "30m"`
+  - `ttl: optional "30m" (default: "30m")`
 
     The minimum lifetime applied to every implicit and explicit cache breakpoint written by the request. Defaults to `30m`, which is currently the only supported value. The backend may retain cache entries for longer.
 
@@ -476,6 +586,8 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
   Opaque caller-provided end-user identifier, scoped by the verified org. Match Responses' limit; this is never the authenticated user identity.
 
+  `minLength: 0`, `maxLength: 128`
+
 ### Returns
 
 - `Decision object { answers, model, usage }`
@@ -484,13 +596,17 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
     Answers in question order. Any question can return a refusal instead of an answer; other questions can still receive answers. A refusal has `type: "refusal"` and the question's `name`, or `null` if it was unnamed.
 
+    `minItems: 0`, `maxItems: 2000`
+
     - `Predicate object { name, probability, type }`
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probability: number`
 
-      - `type: "predicate"`
+      - `type: "predicate" (default: "predicate")`
 
         The type of the object. Always `predicate`.
 
@@ -504,13 +620,19 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
         - `string`
 
+          `minLength: 0`
+
         - `boolean`
 
       - `confidence: number`
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probabilities: array of object { probability, value }`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `probability: number`
 
@@ -520,9 +642,11 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
           - `string`
 
+            `minLength: 0`
+
           - `boolean`
 
-      - `type: "choice"`
+      - `type: "choice" (default: "choice")`
 
         The type of the object. Always `choice`.
 
@@ -534,17 +658,25 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `name: string or null`
 
+        `minLength: 0`
+
       - `probabilities: array of object { label, probability, value }`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `label: string`
 
+          `minLength: 0`
+
         - `probability: number`
 
-        - `value: number`
+        - `value: integer`
+
+          `format: int64`
 
       - `score: number`
 
-      - `type: "score"`
+      - `type: "score" (default: "score")`
 
         The type of the object. Always `score`.
 
@@ -556,7 +688,9 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
       - `name: string or null`
 
-      - `type: "refusal"`
+        `minLength: 0`
+
+      - `type: "refusal" (default: "refusal")`
 
         The type of the object. Always `refusal`.
 
@@ -566,25 +700,39 @@ Use this endpoint to quickly answer classification or scoring questions about so
 
     The model used.
 
+    `minLength: 0`
+
   - `usage: object { input_tokens, input_tokens_details, output_tokens, 2 more }`
 
     Token usage for the request.
 
-    - `input_tokens: number`
+    - `input_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
     - `input_tokens_details: object { cache_write_tokens, cached_tokens }`
 
-      - `cache_write_tokens: number`
+      - `cache_write_tokens: integer`
 
-      - `cached_tokens: number`
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
-    - `output_tokens: number`
+      - `cached_tokens: integer`
+
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
+
+    - `output_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
     - `output_tokens_details: object { reasoning_tokens }`
 
-      - `reasoning_tokens: number`
+      - `reasoning_tokens: integer`
 
-    - `total_tokens: number`
+        `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
+
+    - `total_tokens: integer`
+
+      `format: int64`, `minimum: -2147483648`, `maximum: 2147483647`
 
 ### Example
 
@@ -604,7 +752,7 @@ curl https://api.openai.com/v1/decisions \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -650,7 +798,7 @@ curl https://api.openai.com/v1/decisions \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

@@ -10,6 +10,8 @@ Creates a webhook endpoint for the authenticated project.
 
   The event types that trigger deliveries to this endpoint.
 
+  `minItems: 1`
+
   - `"batch.completed"`
 
   - `"batch.failed"`
@@ -68,9 +70,13 @@ Creates a webhook endpoint for the authenticated project.
 
   A human-readable name for the webhook endpoint.
 
+  `minLength: 1`, `maxLength: 256`
+
 - `url: string`
 
   The HTTPS URL that receives webhook deliveries.
+
+  `pattern: ^https://`, `maxLength: 2048`
 
 ### Returns
 
@@ -80,9 +86,11 @@ Creates a webhook endpoint for the authenticated project.
 
     The unique ID of the webhook endpoint.
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp when the endpoint was created.
+
+    `format: unixtime`
 
   - `event_types: array of string`
 
@@ -92,7 +100,7 @@ Creates a webhook endpoint for the authenticated project.
 
     The human-readable name of the endpoint.
 
-  - `object: "webhook_endpoint"`
+  - `object: "webhook_endpoint" (default: "webhook_endpoint")`
 
     The object type, which is always webhook_endpoint.
 
@@ -110,9 +118,11 @@ Creates a webhook endpoint for the authenticated project.
 
     The HTTPS URL that receives webhook deliveries.
 
-  - `updated_at: optional number`
+  - `updated_at: optional integer`
 
     The Unix timestamp of the last endpoint configuration or signing-secret change. Initialized at creation; tests and unchanged updates do not advance it.
+
+    `format: unixtime`
 
 ### Example
 
@@ -129,7 +139,7 @@ curl https://api.openai.com/v1/webhook_endpoints \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

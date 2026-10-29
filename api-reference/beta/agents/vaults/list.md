@@ -10,15 +10,19 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
+
+  `format: int64`, `minimum: 1`, `maximum: 100`
 
 - `metadata: optional map[string]`
 
   Exact string matches supplied as `metadata[key]=value`. All supplied pairs must match. Up to 16 pairs, with keys from 1 to 64 characters and values up to 512 characters. Filtering is eventually consistent; metadata changes may take time to appear.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -44,6 +48,8 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   - `array of VaultStatus`
 
+    `minItems: 0`, `maxItems: 16384`
+
     - `"active"`
 
     - `"archived"`
@@ -54,13 +60,19 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The ID of the vault.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the vault was created.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
@@ -70,7 +82,9 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
     The human-readable name of the vault, if set.
 
-  - `object: "vault"`
+    `minLength: 0`
+
+  - `object: "vault" (default: "vault")`
 
     The object type. Always `vault`.
 
@@ -80,6 +94,8 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   The ID of the first resource in `data`, or `null` if the page is empty.
 
+  `minLength: 0`
+
 - `has_more: boolean`
 
   Whether there are more resources to retrieve after this page.
@@ -88,7 +104,9 @@ Lists vaults using ID-based pagination. See [vaults](https://developers.openai.c
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -102,7 +120,7 @@ curl https://api.openai.com/v1/vaults \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

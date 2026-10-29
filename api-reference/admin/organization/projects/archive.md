@@ -18,9 +18,11 @@ Archives a project in the organization. Archived projects cannot be used or upda
 
     The identifier, which can be referenced in API endpoints
 
-  - `created_at: number`
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the project was created.
+
+    `format: unixtime`
 
   - `object: "organization.project"`
 
@@ -28,9 +30,11 @@ Archives a project in the organization. Archived projects cannot be used or upda
 
     - `"organization.project"`
 
-  - `archived_at: optional number or null`
+  - `archived_at: optional integer or null`
 
     The Unix timestamp (in seconds) of when the project was archived or `null`.
+
+    `format: unixtime`
 
   - `external_key_id: optional string or null`
 
@@ -86,7 +90,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/archive \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -109,7 +113,7 @@ curl -X POST https://api.openai.com/v1/organization/projects/proj_abc/archive \
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

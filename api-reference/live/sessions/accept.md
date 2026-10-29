@@ -18,7 +18,11 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
     The Live model to use for the accepted call.
 
+    `minLength: 1`
+
     - `string`
+
+      `minLength: 1`
 
     - `"gpt-live-1"`
 
@@ -26,7 +30,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
       - `"gpt-live-1"`
 
-  - `type: "live"`
+  - `type: "live" (default: "live")`
 
     The session type. Always `live`.
 
@@ -116,6 +120,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `id: string`
 
+            `minLength: 1`, `maxLength: 128`
+
   - `delegation: optional ClientDelegation or Responses { responses, type, acknowledgement_delay_ms }  or Decisions { decisions, type, acknowledgement_delay_ms }  or null`
 
     Who handles tasks delegated by the Live model. Omitted or null selects your application; use `responses` or `decisions` to delegate to the corresponding API.
@@ -124,15 +130,17 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
       Delegate tasks to your application. The Live session emits delegation events that your backend handles.
 
-      - `type: "client"`
+      - `type: "client" (default: "client")`
 
         The delegation owner. Always `client` for tasks handled by your application.
 
         - `"client"`
 
-      - `acknowledgement_delay_ms: optional number`
+      - `acknowledgement_delay_ms: optional integer`
 
         Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations.
+
+        `minimum: 0`, `maximum: 800`
 
     - `Responses object { responses, type, acknowledgement_delay_ms }`
 
@@ -150,9 +158,11 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           Instructions for the delegated Responses model, separate from Live instructions. See [backend prompting](https://developers.openai.com/api/docs/guides/live-delegation#start-with-your-existing-backend-prompt).
 
-        - `max_output_tokens: optional number or null`
+        - `max_output_tokens: optional integer or null`
 
           Maximum number of output tokens for each delegated response.
+
+          `minimum: 16`
 
         - `parallel_tool_calls: optional boolean or null`
 
@@ -236,7 +246,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               The name of the function tool to call.
 
-            - `type: "function"`
+            - `type: "function" (default: "function")`
 
               The tool to call. Always `function`.
 
@@ -248,7 +258,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               The label of the MCP server to call.
 
-            - `type: "mcp"`
+            - `type: "mcp" (default: "mcp")`
 
               The tool to call. Always `mcp`.
 
@@ -260,7 +270,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `FileSearch object { type }`
 
-            - `type: "file_search"`
+            - `type: "file_search" (default: "file_search")`
 
               The tool to call. Always `file_search`.
 
@@ -268,7 +278,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `WebSearch object { type }`
 
-            - `type: "web_search"`
+            - `type: "web_search" (default: "web_search")`
 
               The tool to call. Always `web_search`.
 
@@ -276,7 +286,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `WebSearchPreview object { type }`
 
-            - `type: "web_search_preview"`
+            - `type: "web_search_preview" (default: "web_search_preview")`
 
               The tool to call. Always `web_search_preview`.
 
@@ -284,7 +294,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `ImageGeneration object { type }`
 
-            - `type: "image_generation"`
+            - `type: "image_generation" (default: "image_generation")`
 
               The tool to call. Always `image_generation`.
 
@@ -292,7 +302,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `Computer object { type }`
 
-            - `type: "computer"`
+            - `type: "computer" (default: "computer")`
 
               The tool to call. Always `computer`.
 
@@ -300,7 +310,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `CodeInterpreter object { type }`
 
-            - `type: "code_interpreter"`
+            - `type: "code_interpreter" (default: "code_interpreter")`
 
               The tool to call. Always `code_interpreter`.
 
@@ -308,7 +318,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `ProgrammaticToolCalling object { type }`
 
-            - `type: "programmatic_tool_calling"`
+            - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
               The tool to call. Always `programmatic_tool_calling`.
 
@@ -318,7 +328,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
             Forces the model to call the shell tool when a tool call is required.
 
-            - `type: "shell"`
+            - `type: "shell" (default: "shell")`
 
               The tool to call. Always `shell`.
 
@@ -330,7 +340,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               The name of the custom tool to call.
 
-            - `type: "custom"`
+            - `type: "custom" (default: "custom")`
 
               The tool to call. Always `custom`.
 
@@ -340,7 +350,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
             Forces the model to call the apply_patch tool when executing a tool call.
 
-            - `type: "apply_patch"`
+            - `type: "apply_patch" (default: "apply_patch")`
 
               The tool to call. Always `apply_patch`.
 
@@ -352,13 +362,15 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               The tools that the delegated Responses model may call.
 
+              `minItems: 1`, `maxItems: 128`
+
               - `Function object { name, type }`
 
                 - `name: string`
 
                   The name of the function tool to call.
 
-                - `type: "function"`
+                - `type: "function" (default: "function")`
 
                   The tool to call. Always `function`.
 
@@ -370,7 +382,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                   The label of the MCP server to call.
 
-                - `type: "mcp"`
+                - `type: "mcp" (default: "mcp")`
 
                   The tool to call. Always `mcp`.
 
@@ -382,7 +394,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `FileSearch object { type }`
 
-                - `type: "file_search"`
+                - `type: "file_search" (default: "file_search")`
 
                   The tool to call. Always `file_search`.
 
@@ -390,7 +402,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `WebSearch object { type }`
 
-                - `type: "web_search"`
+                - `type: "web_search" (default: "web_search")`
 
                   The tool to call. Always `web_search`.
 
@@ -398,7 +410,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `WebSearchPreview object { type }`
 
-                - `type: "web_search_preview"`
+                - `type: "web_search_preview" (default: "web_search_preview")`
 
                   The tool to call. Always `web_search_preview`.
 
@@ -406,7 +418,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `ImageGeneration object { type }`
 
-                - `type: "image_generation"`
+                - `type: "image_generation" (default: "image_generation")`
 
                   The tool to call. Always `image_generation`.
 
@@ -414,7 +426,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `Computer object { type }`
 
-                - `type: "computer"`
+                - `type: "computer" (default: "computer")`
 
                   The tool to call. Always `computer`.
 
@@ -422,7 +434,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `CodeInterpreter object { type }`
 
-                - `type: "code_interpreter"`
+                - `type: "code_interpreter" (default: "code_interpreter")`
 
                   The tool to call. Always `code_interpreter`.
 
@@ -430,7 +442,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `ProgrammaticToolCalling object { type }`
 
-                - `type: "programmatic_tool_calling"`
+                - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
                   The tool to call. Always `programmatic_tool_calling`.
 
@@ -440,7 +452,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                 Forces the model to call the shell tool when a tool call is required.
 
-                - `type: "shell"`
+                - `type: "shell" (default: "shell")`
 
                   The tool to call. Always `shell`.
 
@@ -452,7 +464,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                   The name of the custom tool to call.
 
-                - `type: "custom"`
+                - `type: "custom" (default: "custom")`
 
                   The tool to call. Always `custom`.
 
@@ -462,13 +474,13 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                 Forces the model to call the apply_patch tool when executing a tool call.
 
-                - `type: "apply_patch"`
+                - `type: "apply_patch" (default: "apply_patch")`
 
                   The tool to call. Always `apply_patch`.
 
                   - `"apply_patch"`
 
-            - `type: "allowed_tools"`
+            - `type: "allowed_tools" (default: "allowed_tools")`
 
               The tool choice type. Always `allowed_tools`.
 
@@ -496,7 +508,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               The name the delegated Responses model uses when calling this function.
 
-            - `type: "function"`
+            - `type: "function" (default: "function")`
 
               The tool type. Always `function`.
 
@@ -518,7 +530,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
             A web search tool available to the Live session’s Responses backend.
 
-            - `type: "web_search"`
+            - `type: "web_search" (default: "web_search")`
 
               The tool type. Always `web_search`.
 
@@ -526,13 +538,13 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `FileSearch object { type }`
 
-            - `type: "file_search"`
+            - `type: "file_search" (default: "file_search")`
 
               - `"file_search"`
 
           - `CodeInterpreter object { type }`
 
-            - `type: "code_interpreter"`
+            - `type: "code_interpreter" (default: "code_interpreter")`
 
               - `"code_interpreter"`
 
@@ -540,7 +552,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
             A Responses shell tool. Use a hosted container or return local shell results with response.item.create. Domain secrets are not supported.
 
-            - `type: "shell"`
+            - `type: "shell" (default: "shell")`
 
               - `"shell"`
 
@@ -548,7 +560,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `ContainerAuto object { type, file_ids, memory_limit, 2 more }`
 
-                - `type: "container_auto"`
+                - `type: "container_auto" (default: "container_auto")`
 
                   Automatically creates a container for this request
 
@@ -557,6 +569,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
                 - `file_ids: optional array of string or null`
 
                   An optional list of uploaded files to make available to your code.
+
+                  `maxItems: 50`
 
                 - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -576,7 +590,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                   - `Disabled object { type }`
 
-                    - `type: "disabled"`
+                    - `type: "disabled" (default: "disabled")`
 
                       Disable outbound network access. Always `disabled`.
 
@@ -588,7 +602,9 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                       A list of allowed domains when type is `allowlist`.
 
-                    - `type: "allowlist"`
+                      `minItems: 1`
+
+                    - `type: "allowlist" (default: "allowlist")`
 
                       Allow outbound network access only to specified domains. Always `allowlist`.
 
@@ -598,13 +614,17 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                   An optional list of skills referenced by id or inline data.
 
+                  `maxItems: 200`
+
                   - `SkillReference object { skill_id, type, version }`
 
                     - `skill_id: string`
 
                       The ID of the referenced skill.
 
-                    - `type: "skill_reference"`
+                      `minLength: 1`, `maxLength: 64`
+
+                    - `type: "skill_reference" (default: "skill_reference")`
 
                       References a skill created with the /v1/skills endpoint.
 
@@ -632,19 +652,21 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                         Base64-encoded skill zip bundle.
 
-                      - `media_type: "application/zip"`
+                        `minLength: 1`, `maxLength: 70254592`
+
+                      - `media_type: "application/zip" (default: "application/zip")`
 
                         The media type of the inline skill payload. Must be `application/zip`.
 
                         - `"application/zip"`
 
-                      - `type: "base64"`
+                      - `type: "base64" (default: "base64")`
 
                         The type of the inline skill source. Must be `base64`.
 
                         - `"base64"`
 
-                    - `type: "inline"`
+                    - `type: "inline" (default: "inline")`
 
                       Defines an inline skill for this request.
 
@@ -656,7 +678,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                   The ID of the referenced container.
 
-                - `type: "container_reference"`
+                - `type: "container_reference" (default: "container_reference")`
 
                   References a container created with the /v1/containers endpoint
 
@@ -664,7 +686,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `Local object { type, skills }`
 
-                - `type: "local"`
+                - `type: "local" (default: "local")`
 
                   Use a local computer environment.
 
@@ -673,6 +695,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
                 - `skills: optional array of object { description, name, path }  or null`
 
                   An optional list of skills.
+
+                  `maxItems: 200`
 
                   - `description: string`
 
@@ -688,61 +712,63 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
           - `ImageGeneration object { type }`
 
-            - `type: "image_generation"`
+            - `type: "image_generation" (default: "image_generation")`
 
               - `"image_generation"`
 
           - `Mcp object { type }`
 
-            - `type: "mcp"`
+            - `type: "mcp" (default: "mcp")`
 
               - `"mcp"`
 
           - `Custom object { type }`
 
-            - `type: "custom"`
+            - `type: "custom" (default: "custom")`
 
               - `"custom"`
 
           - `Namespace object { type }`
 
-            - `type: "namespace"`
+            - `type: "namespace" (default: "namespace")`
 
               - `"namespace"`
 
           - `ToolSearch object { type }`
 
-            - `type: "tool_search"`
+            - `type: "tool_search" (default: "tool_search")`
 
               - `"tool_search"`
 
           - `ProgrammaticToolCalling object { type }`
 
-            - `type: "programmatic_tool_calling"`
+            - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
               - `"programmatic_tool_calling"`
 
           - `Computer object { type }`
 
-            - `type: "computer"`
+            - `type: "computer" (default: "computer")`
 
               - `"computer"`
 
           - `ApplyPatch object { type }`
 
-            - `type: "apply_patch"`
+            - `type: "apply_patch" (default: "apply_patch")`
 
               - `"apply_patch"`
 
-      - `type: "responses"`
+      - `type: "responses" (default: "responses")`
 
         The delegation owner. Always `responses` for tasks handled by the Responses API.
 
         - `"responses"`
 
-      - `acknowledgement_delay_ms: optional number`
+      - `acknowledgement_delay_ms: optional integer`
 
         Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations.
+
+        `minimum: 0`, `maximum: 800`
 
     - `Decisions object { decisions, type, acknowledgement_delay_ms }`
 
@@ -750,13 +776,19 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         - `model: string`
 
+          `minLength: 1`
+
         - `questions: array of DecisionQuestion`
 
           Native Decision API questions evaluated together, in order.
 
+          `minItems: 1`, `maxItems: 64`
+
           - `Choice object { choices, instructions, type, name }`
 
             - `choices: array of DecisionChoiceOption`
+
+              `minItems: 2`, `maxItems: 255`
 
               - `value: string or boolean`
 
@@ -772,13 +804,17 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
 
+                `minItems: 1`
+
                 - `DecisionInputText object { text, type }`
 
                   - `text: string`
 
                     The text input to the model.
 
-                  - `type: "input_text"`
+                    `maxLength: 10485760`
+
+                  - `type: "input_text" (default: "input_text")`
 
                     - `"input_text"`
 
@@ -788,7 +824,9 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                     A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
 
-                  - `type: "input_image"`
+                    `pattern: ^(data:|https?://)`, `maxLength: 20971520`
+
+                  - `type: "input_image" (default: "input_image")`
 
                     - `"input_image"`
 
@@ -812,11 +850,11 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                     - `array of map[unknown]`
 
-                  - `type: "input_json"`
+                  - `type: "input_json" (default: "input_json")`
 
                     - `"input_json"`
 
-            - `type: "choice"`
+            - `type: "choice" (default: "choice")`
 
               - `"choice"`
 
@@ -830,6 +868,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
 
+                `minItems: 1`
+
                 - `DecisionInputText object { text, type }`
 
                 - `InputImage object { image_url, type, detail }`
@@ -838,7 +878,9 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                     A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
 
-                  - `type: "input_image"`
+                    `pattern: ^(data:|https?://)`, `maxLength: 20971520`
+
+                  - `type: "input_image" (default: "input_image")`
 
                     - `"input_image"`
 
@@ -862,11 +904,11 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                     - `array of map[unknown]`
 
-                  - `type: "input_json"`
+                  - `type: "input_json" (default: "input_json")`
 
                     - `"input_json"`
 
-            - `type: "predicate"`
+            - `type: "predicate" (default: "predicate")`
 
               - `"predicate"`
 
@@ -880,6 +922,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
               - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
 
+                `minItems: 1`
+
                 - `DecisionInputText object { text, type }`
 
                 - `InputImage object { image_url, type, detail }`
@@ -888,7 +932,9 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                     A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
 
-                  - `type: "input_image"`
+                    `pattern: ^(data:|https?://)`, `maxLength: 20971520`
+
+                  - `type: "input_image" (default: "input_image")`
 
                     - `"input_image"`
 
@@ -912,33 +958,39 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
                     - `array of map[unknown]`
 
-                  - `type: "input_json"`
+                  - `type: "input_json" (default: "input_json")`
 
                     - `"input_json"`
 
             - `levels: array of object { label, description }`
 
+              `minItems: 2`, `maxItems: 10`
+
               - `label: string`
 
               - `description: optional string`
 
-            - `type: "score"`
+            - `type: "score" (default: "score")`
 
               - `"score"`
 
             - `name: optional string`
 
-      - `type: "decisions"`
+      - `type: "decisions" (default: "decisions")`
 
         - `"decisions"`
 
-      - `acknowledgement_delay_ms: optional number`
+      - `acknowledgement_delay_ms: optional integer`
 
         Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400. Updates apply to subsequent delegations.
+
+        `minimum: 0`, `maximum: 800`
 
   - `input: optional array of InitialItem`
 
     Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default).
+
+    `maxItems: 128`
 
     - `Developer object { content, role, id, 2 more }`
 
@@ -948,17 +1000,19 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         The message content. Supply exactly one text part for the initial Live conversation history.
 
+        `minItems: 1`, `maxItems: 1`
+
         - `text: string`
 
           The message text to include in the Live session’s initial conversation history.
 
-        - `type: optional "input_text"`
+        - `type: optional "input_text" (default: "input_text")`
 
           The text content type. Always `input_text`.
 
           - `"input_text"`
 
-      - `role: "developer"`
+      - `role: "developer" (default: "developer")`
 
         The author of this history message. Always `developer`.
 
@@ -976,7 +1030,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         - `"completed"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The history item type. Always `message`.
 
@@ -990,17 +1044,19 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         The message content. Supply exactly one text part for the initial Live conversation history.
 
+        `minItems: 1`, `maxItems: 1`
+
         - `text: string`
 
           The message text to include in the Live session’s initial conversation history.
 
-        - `type: optional "input_text"`
+        - `type: optional "input_text" (default: "input_text")`
 
           The text content type. Always `input_text`.
 
           - `"input_text"`
 
-      - `role: "user"`
+      - `role: "user" (default: "user")`
 
         The author of this history message. Always `user`.
 
@@ -1018,7 +1074,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         - `"completed"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The history item type. Always `message`.
 
@@ -1032,6 +1088,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         The message content. Supply exactly one text part for the initial Live conversation history.
 
+        `minItems: 1`, `maxItems: 1`
+
         - `Text object { text, type }`
 
           Assistant text supplied as conversation history when starting a Live session.
@@ -1040,7 +1098,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
             The message text to include in the Live session’s initial conversation history.
 
-          - `type: optional "text"`
+          - `type: optional "text" (default: "text")`
 
             The text content type. Always `text`.
 
@@ -1054,13 +1112,13 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
             The message text to include in the Live session’s initial conversation history.
 
-          - `type: "output_text"`
+          - `type: "output_text" (default: "output_text")`
 
             The text content type. Always `output_text`.
 
             - `"output_text"`
 
-      - `role: "assistant"`
+      - `role: "assistant" (default: "assistant")`
 
         The author of this history message. Always `assistant`.
 
@@ -1078,7 +1136,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
         - `"completed"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The history item type. Always `message`.
 
@@ -1096,6 +1154,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
     At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers.
 
+    `maxItems: 2`
+
     - `decisions: object { questions }`
 
       Questions evaluated using the current transcript and the session's shared Decision items.
@@ -1103,6 +1163,8 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
       - `questions: array of DecisionQuestion`
 
         Native Decision API questions evaluated together, in order.
+
+        `minItems: 1`, `maxItems: 64`
 
         - `Choice object { choices, instructions, type, name }`
 
@@ -1116,7 +1178,7 @@ Accept an incoming SIP call. Supply session with type live, the model, and start
 
       - `"session.output_transcript.delta"`
 
-    - `type: "decisions"`
+    - `type: "decisions" (default: "decisions")`
 
       - `"decisions"`
 

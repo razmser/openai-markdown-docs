@@ -14,9 +14,11 @@ List skill versions for a skill.
 
   The skill version ID to start after.
 
-- `limit: optional number`
+- `limit: optional integer`
 
   Number of versions to retrieve.
+
+  `minimum: 0`, `maximum: 100`
 
 - `order: optional "asc" or "desc"`
 
@@ -38,9 +40,11 @@ List skill versions for a skill.
 
       Unique identifier for the skill version.
 
-    - `created_at: number`
+    - `created_at: integer`
 
       Unix timestamp (seconds) for when the version was created.
+
+      `format: unixtime`
 
     - `description: string`
 
@@ -50,7 +54,7 @@ List skill versions for a skill.
 
       Name of the skill version.
 
-    - `object: "skill.version"`
+    - `object: "skill.version" (default: "skill.version")`
 
       The object type, which is `skill.version`.
 
@@ -76,7 +80,7 @@ List skill versions for a skill.
 
     The ID of the last item in the list.
 
-  - `object: "list"`
+  - `object: "list" (default: "list")`
 
     The type of object returned, must be `list`.
 
@@ -89,7 +93,7 @@ curl https://api.openai.com/v1/skills/$SKILL_ID/versions \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

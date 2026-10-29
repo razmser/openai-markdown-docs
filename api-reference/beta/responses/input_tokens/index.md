@@ -41,9 +41,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A text input to the model, equivalent to a text input with the `user` role.
 
+    `maxLength: 10485760`
+
   - `array of BetaEasyInputMessage or Message { content, role, agent, 2 more }  or BetaResponseOutputMessage or 33 more`
 
     A list of one or many input items to the model, containing different content types.
+
+    `maxItems: 131072`
 
     - `BetaEasyInputMessage object { content, role, phase, type }`
 
@@ -75,7 +79,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The text input to the model.
 
-            - `type: "input_text"`
+            - `type: "input_text" (default: "input_text")`
 
               The type of the input item. Always `input_text`.
 
@@ -85,7 +89,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -115,7 +119,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               - `"original"`
 
-            - `type: "input_image"`
+            - `type: "input_image" (default: "input_image")`
 
               The type of the input item. Always `input_image`.
 
@@ -129,11 +133,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
+              `format: uri`
+
             - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
               Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -151,7 +157,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             A file input to the model.
 
-            - `type: "input_file"`
+            - `type: "input_file" (default: "input_file")`
 
               The type of the input item. Always `input_file`.
 
@@ -179,6 +185,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The URL of the file to be sent to the model.
 
+              `format: uri`
+
             - `filename: optional string`
 
               The name of the file to be sent to the model.
@@ -187,7 +195,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -308,11 +316,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The filename of the file cited.
 
-              - `index: number`
+              - `index: integer`
 
                 The index in the output text at which to insert the file citation.
 
-              - `type: "file_citation"`
+              - `type: "file_citation" (default: "file_citation")`
 
                 The type of the file citation. Always `file_citation`.
 
@@ -322,11 +330,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               A citation for a web resource used to generate a model response.
 
-              - `end_index: number`
+              - `end_index: integer`
 
                 The index of the last character of the URL citation in the message.
 
-              - `start_index: number`
+              - `start_index: integer`
 
                 The index of the first character of the URL citation in the message.
 
@@ -334,7 +342,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The title of the web resource.
 
-              - `type: "url_citation"`
+              - `type: "url_citation" (default: "url_citation")`
 
                 The type of the URL citation. Always `url_citation`.
 
@@ -344,6 +352,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The URL of the web resource.
 
+                `format: uri`
+
             - `ContainerFileCitation object { container_id, end_index, file_id, 3 more }`
 
               A citation for a container file used to generate a model response.
@@ -352,7 +362,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The ID of the container file.
 
-              - `end_index: number`
+              - `end_index: integer`
 
                 The index of the last character of the container file citation in the message.
 
@@ -364,11 +374,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The filename of the container file cited.
 
-              - `start_index: number`
+              - `start_index: integer`
 
                 The index of the first character of the container file citation in the message.
 
-              - `type: "container_file_citation"`
+              - `type: "container_file_citation" (default: "container_file_citation")`
 
                 The type of the container file citation. Always `container_file_citation`.
 
@@ -382,7 +392,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The ID of the file.
 
-              - `index: number`
+              - `index: integer`
 
                 The index of the file in the list of files.
 
@@ -412,7 +422,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The text output from the model.
 
-          - `type: "output_text"`
+          - `type: "output_text" (default: "output_text")`
 
             The type of the output text. Always `output_text`.
 
@@ -426,7 +436,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The refusal explanation from the model.
 
-          - `type: "refusal"`
+          - `type: "refusal" (default: "refusal")`
 
             The type of the refusal. Always `refusal`.
 
@@ -529,6 +539,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           - `string`
 
+            `maxLength: 512`
+
           - `number`
 
           - `boolean`
@@ -544,6 +556,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `score: optional number`
 
           The relevance score of the file - a value between 0 and 1.
+
+          `format: float`
 
         - `text: optional string`
 
@@ -589,7 +603,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"incomplete"`
 
-      - `type: "computer_call"`
+      - `type: "computer_call" (default: "computer_call")`
 
         The type of the computer call. Always `computer_call`.
 
@@ -617,17 +631,17 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"forward"`
 
-          - `type: "click"`
+          - `type: "click" (default: "click")`
 
             Specifies the event type. For a click action, this property is always `click`.
 
             - `"click"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the click occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the click occurred.
 
@@ -643,17 +657,17 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The keys being held while double-clicking.
 
-          - `type: "double_click"`
+          - `type: "double_click" (default: "double_click")`
 
             Specifies the event type. For a double click action, this property is always set to `double_click`.
 
             - `"double_click"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the double click occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the double click occurred.
 
@@ -672,15 +686,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             ]
             ```
 
-            - `x: number`
+            - `x: integer`
 
               The x-coordinate.
 
-            - `y: number`
+            - `y: integer`
 
               The y-coordinate.
 
-          - `type: "drag"`
+          - `type: "drag" (default: "drag")`
 
             Specifies the event type. For a drag action, this property is always set to `drag`.
 
@@ -698,7 +712,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The combination of keys the model is requesting to be pressed. This is an array of strings, each representing a key.
 
-          - `type: "keypress"`
+          - `type: "keypress" (default: "keypress")`
 
             Specifies the event type. For a keypress action, this property is always set to `keypress`.
 
@@ -708,17 +722,17 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A mouse move action.
 
-          - `type: "move"`
+          - `type: "move" (default: "move")`
 
             Specifies the event type. For a move action, this property is always set to `move`.
 
             - `"move"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate to move to.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate to move to.
 
@@ -730,7 +744,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A screenshot action.
 
-          - `type: "screenshot"`
+          - `type: "screenshot" (default: "screenshot")`
 
             Specifies the event type. For a screenshot action, this property is always set to `screenshot`.
 
@@ -740,25 +754,25 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A scroll action.
 
-          - `scroll_x: number`
+          - `scroll_x: integer`
 
             The horizontal scroll distance.
 
-          - `scroll_y: number`
+          - `scroll_y: integer`
 
             The vertical scroll distance.
 
-          - `type: "scroll"`
+          - `type: "scroll" (default: "scroll")`
 
             Specifies the event type. For a scroll action, this property is always set to `scroll`.
 
             - `"scroll"`
 
-          - `x: number`
+          - `x: integer`
 
             The x-coordinate where the scroll occurred.
 
-          - `y: number`
+          - `y: integer`
 
             The y-coordinate where the scroll occurred.
 
@@ -774,7 +788,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The text to type.
 
-          - `type: "type"`
+          - `type: "type" (default: "type")`
 
             Specifies the event type. For a type action, this property is always set to `type`.
 
@@ -784,7 +798,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A wait action.
 
-          - `type: "wait"`
+          - `type: "wait" (default: "wait")`
 
             Specifies the event type. For a wait action, this property is always set to `wait`.
 
@@ -847,11 +861,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The ID of the computer tool call that produced the output.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: BetaResponseComputerToolCallOutputScreenshot`
 
         A computer screenshot image used with the computer use tool.
 
-        - `type: "computer_screenshot"`
+        - `type: "computer_screenshot" (default: "computer_screenshot")`
 
           Specifies the event type. For a computer screenshot, this property is
           always set to `computer_screenshot`.
@@ -866,7 +882,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The URL of the screenshot image.
 
-      - `type: "computer_call_output"`
+          `format: uri`
+
+      - `type: "computer_call_output" (default: "computer_call_output")`
 
         The type of the computer tool call output. Always `computer_call_output`.
 
@@ -976,6 +994,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The URL of the source.
 
+              `format: uri`
+
         - `OpenPage object { type, url }`
 
           Action type "open_page" - Opens a specific URL from search results.
@@ -989,6 +1009,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `url: optional string or null`
 
             The URL opened by the model.
+
+            `format: uri`
 
         - `FindInPage object { pattern, type, url }`
 
@@ -1007,6 +1029,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `url: optional string or null`
 
             The URL of the page searched for the pattern, when available.
+
+            `format: uri`
 
       - `agent: optional object { agent_name }  or null`
 
@@ -1061,7 +1085,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -1071,7 +1095,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -1102,6 +1126,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A JSON string of the output of the function tool call.
 
+          `maxLength: 10485760`
+
         - `array of BetaResponseInputTextContent or BetaResponseInputImageContent or BetaResponseInputFileContent`
 
           An array of content outputs (text, image, file) for the function tool call.
@@ -1114,7 +1140,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The text input to the model.
 
-            - `type: "input_text"`
+              `maxLength: 10485760`
+
+            - `type: "input_text" (default: "input_text")`
 
               The type of the input item. Always `input_text`.
 
@@ -1124,7 +1152,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -1142,7 +1170,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             An image input to the model. Learn about [image inputs](https://developers.openai.com/api/docs/guides/images-vision)
 
-            - `type: "input_image"`
+            - `type: "input_image" (default: "input_image")`
 
               The type of the input item. Always `input_image`.
 
@@ -1160,11 +1188,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
+              `maxLength: 20971520`, `format: uri`
+
             - `prompt_cache_breakpoint: optional object { mode, ttl }  or null`
 
               Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -1182,7 +1212,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             A file input to the model.
 
-            - `type: "input_file"`
+            - `type: "input_file" (default: "input_file")`
 
               The type of the input item. Always `input_file`.
 
@@ -1202,6 +1232,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The base64-encoded data of the file to be sent to the model.
 
+              `maxLength: 73400320`
+
             - `file_id: optional string or null`
 
               The ID of the file to be sent to the model.
@@ -1209,6 +1241,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             - `file_url: optional string or null`
 
               The URL of the file to be sent to the model.
+
+              `format: uri`
 
             - `filename: optional string or null`
 
@@ -1218,7 +1252,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-              - `mode: "explicit"`
+              - `mode: "explicit" (default: "explicit")`
 
                 The breakpoint mode. Always `explicit`.
 
@@ -1232,7 +1266,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 - `"12h"`
 
-      - `type: "function_call_output"`
+      - `type: "function_call_output" (default: "function_call_output")`
 
         The type of the function tool call output. Always `function_call_output`.
 
@@ -1254,13 +1288,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the function tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `caller: optional Direct { type }  or Program { caller_id, type }  or null`
 
         The execution context that produced this tool call.
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -1272,7 +1308,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -1282,9 +1320,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The name of the tool that produced the output.
 
+        `minLength: 1`, `maxLength: 128`
+
       - `namespace: optional string or null`
 
         The namespace of the tool that produced the output.
+
+        `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 64`
 
       - `status: optional "in_progress" or "completed" or "incomplete" or null`
 
@@ -1324,7 +1366,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Opaque encrypted content.
 
-          - `type: "encrypted_content"`
+            `maxLength: 10485760`
+
+          - `type: "encrypted_content" (default: "encrypted_content")`
 
             The type of the input item. Always `encrypted_content`.
 
@@ -1334,7 +1378,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The destination agent identity.
 
-      - `type: "agent_message"`
+      - `type: "agent_message" (default: "agent_message")`
 
         The item type. Always `agent_message`.
 
@@ -1378,7 +1422,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID linking this call to its output.
 
-      - `type: "multi_agent_call"`
+        `minLength: 1`, `maxLength: 64`
+
+      - `type: "multi_agent_call" (default: "multi_agent_call")`
 
         The item type. Always `multi_agent_call`.
 
@@ -1418,6 +1464,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the multi-agent call.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: array of object { text, type, annotations }`
 
         Text output returned by the multi-agent action.
@@ -1426,7 +1474,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The text content.
 
-        - `type: "output_text"`
+          `maxLength: 10485760`
+
+        - `type: "output_text" (default: "output_text")`
 
           The content type. Always `output_text`.
 
@@ -1446,11 +1496,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The filename of the file cited.
 
-            - `index: number`
+            - `index: integer`
 
               The index of the file in the list of files.
 
-            - `type: "file_citation"`
+              `minimum: 0`
+
+            - `type: "file_citation" (default: "file_citation")`
 
               The citation type. Always `file_citation`.
 
@@ -1458,19 +1510,23 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           - `URLCitation object { end_index, start_index, title, 2 more }`
 
-            - `end_index: number`
+            - `end_index: integer`
 
               The index of the last character of the citation in the message.
 
-            - `start_index: number`
+              `minimum: 0`
+
+            - `start_index: integer`
 
               The index of the first character of the citation in the message.
+
+              `minimum: 0`
 
             - `title: string`
 
               The title of the cited resource.
 
-            - `type: "url_citation"`
+            - `type: "url_citation" (default: "url_citation")`
 
               The citation type. Always `url_citation`.
 
@@ -1480,15 +1536,19 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The URL of the cited resource.
 
+              `format: uri`
+
           - `ContainerFileCitation object { container_id, end_index, file_id, 3 more }`
 
             - `container_id: string`
 
               The ID of the container.
 
-            - `end_index: number`
+            - `end_index: integer`
 
               The index of the last character of the citation in the message.
+
+              `minimum: 0`
 
             - `file_id: string`
 
@@ -1498,17 +1558,19 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The filename of the container file cited.
 
-            - `start_index: number`
+            - `start_index: integer`
 
               The index of the first character of the citation in the message.
 
-            - `type: "container_file_citation"`
+              `minimum: 0`
+
+            - `type: "container_file_citation" (default: "container_file_citation")`
 
               The citation type. Always `container_file_citation`.
 
               - `"container_file_citation"`
 
-      - `type: "multi_agent_call_output"`
+      - `type: "multi_agent_call_output" (default: "multi_agent_call_output")`
 
         The item type. Always `multi_agent_call_output`.
 
@@ -1532,7 +1594,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The arguments supplied to the tool search call.
 
-      - `type: "tool_search_call"`
+      - `type: "tool_search_call" (default: "tool_search_call")`
 
         The item type. Always `tool_search_call`.
 
@@ -1553,6 +1615,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       - `call_id: optional string or null`
 
         The unique ID of the tool search call generated by the model.
+
+        `minLength: 1`, `maxLength: 64`
 
       - `execution: optional "server" or "client"`
 
@@ -1594,7 +1658,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Whether strict parameter validation is enforced for this function tool.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The type of the function tool. Always `function`.
 
@@ -1626,7 +1690,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The type of the file search tool. Always `file_search`.
 
@@ -1648,7 +1712,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The key to compare against the value.
 
-              - `type: "eq" or "ne" or "gt" or 5 more`
+              - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
                 Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -1697,7 +1761,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Combine multiple filters using `and` or `or`.
 
-          - `max_num_results: optional number`
+          - `max_num_results: optional integer`
 
             The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -1733,7 +1797,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The type of the computer tool. Always `computer`.
 
@@ -1743,11 +1807,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `display_height: number`
+          - `display_height: integer`
 
             The height of the computer display.
 
-          - `display_width: number`
+          - `display_width: integer`
 
             The width of the computer display.
 
@@ -1765,7 +1829,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"browser"`
 
-          - `type: "computer_use_preview"`
+          - `type: "computer_use_preview" (default: "computer_use_preview")`
 
             The type of the computer use tool. Always `computer_use_preview`.
 
@@ -1776,7 +1840,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           Search the Internet for sources related to the prompt. Learn more about the
           [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search" or "web_search_2025_08_26"`
+          - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
             The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -1784,7 +1848,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"web_search_2025_08_26"`
 
-          - `external_web_access: optional boolean`
+          - `external_web_access: optional boolean (default: true)`
 
             Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -1792,14 +1856,14 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Filters for the search.
 
-            - `allowed_domains: optional array of string or null`
+            - `allowed_domains: optional array of string or null (default: [])`
 
               Allowed domains for the search. If not provided, all domains are allowed.
               Subdomains of the provided domains are allowed as well.
 
               Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-          - `search_context_size: optional "low" or "medium" or "high"`
+          - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
             High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -1831,7 +1895,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-            - `type: optional "approximate"`
+            - `type: optional "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -1855,6 +1919,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -1934,7 +2000,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             Optional HTTP headers to send to the MCP server. Use for authentication
             or other purposes.
 
-          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
             Specify which of the MCP server's tools require approval.
 
@@ -1991,10 +2057,14 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             The URL for the MCP server. One of `server_url`, `connector_id`, or
             `tunnel_id` must be provided.
 
+            `format: uri`
+
           - `tunnel_id: optional string`
 
             The Secure MCP Tunnel ID to use instead of a direct server URL. One of
             `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+            `pattern: ^tunnel_[a-z0-9]{32}$`
 
         - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -2014,7 +2084,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-              - `type: "auto"`
+              - `type: "auto" (default: "auto")`
 
                 Always `auto`.
 
@@ -2023,6 +2093,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -2042,7 +2114,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 - `BetaContainerNetworkPolicyDisabled object { type }`
 
-                  - `type: "disabled"`
+                  - `type: "disabled" (default: "disabled")`
 
                     Disable outbound network access. Always `disabled`.
 
@@ -2054,7 +2126,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                     A list of allowed domains when type is `allowlist`.
 
-                  - `type: "allowlist"`
+                    `minItems: 1`
+
+                  - `type: "allowlist" (default: "allowlist")`
 
                     Allow outbound network access only to specified domains. Always `allowlist`.
 
@@ -2064,17 +2138,25 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                     Optional domain-scoped secrets for allowlisted domains.
 
+                    `minItems: 1`
+
                     - `domain: string`
 
                       The domain associated with the secret.
+
+                      `minLength: 1`
 
                     - `name: string`
 
                       The name of the secret to inject for the domain.
 
+                      `minLength: 1`
+
                     - `value: string`
 
                       The secret value to inject for the domain.
+
+                      `minLength: 1`, `maxLength: 10485760`
 
           - `type: "code_interpreter"`
 
@@ -2086,13 +2168,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The type of the tool. Always `programmatic_tool_calling`.
 
@@ -2118,7 +2202,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"auto"`
 
-          - `background: optional "transparent" or "opaque" or "auto"`
+          - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
             Set the background of the generated image. One of `transparent`, `opaque`,
             or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -2199,7 +2283,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               - `"gpt-image-2.5-flare-2026-09-08"`
 
-          - `moderation: optional "auto" or "low"`
+          - `moderation: optional "auto" or "low" (default: "auto")`
 
             Moderation level for the generated image. Default: `auto`.
 
@@ -2207,11 +2291,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"low"`
 
-          - `output_compression: optional number`
+          - `output_compression: optional integer (default: 100)`
 
             Compression level for the output image. Default: 100.
 
-          - `output_format: optional "png" or "webp" or "jpeg"`
+            `minimum: 0`, `maximum: 100`
+
+          - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
             The output format of the generated image. One of `png`, `webp`, or
             `jpeg`. Default: `png`.
@@ -2222,11 +2308,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"jpeg"`
 
-          - `partial_images: optional number`
+          - `partial_images: optional integer (default: 0)`
 
             Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-          - `quality: optional "low" or "medium" or "high" or 3 more`
+            `minimum: 0`, `maximum: 3`
+
+          - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
             The quality of the generated image. The GPT image models support `low`,
             `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -2245,7 +2333,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"auto"`
 
-          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
             The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -2267,7 +2355,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that allows the model to execute shell commands in a local environment.
 
-          - `type: "local_shell"`
+          - `type: "local_shell" (default: "local_shell")`
 
             The type of the local shell tool. Always `local_shell`.
 
@@ -2277,7 +2365,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that allows the model to execute shell commands.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The type of the shell tool. Always `shell`.
 
@@ -2287,6 +2375,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
@@ -2295,7 +2385,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `BetaContainerAuto object { type, file_ids, memory_limit, 2 more }`
 
-              - `type: "container_auto"`
+              - `type: "container_auto" (default: "container_auto")`
 
                 Automatically creates a container for this request
 
@@ -2304,6 +2394,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -2329,13 +2421,17 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 An optional list of skills referenced by id or inline data.
 
+                `maxItems: 200`
+
                 - `BetaSkillReference object { skill_id, type, version }`
 
                   - `skill_id: string`
 
                     The ID of the referenced skill.
 
-                  - `type: "skill_reference"`
+                    `minLength: 1`, `maxLength: 64`
+
+                  - `type: "skill_reference" (default: "skill_reference")`
 
                     References a skill created with the /v1/skills endpoint.
 
@@ -2363,19 +2459,21 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                       Base64-encoded skill zip bundle.
 
-                    - `media_type: "application/zip"`
+                      `minLength: 1`, `maxLength: 70254592`
+
+                    - `media_type: "application/zip" (default: "application/zip")`
 
                       The media type of the inline skill payload. Must be `application/zip`.
 
                       - `"application/zip"`
 
-                    - `type: "base64"`
+                    - `type: "base64" (default: "base64")`
 
                       The type of the inline skill source. Must be `base64`.
 
                       - `"base64"`
 
-                  - `type: "inline"`
+                  - `type: "inline" (default: "inline")`
 
                     Defines an inline skill for this request.
 
@@ -2383,7 +2481,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `BetaLocalEnvironment object { type, skills }`
 
-              - `type: "local"`
+              - `type: "local" (default: "local")`
 
                 Use a local computer environment.
 
@@ -2392,6 +2490,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
               - `skills: optional array of BetaLocalSkill`
 
                 An optional list of skills.
+
+                `maxItems: 200`
 
                 - `description: string`
 
@@ -2411,7 +2511,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The ID of the referenced container.
 
-              - `type: "container_reference"`
+              - `type: "container_reference" (default: "container_reference")`
 
                 References a container created with the /v1/containers endpoint
 
@@ -2425,7 +2525,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The name of the custom tool, used to identify it in tool calls.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The type of the custom tool. Always `custom`.
 
@@ -2434,6 +2534,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -2459,7 +2561,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Unconstrained free-form text.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 Unconstrained text format. Always `text`.
 
@@ -2481,7 +2583,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 - `"regex"`
 
-              - `type: "grammar"`
+              - `type: "grammar" (default: "grammar")`
 
                 Grammar format. Always `grammar`.
 
@@ -2499,9 +2601,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The namespace name used in tool calls (for example, `crm`).
 
+            `minLength: 1`
+
           - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
             The function/custom tools loaded inside this namespace.
+
+            `minItems: 1`
 
             - `Function object { name, type, allowed_callers, 6 more }`
 
@@ -2509,13 +2615,17 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The name of the loaded function tool.
 
-              - `type: "function"`
+                `pattern: ^(?![\s\S]*[\r\n])[a-zA-Z0-9_.-]+$`, `minLength: 1`, `maxLength: 128`
+
+              - `type: "function" (default: "function")`
 
                 - `"function"`
 
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -2549,7 +2659,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The name of the custom tool, used to identify it in tool calls.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The type of the custom tool. Always `custom`.
 
@@ -2558,6 +2668,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -2583,7 +2695,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                   Unconstrained free-form text.
 
-                  - `type: "text"`
+                  - `type: "text" (default: "text")`
 
                     Unconstrained text format. Always `text`.
 
@@ -2605,13 +2717,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                     - `"regex"`
 
-                  - `type: "grammar"`
+                  - `type: "grammar" (default: "grammar")`
 
                     Grammar format. Always `grammar`.
 
                     - `"grammar"`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             The type of the tool. Always `namespace`.
 
@@ -2621,7 +2733,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Hosted or BYOT tool search configuration for deferred tools.
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             The type of the tool. Always `tool_search`.
 
@@ -2647,7 +2759,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+          - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
             The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -2675,7 +2787,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-            - `type: "approximate"`
+            - `type: "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -2701,7 +2813,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Allows the assistant to create, delete, or update files using unified diffs.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The type of the tool. Always `apply_patch`.
 
@@ -2711,11 +2823,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
-      - `type: "tool_search_output"`
+      - `type: "tool_search_output" (default: "tool_search_output")`
 
         The item type. Always `tool_search_output`.
 
@@ -2737,6 +2851,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the tool search call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `execution: optional "server" or "client"`
 
         Whether tool search was executed by the server or by the client.
@@ -2757,7 +2873,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     - `AdditionalTools object { role, tools, type, 2 more }`
 
-      - `role: "developer"`
+      - `role: "developer" (default: "developer")`
 
         The role that provided the additional tools. Only `developer` is supported.
 
@@ -2783,7 +2899,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Whether strict parameter validation is enforced for this function tool.
 
-          - `type: "function"`
+          - `type: "function" (default: "function")`
 
             The type of the function tool. Always `function`.
 
@@ -2815,7 +2931,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-          - `type: "file_search"`
+          - `type: "file_search" (default: "file_search")`
 
             The type of the file search tool. Always `file_search`.
 
@@ -2837,7 +2953,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The key to compare against the value.
 
-              - `type: "eq" or "ne" or "gt" or 5 more`
+              - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
                 Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -2886,7 +3002,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Combine multiple filters using `and` or `or`.
 
-          - `max_num_results: optional number`
+          - `max_num_results: optional integer`
 
             The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -2922,7 +3038,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `type: "computer"`
+          - `type: "computer" (default: "computer")`
 
             The type of the computer tool. Always `computer`.
 
@@ -2932,11 +3048,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-          - `display_height: number`
+          - `display_height: integer`
 
             The height of the computer display.
 
-          - `display_width: number`
+          - `display_width: integer`
 
             The width of the computer display.
 
@@ -2954,7 +3070,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"browser"`
 
-          - `type: "computer_use_preview"`
+          - `type: "computer_use_preview" (default: "computer_use_preview")`
 
             The type of the computer use tool. Always `computer_use_preview`.
 
@@ -2965,7 +3081,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           Search the Internet for sources related to the prompt. Learn more about the
           [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search" or "web_search_2025_08_26"`
+          - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
             The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -2973,7 +3089,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"web_search_2025_08_26"`
 
-          - `external_web_access: optional boolean`
+          - `external_web_access: optional boolean (default: true)`
 
             Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -2981,14 +3097,14 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Filters for the search.
 
-            - `allowed_domains: optional array of string or null`
+            - `allowed_domains: optional array of string or null (default: [])`
 
               Allowed domains for the search. If not provided, all domains are allowed.
               Subdomains of the provided domains are allowed as well.
 
               Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-          - `search_context_size: optional "low" or "medium" or "high"`
+          - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
             High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -3020,7 +3136,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-            - `type: optional "approximate"`
+            - `type: optional "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -3044,6 +3160,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -3123,7 +3241,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             Optional HTTP headers to send to the MCP server. Use for authentication
             or other purposes.
 
-          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+          - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
             Specify which of the MCP server's tools require approval.
 
@@ -3180,10 +3298,14 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
             The URL for the MCP server. One of `server_url`, `connector_id`, or
             `tunnel_id` must be provided.
 
+            `format: uri`
+
           - `tunnel_id: optional string`
 
             The Secure MCP Tunnel ID to use instead of a direct server URL. One of
             `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+            `pattern: ^tunnel_[a-z0-9]{32}$`
 
         - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -3203,7 +3325,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-              - `type: "auto"`
+              - `type: "auto" (default: "auto")`
 
                 Always `auto`.
 
@@ -3212,6 +3334,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
               - `file_ids: optional array of string`
 
                 An optional list of uploaded files to make available to your code.
+
+                `maxItems: 50`
 
               - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -3243,13 +3367,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
         - `ProgrammaticToolCalling object { type }`
 
-          - `type: "programmatic_tool_calling"`
+          - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
             The type of the tool. Always `programmatic_tool_calling`.
 
@@ -3275,7 +3401,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"auto"`
 
-          - `background: optional "transparent" or "opaque" or "auto"`
+          - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
             Set the background of the generated image. One of `transparent`, `opaque`,
             or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -3356,7 +3482,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               - `"gpt-image-2.5-flare-2026-09-08"`
 
-          - `moderation: optional "auto" or "low"`
+          - `moderation: optional "auto" or "low" (default: "auto")`
 
             Moderation level for the generated image. Default: `auto`.
 
@@ -3364,11 +3490,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"low"`
 
-          - `output_compression: optional number`
+          - `output_compression: optional integer (default: 100)`
 
             Compression level for the output image. Default: 100.
 
-          - `output_format: optional "png" or "webp" or "jpeg"`
+            `minimum: 0`, `maximum: 100`
+
+          - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
             The output format of the generated image. One of `png`, `webp`, or
             `jpeg`. Default: `png`.
@@ -3379,11 +3507,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"jpeg"`
 
-          - `partial_images: optional number`
+          - `partial_images: optional integer (default: 0)`
 
             Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-          - `quality: optional "low" or "medium" or "high" or 3 more`
+            `minimum: 0`, `maximum: 3`
+
+          - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
             The quality of the generated image. The GPT image models support `low`,
             `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -3402,7 +3532,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             - `"auto"`
 
-          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+          - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
             The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -3424,7 +3554,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that allows the model to execute shell commands in a local environment.
 
-          - `type: "local_shell"`
+          - `type: "local_shell" (default: "local_shell")`
 
             The type of the local shell tool. Always `local_shell`.
 
@@ -3434,7 +3564,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A tool that allows the model to execute shell commands.
 
-          - `type: "shell"`
+          - `type: "shell" (default: "shell")`
 
             The type of the shell tool. Always `shell`.
 
@@ -3443,6 +3573,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -3464,7 +3596,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The name of the custom tool, used to identify it in tool calls.
 
-          - `type: "custom"`
+          - `type: "custom" (default: "custom")`
 
             The type of the custom tool. Always `custom`.
 
@@ -3473,6 +3605,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
             The tool invocation context(s).
+
+            `minItems: 1`
 
             - `"direct"`
 
@@ -3498,7 +3632,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               Unconstrained free-form text.
 
-              - `type: "text"`
+              - `type: "text" (default: "text")`
 
                 Unconstrained text format. Always `text`.
 
@@ -3520,7 +3654,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 - `"regex"`
 
-              - `type: "grammar"`
+              - `type: "grammar" (default: "grammar")`
 
                 Grammar format. Always `grammar`.
 
@@ -3538,21 +3672,29 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The namespace name used in tool calls (for example, `crm`).
 
+            `minLength: 1`
+
           - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
             The function/custom tools available inside this namespace.
+
+            `minItems: 1`
 
             - `Function object { name, type, allowed_callers, 6 more }`
 
               - `name: string`
 
-              - `type: "function"`
+                `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 128`
+
+              - `type: "function" (default: "function")`
 
                 - `"function"`
 
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -3586,7 +3728,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                 The name of the custom tool, used to identify it in tool calls.
 
-              - `type: "custom"`
+              - `type: "custom" (default: "custom")`
 
                 The type of the custom tool. Always `custom`.
 
@@ -3595,6 +3737,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
               - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
                 The tool invocation context(s).
+
+                `minItems: 1`
 
                 - `"direct"`
 
@@ -3620,7 +3764,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                   Unconstrained free-form text.
 
-                  - `type: "text"`
+                  - `type: "text" (default: "text")`
 
                     Unconstrained text format. Always `text`.
 
@@ -3642,13 +3786,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
                     - `"regex"`
 
-                  - `type: "grammar"`
+                  - `type: "grammar" (default: "grammar")`
 
                     Grammar format. Always `grammar`.
 
                     - `"grammar"`
 
-          - `type: "namespace"`
+          - `type: "namespace" (default: "namespace")`
 
             The type of the tool. Always `namespace`.
 
@@ -3658,7 +3802,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Hosted or BYOT tool search configuration for deferred tools.
 
-          - `type: "tool_search"`
+          - `type: "tool_search" (default: "tool_search")`
 
             The type of the tool. Always `tool_search`.
 
@@ -3684,7 +3828,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-          - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+          - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
             The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -3712,7 +3856,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-            - `type: "approximate"`
+            - `type: "approximate" (default: "approximate")`
 
               The type of location approximation. Always `approximate`.
 
@@ -3738,7 +3882,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Allows the assistant to create, delete, or update files using unified diffs.
 
-          - `type: "apply_patch"`
+          - `type: "apply_patch" (default: "apply_patch")`
 
             The type of the tool. Always `apply_patch`.
 
@@ -3748,11 +3892,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The tool invocation context(s).
 
+            `minItems: 1`
+
             - `"direct"`
 
             - `"programmatic"`
 
-      - `type: "additional_tools"`
+      - `type: "additional_tools" (default: "additional_tools")`
 
         The item type. Always `additional_tools`.
 
@@ -3776,7 +3922,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       remains in effect for subsequent responses until it is replaced by another
       configuration update.
 
-      - `type: "configuration_update"`
+      - `type: "configuration_update" (default: "configuration_update")`
 
         The item type. Always `configuration_update`.
 
@@ -3798,7 +3944,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         Updates to reasoning configuration. Only effort is supported.
 
-        - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+        - `effort: optional "none" or "minimal" or "low" or 4 more or null (default: "medium")`
 
           The reasoning effort to use for subsequent responses until another
           configuration update replaces it.
@@ -3836,7 +3982,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           A summary of the reasoning output from the model so far.
 
-        - `type: "summary_text"`
+        - `type: "summary_text" (default: "summary_text")`
 
           The type of the object. Always `summary_text`.
 
@@ -3864,7 +4010,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The reasoning text from the model.
 
-        - `type: "reasoning_text"`
+        - `type: "reasoning_text" (default: "reasoning_text")`
 
           The type of the reasoning text. Always `reasoning_text`.
 
@@ -3901,7 +4047,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The encrypted content of the compaction summary.
 
-      - `type: "compaction"`
+        `maxLength: 104857600`
+
+      - `type: "compaction" (default: "compaction")`
 
         The type of the item. Always `compaction`.
 
@@ -4090,7 +4238,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The logs output from the code interpreter.
 
-          - `type: "logs"`
+          - `type: "logs" (default: "logs")`
 
             The type of the output. Always `logs`.
 
@@ -4100,7 +4248,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The image output from the code interpreter.
 
-          - `type: "image"`
+          - `type: "image" (default: "image")`
 
             The type of the output. Always `image`.
 
@@ -4109,6 +4257,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
           - `url: string`
 
             The URL of the image output from the code interpreter.
+
+            `format: uri`
 
       - `status: "in_progress" or "completed" or "incomplete" or 2 more`
 
@@ -4124,7 +4274,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"failed"`
 
-      - `type: "code_interpreter_call"`
+      - `type: "code_interpreter_call" (default: "code_interpreter_call")`
 
         The type of the code interpreter tool call. Always `code_interpreter_call`.
 
@@ -4158,13 +4308,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Environment variables to set for the command.
 
-        - `type: "exec"`
+        - `type: "exec" (default: "exec")`
 
           The type of the local shell action. Always `exec`.
 
           - `"exec"`
 
-        - `timeout_ms: optional number or null`
+        - `timeout_ms: optional integer or null`
 
           Optional timeout in milliseconds for the command.
 
@@ -4252,11 +4402,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Ordered shell commands for the execution environment to run.
 
-        - `max_output_length: optional number or null`
+        - `max_output_length: optional integer or null`
 
           Maximum number of UTF-8 characters to capture from combined stdout and stderr output.
 
-        - `timeout_ms: optional number or null`
+        - `timeout_ms: optional integer or null`
 
           Maximum wall-clock time in milliseconds to allow the shell commands to run.
 
@@ -4264,7 +4414,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the shell tool call generated by the model.
 
-      - `type: "shell_call"`
+        `minLength: 1`, `maxLength: 64`
+
+      - `type: "shell_call" (default: "shell_call")`
 
         The type of the item. Always `shell_call`.
 
@@ -4288,7 +4440,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4300,7 +4452,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4332,6 +4486,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the shell tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `output: array of BetaResponseFunctionShellCallOutputContent`
 
         Captured chunks of stdout and stderr output, along with their associated outcomes.
@@ -4344,7 +4500,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Indicates that the shell call exceeded its configured time limit.
 
-            - `type: "timeout"`
+            - `type: "timeout" (default: "timeout")`
 
               The outcome type. Always `timeout`.
 
@@ -4354,11 +4510,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Indicates that the shell commands finished and returned an exit code.
 
-            - `exit_code: number`
+            - `exit_code: integer`
 
               The exit code returned by the shell process.
 
-            - `type: "exit"`
+            - `type: "exit" (default: "exit")`
 
               The outcome type. Always `exit`.
 
@@ -4368,11 +4524,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           Captured stderr output for the shell call.
 
+          `maxLength: 10485760`
+
         - `stdout: string`
 
           Captured stdout output for the shell call.
 
-      - `type: "shell_call_output"`
+          `maxLength: 10485760`
+
+      - `type: "shell_call_output" (default: "shell_call_output")`
 
         The type of the item. Always `shell_call_output`.
 
@@ -4396,7 +4556,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4408,13 +4568,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
             - `"program"`
 
-      - `max_output_length: optional number or null`
+      - `max_output_length: optional integer or null`
 
         The maximum number of UTF-8 characters captured for this shell call's combined output.
 
@@ -4436,6 +4598,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the apply patch tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `operation: CreateFile { diff, path, type }  or DeleteFile { path, type }  or UpdateFile { diff, path, type }`
 
         The specific create, delete, or update instruction for the apply_patch tool call.
@@ -4448,11 +4612,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Unified diff content to apply when creating the file.
 
+            `maxLength: 10485760`
+
           - `path: string`
 
             Path of the file to create relative to the workspace root.
 
-          - `type: "create_file"`
+            `minLength: 1`
+
+          - `type: "create_file" (default: "create_file")`
 
             The operation type. Always `create_file`.
 
@@ -4466,7 +4634,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Path of the file to delete relative to the workspace root.
 
-          - `type: "delete_file"`
+            `minLength: 1`
+
+          - `type: "delete_file" (default: "delete_file")`
 
             The operation type. Always `delete_file`.
 
@@ -4480,11 +4650,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Unified diff content to apply to the existing file.
 
+            `maxLength: 10485760`
+
           - `path: string`
 
             Path of the file to update relative to the workspace root.
 
-          - `type: "update_file"`
+            `minLength: 1`
+
+          - `type: "update_file" (default: "update_file")`
 
             The operation type. Always `update_file`.
 
@@ -4498,7 +4672,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"completed"`
 
-      - `type: "apply_patch_call"`
+      - `type: "apply_patch_call" (default: "apply_patch_call")`
 
         The type of the item. Always `apply_patch_call`.
 
@@ -4522,7 +4696,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4534,7 +4708,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4548,6 +4724,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The unique ID of the apply patch tool call generated by the model.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `status: "completed" or "failed"`
 
         The status of the apply patch tool call output. One of `completed` or `failed`.
@@ -4556,7 +4734,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"failed"`
 
-      - `type: "apply_patch_call_output"`
+      - `type: "apply_patch_call_output" (default: "apply_patch_call_output")`
 
         The type of the item. Always `apply_patch_call_output`.
 
@@ -4580,7 +4758,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4592,7 +4770,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4601,6 +4781,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       - `output: optional string or null`
 
         Optional human-readable log text from the apply patch tool (e.g., patch results or errors).
+
+        `maxLength: 10485760`
 
     - `McpListTools object { id, server_label, tools, 3 more }`
 
@@ -4765,11 +4947,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `McpProtocolError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
-          - `type: "mcp_protocol_error"`
+          - `type: "mcp_protocol_error" (default: "mcp_protocol_error")`
 
             - `"mcp_protocol_error"`
 
@@ -4777,17 +4959,17 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           - `content: unknown`
 
-          - `type: "mcp_tool_execution_error"`
+          - `type: "mcp_tool_execution_error" (default: "mcp_tool_execution_error")`
 
             - `"mcp_tool_execution_error"`
 
         - `HTTPError object { code, message, type }`
 
-          - `code: number`
+          - `code: integer`
 
           - `message: string`
 
-          - `type: "http_error"`
+          - `type: "http_error" (default: "http_error")`
 
             - `"http_error"`
 
@@ -4866,7 +5048,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             The caller type. Always `direct`.
 
@@ -4878,7 +5060,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+            `minLength: 1`, `maxLength: 64`
+
+          - `type: "program" (default: "program")`
 
             The caller type. Always `program`.
 
@@ -4928,7 +5112,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `Direct object { type }`
 
-          - `type: "direct"`
+          - `type: "direct" (default: "direct")`
 
             - `"direct"`
 
@@ -4938,7 +5122,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             The call ID of the program item that produced this tool call.
 
-          - `type: "program"`
+          - `type: "program" (default: "program")`
 
             - `"program"`
 
@@ -4950,7 +5134,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       Compacts the current context. Must be the final input item.
 
-      - `type: "compaction_trigger"`
+      - `type: "compaction_trigger" (default: "compaction_trigger")`
 
         The type of the item. Always `compaction_trigger`.
 
@@ -4984,7 +5168,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The canonical name of the agent that produced this item.
 
-      - `type: optional "item_reference" or null`
+      - `type: optional "item_reference" or null (default: "item_reference")`
 
         The type of item to reference. Always `item_reference`.
 
@@ -5000,15 +5184,21 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The stable call ID of the program item.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `code: string`
 
         The JavaScript source executed by programmatic tool calling.
+
+        `maxLength: 10485760`
 
       - `fingerprint: string`
 
         Opaque program replay fingerprint that must be round-tripped.
 
-      - `type: "program"`
+        `maxLength: 10485760`
+
+      - `type: "program" (default: "program")`
 
         The item type. Always `program`.
 
@@ -5032,9 +5222,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The call ID of the program item.
 
+        `minLength: 1`, `maxLength: 64`
+
       - `result: string`
 
         The result produced by the program item.
+
+        `maxLength: 10485760`
 
       - `status: "completed" or "incomplete"`
 
@@ -5044,7 +5238,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"incomplete"`
 
-      - `type: "program_output"`
+      - `type: "program_output" (default: "program_output")`
 
         The item type. Always `program_output`.
 
@@ -5109,7 +5303,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     - `"all_turns"`
 
-  - `effort: optional "none" or "minimal" or "low" or 4 more or null`
+  - `effort: optional "none" or "minimal" or "low" or 4 more or null (default: "medium")`
 
     Constrains effort on reasoning for reasoning models. Currently supported
     values are `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`.
@@ -5239,7 +5433,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         A description of what the response format is for, used by the model to
         determine how to respond in the format.
 
-      - `strict: optional boolean or null`
+      - `strict: optional boolean or null (default: false)`
 
         Whether to enable strict schema adherence when generating the output.
         If set to true, the model will always follow the exact schema defined
@@ -5260,7 +5454,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"json_object"`
 
-  - `verbosity: optional "low" or "medium" or "high" or null`
+  - `verbosity: optional "low" or "medium" or "high" or null (default: "medium")`
 
     Constrains the verbosity of the model's response. Lower values will result in
     more concise responses, while higher values will result in more verbose responses.
@@ -5415,7 +5609,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
   - `BetaSpecificProgrammaticToolCallingParam object { type }`
 
-    - `type: "programmatic_tool_calling"`
+    - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
       The tool to call. Always `programmatic_tool_calling`.
 
@@ -5425,7 +5619,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     Forces the model to call the apply_patch tool when executing a tool call.
 
-    - `type: "apply_patch"`
+    - `type: "apply_patch" (default: "apply_patch")`
 
       The tool to call. Always `apply_patch`.
 
@@ -5435,7 +5629,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     Forces the model to call the shell tool when a tool call is required.
 
-    - `type: "shell"`
+    - `type: "shell" (default: "shell")`
 
       The tool to call. Always `shell`.
 
@@ -5461,7 +5655,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       Whether strict parameter validation is enforced for this function tool.
 
-    - `type: "function"`
+    - `type: "function" (default: "function")`
 
       The type of the function tool. Always `function`.
 
@@ -5493,7 +5687,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A tool that searches for relevant content from uploaded files. Learn more about the [file search tool](https://developers.openai.com/api/docs/guides/tools-file-search).
 
-    - `type: "file_search"`
+    - `type: "file_search" (default: "file_search")`
 
       The type of the file search tool. Always `file_search`.
 
@@ -5515,7 +5709,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The key to compare against the value.
 
-        - `type: "eq" or "ne" or "gt" or 5 more`
+        - `type: "eq" or "ne" or "gt" or 5 more (default: "eq")`
 
           Specifies the comparison operator: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`.
 
@@ -5564,7 +5758,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         Combine multiple filters using `and` or `or`.
 
-    - `max_num_results: optional number`
+    - `max_num_results: optional integer`
 
       The maximum number of results to return. This number should be between 1 and 50 inclusive.
 
@@ -5600,7 +5794,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-    - `type: "computer"`
+    - `type: "computer" (default: "computer")`
 
       The type of the computer tool. Always `computer`.
 
@@ -5610,11 +5804,11 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A tool that controls a virtual computer. Learn more about the [computer tool](https://developers.openai.com/api/docs/guides/tools-computer-use).
 
-    - `display_height: number`
+    - `display_height: integer`
 
       The height of the computer display.
 
-    - `display_width: number`
+    - `display_width: integer`
 
       The width of the computer display.
 
@@ -5632,7 +5826,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"browser"`
 
-    - `type: "computer_use_preview"`
+    - `type: "computer_use_preview" (default: "computer_use_preview")`
 
       The type of the computer use tool. Always `computer_use_preview`.
 
@@ -5643,7 +5837,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
     Search the Internet for sources related to the prompt. Learn more about the
     [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-    - `type: "web_search" or "web_search_2025_08_26"`
+    - `type: "web_search" or "web_search_2025_08_26" (default: "web_search")`
 
       The type of the web search tool. One of `web_search` or `web_search_2025_08_26`.
 
@@ -5651,7 +5845,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"web_search_2025_08_26"`
 
-    - `external_web_access: optional boolean`
+    - `external_web_access: optional boolean (default: true)`
 
       Allow live internet access for web search. Defaults to true when omitted. When false, the web search tool runs in offline/cache-only mode and will not fetch new external content.
 
@@ -5659,14 +5853,14 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       Filters for the search.
 
-      - `allowed_domains: optional array of string or null`
+      - `allowed_domains: optional array of string or null (default: [])`
 
         Allowed domains for the search. If not provided, all domains are allowed.
         Subdomains of the provided domains are allowed as well.
 
         Example: `["pubmed.ncbi.nlm.nih.gov"]`
 
-    - `search_context_size: optional "low" or "medium" or "high"`
+    - `search_context_size: optional "low" or "medium" or "high" (default: "medium")`
 
       High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default.
 
@@ -5698,7 +5892,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         The [IANA timezone](https://timeapi.io/documentation/iana-timezones) of the user, e.g. `America/Los_Angeles`.
 
-      - `type: optional "approximate"`
+      - `type: optional "approximate" (default: "approximate")`
 
         The type of location approximation. Always `approximate`.
 
@@ -5722,6 +5916,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
     - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
       The tool invocation context(s).
+
+      `minItems: 1`
 
       - `"direct"`
 
@@ -5801,7 +5997,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       Optional HTTP headers to send to the MCP server. Use for authentication
       or other purposes.
 
-    - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null`
+    - `require_approval: optional McpToolApprovalFilter { always, never }  or "always" or "never" or null (default: "always")`
 
       Specify which of the MCP server's tools require approval.
 
@@ -5858,10 +6054,14 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
       The URL for the MCP server. One of `server_url`, `connector_id`, or
       `tunnel_id` must be provided.
 
+      `format: uri`
+
     - `tunnel_id: optional string`
 
       The Secure MCP Tunnel ID to use instead of a direct server URL. One of
       `server_url`, `connector_id`, or `tunnel_id` must be provided.
+
+      `pattern: ^tunnel_[a-z0-9]{32}$`
 
   - `CodeInterpreter object { container, type, allowed_callers }`
 
@@ -5881,7 +6081,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         Configuration for a code interpreter container. Optionally specify the IDs of the files to run the code on.
 
-        - `type: "auto"`
+        - `type: "auto" (default: "auto")`
 
           Always `auto`.
 
@@ -5890,6 +6090,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `file_ids: optional array of string`
 
           An optional list of uploaded files to make available to your code.
+
+          `maxItems: 50`
 
         - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -5921,13 +6123,15 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       The tool invocation context(s).
 
+      `minItems: 1`
+
       - `"direct"`
 
       - `"programmatic"`
 
   - `ProgrammaticToolCalling object { type }`
 
-    - `type: "programmatic_tool_calling"`
+    - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
       The type of the tool. Always `programmatic_tool_calling`.
 
@@ -5953,7 +6157,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"auto"`
 
-    - `background: optional "transparent" or "opaque" or "auto"`
+    - `background: optional "transparent" or "opaque" or "auto" (default: "auto")`
 
       Set the background of the generated image. One of `transparent`, `opaque`,
       or `auto`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`, including
@@ -6034,7 +6238,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         - `"gpt-image-2.5-flare-2026-09-08"`
 
-    - `moderation: optional "auto" or "low"`
+    - `moderation: optional "auto" or "low" (default: "auto")`
 
       Moderation level for the generated image. Default: `auto`.
 
@@ -6042,11 +6246,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"low"`
 
-    - `output_compression: optional number`
+    - `output_compression: optional integer (default: 100)`
 
       Compression level for the output image. Default: 100.
 
-    - `output_format: optional "png" or "webp" or "jpeg"`
+      `minimum: 0`, `maximum: 100`
+
+    - `output_format: optional "png" or "webp" or "jpeg" (default: "png")`
 
       The output format of the generated image. One of `png`, `webp`, or
       `jpeg`. Default: `png`.
@@ -6057,11 +6263,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"jpeg"`
 
-    - `partial_images: optional number`
+    - `partial_images: optional integer (default: 0)`
 
       Number of partial images to generate in streaming mode, from 0 (default value) to 3.
 
-    - `quality: optional "low" or "medium" or "high" or 3 more`
+      `minimum: 0`, `maximum: 3`
+
+    - `quality: optional "low" or "medium" or "high" or 3 more (default: "auto")`
 
       The quality of the generated image. The GPT image models support `low`,
       `medium`, and `high`. `gpt-image-2.5-sunburst` and `gpt-image-2.5-flare`,
@@ -6080,7 +6288,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       - `"auto"`
 
-    - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto"`
+    - `size: optional string or "1024x1024" or "1024x1536" or "1536x1024" or "auto" (default: "auto")`
 
       The size of the generated images. For `gpt-image-2`, `gpt-image-2-2026-04-21`, `gpt-image-2.5-sunburst`, `gpt-image-2.5-sunburst-2026-09-08`, `gpt-image-2.5-flare`, and `gpt-image-2.5-flare-2026-09-08`, arbitrary resolutions are supported as `WIDTHxHEIGHT` strings, for example `1536x864`. Width and height must both be divisible by 16 and the requested aspect ratio must be between 1:3 and 3:1. Resolutions above `2560x1440` are experimental, and the maximum supported resolution is `3840x2160`. The requested size must also satisfy the model's current pixel and edge limits. The standard sizes `1024x1024`, `1536x1024`, and `1024x1536` are supported by the GPT image models; `auto` is supported for models that allow automatic sizing.
 
@@ -6102,7 +6310,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A tool that allows the model to execute shell commands in a local environment.
 
-    - `type: "local_shell"`
+    - `type: "local_shell" (default: "local_shell")`
 
       The type of the local shell tool. Always `local_shell`.
 
@@ -6112,7 +6320,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     A tool that allows the model to execute shell commands.
 
-    - `type: "shell"`
+    - `type: "shell" (default: "shell")`
 
       The type of the shell tool. Always `shell`.
 
@@ -6121,6 +6329,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
     - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
       The tool invocation context(s).
+
+      `minItems: 1`
 
       - `"direct"`
 
@@ -6142,7 +6352,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       The name of the custom tool, used to identify it in tool calls.
 
-    - `type: "custom"`
+    - `type: "custom" (default: "custom")`
 
       The type of the custom tool. Always `custom`.
 
@@ -6151,6 +6361,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
     - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
       The tool invocation context(s).
+
+      `minItems: 1`
 
       - `"direct"`
 
@@ -6176,7 +6388,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
         Unconstrained free-form text.
 
-        - `type: "text"`
+        - `type: "text" (default: "text")`
 
           Unconstrained text format. Always `text`.
 
@@ -6198,7 +6410,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           - `"regex"`
 
-        - `type: "grammar"`
+        - `type: "grammar" (default: "grammar")`
 
           Grammar format. Always `grammar`.
 
@@ -6216,21 +6428,29 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       The namespace name used in tool calls (for example, `crm`).
 
+      `minLength: 1`
+
     - `tools: array of Function { name, type, allowed_callers, 6 more }  or Custom { name, type, allowed_callers, 4 more }`
 
       The function/custom tools available inside this namespace.
+
+      `minItems: 1`
 
       - `Function object { name, type, allowed_callers, 6 more }`
 
         - `name: string`
 
-        - `type: "function"`
+          `pattern: ^[a-zA-Z0-9_-]+$`, `minLength: 1`, `maxLength: 128`
+
+        - `type: "function" (default: "function")`
 
           - `"function"`
 
         - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
           The tool invocation context(s).
+
+          `minItems: 1`
 
           - `"direct"`
 
@@ -6264,7 +6484,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
           The name of the custom tool, used to identify it in tool calls.
 
-        - `type: "custom"`
+        - `type: "custom" (default: "custom")`
 
           The type of the custom tool. Always `custom`.
 
@@ -6273,6 +6493,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
         - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
           The tool invocation context(s).
+
+          `minItems: 1`
 
           - `"direct"`
 
@@ -6298,7 +6520,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
             Unconstrained free-form text.
 
-            - `type: "text"`
+            - `type: "text" (default: "text")`
 
               Unconstrained text format. Always `text`.
 
@@ -6320,13 +6542,13 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
               - `"regex"`
 
-            - `type: "grammar"`
+            - `type: "grammar" (default: "grammar")`
 
               Grammar format. Always `grammar`.
 
               - `"grammar"`
 
-    - `type: "namespace"`
+    - `type: "namespace" (default: "namespace")`
 
       The type of the tool. Always `namespace`.
 
@@ -6336,7 +6558,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     Hosted or BYOT tool search configuration for deferred tools.
 
-    - `type: "tool_search"`
+    - `type: "tool_search" (default: "tool_search")`
 
       The type of the tool. Always `tool_search`.
 
@@ -6362,7 +6584,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     This tool searches the web for relevant results to use in a response. Learn more about the [web search tool](https://developers.openai.com/api/docs/guides/tools-web-search).
 
-    - `type: "web_search_preview" or "web_search_preview_2025_03_11"`
+    - `type: "web_search_preview" or "web_search_preview_2025_03_11" (default: "web_search_preview")`
 
       The type of the web search tool. One of `web_search_preview` or `web_search_preview_2025_03_11`.
 
@@ -6390,7 +6612,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
       The approximate location of the user. If omitted or null, defaults to the United States. To avoid this fallback, pass `{"type": "approximate"}` without location fields. To localize results, provide the relevant location fields.
 
-      - `type: "approximate"`
+      - `type: "approximate" (default: "approximate")`
 
         The type of location approximation. Always `approximate`.
 
@@ -6416,7 +6638,7 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
     Allows the assistant to create, delete, or update files using unified diffs.
 
-    - `type: "apply_patch"`
+    - `type: "apply_patch" (default: "apply_patch")`
 
       The type of the tool. Always `apply_patch`.
 
@@ -6425,6 +6647,8 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
     - `allowed_callers: optional array of "direct" or "programmatic" or null`
 
       The tool invocation context(s).
+
+      `minItems: 1`
 
       - `"direct"`
 
@@ -6440,9 +6664,9 @@ Returns an object with `object` set to `response.input_tokens` and an `input_tok
 
 ### Returns
 
-- `input_tokens: number`
+- `input_tokens: integer`
 
-- `object: "response.input_tokens"`
+- `object: "response.input_tokens" (default: "response.input_tokens")`
 
   - `"response.input_tokens"`
 
@@ -6454,7 +6678,7 @@ curl https://api.openai.com/v1/responses/input_tokens \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -6475,7 +6699,7 @@ curl -X POST https://api.openai.com/v1/responses/input_tokens \
     }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -6490,8 +6714,8 @@ curl -X POST https://api.openai.com/v1/responses/input_tokens \
 
 - `InputTokenCountResponse object { input_tokens, object }`
 
-  - `input_tokens: number`
+  - `input_tokens: integer`
 
-  - `object: "response.input_tokens"`
+  - `object: "response.input_tokens" (default: "response.input_tokens")`
 
     - `"response.input_tokens"`

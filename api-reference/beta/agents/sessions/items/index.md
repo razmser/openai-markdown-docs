@@ -10,17 +10,23 @@ Lists items produced by the session's root agent, including its interactions wit
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Query Parameters
 
 - `after: optional string`
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `format: int64`, `minimum: 1`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -38,6 +44,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `AgentSessionMessage object { id, content, phase, 4 more }`
 
     A user or assistant message recorded in a session.
@@ -46,9 +54,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of this item, or null for legacy user messages whose ID was not recorded.
 
+      `minLength: 0`
+
     - `content: array of AgentSessionMessageContent`
 
       The content of the message. User messages contain input text or images; assistant messages contain output text.
+
+      `minItems: 0`, `maxItems: 2000`
 
       - `InputText object { text, type }`
 
@@ -58,7 +70,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The text supplied by the user.
 
-        - `type: "input_text"`
+          `minLength: 0`
+
+        - `type: "input_text" (default: "input_text")`
 
           The type of the object. Always `input_text`.
 
@@ -72,7 +86,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The URL of the image supplied by the user, which may be a base64-encoded data URL.
 
-        - `type: "input_image"`
+          `minLength: 0`
+
+        - `type: "input_image" (default: "input_image")`
 
           The type of the object. Always `input_image`.
 
@@ -86,7 +102,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The text produced by the assistant.
 
-        - `type: "output_text"`
+          `minLength: 0`
+
+        - `type: "output_text" (default: "output_text")`
 
           The type of the object. Always `output_text`.
 
@@ -132,7 +150,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "message"`
+      `minLength: 0`
+
+    - `type: "message" (default: "message")`
 
       The item type. Always `message`.
 
@@ -146,6 +166,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the reasoning item.
 
+      `minLength: 0`
+
     - `status: AgentOutputItemStatus or null`
 
       The status of the reasoning item.
@@ -154,11 +176,15 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The reasoning summaries produced by the agent.
 
+      `minItems: 0`, `maxItems: 2000`
+
       - `text: string`
 
         The reasoning summary text.
 
-      - `type: "summary_text"`
+        `minLength: 0`
+
+      - `type: "summary_text" (default: "summary_text")`
 
         The content type. Always `summary_text`.
 
@@ -168,7 +194,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "reasoning"`
+      `minLength: 0`
+
+    - `type: "reasoning" (default: "reasoning")`
 
       The item type. Always `reasoning`.
 
@@ -182,6 +210,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the function call item.
 
+      `minLength: 0`
+
     - `arguments: unknown`
 
       The arguments to pass to the function.
@@ -190,9 +220,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID used to submit the function result.
 
+      `minLength: 0`
+
     - `name: string`
 
       The name of the function to call.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -218,7 +252,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "function_call"`
+      `minLength: 0`
+
+    - `type: "function_call" (default: "function_call")`
 
       The item type. Always `function_call`.
 
@@ -232,13 +268,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the function call output item.
 
+      `minLength: 0`
+
     - `call_id: string`
 
       The ID of the function call that produced this output.
 
+      `minLength: 0`
+
     - `error: string or null`
 
       The error message, if the call failed.
+
+      `minLength: 0`
 
     - `output: AgentFunctionCallOutput or null`
 
@@ -246,7 +288,11 @@ Lists items produced by the session's root agent, including its interactions wit
 
       - `string`
 
+        `minLength: 0`
+
       - `array of InputContent`
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `InputText object { text, type }`
 
@@ -256,7 +302,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
             The text supplied to the agent.
 
-          - `type: "input_text"`
+            `minLength: 0`
+
+          - `type: "input_text" (default: "input_text")`
 
             The type of the object. Always `input_text`.
 
@@ -270,7 +318,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
             The URL of the image supplied to the agent, which may be a base64-encoded data URL.
 
-          - `type: "input_image"`
+            `minLength: 0`
+
+          - `type: "input_image" (default: "input_image")`
 
             The type of the object. Always `input_image`.
 
@@ -284,7 +334,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "function_call_output"`
+      `minLength: 0`
+
+    - `type: "function_call_output" (default: "function_call_output")`
 
       The item type. Always `function_call_output`.
 
@@ -298,9 +350,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the message.
 
+      `minLength: 0`
+
     - `content: array of AgentContent`
 
       The content exchanged between the agents.
+
+      `minItems: 0`, `maxItems: 2000`
 
       - `OutputText object { text, type }`
 
@@ -310,7 +366,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The text produced by the agent.
 
-        - `type: "output_text"`
+          `minLength: 0`
+
+        - `type: "output_text" (default: "output_text")`
 
           The content type. Always `output_text`.
 
@@ -324,7 +382,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The encrypted content payload.
 
-        - `type: "encrypted_content"`
+          `minLength: 0`
+
+        - `type: "encrypted_content" (default: "encrypted_content")`
 
           The content type. Always `encrypted_content`.
 
@@ -334,15 +394,21 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID or name of the receiving agent.
 
+      `minLength: 0`
+
     - `sender_agent_id: string`
 
       The ID or name of the sending agent.
+
+      `minLength: 0`
 
     - `turn_id: string`
 
       The ID of the turn that contains this item.
 
-    - `type: "agent_message"`
+      `minLength: 0`
+
+    - `type: "agent_message" (default: "agent_message")`
 
       The item type. Always `agent_message`.
 
@@ -356,6 +422,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the MCP call item.
 
+      `minLength: 0`
+
     - `arguments: unknown`
 
       The arguments passed to the MCP tool.
@@ -368,6 +436,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The name of the MCP tool.
 
+      `minLength: 0`
+
     - `output: unknown`
 
       The output returned by the MCP tool, if any.
@@ -375,6 +445,8 @@ Lists items produced by the session's root agent, including its interactions wit
     - `server_label: string`
 
       The label of the MCP server.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -384,7 +456,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "mcp_call"`
+      `minLength: 0`
+
+    - `type: "mcp_call" (default: "mcp_call")`
 
       The item type. Always `mcp_call`.
 
@@ -398,6 +472,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the activity item.
 
+      `minLength: 0`
+
     - `output: object { image_url, type }  or null`
 
       The last screenshot emitted by the model. Null when screenshot inclusion is disabled or the call emitted no screenshot.
@@ -406,7 +482,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
         The complete JPEG image as a base64 data URL.
 
-      - `type: "computer_screenshot"`
+        `minLength: 0`
+
+      - `type: "computer_screenshot" (default: "computer_screenshot")`
 
         The content type. Always `computer_screenshot`.
 
@@ -420,11 +498,15 @@ Lists items produced by the session's root agent, including its interactions wit
 
       A model-generated description of the activity, when available.
 
+      `minLength: 0`
+
     - `turn_id: string`
 
       The ID of the turn that contains this item.
 
-    - `type: "computer_use_call"`
+      `minLength: 0`
+
+    - `type: "computer_use_call" (default: "computer_use_call")`
 
       The item type. Always `computer_use_call`.
 
@@ -438,6 +520,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The stable history item ID.
 
+      `minLength: 0`
+
     - `request: object { credential_origin, fields, options, 2 more }`
 
       A registered form awaiting the application's response.
@@ -446,17 +530,25 @@ Lists items produced by the session's root agent, including its interactions wit
 
         The registered form or frame origin where values will be entered.
 
+        `minLength: 0`
+
       - `fields: array of object { id, label, required, type }`
 
         Controls to render. All submitted values are sensitive.
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `id: string`
 
           The field ID to submit as field_id in a fields entry.
 
+          `minLength: 0`
+
         - `label: string`
 
           The label to display beside the control.
+
+          `minLength: 0`
 
         - `required: boolean`
 
@@ -466,27 +558,39 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The rendering type, such as email, password, or text.
 
+          `minLength: 0`
+
       - `options: array of object { id, field_ids, label }`
 
         Sign-in methods. Empty for a plain form.
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `id: string`
 
           The option ID to submit as selected_option.
 
+          `minLength: 0`
+
         - `field_ids: array of string`
 
           IDs from the registered fields that this method accepts.
+
+          `minItems: 0`, `maxItems: 2000`
 
         - `label: string`
 
           The method label to display.
 
+          `minLength: 0`
+
       - `reason: string or null`
 
         Why the agent needs the user to sign in.
 
-      - `type: "browser_authentication"`
+        `minLength: 0`
+
+      - `type: "browser_authentication" (default: "browser_authentication")`
 
         The type of the object. Always `browser_authentication`.
 
@@ -494,9 +598,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
     - `request_id: string`
 
+      `minLength: 0`
+
     - `turn_id: string`
 
-    - `type: "computer_use_approval_request"`
+      `minLength: 0`
+
+    - `type: "computer_use_approval_request" (default: "computer_use_approval_request")`
 
       The item type. Always computer_use_approval_request.
 
@@ -510,9 +618,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The stable history item ID.
 
+      `minLength: 0`
+
     - `request_id: string`
 
       The registered request answered by this item.
+
+      `minLength: 0`
 
     - `response: Submit { action, selected_option, type }  or Cancel { action, type }`
 
@@ -520,7 +632,7 @@ Lists items produced by the session's root agent, including its interactions wit
 
       - `Submit object { action, selected_option, type }`
 
-        - `action: "submit"`
+        - `action: "submit" (default: "submit")`
 
           - `"submit"`
 
@@ -528,17 +640,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The chosen sign-in method, or null when no options were offered.
 
-        - `type: "browser_authentication"`
+          `minLength: 0`
+
+        - `type: "browser_authentication" (default: "browser_authentication")`
 
           - `"browser_authentication"`
 
       - `Cancel object { action, type }`
 
-        - `action: "cancel"`
+        - `action: "cancel" (default: "cancel")`
 
           - `"cancel"`
 
-        - `type: "browser_authentication"`
+        - `type: "browser_authentication" (default: "browser_authentication")`
 
           - `"browser_authentication"`
 
@@ -546,7 +660,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "computer_use_approval_request_result"`
+      `minLength: 0`
+
+    - `type: "computer_use_approval_request_result" (default: "computer_use_approval_request_result")`
 
       - `"computer_use_approval_request_result"`
 
@@ -557,6 +673,8 @@ Lists items produced by the session's root agent, including its interactions wit
     - `id: string`
 
       The ID of the web search call.
+
+      `minLength: 0`
 
     - `action: WebSearchAction or null`
 
@@ -570,11 +688,15 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The search queries, when multiple queries were used.
 
+          `minItems: 0`, `maxItems: 2000`
+
         - `query: string or null`
 
           The search query, when a single query was used.
 
-        - `type: "search"`
+          `minLength: 0`
+
+        - `type: "search" (default: "search")`
 
           The type of the object. Always `search`.
 
@@ -584,7 +706,7 @@ Lists items produced by the session's root agent, including its interactions wit
 
         Opens a web page.
 
-        - `type: "open_page"`
+        - `type: "open_page" (default: "open_page")`
 
           The type of the object. Always `open_page`.
 
@@ -594,6 +716,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The URL of the page that was opened.
 
+          `minLength: 0`
+
       - `FindInPage object { pattern, type, url }`
 
         Finds text within a web page.
@@ -602,7 +726,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The text pattern that was searched for.
 
-        - `type: "find_in_page"`
+          `minLength: 0`
+
+        - `type: "find_in_page" (default: "find_in_page")`
 
           The type of the object. Always `find_in_page`.
 
@@ -612,11 +738,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
           The URL of the page that was searched.
 
+          `minLength: 0`
+
       - `Other object { type }`
 
         Another web search action.
 
-        - `type: "other"`
+        - `type: "other" (default: "other")`
 
           The type of the object. Always `other`.
 
@@ -630,7 +758,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "web_search_call"`
+      `minLength: 0`
+
+    - `type: "web_search_call" (default: "web_search_call")`
 
       The item type. Always `web_search_call`.
 
@@ -644,25 +774,37 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the command execution item.
 
+      `minLength: 0`
+
     - `command: string`
 
       The command that was executed.
+
+      `minLength: 0`
 
     - `cwd: string or null`
 
       The working directory used to execute the command.
 
-    - `duration_ms: number or null`
+      `minLength: 0`
+
+    - `duration_ms: integer or null`
 
       The command duration in milliseconds.
 
-    - `exit_code: number or null`
+      `format: int64`
+
+    - `exit_code: integer or null`
 
       The process exit code, if the command completed.
+
+      `format: int64`
 
     - `output: string or null`
 
       The command output, if available.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -672,7 +814,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "command_execution"`
+      `minLength: 0`
+
+    - `type: "command_execution" (default: "command_execution")`
 
       The item type. Always `command_execution`.
 
@@ -686,13 +830,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the tool call item.
 
+      `minLength: 0`
+
     - `agent_id: string`
 
       The ID of the agent that requested the subagent.
 
+      `minLength: 0`
+
     - `content: array of AgentContent`
 
       The task given to the spawned agent.
+
+      `minItems: 0`, `maxItems: 2000`
 
       - `OutputText object { text, type }`
 
@@ -706,9 +856,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The model requested for the spawned agent.
 
+      `minLength: 0`
+
     - `reasoning_effort: string or null`
 
       The reasoning effort requested for the spawned agent.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -718,7 +872,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "create_subagent_call"`
+      `minLength: 0`
+
+    - `type: "create_subagent_call" (default: "create_subagent_call")`
 
       The item type. Always `create_subagent_call`.
 
@@ -734,9 +890,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the tool call item.
 
+      `minLength: 0`
+
     - `content: array of AgentContent`
 
       The input sent to the receiving agent.
+
+      `minItems: 0`, `maxItems: 2000`
 
       - `OutputText object { text, type }`
 
@@ -750,9 +910,13 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the agent receiving the input.
 
+      `minLength: 0`
+
     - `sender_agent_id: string`
 
       The ID of the agent sending the input.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -762,7 +926,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "send_subagent_input_call"`
+      `minLength: 0`
+
+    - `type: "send_subagent_input_call" (default: "send_subagent_input_call")`
 
       The item type. Always `send_subagent_input_call`.
 
@@ -778,13 +944,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the tool call item.
 
+      `minLength: 0`
+
     - `recipient_agent_id: string`
 
       The ID of the agent to resume.
 
+      `minLength: 0`
+
     - `sender_agent_id: string`
 
       The ID of the agent requesting the resume.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -794,7 +966,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "resume_subagent_call"`
+      `minLength: 0`
+
+    - `type: "resume_subagent_call" (default: "resume_subagent_call")`
 
       The item type. Always `resume_subagent_call`.
 
@@ -810,13 +984,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the tool call item.
 
+      `minLength: 0`
+
     - `recipient_agent_ids: array of string`
 
       The IDs of the agents to wait for.
 
+      `minItems: 0`, `maxItems: 2000`
+
     - `sender_agent_id: string`
 
       The ID of the agent waiting for results.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -826,7 +1006,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "wait_for_subagents_call"`
+      `minLength: 0`
+
+    - `type: "wait_for_subagents_call" (default: "wait_for_subagents_call")`
 
       The item type. Always `wait_for_subagents_call`.
 
@@ -842,13 +1024,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the tool call item.
 
+      `minLength: 0`
+
     - `recipient_agent_id: string`
 
       The ID of the agent to interrupt.
 
+      `minLength: 0`
+
     - `sender_agent_id: string`
 
       The ID of the agent requesting the interrupt.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -858,7 +1046,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "interrupt_subagent_call"`
+      `minLength: 0`
+
+    - `type: "interrupt_subagent_call" (default: "interrupt_subagent_call")`
 
       The item type. Always `interrupt_subagent_call`.
 
@@ -874,13 +1064,19 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the tool call item.
 
+      `minLength: 0`
+
     - `recipient_agent_id: string`
 
       The ID of the agent to close.
 
+      `minLength: 0`
+
     - `sender_agent_id: string`
 
       The ID of the agent requesting the close.
+
+      `minLength: 0`
 
     - `status: AgentFunctionCallStatus`
 
@@ -890,7 +1086,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
       The ID of the turn that contains this item.
 
-    - `type: "close_subagent_call"`
+      `minLength: 0`
+
+    - `type: "close_subagent_call" (default: "close_subagent_call")`
 
       The item type. Always `close_subagent_call`.
 
@@ -902,6 +1100,8 @@ Lists items produced by the session's root agent, including its interactions wit
 
   The ID of the first resource in `data`, or `null` if the page is empty.
 
+  `minLength: 0`
+
 - `has_more: boolean`
 
   Whether there are more resources to retrieve after this page.
@@ -910,7 +1110,9 @@ Lists items produced by the session's root agent, including its interactions wit
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -924,7 +1126,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/items \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

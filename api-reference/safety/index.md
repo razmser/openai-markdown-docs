@@ -14,13 +14,17 @@ Get a safety alert belonging to the authenticated API project.
 
   Project safety alert ID
 
+  `maxLength: 38`
+
 ### Returns
 
 - `SafetyAlert object { id, created_at, error_type, 7 more }`
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `error_type: "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
 
@@ -34,7 +38,7 @@ Get a safety alert belonging to the authenticated API project.
 
   - `model: string`
 
-  - `object: "safety.alert"`
+  - `object: "safety.alert" (default: "safety.alert")`
 
     - `"safety.alert"`
 
@@ -61,7 +65,7 @@ curl https://api.openai.com/v1/safety/alerts/$ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -85,7 +89,7 @@ curl https://api.openai.com/v1/safety/alerts/alert_0123456789abcdef0123456789abc
   -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -109,7 +113,9 @@ curl https://api.openai.com/v1/safety/alerts/alert_0123456789abcdef0123456789abc
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `error_type: "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
 
@@ -123,7 +129,7 @@ curl https://api.openai.com/v1/safety/alerts/alert_0123456789abcdef0123456789abc
 
   - `model: string`
 
-  - `object: "safety.alert"`
+  - `object: "safety.alert" (default: "safety.alert")`
 
     - `"safety.alert"`
 
@@ -157,13 +163,17 @@ Get a safety case by ID.
 
   Safety case ID
 
+  `maxLength: 128`
+
 ### Returns
 
 - `SafetyCase object { id, created_at, entity_identifier, 3 more }`
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `entity_identifier: string`
 
@@ -175,7 +185,7 @@ Get a safety case by ID.
 
       - `"deactivation"`
 
-  - `object: "safety.case"`
+  - `object: "safety.case" (default: "safety.case")`
 
     - `"safety.case"`
 
@@ -188,7 +198,7 @@ curl https://api.openai.com/v1/safety/cases/$ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -210,7 +220,7 @@ curl https://api.openai.com/v1/safety/cases/C-abc123 \
   -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -231,7 +241,9 @@ curl https://api.openai.com/v1/safety/cases/C-abc123 \
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `entity_identifier: string`
 
@@ -243,7 +255,7 @@ curl https://api.openai.com/v1/safety/cases/C-abc123 \
 
       - `"deactivation"`
 
-  - `object: "safety.case"`
+  - `object: "safety.case" (default: "safety.case")`
 
     - `"safety.case"`
 

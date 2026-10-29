@@ -10,11 +10,15 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `format: int64`, `minimum: 1`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -32,17 +36,25 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The ID of the reusable agent.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the agent was created.
+
+    `format: int64`
 
   - `instructions: string or null`
 
     Custom instructions appended to the agent's default base instructions.
+
+    `minLength: 0`
 
   - `metadata: map[string]`
 
@@ -52,6 +64,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
     The requested model name used for inference.
 
+    `minLength: 0`
+
   - `multi_agent: MultiAgentConfig`
 
     The resolved configuration for creating and coordinating subagents.
@@ -60,15 +74,19 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
       Whether subagent tools are enabled. Defaults to false.
 
-    - `max_concurrent_subagents: number or null`
+    - `max_concurrent_subagents: integer or null`
 
       Maximum number of subagents that may run concurrently, or null when disabled. Defaults to 6 when enabled.
+
+      `format: int64`, `minimum: 1`, `maximum: 4294967295`
 
   - `name: string or null`
 
     A human-readable name for the agent, or null if it is unnamed.
 
-  - `object: "agent"`
+    `minLength: 0`
+
+  - `object: "agent" (default: "agent")`
 
     The object type. Always `agent`.
 
@@ -140,7 +158,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         Generates ordinary text without a structured-output constraint.
 
-        - `type: "text"`
+        - `type: "text" (default: "text")`
 
           The type of the object. Always `text`.
 
@@ -154,7 +172,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
           The JSON Schema that generated text must match.
 
-        - `type: "json_schema"`
+        - `type: "json_schema" (default: "json_schema")`
 
           The type of the object. Always `json_schema`.
 
@@ -174,6 +192,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
     Tools available to the agent.
 
+    `minItems: 0`, `maxItems: 2000`
+
     - `Function object { defer_loading, description, name, 2 more }`
 
       A function defined by the application.
@@ -186,15 +206,19 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         A description of what the function does.
 
+        `minLength: 0`
+
       - `name: string`
 
         The name of the function.
+
+        `minLength: 0`
 
       - `parameters: map[unknown]`
 
         A JSON Schema object describing the function's arguments.
 
-      - `type: "function"`
+      - `type: "function" (default: "function")`
 
         The type of the object. Always `function`.
 
@@ -204,7 +228,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
       Discovers deferred function tools and loads them into the model context.
 
-      - `type: "tool_search"`
+      - `type: "tool_search" (default: "tool_search")`
 
         The type of the object. Always `tool_search`.
 
@@ -218,7 +242,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         Whether tools can be called from model-generated code.
 
-      - `type: "programmatic_tool_calling"`
+      - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
         The type of the object. Always `programmatic_tool_calling`.
 
@@ -232,6 +256,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         The MCP tools the agent may call, or null when all server tools are allowed.
 
+        `minItems: 0`, `maxItems: 2000`
+
       - `connection_origin: "service" or "environment"`
 
         Where outbound MCP HTTP connections originate.
@@ -244,6 +270,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         The vault credential selected for this MCP server, if any.
 
+        `minLength: 0`
+
       - `request_metadata: map[unknown]`
 
         Metadata included with requests to this MCP server.
@@ -255,6 +283,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
       - `server_label: string`
 
         A label used to identify the MCP server in tool calls.
+
+        `minLength: 0`
 
       - `transport: PersistedMcpTransport`
 
@@ -272,7 +302,9 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
             The URL of the MCP server.
 
-          - `type: "http"`
+            `minLength: 0`
+
+          - `type: "http" (default: "http")`
 
             The type of the object. Always `http`.
 
@@ -286,25 +318,33 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
             Arguments passed to the MCP server command.
 
+            `minItems: 0`, `maxItems: 2000`
+
           - `command: string`
 
             The command used to start the MCP server.
+
+            `minLength: 0`
 
           - `cwd: string`
 
             The working directory used to start the MCP server.
 
+            `minLength: 0`
+
           - `env_vars: array of string`
 
             Environment variable names inherited from the execution environment.
 
-          - `type: "stdio"`
+            `minItems: 0`, `maxItems: 2000`
+
+          - `type: "stdio" (default: "stdio")`
 
             The type of the object. Always `stdio`.
 
             - `"stdio"`
 
-      - `type: "mcp"`
+      - `type: "mcp" (default: "mcp")`
 
         The type of the object. Always `mcp`.
 
@@ -317,6 +357,8 @@ Lists reusable agents in the current project. See [agent configuration](https://
       - `allowed_domains: array of string or null`
 
         Allowed search domains, or `null` when the search is unrestricted.
+
+        `minItems: 0`, `maxItems: 2000`
 
       - `context_size: "low" or "medium" or "high"`
 
@@ -336,17 +378,25 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
           The city name.
 
+          `minLength: 0`
+
         - `country: string or null`
 
           The two-letter ISO country code, such as `US`.
+
+          `minLength: 0`
 
         - `region: string or null`
 
           The region or state name.
 
+          `minLength: 0`
+
         - `timezone: string or null`
 
           The IANA timezone, such as `America/Los_Angeles`.
+
+          `minLength: 0`
 
       - `mode: "disabled" or "cached" or "live"`
 
@@ -358,7 +408,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         - `"live"`
 
-      - `type: "web_search"`
+      - `type: "web_search" (default: "web_search")`
 
         The type of the object. Always `web_search`.
 
@@ -372,7 +422,7 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
         Whether computer tool outputs include screenshots.
 
-      - `type: "computer_use"`
+      - `type: "computer_use" (default: "computer_use")`
 
         The type of the object. Always `computer_use`.
 
@@ -382,19 +432,39 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
       Lets the agent manage its own scheduled wakeups.
 
-      - `type: "automations"`
+      - `type: "automations" (default: "automations")`
 
         The type of the object. Always `automations`.
 
         - `"automations"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the agent was last updated.
+
+    `format: int64`
+
+  - `compaction: optional object { async }`
+
+    The effective context compaction settings.
+
+    - `async: boolean`
+
+      Whether context is compacted in the background. Defaults to true.
+
+  - `experimental: optional object { time_awareness }`
+
+    The effective experimental settings for the agent.
+
+    - `time_awareness: boolean`
+
+      Whether the model receives periodic current-time reminders.
 
 - `first_id: string or null`
 
   The ID of the first resource in `data`, or `null` if the page is empty.
+
+  `minLength: 0`
 
 - `has_more: boolean`
 
@@ -404,7 +474,9 @@ Lists reusable agents in the current project. See [agent configuration](https://
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -418,7 +490,7 @@ curl https://api.openai.com/v1/agents \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -459,7 +531,13 @@ curl https://api.openai.com/v1/agents \
           "type": "function"
         }
       ],
-      "updated_at": 0
+      "updated_at": 0,
+      "compaction": {
+        "async": true
+      },
+      "experimental": {
+        "time_awareness": true
+      }
     }
   ],
   "first_id": "first_id",

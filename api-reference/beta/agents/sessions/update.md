@@ -8,6 +8,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Body Parameters
 
 - `agent: optional object { model, reasoning, service_tier }`
@@ -17,6 +19,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
   - `model: optional string`
 
     The model for subsequent turns. Omit to keep the current model.
+
+    `minLength: 0`, `maxLength: 1048576`
 
   - `reasoning: optional object { effort }`
 
@@ -82,7 +86,9 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
     The ID of the session.
 
-  - `agent: object { id, instructions, model, 6 more }`
+    `minLength: 0`
+
+  - `agent: object { id, instructions, model, 8 more }`
 
     The agent running in the session.
 
@@ -90,13 +96,19 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
       The ID of the agent.
 
+      `minLength: 0`
+
     - `instructions: string or null`
 
       Custom instructions appended to the agent's default base instructions.
 
+      `minLength: 0`
+
     - `model: string`
 
       The model used by the agent.
+
+      `minLength: 0`
 
     - `multi_agent: MultiAgentConfig`
 
@@ -106,13 +118,17 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         Whether subagent tools are enabled. Defaults to false.
 
-      - `max_concurrent_subagents: number or null`
+      - `max_concurrent_subagents: integer or null`
 
         Maximum number of subagents that may run concurrently, or null when disabled. Defaults to 6 when enabled.
+
+        `format: int64`, `minimum: 1`, `maximum: 4294967295`
 
     - `name: string or null`
 
       The reusable agent's name when the session was created, or null if no name was saved. Later changes to the agent's name do not affect this value.
+
+      `minLength: 0`
 
     - `reasoning: AgentReasoning`
 
@@ -180,7 +196,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           Generates ordinary text without a structured-output constraint.
 
-          - `type: "text"`
+          - `type: "text" (default: "text")`
 
             The type of the object. Always `text`.
 
@@ -194,7 +210,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The JSON Schema that generated text must match.
 
-          - `type: "json_schema"`
+          - `type: "json_schema" (default: "json_schema")`
 
             The type of the object. Always `json_schema`.
 
@@ -214,6 +230,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
       Tools available to the agent.
 
+      `minItems: 0`, `maxItems: 2000`
+
       - `Function object { defer_loading, description, name, 2 more }`
 
         A function defined by the application.
@@ -226,15 +244,19 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           A description of what the function does.
 
+          `minLength: 0`
+
         - `name: string`
 
           The name of the function.
+
+          `minLength: 0`
 
         - `parameters: map[unknown]`
 
           A JSON Schema object describing the function's arguments.
 
-        - `type: "function"`
+        - `type: "function" (default: "function")`
 
           The type of the object. Always `function`.
 
@@ -248,7 +270,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           Whether tools can be called from model-generated code.
 
-        - `type: "programmatic_tool_calling"`
+        - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
           The type of the object. Always `programmatic_tool_calling`.
 
@@ -262,6 +284,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           The MCP tools the agent may call.
 
+          `minItems: 0`, `maxItems: 2000`
+
         - `connection_origin: "service" or "environment"`
 
           Where outbound MCP HTTP connections originate.
@@ -273,6 +297,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
         - `credential_id: string or null`
 
           The attached vault credential selected for this MCP server, if any. Optional when exactly one attached credential matches the server URL.
+
+          `minLength: 0`
 
         - `request_metadata: map[unknown]`
 
@@ -286,6 +312,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           A label used to identify the MCP server in tool calls.
 
+          `minLength: 0`
+
         - `transport: McpTransport`
 
           The transport used to connect to the MCP server.
@@ -298,7 +326,9 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
               The URL of the MCP server.
 
-            - `type: "http"`
+              `minLength: 0`
+
+            - `type: "http" (default: "http")`
 
               The type of the object. Always `http`.
 
@@ -312,25 +342,33 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
               Arguments passed to the MCP server command.
 
+              `minItems: 0`, `maxItems: 2000`
+
             - `command: string`
 
               The command used to start the MCP server.
+
+              `minLength: 0`
 
             - `cwd: string`
 
               The working directory used to start the MCP server.
 
+              `minLength: 0`
+
             - `env_vars: array of string`
 
               Environment variable names inherited from the execution environment.
 
-            - `type: "stdio"`
+              `minItems: 0`, `maxItems: 2000`
+
+            - `type: "stdio" (default: "stdio")`
 
               The type of the object. Always `stdio`.
 
               - `"stdio"`
 
-        - `type: "mcp"`
+        - `type: "mcp" (default: "mcp")`
 
           The type of the object. Always `mcp`.
 
@@ -343,6 +381,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
         - `allowed_domains: array of string or null`
 
           Allowed search domains, or `null` when the search is unrestricted.
+
+          `minItems: 0`, `maxItems: 2000`
 
         - `context_size: "low" or "medium" or "high"`
 
@@ -362,17 +402,25 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The city name.
 
+            `minLength: 0`
+
           - `country: string or null`
 
             The two-letter ISO country code, such as `US`.
+
+            `minLength: 0`
 
           - `region: string or null`
 
             The region or state name.
 
+            `minLength: 0`
+
           - `timezone: string or null`
 
             The IANA timezone, such as `America/Los_Angeles`.
+
+            `minLength: 0`
 
         - `mode: "disabled" or "cached" or "live"`
 
@@ -384,7 +432,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           - `"live"`
 
-        - `type: "web_search"`
+        - `type: "web_search" (default: "web_search")`
 
           The type of the object. Always `web_search`.
 
@@ -398,7 +446,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           Whether computer tool outputs include screenshots.
 
-        - `type: "computer_use"`
+        - `type: "computer_use" (default: "computer_use")`
 
           The type of the object. Always `computer_use`.
 
@@ -408,15 +456,33 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         Lets the agent manage its own scheduled wakeups.
 
-        - `type: "automations"`
+        - `type: "automations" (default: "automations")`
 
           The type of the object. Always `automations`.
 
           - `"automations"`
 
-  - `created_at: number`
+    - `compaction: optional object { async }`
+
+      The effective context compaction settings.
+
+      - `async: boolean`
+
+        Whether context is compacted in the background. Defaults to true.
+
+    - `experimental: optional object { time_awareness }`
+
+      The effective experimental settings for the agent.
+
+      - `time_awareness: boolean`
+
+        Whether the model receives periodic current-time reminders.
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the session was created.
+
+    `format: int64`
 
   - `environment: Environment`
 
@@ -426,7 +492,7 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
       The session talks to CCA without selecting or provisioning an execution environment.
 
-      - `type: "none"`
+      - `type: "none" (default: "none")`
 
         The type of the object. Always `none`.
 
@@ -440,9 +506,13 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         The public ID of the environment.
 
+        `minLength: 0`
+
       - `capability_directories: array of string`
 
         Directories that contain capabilities exposed to the agent.
+
+        `minItems: 0`, `maxItems: 2000`
 
       - `desktop: object { enabled }`
 
@@ -456,6 +526,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         Files available in the environment, excluding their contents.
 
+        `minItems: 0`, `maxItems: 50`
+
         - `HostedEnvironmentFileID object { id, file_id, path, 2 more }`
 
           A file copied from the OpenAI Files API.
@@ -464,19 +536,27 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The session-scoped ID of the file in the execution environment.
 
+            `minLength: 0`
+
           - `file_id: string`
 
             The ID of the uploaded file.
+
+            `minLength: 0`
 
           - `path: string`
 
             The file's absolute path inside the environment.
 
-          - `size_bytes: number`
+            `minLength: 0`
+
+          - `size_bytes: integer`
 
             The decoded file size in bytes.
 
-          - `type: "file_id"`
+            `format: int64`, `minimum: 0`
+
+          - `type: "file_id" (default: "file_id")`
 
             The type of the object. Always `file_id`.
 
@@ -490,15 +570,21 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The session-scoped ID of the file in the execution environment.
 
+            `minLength: 0`
+
           - `path: string`
 
             The file's absolute path inside the environment.
 
-          - `size_bytes: number`
+            `minLength: 0`
+
+          - `size_bytes: integer`
 
             The decoded file size in bytes.
 
-          - `type: "inline"`
+            `format: int64`, `minimum: 0`
+
+          - `type: "inline" (default: "inline")`
 
             The type of the object. Always `inline`.
 
@@ -528,6 +614,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           Domains the environment may access when network access is restricted.
 
+          `minItems: 0`, `maxItems: 2000`
+
       - `packages: object { npm, python, system }`
 
         Packages installed in the environment.
@@ -536,27 +624,39 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
           npm packages installed globally in the environment.
 
+          `minItems: 0`, `maxItems: 16384`
+
         - `python: array of string`
 
           Python packages installed in the environment.
+
+          `minItems: 0`, `maxItems: 16384`
 
         - `system: array of string`
 
           System packages installed in the environment.
 
+          `minItems: 0`, `maxItems: 16384`
+
       - `plugins: array of HostedPlugin`
 
         Plugins installed in the environment, excluding their archive contents.
+
+        `minItems: 0`, `maxItems: 2000`
 
         - `description: string`
 
           The installed plugin description.
 
+          `minLength: 0`
+
         - `name: string`
 
           The installed plugin name.
 
-        - `type: "inline"`
+          `minLength: 0`
+
+        - `type: "inline" (default: "inline")`
 
           The type of the object. Always `inline`.
 
@@ -566,6 +666,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         Skills installed in the environment, excluding their archive contents.
 
+        `minItems: 0`, `maxItems: 2000`
+
         - `HostedSkillReference object { description, name, skill_id, 2 more }`
 
           A skill installed from the Skills API.
@@ -574,15 +676,21 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The installed skill description.
 
+            `minLength: 0`
+
           - `name: string`
 
             The installed skill name.
+
+            `minLength: 0`
 
           - `skill_id: string`
 
             The referenced skill ID.
 
-          - `type: "skill_reference"`
+            `minLength: 0`
+
+          - `type: "skill_reference" (default: "skill_reference")`
 
             The type of the object. Always `skill_reference`.
 
@@ -592,6 +700,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The concrete skill version installed for this session.
 
+            `minLength: 0`
+
         - `Inline object { description, name, type }`
 
           A skill installed from an inline ZIP archive.
@@ -600,17 +710,21 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The installed skill description.
 
+            `minLength: 0`
+
           - `name: string`
 
             The installed skill name.
 
-          - `type: "inline"`
+            `minLength: 0`
+
+          - `type: "inline" (default: "inline")`
 
             The type of the object. Always `inline`.
 
             - `"inline"`
 
-      - `type: "openai_hosted"`
+      - `type: "openai_hosted" (default: "openai_hosted")`
 
         The type of the object. Always `openai_hosted`.
 
@@ -634,15 +748,21 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         The public ID of the environment.
 
+        `minLength: 0`
+
       - `capability_directories: array of string`
 
         Directories that contain capabilities exposed to the agent.
+
+        `minItems: 0`, `maxItems: 2000`
 
       - `remote_url: string`
 
         Pass this URL unchanged to `codex exec-server --remote` when connecting this environment.
 
-      - `type: "self_hosted"`
+        `minLength: 0`
+
+      - `type: "self_hosted" (default: "self_hosted")`
 
         The type of the object. Always `self_hosted`.
 
@@ -652,19 +772,25 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         The absolute project directory inside the environment. Defaults to `/workspace`.
 
+        `minLength: 0`
+
   - `error: string or null`
 
     The error that caused the session to fail, if any.
 
-  - `last_active_at: number`
+    `minLength: 0`
+
+  - `last_active_at: integer`
 
     The Unix timestamp, in seconds, when the session was last active.
+
+    `format: int64`
 
   - `metadata: map[string]`
 
     Custom string key-value pairs attached to the session.
 
-  - `object: "agent.session"`
+  - `object: "agent.session" (default: "agent.session")`
 
     The object type. Always `agent.session`.
 
@@ -673,6 +799,8 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
   - `required_actions: array of ComputerUseApprovalRequest { request, request_id, turn_id, type }  or FunctionCall { arguments, call_id, name, 2 more }  or EnvironmentConnection { environment_id, type }`
 
     Actions that must be completed before the session can continue.
+
+    `minItems: 0`, `maxItems: 2000`
 
     - `ComputerUseApprovalRequest object { request, request_id, turn_id, type }`
 
@@ -690,17 +818,25 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The registered form or frame origin where values will be entered.
 
+            `minLength: 0`
+
           - `fields: array of object { id, label, required, type }`
 
             Controls to render. All submitted values are sensitive.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `id: string`
 
               The field ID to submit as field_id in a fields entry.
 
+              `minLength: 0`
+
             - `label: string`
 
               The label to display beside the control.
+
+              `minLength: 0`
 
             - `required: boolean`
 
@@ -710,27 +846,39 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
               The rendering type, such as email, password, or text.
 
+              `minLength: 0`
+
           - `options: array of object { id, field_ids, label }`
 
             Sign-in methods. Empty for a plain form.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `id: string`
 
               The option ID to submit as selected_option.
 
+              `minLength: 0`
+
             - `field_ids: array of string`
 
               IDs from the registered fields that this method accepts.
+
+              `minItems: 0`, `maxItems: 2000`
 
             - `label: string`
 
               The method label to display.
 
+              `minLength: 0`
+
           - `reason: string or null`
 
             Why the agent needs the user to sign in.
 
-          - `type: "browser_authentication"`
+            `minLength: 0`
+
+          - `type: "browser_authentication" (default: "browser_authentication")`
 
             The type of the object. Always `browser_authentication`.
 
@@ -744,11 +892,15 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
             The origin the browser needs permission to access.
 
+            `minLength: 0`
+
           - `reason: string or null`
 
             The browser's explanation for this request, or null when unavailable.
 
-          - `type: "browser_origin_access"`
+            `minLength: 0`
+
+          - `type: "browser_origin_access" (default: "browser_origin_access")`
 
             The type of the object. Always `browser_origin_access`.
 
@@ -758,11 +910,15 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         The registered request ID to echo when responding.
 
+        `minLength: 0`
+
       - `turn_id: string`
 
         The turn that requested approval.
 
-      - `type: "computer_use_approval_request"`
+        `minLength: 0`
+
+      - `type: "computer_use_approval_request" (default: "computer_use_approval_request")`
 
         The type of the object. Always `computer_use_approval_request`.
 
@@ -780,15 +936,21 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         The ID to include when submitting the function result.
 
+        `minLength: 0`
+
       - `name: string`
 
         The function name.
+
+        `minLength: 0`
 
       - `turn_id: string`
 
         The ID of the turn that requested the function call.
 
-      - `type: "function_call"`
+        `minLength: 0`
+
+      - `type: "function_call" (default: "function_call")`
 
         The type of the object. Always `function_call`.
 
@@ -802,7 +964,9 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
         The ID of the environment to reconnect.
 
-      - `type: "environment_connection"`
+        `minLength: 0`
+
+      - `type: "environment_connection" (default: "environment_connection")`
 
         The type of the object. Always `environment_connection`.
 
@@ -832,37 +996,49 @@ Updates session metadata, model, reasoning effort, or service tier. Model settin
 
     Best-effort token usage for the session, or null if unknown. Recorded usage may change.
 
-    - `input_tokens: number`
+    - `input_tokens: integer`
 
       The number of input tokens used by the agent.
+
+      `format: int64`
 
     - `input_tokens_details: object { cached_tokens }`
 
       A breakdown of the agent's input token usage.
 
-      - `cached_tokens: number`
+      - `cached_tokens: integer`
 
         The number of input tokens retrieved from the prompt cache.
 
-    - `output_tokens: number`
+        `format: int64`
+
+    - `output_tokens: integer`
 
       The number of output tokens generated by the agent.
+
+      `format: int64`
 
     - `output_tokens_details: object { reasoning_tokens }`
 
       A breakdown of the agent's output token usage.
 
-      - `reasoning_tokens: number`
+      - `reasoning_tokens: integer`
 
         The number of output tokens used for reasoning.
 
-    - `total_tokens: number`
+        `format: int64`
+
+    - `total_tokens: integer`
 
       The total number of input and output tokens used by the agent.
+
+      `format: int64`
 
   - `vault_ids: array of string`
 
     The IDs of vaults made available to the session.
+
+    `minItems: 0`, `maxItems: 2000`
 
 ### Example
 
@@ -873,7 +1049,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -908,7 +1084,13 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID \
         },
         "type": "function"
       }
-    ]
+    ],
+    "compaction": {
+      "async": true
+    },
+    "experimental": {
+      "time_awareness": true
+    }
   },
   "created_at": 0,
   "environment": {

@@ -24,9 +24,11 @@ Retrieves an organization role assigned to a user.
 
   - `principal_type: string`
 
-- `created_at: number or null`
+- `created_at: integer or null`
 
   When the role was created.
+
+  `format: unixtime`
 
 - `created_by: string or null`
 
@@ -60,9 +62,11 @@ Retrieves an organization role assigned to a user.
 
   Resource type the role applies to.
 
-- `updated_at: number or null`
+- `updated_at: integer or null`
 
   When the role was last updated.
+
+  `format: unixtime`
 
 ### Example
 
@@ -71,7 +75,7 @@ curl https://api.openai.com/v1/organization/users/$USER_ID/roles/$ROLE_ID \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -109,7 +113,7 @@ curl https://api.openai.com/v1/organization/users/user_abc123/roles/role_01J1F8R
   -H "Content-Type: application/json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

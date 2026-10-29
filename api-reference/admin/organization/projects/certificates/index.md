@@ -16,6 +16,8 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -30,17 +32,23 @@ You can atomically and idempotently activate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -71,7 +79,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates/ac
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -103,7 +111,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates/activ
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -150,6 +158,8 @@ idempotently deactivate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -164,17 +174,23 @@ idempotently deactivate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -205,7 +221,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates/de
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -237,7 +253,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates/deact
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -285,11 +301,11 @@ List certificates for this project.
 
   A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.
 
-- `limit: optional number`
+- `limit: optional integer (default: 20)`
 
   A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20.
 
-- `order: optional "asc" or "desc"`
+- `order: optional "asc" or "desc" (default: "desc")`
 
   Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.
 
@@ -311,17 +327,23 @@ List certificates for this project.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -350,7 +372,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates \
     -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -381,7 +403,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 -H "Authorization: Bearer $OPENAI_ADMIN_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -423,17 +445,23 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -461,17 +489,23 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -499,17 +533,23 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates \
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 

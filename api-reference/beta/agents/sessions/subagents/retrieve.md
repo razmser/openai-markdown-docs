@@ -8,7 +8,11 @@ Retrieves a subagent belonging to this session. See [subagent workflows](https:/
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `subagent_id: string`
+
+  `minLength: 0`, `maxLength: 1048576`
 
 ### Returns
 
@@ -20,13 +24,19 @@ Retrieves a subagent belonging to this session. See [subagent workflows](https:/
 
     The ID of the subagent.
 
-  - `closed_at: number or null`
+    `minLength: 0`
+
+  - `closed_at: integer or null`
 
     The Unix timestamp, in seconds, when the subagent was closed. Null while active, including after resume.
+
+    `format: int64`
 
   - `instructions: array of AgentContent or null`
 
     Initial task content, or null when unavailable. Text may contain placeholders for images or audio when only a preview is available.
+
+    `minItems: 0`, `maxItems: 2000`
 
     - `OutputText object { text, type }`
 
@@ -36,7 +46,9 @@ Retrieves a subagent belonging to this session. See [subagent workflows](https:/
 
         The text produced by the agent.
 
-      - `type: "output_text"`
+        `minLength: 0`
+
+      - `type: "output_text" (default: "output_text")`
 
         The content type. Always `output_text`.
 
@@ -50,7 +62,9 @@ Retrieves a subagent belonging to this session. See [subagent workflows](https:/
 
         The encrypted content payload.
 
-      - `type: "encrypted_content"`
+        `minLength: 0`
+
+      - `type: "encrypted_content" (default: "encrypted_content")`
 
         The content type. Always `encrypted_content`.
 
@@ -60,23 +74,31 @@ Retrieves a subagent belonging to this session. See [subagent workflows](https:/
 
     The runner-assigned nickname, or null when unavailable.
 
-  - `object: "agent.session.subagent"`
+    `minLength: 0`
+
+  - `object: "agent.session.subagent" (default: "agent.session.subagent")`
 
     The object type. Always `agent.session.subagent`.
 
     - `"agent.session.subagent"`
 
-  - `opened_at: number`
+  - `opened_at: integer`
 
     The Unix timestamp, in seconds, when the subagent was first opened. Resuming does not change it.
+
+    `format: int64`
 
   - `parent_agent_id: string`
 
     The ID of the agent that created this subagent.
 
+    `minLength: 0`
+
   - `session_id: string`
 
     The ID of the session that owns the subagent.
+
+    `minLength: 0`
 
   - `status: "active" or "closed"`
 
@@ -98,7 +120,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/subagents/$SUBAGENT_I
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

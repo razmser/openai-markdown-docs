@@ -13,6 +13,8 @@ idempotently deactivate up to 10 certificates at a time.
 
 - `certificate_ids: array of string`
 
+  `minItems: 1`, `maxItems: 10`
+
 ### Returns
 
 - `data: array of object { id, active, certificate_details, 3 more }`
@@ -27,17 +29,23 @@ idempotently deactivate up to 10 certificates at a time.
 
   - `certificate_details: object { expires_at, valid_at }`
 
-    - `expires_at: optional number`
+    - `expires_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate expires.
 
-    - `valid_at: optional number`
+      `format: unixtime`
+
+    - `valid_at: optional integer`
 
       The Unix timestamp (in seconds) of when the certificate becomes valid.
 
-  - `created_at: number`
+      `format: unixtime`
+
+  - `created_at: integer`
 
     The Unix timestamp (in seconds) of when the certificate was uploaded.
+
+    `format: unixtime`
 
   - `name: string or null`
 
@@ -68,7 +76,7 @@ curl https://api.openai.com/v1/organization/projects/$PROJECT_ID/certificates/de
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -100,7 +108,7 @@ curl https://api.openai.com/v1/organization/projects/proj_abc/certificates/deact
 }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

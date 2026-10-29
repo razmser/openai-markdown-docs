@@ -8,13 +8,15 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
 - `"Idempotency-Key": optional string`
 
+  `minLength: 1`, `maxLength: 256`
+
 ### Body Parameters
 
 - `environment: object { type, capability_directories, desktop, 8 more }`
 
   The required hosting type and its configuration.
 
-  - `type: "openai_hosted"`
+  - `type: "openai_hosted" (default: "openai_hosted")`
 
     The type of the object. Always `openai_hosted`.
 
@@ -23,6 +25,8 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
   - `capability_directories: optional array of string or null`
 
     Directories that contain capabilities exposed to the agent. Defaults to an empty list.
+
+    `minItems: 0`, `maxItems: 16384`
 
   - `desktop: optional object { enabled }  or null`
 
@@ -40,9 +44,13 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
     A reusable hosted template applied before inline configuration. Omitted fields inherit the template; network overrides cannot broaden its policy.
 
+    `minLength: 0`, `maxLength: 64`
+
   - `files: optional array of HostedEnvironmentFileParam or null`
 
     Files available before the agent starts. Defaults to an empty list.
+
+    `minItems: 0`, `maxItems: 50`
 
     - `FileID object { file_id, path, type }`
 
@@ -52,11 +60,15 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The ID of the uploaded file.
 
+        `minLength: 1`, `maxLength: 256`
+
       - `path: string`
 
         The absolute destination path inside `/workspace`.
 
-      - `type: "file_id"`
+        `minLength: 1`, `maxLength: 4096`
+
+      - `type: "file_id" (default: "file_id")`
 
         The type of the object. Always `file_id`.
 
@@ -70,11 +82,15 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The standard-base64-encoded file contents.
 
+        `minLength: 0`, `maxLength: 6990508`
+
       - `path: string`
 
         The absolute destination path inside `/workspace`.
 
-      - `type: "inline"`
+        `minLength: 1`, `maxLength: 4096`
+
+      - `type: "inline" (default: "inline")`
 
         The type of the object. Always `inline`.
 
@@ -104,9 +120,13 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
       Domains the environment may access when network access is restricted.
 
+      `minItems: 0`, `maxItems: 16384`
+
     - `blocked_domains: optional array of string or null`
 
       Domains blocked for both executor and browser when access is restricted. A nonempty list requires `access: restricted` and cannot be combined with nonempty `allowed_domains`. Wildcard domains are not supported.
+
+      `minItems: 0`, `maxItems: 100`
 
   - `packages: optional object { npm, python, system }  or null`
 
@@ -116,25 +136,37 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
       npm packages to install globally. Defaults to an empty list.
 
+      `minItems: 0`, `maxItems: 16384`
+
     - `python: optional array of string or null`
 
       Python packages to install. Defaults to an empty list.
+
+      `minItems: 0`, `maxItems: 16384`
 
     - `system: optional array of string or null`
 
       System packages to install. Defaults to an empty list.
 
+      `minItems: 0`, `maxItems: 16384`
+
   - `plugins: optional array of HostedPluginParam or null`
 
     Plugins provided as inline ZIP archives. Defaults to an empty list.
+
+    `minItems: 0`, `maxItems: 32`
 
     - `description: string`
 
       The plugin description declared in `.codex-plugin/plugin.json`.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `name: string`
 
       The plugin name declared in `.codex-plugin/plugin.json`.
+
+      `minLength: 1`, `maxLength: 64`
 
     - `source: InlineCapabilitySourceParam`
 
@@ -144,7 +176,9 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         Standard-base64 encoded ZIP archive bytes.
 
-      - `media_type: "application/zip"`
+        `minLength: 1`, `maxLength: 70254592`
+
+      - `media_type: "application/zip" (default: "application/zip")`
 
         The archive media type, always `application/zip`.
 
@@ -152,13 +186,13 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
           A ZIP archive.
 
-      - `type: "base64"`
+      - `type: "base64" (default: "base64")`
 
         The type of the object. Always `base64`.
 
         - `"base64"`
 
-    - `type: "inline"`
+    - `type: "inline" (default: "inline")`
 
       The type of the object. Always `inline`.
 
@@ -168,17 +202,25 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
     Ordered, confidential setup commands. Command bodies are never returned.
 
+    `minItems: 0`, `maxItems: 16`
+
     - `command: string`
 
       The shell command to execute.
+
+      `minLength: 0`, `maxLength: 65536`
 
     - `cwd: optional string or null`
 
       The absolute working directory. Defaults to `/workspace`.
 
+      `minLength: 0`, `maxLength: 4096`
+
   - `skills: optional array of HostedSkillParam or null`
 
     Skills referenced by ID or provided as inline ZIP archives. Defaults to an empty list.
+
+    `minItems: 0`, `maxItems: 200`
 
     - `SkillReference object { skill_id, type, version }`
 
@@ -188,7 +230,9 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The ID of the skill created through `/v1/skills`.
 
-      - `type: "skill_reference"`
+        `minLength: 1`, `maxLength: 64`
+
+      - `type: "skill_reference" (default: "skill_reference")`
 
         The type of the object. Always `skill_reference`.
 
@@ -198,6 +242,8 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The skill version, a positive integer or `latest`; omission selects the default.
 
+        `minLength: 0`, `maxLength: 1048576`
+
     - `Inline object { description, name, source, type }`
 
       Supplies a skill ZIP directly in the session request.
@@ -206,15 +252,19 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The skill description declared in `SKILL.md`.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `name: string`
 
         The skill name declared in `SKILL.md`.
+
+        `minLength: 1`, `maxLength: 64`
 
       - `source: InlineCapabilitySourceParam`
 
         Provides ZIP bytes encoded with standard base64.
 
-      - `type: "inline"`
+      - `type: "inline" (default: "inline")`
 
         The type of the object. Always `inline`.
 
@@ -223,6 +273,8 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 - `vault_ids: optional array of string or null`
 
   The IDs of up to 10 vaults made available to an OpenAI-hosted environment.
+
+  `minItems: 0`, `maxItems: 10`
 
 ### Returns
 
@@ -234,9 +286,13 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
     The ID of the environment.
 
+    `minLength: 0`
+
   - `files: array of HostedEnvironmentFile`
 
     Files installed in the environment, without their contents.
+
+    `minItems: 0`, `maxItems: 2000`
 
     - `HostedEnvironmentFileID object { id, file_id, path, 2 more }`
 
@@ -246,19 +302,27 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The session-scoped ID of the file in the execution environment.
 
+        `minLength: 0`
+
       - `file_id: string`
 
         The ID of the uploaded file.
+
+        `minLength: 0`
 
       - `path: string`
 
         The file's absolute path inside the environment.
 
-      - `size_bytes: number`
+        `minLength: 0`
+
+      - `size_bytes: integer`
 
         The decoded file size in bytes.
 
-      - `type: "file_id"`
+        `format: int64`, `minimum: 0`
+
+      - `type: "file_id" (default: "file_id")`
 
         The type of the object. Always `file_id`.
 
@@ -272,21 +336,27 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The session-scoped ID of the file in the execution environment.
 
+        `minLength: 0`
+
       - `path: string`
 
         The file's absolute path inside the environment.
 
-      - `size_bytes: number`
+        `minLength: 0`
+
+      - `size_bytes: integer`
 
         The decoded file size in bytes.
 
-      - `type: "inline"`
+        `format: int64`, `minimum: 0`
+
+      - `type: "inline" (default: "inline")`
 
         The type of the object. Always `inline`.
 
         - `"inline"`
 
-  - `object: "agent.environment"`
+  - `object: "agent.environment" (default: "agent.environment")`
 
     The object type. Always `agent.environment`.
 
@@ -296,15 +366,21 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
     Plugins installed in the environment, without their archive contents.
 
+    `minItems: 0`, `maxItems: 2000`
+
     - `description: string`
 
       The installed plugin description.
+
+      `minLength: 0`
 
     - `name: string`
 
       The installed plugin name.
 
-    - `type: "inline"`
+      `minLength: 0`
+
+    - `type: "inline" (default: "inline")`
 
       The type of the object. Always `inline`.
 
@@ -314,6 +390,8 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
     Skills installed in the environment, without their archive contents.
 
+    `minItems: 0`, `maxItems: 2000`
+
     - `HostedSkillReference object { description, name, skill_id, 2 more }`
 
       A skill installed from the Skills API.
@@ -322,15 +400,21 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The installed skill description.
 
+        `minLength: 0`
+
       - `name: string`
 
         The installed skill name.
+
+        `minLength: 0`
 
       - `skill_id: string`
 
         The referenced skill ID.
 
-      - `type: "skill_reference"`
+        `minLength: 0`
+
+      - `type: "skill_reference" (default: "skill_reference")`
 
         The type of the object. Always `skill_reference`.
 
@@ -340,6 +424,8 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The concrete skill version installed for this session.
 
+        `minLength: 0`
+
     - `Inline object { description, name, type }`
 
       A skill installed from an inline ZIP archive.
@@ -348,11 +434,15 @@ Creates an OpenAI-hosted environment before creating a session. Requires access 
 
         The installed skill description.
 
+        `minLength: 0`
+
       - `name: string`
 
         The installed skill name.
 
-      - `type: "inline"`
+        `minLength: 0`
+
+      - `type: "inline" (default: "inline")`
 
         The type of the object. Always `inline`.
 
@@ -402,7 +492,7 @@ curl https://api.openai.com/v1/agents/environments \
         }'
 ```
 
-#### Response
+#### 201 — Example
 
 ```json
 {

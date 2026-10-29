@@ -8,17 +8,23 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Query Parameters
 
 - `after: optional string`
 
   Return resources after this resource ID in the selected order.
 
-- `limit: optional number`
+  `minLength: 0`, `maxLength: 1048576`
+
+- `limit: optional integer (default: 20)`
 
   The maximum number of resources to return, between 1 and 100. Defaults to 20.
 
-- `order: optional "asc" or "desc"`
+  `format: int64`, `minimum: 1`, `maximum: 100`
+
+- `order: optional "asc" or "desc" (default: "desc")`
 
   The order in which resources are returned. Defaults to `desc`.
 
@@ -36,17 +42,25 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
   The resources returned in this page, in the requested sort order.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `id: string`
 
     The ID of the subagent.
 
-  - `closed_at: number or null`
+    `minLength: 0`
+
+  - `closed_at: integer or null`
 
     The Unix timestamp, in seconds, when the subagent was closed. Null while active, including after resume.
+
+    `format: int64`
 
   - `instructions: array of AgentContent or null`
 
     Initial task content, or null when unavailable. Text may contain placeholders for images or audio when only a preview is available.
+
+    `minItems: 0`, `maxItems: 2000`
 
     - `OutputText object { text, type }`
 
@@ -56,7 +70,9 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
         The text produced by the agent.
 
-      - `type: "output_text"`
+        `minLength: 0`
+
+      - `type: "output_text" (default: "output_text")`
 
         The content type. Always `output_text`.
 
@@ -70,7 +86,9 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
         The encrypted content payload.
 
-      - `type: "encrypted_content"`
+        `minLength: 0`
+
+      - `type: "encrypted_content" (default: "encrypted_content")`
 
         The content type. Always `encrypted_content`.
 
@@ -80,23 +98,31 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
     The runner-assigned nickname, or null when unavailable.
 
-  - `object: "agent.session.subagent"`
+    `minLength: 0`
+
+  - `object: "agent.session.subagent" (default: "agent.session.subagent")`
 
     The object type. Always `agent.session.subagent`.
 
     - `"agent.session.subagent"`
 
-  - `opened_at: number`
+  - `opened_at: integer`
 
     The Unix timestamp, in seconds, when the subagent was first opened. Resuming does not change it.
+
+    `format: int64`
 
   - `parent_agent_id: string`
 
     The ID of the agent that created this subagent.
 
+    `minLength: 0`
+
   - `session_id: string`
 
     The ID of the session that owns the subagent.
+
+    `minLength: 0`
 
   - `status: "active" or "closed"`
 
@@ -114,6 +140,8 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
   The ID of the first resource in `data`, or `null` if the page is empty.
 
+  `minLength: 0`
+
 - `has_more: boolean`
 
   Whether there are more resources to retrieve after this page.
@@ -122,7 +150,9 @@ Lists subagents in a session, including nested and closed subagents. See [subage
 
   The ID of the last resource in `data`, or `null` if the page is empty. Pass this as `after` with the same order and filters.
 
-- `object: "list"`
+  `minLength: 0`
+
+- `object: "list" (default: "list")`
 
   The object type, which is always `list`.
 
@@ -136,7 +166,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID/subagents \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

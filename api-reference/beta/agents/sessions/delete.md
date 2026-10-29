@@ -8,6 +8,8 @@ Removes a managed agent session from the public API and returns a deletion confi
 
 - `session_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `AgentSessionDeleted object { id, deleted, object }`
@@ -18,11 +20,13 @@ Removes a managed agent session from the public API and returns a deletion confi
 
     The ID of the deleted session.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the session has been removed from the public API. Always `true`. Physical cleanup may still be in progress.
 
-  - `object: "agent.session.deleted"`
+  - `object: "agent.session.deleted" (default: "agent.session.deleted")`
 
     The object type. Always `agent.session.deleted`.
 
@@ -37,7 +41,7 @@ curl https://api.openai.com/v1/agents/sessions/$SESSION_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

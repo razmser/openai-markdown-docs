@@ -33,6 +33,8 @@ retry can place another call.
 
     - `string`
 
+      `minLength: 1`
+
     - `"gpt-live-1"`
 
       The Live model. Required in the session configuration for every transport; do not pass it as a URL query parameter.
@@ -123,6 +125,8 @@ retry can place another call.
 
           - `id: string`
 
+            `minLength: 1`, `maxLength: 128`
+
   - `client: optional ClientConfig`
 
     Startup-only capabilities for an untrusted frontend attached to a unified WebRTC session. Trusted sideband connections are unaffected.
@@ -141,6 +145,8 @@ retry can place another call.
 
         - `array of string`
 
+          `maxItems: 256`
+
       - `allowed_server_events: optional "all" or array of ServerEventSelector`
 
         Server events that may be sent to the frontend data channel. Use 'all' to allow every server event; an empty array allows none. Omission preserves the existing allow-all behavior. Responses events use an object with type 'response.event' and a response_event selector.
@@ -151,13 +157,19 @@ retry can place another call.
 
         - `array of ServerEventSelector`
 
+          `maxItems: 256`
+
           - `type: string`
 
             The outer Live server event type. Use 'response.event' for Responses events.
 
+            `minLength: 1`, `maxLength: 256`
+
           - `response_event: optional string`
 
             The nested Responses event type. Required when type is 'response.event'; forbidden for other event types.
+
+            `minLength: 1`, `maxLength: 256`
 
   - `delegation: optional ClientDelegation or Responses { responses, type, acknowledgement_delay_ms }  or Decisions { decisions, type, acknowledgement_delay_ms }  or null`
 
@@ -167,15 +179,17 @@ retry can place another call.
 
       Delegate tasks to your application. The Live session emits delegation events that your backend handles.
 
-      - `type: "client"`
+      - `type: "client" (default: "client")`
 
         The delegation owner. Always `client` for tasks handled by your application.
 
         - `"client"`
 
-      - `acknowledgement_delay_ms: optional number`
+      - `acknowledgement_delay_ms: optional integer`
 
         Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations.
+
+        `minimum: 0`, `maximum: 800`
 
     - `Responses object { responses, type, acknowledgement_delay_ms }`
 
@@ -193,9 +207,11 @@ retry can place another call.
 
           Instructions for the delegated Responses model, separate from Live instructions. See [backend prompting](https://developers.openai.com/api/docs/guides/live-delegation#start-with-your-existing-backend-prompt).
 
-        - `max_output_tokens: optional number or null`
+        - `max_output_tokens: optional integer or null`
 
           Maximum number of output tokens for each delegated response.
+
+          `minimum: 16`
 
         - `parallel_tool_calls: optional boolean or null`
 
@@ -279,7 +295,7 @@ retry can place another call.
 
               The name of the function tool to call.
 
-            - `type: "function"`
+            - `type: "function" (default: "function")`
 
               The tool to call. Always `function`.
 
@@ -291,7 +307,7 @@ retry can place another call.
 
               The label of the MCP server to call.
 
-            - `type: "mcp"`
+            - `type: "mcp" (default: "mcp")`
 
               The tool to call. Always `mcp`.
 
@@ -303,7 +319,7 @@ retry can place another call.
 
           - `FileSearch object { type }`
 
-            - `type: "file_search"`
+            - `type: "file_search" (default: "file_search")`
 
               The tool to call. Always `file_search`.
 
@@ -311,7 +327,7 @@ retry can place another call.
 
           - `WebSearch object { type }`
 
-            - `type: "web_search"`
+            - `type: "web_search" (default: "web_search")`
 
               The tool to call. Always `web_search`.
 
@@ -319,7 +335,7 @@ retry can place another call.
 
           - `WebSearchPreview object { type }`
 
-            - `type: "web_search_preview"`
+            - `type: "web_search_preview" (default: "web_search_preview")`
 
               The tool to call. Always `web_search_preview`.
 
@@ -327,7 +343,7 @@ retry can place another call.
 
           - `ImageGeneration object { type }`
 
-            - `type: "image_generation"`
+            - `type: "image_generation" (default: "image_generation")`
 
               The tool to call. Always `image_generation`.
 
@@ -335,7 +351,7 @@ retry can place another call.
 
           - `Computer object { type }`
 
-            - `type: "computer"`
+            - `type: "computer" (default: "computer")`
 
               The tool to call. Always `computer`.
 
@@ -343,7 +359,7 @@ retry can place another call.
 
           - `CodeInterpreter object { type }`
 
-            - `type: "code_interpreter"`
+            - `type: "code_interpreter" (default: "code_interpreter")`
 
               The tool to call. Always `code_interpreter`.
 
@@ -351,7 +367,7 @@ retry can place another call.
 
           - `ProgrammaticToolCalling object { type }`
 
-            - `type: "programmatic_tool_calling"`
+            - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
               The tool to call. Always `programmatic_tool_calling`.
 
@@ -361,7 +377,7 @@ retry can place another call.
 
             Forces the model to call the shell tool when a tool call is required.
 
-            - `type: "shell"`
+            - `type: "shell" (default: "shell")`
 
               The tool to call. Always `shell`.
 
@@ -373,7 +389,7 @@ retry can place another call.
 
               The name of the custom tool to call.
 
-            - `type: "custom"`
+            - `type: "custom" (default: "custom")`
 
               The tool to call. Always `custom`.
 
@@ -383,7 +399,7 @@ retry can place another call.
 
             Forces the model to call the apply_patch tool when executing a tool call.
 
-            - `type: "apply_patch"`
+            - `type: "apply_patch" (default: "apply_patch")`
 
               The tool to call. Always `apply_patch`.
 
@@ -395,13 +411,15 @@ retry can place another call.
 
               The tools that the delegated Responses model may call.
 
+              `minItems: 1`, `maxItems: 128`
+
               - `Function object { name, type }`
 
                 - `name: string`
 
                   The name of the function tool to call.
 
-                - `type: "function"`
+                - `type: "function" (default: "function")`
 
                   The tool to call. Always `function`.
 
@@ -413,7 +431,7 @@ retry can place another call.
 
                   The label of the MCP server to call.
 
-                - `type: "mcp"`
+                - `type: "mcp" (default: "mcp")`
 
                   The tool to call. Always `mcp`.
 
@@ -425,7 +443,7 @@ retry can place another call.
 
               - `FileSearch object { type }`
 
-                - `type: "file_search"`
+                - `type: "file_search" (default: "file_search")`
 
                   The tool to call. Always `file_search`.
 
@@ -433,7 +451,7 @@ retry can place another call.
 
               - `WebSearch object { type }`
 
-                - `type: "web_search"`
+                - `type: "web_search" (default: "web_search")`
 
                   The tool to call. Always `web_search`.
 
@@ -441,7 +459,7 @@ retry can place another call.
 
               - `WebSearchPreview object { type }`
 
-                - `type: "web_search_preview"`
+                - `type: "web_search_preview" (default: "web_search_preview")`
 
                   The tool to call. Always `web_search_preview`.
 
@@ -449,7 +467,7 @@ retry can place another call.
 
               - `ImageGeneration object { type }`
 
-                - `type: "image_generation"`
+                - `type: "image_generation" (default: "image_generation")`
 
                   The tool to call. Always `image_generation`.
 
@@ -457,7 +475,7 @@ retry can place another call.
 
               - `Computer object { type }`
 
-                - `type: "computer"`
+                - `type: "computer" (default: "computer")`
 
                   The tool to call. Always `computer`.
 
@@ -465,7 +483,7 @@ retry can place another call.
 
               - `CodeInterpreter object { type }`
 
-                - `type: "code_interpreter"`
+                - `type: "code_interpreter" (default: "code_interpreter")`
 
                   The tool to call. Always `code_interpreter`.
 
@@ -473,7 +491,7 @@ retry can place another call.
 
               - `ProgrammaticToolCalling object { type }`
 
-                - `type: "programmatic_tool_calling"`
+                - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
                   The tool to call. Always `programmatic_tool_calling`.
 
@@ -483,7 +501,7 @@ retry can place another call.
 
                 Forces the model to call the shell tool when a tool call is required.
 
-                - `type: "shell"`
+                - `type: "shell" (default: "shell")`
 
                   The tool to call. Always `shell`.
 
@@ -495,7 +513,7 @@ retry can place another call.
 
                   The name of the custom tool to call.
 
-                - `type: "custom"`
+                - `type: "custom" (default: "custom")`
 
                   The tool to call. Always `custom`.
 
@@ -505,13 +523,13 @@ retry can place another call.
 
                 Forces the model to call the apply_patch tool when executing a tool call.
 
-                - `type: "apply_patch"`
+                - `type: "apply_patch" (default: "apply_patch")`
 
                   The tool to call. Always `apply_patch`.
 
                   - `"apply_patch"`
 
-            - `type: "allowed_tools"`
+            - `type: "allowed_tools" (default: "allowed_tools")`
 
               The tool choice type. Always `allowed_tools`.
 
@@ -539,7 +557,7 @@ retry can place another call.
 
               The name the delegated Responses model uses when calling this function.
 
-            - `type: "function"`
+            - `type: "function" (default: "function")`
 
               The tool type. Always `function`.
 
@@ -561,7 +579,7 @@ retry can place another call.
 
             A web search tool available to the Live session’s Responses backend.
 
-            - `type: "web_search"`
+            - `type: "web_search" (default: "web_search")`
 
               The tool type. Always `web_search`.
 
@@ -569,13 +587,13 @@ retry can place another call.
 
           - `FileSearch object { type }`
 
-            - `type: "file_search"`
+            - `type: "file_search" (default: "file_search")`
 
               - `"file_search"`
 
           - `CodeInterpreter object { type }`
 
-            - `type: "code_interpreter"`
+            - `type: "code_interpreter" (default: "code_interpreter")`
 
               - `"code_interpreter"`
 
@@ -583,7 +601,7 @@ retry can place another call.
 
             A Responses shell tool. Use a hosted container or return local shell results with response.item.create. Domain secrets are not supported.
 
-            - `type: "shell"`
+            - `type: "shell" (default: "shell")`
 
               - `"shell"`
 
@@ -591,7 +609,7 @@ retry can place another call.
 
               - `ContainerAuto object { type, file_ids, memory_limit, 2 more }`
 
-                - `type: "container_auto"`
+                - `type: "container_auto" (default: "container_auto")`
 
                   Automatically creates a container for this request
 
@@ -600,6 +618,8 @@ retry can place another call.
                 - `file_ids: optional array of string or null`
 
                   An optional list of uploaded files to make available to your code.
+
+                  `maxItems: 50`
 
                 - `memory_limit: optional "1g" or "4g" or "16g" or "64g" or null`
 
@@ -619,7 +639,7 @@ retry can place another call.
 
                   - `Disabled object { type }`
 
-                    - `type: "disabled"`
+                    - `type: "disabled" (default: "disabled")`
 
                       Disable outbound network access. Always `disabled`.
 
@@ -631,7 +651,9 @@ retry can place another call.
 
                       A list of allowed domains when type is `allowlist`.
 
-                    - `type: "allowlist"`
+                      `minItems: 1`
+
+                    - `type: "allowlist" (default: "allowlist")`
 
                       Allow outbound network access only to specified domains. Always `allowlist`.
 
@@ -641,13 +663,17 @@ retry can place another call.
 
                   An optional list of skills referenced by id or inline data.
 
+                  `maxItems: 200`
+
                   - `SkillReference object { skill_id, type, version }`
 
                     - `skill_id: string`
 
                       The ID of the referenced skill.
 
-                    - `type: "skill_reference"`
+                      `minLength: 1`, `maxLength: 64`
+
+                    - `type: "skill_reference" (default: "skill_reference")`
 
                       References a skill created with the /v1/skills endpoint.
 
@@ -675,19 +701,21 @@ retry can place another call.
 
                         Base64-encoded skill zip bundle.
 
-                      - `media_type: "application/zip"`
+                        `minLength: 1`, `maxLength: 70254592`
+
+                      - `media_type: "application/zip" (default: "application/zip")`
 
                         The media type of the inline skill payload. Must be `application/zip`.
 
                         - `"application/zip"`
 
-                      - `type: "base64"`
+                      - `type: "base64" (default: "base64")`
 
                         The type of the inline skill source. Must be `base64`.
 
                         - `"base64"`
 
-                    - `type: "inline"`
+                    - `type: "inline" (default: "inline")`
 
                       Defines an inline skill for this request.
 
@@ -699,7 +727,7 @@ retry can place another call.
 
                   The ID of the referenced container.
 
-                - `type: "container_reference"`
+                - `type: "container_reference" (default: "container_reference")`
 
                   References a container created with the /v1/containers endpoint
 
@@ -707,7 +735,7 @@ retry can place another call.
 
               - `Local object { type, skills }`
 
-                - `type: "local"`
+                - `type: "local" (default: "local")`
 
                   Use a local computer environment.
 
@@ -716,6 +744,8 @@ retry can place another call.
                 - `skills: optional array of object { description, name, path }  or null`
 
                   An optional list of skills.
+
+                  `maxItems: 200`
 
                   - `description: string`
 
@@ -731,61 +761,63 @@ retry can place another call.
 
           - `ImageGeneration object { type }`
 
-            - `type: "image_generation"`
+            - `type: "image_generation" (default: "image_generation")`
 
               - `"image_generation"`
 
           - `Mcp object { type }`
 
-            - `type: "mcp"`
+            - `type: "mcp" (default: "mcp")`
 
               - `"mcp"`
 
           - `Custom object { type }`
 
-            - `type: "custom"`
+            - `type: "custom" (default: "custom")`
 
               - `"custom"`
 
           - `Namespace object { type }`
 
-            - `type: "namespace"`
+            - `type: "namespace" (default: "namespace")`
 
               - `"namespace"`
 
           - `ToolSearch object { type }`
 
-            - `type: "tool_search"`
+            - `type: "tool_search" (default: "tool_search")`
 
               - `"tool_search"`
 
           - `ProgrammaticToolCalling object { type }`
 
-            - `type: "programmatic_tool_calling"`
+            - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
               - `"programmatic_tool_calling"`
 
           - `Computer object { type }`
 
-            - `type: "computer"`
+            - `type: "computer" (default: "computer")`
 
               - `"computer"`
 
           - `ApplyPatch object { type }`
 
-            - `type: "apply_patch"`
+            - `type: "apply_patch" (default: "apply_patch")`
 
               - `"apply_patch"`
 
-      - `type: "responses"`
+      - `type: "responses" (default: "responses")`
 
         The delegation owner. Always `responses` for tasks handled by the Responses API.
 
         - `"responses"`
 
-      - `acknowledgement_delay_ms: optional number`
+      - `acknowledgement_delay_ms: optional integer`
 
         Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400 for Decisions sessions and 0 (request immediately) for other sessions. Omission in a session update preserves the current value. Updates apply to subsequent delegations.
+
+        `minimum: 0`, `maximum: 800`
 
     - `Decisions object { decisions, type, acknowledgement_delay_ms }`
 
@@ -793,13 +825,19 @@ retry can place another call.
 
         - `model: string`
 
+          `minLength: 1`
+
         - `questions: array of DecisionQuestion`
 
           Native Decision API questions evaluated together, in order.
 
+          `minItems: 1`, `maxItems: 64`
+
           - `Choice object { choices, instructions, type, name }`
 
             - `choices: array of DecisionChoiceOption`
+
+              `minItems: 2`, `maxItems: 255`
 
               - `value: string or boolean`
 
@@ -815,13 +853,17 @@ retry can place another call.
 
               - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
 
+                `minItems: 1`
+
                 - `DecisionInputText object { text, type }`
 
                   - `text: string`
 
                     The text input to the model.
 
-                  - `type: "input_text"`
+                    `maxLength: 10485760`
+
+                  - `type: "input_text" (default: "input_text")`
 
                     - `"input_text"`
 
@@ -831,7 +873,9 @@ retry can place another call.
 
                     A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
 
-                  - `type: "input_image"`
+                    `pattern: ^(data:|https?://)`, `maxLength: 20971520`
+
+                  - `type: "input_image" (default: "input_image")`
 
                     - `"input_image"`
 
@@ -855,11 +899,11 @@ retry can place another call.
 
                     - `array of map[unknown]`
 
-                  - `type: "input_json"`
+                  - `type: "input_json" (default: "input_json")`
 
                     - `"input_json"`
 
-            - `type: "choice"`
+            - `type: "choice" (default: "choice")`
 
               - `"choice"`
 
@@ -873,6 +917,8 @@ retry can place another call.
 
               - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
 
+                `minItems: 1`
+
                 - `DecisionInputText object { text, type }`
 
                 - `InputImage object { image_url, type, detail }`
@@ -881,7 +927,9 @@ retry can place another call.
 
                     A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
 
-                  - `type: "input_image"`
+                    `pattern: ^(data:|https?://)`, `maxLength: 20971520`
+
+                  - `type: "input_image" (default: "input_image")`
 
                     - `"input_image"`
 
@@ -905,11 +953,11 @@ retry can place another call.
 
                     - `array of map[unknown]`
 
-                  - `type: "input_json"`
+                  - `type: "input_json" (default: "input_json")`
 
                     - `"input_json"`
 
-            - `type: "predicate"`
+            - `type: "predicate" (default: "predicate")`
 
               - `"predicate"`
 
@@ -923,6 +971,8 @@ retry can place another call.
 
               - `array of DecisionInputText or InputImage { image_url, type, detail }  or InputJSON { data, type }`
 
+                `minItems: 1`
+
                 - `DecisionInputText object { text, type }`
 
                 - `InputImage object { image_url, type, detail }`
@@ -931,7 +981,9 @@ retry can place another call.
 
                     A base64-encoded image data URL or a publicly accessible HTTP(S) image URL.
 
-                  - `type: "input_image"`
+                    `pattern: ^(data:|https?://)`, `maxLength: 20971520`
+
+                  - `type: "input_image" (default: "input_image")`
 
                     - `"input_image"`
 
@@ -955,33 +1007,39 @@ retry can place another call.
 
                     - `array of map[unknown]`
 
-                  - `type: "input_json"`
+                  - `type: "input_json" (default: "input_json")`
 
                     - `"input_json"`
 
             - `levels: array of object { label, description }`
 
+              `minItems: 2`, `maxItems: 10`
+
               - `label: string`
 
               - `description: optional string`
 
-            - `type: "score"`
+            - `type: "score" (default: "score")`
 
               - `"score"`
 
             - `name: optional string`
 
-      - `type: "decisions"`
+      - `type: "decisions" (default: "decisions")`
 
         - `"decisions"`
 
-      - `acknowledgement_delay_ms: optional number`
+      - `acknowledgement_delay_ms: optional integer`
 
         Milliseconds to wait before requesting an automatic spoken acknowledgement for a delegation. The model may still speak before this delay. Any commentary or thinking appended to the session cancels all pending acknowledgements, including those for other delegations. Defaults to 400. Updates apply to subsequent delegations.
+
+        `minimum: 0`, `maximum: 800`
 
   - `input: optional array of InitialItem`
 
     Ordered text-only history supplied before startup. Supports developer, user, and assistant messages with one text part each; at most 128 messages and a configured rendered-token limit (8,192 by default).
+
+    `maxItems: 128`
 
     - `Developer object { content, role, id, 2 more }`
 
@@ -991,17 +1049,19 @@ retry can place another call.
 
         The message content. Supply exactly one text part for the initial Live conversation history.
 
+        `minItems: 1`, `maxItems: 1`
+
         - `text: string`
 
           The message text to include in the Live session’s initial conversation history.
 
-        - `type: optional "input_text"`
+        - `type: optional "input_text" (default: "input_text")`
 
           The text content type. Always `input_text`.
 
           - `"input_text"`
 
-      - `role: "developer"`
+      - `role: "developer" (default: "developer")`
 
         The author of this history message. Always `developer`.
 
@@ -1019,7 +1079,7 @@ retry can place another call.
 
         - `"completed"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The history item type. Always `message`.
 
@@ -1033,17 +1093,19 @@ retry can place another call.
 
         The message content. Supply exactly one text part for the initial Live conversation history.
 
+        `minItems: 1`, `maxItems: 1`
+
         - `text: string`
 
           The message text to include in the Live session’s initial conversation history.
 
-        - `type: optional "input_text"`
+        - `type: optional "input_text" (default: "input_text")`
 
           The text content type. Always `input_text`.
 
           - `"input_text"`
 
-      - `role: "user"`
+      - `role: "user" (default: "user")`
 
         The author of this history message. Always `user`.
 
@@ -1061,7 +1123,7 @@ retry can place another call.
 
         - `"completed"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The history item type. Always `message`.
 
@@ -1075,6 +1137,8 @@ retry can place another call.
 
         The message content. Supply exactly one text part for the initial Live conversation history.
 
+        `minItems: 1`, `maxItems: 1`
+
         - `Text object { text, type }`
 
           Assistant text supplied as conversation history when starting a Live session.
@@ -1083,7 +1147,7 @@ retry can place another call.
 
             The message text to include in the Live session’s initial conversation history.
 
-          - `type: optional "text"`
+          - `type: optional "text" (default: "text")`
 
             The text content type. Always `text`.
 
@@ -1097,13 +1161,13 @@ retry can place another call.
 
             The message text to include in the Live session’s initial conversation history.
 
-          - `type: "output_text"`
+          - `type: "output_text" (default: "output_text")`
 
             The text content type. Always `output_text`.
 
             - `"output_text"`
 
-      - `role: "assistant"`
+      - `role: "assistant" (default: "assistant")`
 
         The author of this history message. Always `assistant`.
 
@@ -1121,7 +1185,7 @@ retry can place another call.
 
         - `"completed"`
 
-      - `type: optional "message"`
+      - `type: optional "message" (default: "message")`
 
         The history item type. Always `message`.
 
@@ -1139,6 +1203,8 @@ retry can place another call.
 
     At most one Decisions trigger per transcript event type. Triggers run independently of delegation. On update, omit triggers to keep the current configuration, send a list to replace it, or send an empty list to disable triggers.
 
+    `maxItems: 2`
+
     - `decisions: object { questions }`
 
       Questions evaluated using the current transcript and the session's shared Decision items.
@@ -1146,6 +1212,8 @@ retry can place another call.
       - `questions: array of DecisionQuestion`
 
         Native Decision API questions evaluated together, in order.
+
+        `minItems: 1`, `maxItems: 64`
 
         - `Choice object { choices, instructions, type, name }`
 
@@ -1159,7 +1227,7 @@ retry can place another call.
 
       - `"session.output_transcript.delta"`
 
-    - `type: "decisions"`
+    - `type: "decisions" (default: "decisions")`
 
       - `"decisions"`
 
@@ -1175,6 +1243,8 @@ retry can place another call.
 
       Session Description Protocol message for the WebRTC connection.
 
+      `minLength: 1`
+
     - `type: "webrtc"`
 
       The transport used for the Live session. Always `webrtc`.
@@ -1189,6 +1259,8 @@ retry can place another call.
 
       Phone number to call in E.164 format. SIP URI destinations are not supported.
 
+      `pattern: ^\+[1-9][0-9]{1,14}$`
+
     - `trunk: object { auth, caller_number, provider_url }`
 
       SIP trunk configuration supplied for this call. Keep trunk credentials on your server. The creation response does not return this configuration.
@@ -1201,6 +1273,8 @@ retry can place another call.
 
           Provider password. Must be at most 4096 bytes and contain no CR, LF, or NUL.
 
+          `minLength: 1`
+
         - `type: "digest"`
 
           Use `digest` for SIP Digest authentication. Handles 401 and 407 challenges.
@@ -1211,9 +1285,13 @@ retry can place another call.
 
           Provider username. Must contain a non-whitespace character, be at most 256 bytes, and contain no CR, LF, or NUL.
 
+          `minLength: 1`
+
       - `caller_number: string`
 
         Caller phone number in E.164 format to use in the SIP From header.
+
+        `pattern: ^\+[1-9][0-9]{1,14}$`
 
       - `provider_url: string`
 
@@ -1246,6 +1324,8 @@ retry can place another call.
     - `sdp: string`
 
       Session Description Protocol message for the WebRTC connection.
+
+      `minLength: 1`
 
     - `type: "webrtc"`
 
@@ -1280,7 +1360,7 @@ curl https://api.openai.com/v1/live/sessions \
         }'
 ```
 
-#### Response
+#### 201 — WebRTC session created (201 Created)
 
 ```json
 {
@@ -1294,6 +1374,19 @@ curl https://api.openai.com/v1/live/sessions \
 }
 ```
 
+#### 201 — Outbound SIP session initialized (201 Created)
+
+```json
+{
+  "session": {
+    "id": "live_123"
+  },
+  "transport": {
+    "type": "sip"
+  }
+}
+```
+
 ### Create a WebRTC session
 
 ```http
@@ -1303,7 +1396,7 @@ curl https://api.openai.com/v1/live/sessions \
   -d '{"session":{"model":"gpt-live-1","instructions":"Be concise. Ask for clarification when needed."},"transport":{"type":"webrtc","sdp":"<SDP offer>"}}'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {"session":{"id":"live_123"},"transport":{"type":"webrtc","sdp":"<SDP answer>"}}
@@ -1339,7 +1432,7 @@ jq -n '{
     --data-binary @-
 ```
 
-#### Response
+#### Response example
 
 ```json
 {"session":{"id":"live_123"},"transport":{"type":"sip"}}

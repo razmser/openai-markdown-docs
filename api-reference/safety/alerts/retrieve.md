@@ -10,13 +10,17 @@ Get a safety alert belonging to the authenticated API project.
 
   Project safety alert ID
 
+  `maxLength: 38`
+
 ### Returns
 
 - `SafetyAlert object { id, created_at, error_type, 7 more }`
 
   - `id: string`
 
-  - `created_at: number`
+  - `created_at: integer`
+
+    `format: unixtime`
 
   - `error_type: "potentially_unintended_data_transfer" or "potentially_unintended_data_access" or "potentially_unintended_destructive_activity" or "other"`
 
@@ -30,7 +34,7 @@ Get a safety alert belonging to the authenticated API project.
 
   - `model: string`
 
-  - `object: "safety.alert"`
+  - `object: "safety.alert" (default: "safety.alert")`
 
     - `"safety.alert"`
 
@@ -57,7 +61,7 @@ curl https://api.openai.com/v1/safety/alerts/$ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -81,7 +85,7 @@ curl https://api.openai.com/v1/safety/alerts/alert_0123456789abcdef0123456789abc
   -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

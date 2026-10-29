@@ -8,11 +8,31 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
 - `agent_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Body Parameters
+
+- `compaction: optional object { async }  or null`
+
+  Context compaction settings. Omit to keep the current settings. A supplied object replaces the settings; null or an empty object enables background compaction.
+
+  - `async: optional boolean or null`
+
+    Whether to compact context in the background. Omission or null defaults to true. Set to false to use blocking compaction. Background compaction may increase token usage.
+
+- `experimental: optional object { time_awareness }  (default: {})`
+
+  Experimental settings to merge by key. Omitted settings keep their current values.
+
+  - `time_awareness: optional boolean`
+
+    Whether to give the model periodic current-time reminders. Omit to keep the current setting.
 
 - `instructions: optional string or null`
 
   Additional instructions appended to the agent's default base instructions. Omit to leave unchanged.
+
+  `minLength: 0`, `maxLength: 1048576`
 
 - `metadata: optional map[string] or null`
 
@@ -22,6 +42,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
   The model to use for the agent. The requested model name is preserved.
 
+  `minLength: 0`, `maxLength: 1048576`
+
 - `multi_agent: optional MultiAgentConfigParam or null`
 
   Configuration for creating and coordinating subagents.
@@ -30,13 +52,17 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Whether subagent tools are enabled.
 
-  - `max_concurrent_subagents: optional number`
+  - `max_concurrent_subagents: optional integer`
 
     Maximum number of subagents that may run concurrently. Defaults to 6.
+
+    `format: int64`, `minimum: 1`, `maximum: 4294967295`
 
 - `name: optional string or null`
 
   A replacement name. Omit to leave unchanged, or pass null to clear it.
+
+  `minLength: 0`, `maxLength: 128`
 
 - `reasoning: optional AgentReasoningParam or null`
 
@@ -116,7 +142,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       Generates ordinary text without a structured-output constraint.
 
-      - `type: "text"`
+      - `type: "text" (default: "text")`
 
         The type of the object. Always `text`.
 
@@ -130,7 +156,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         The JSON Schema that generated text must match.
 
-      - `type: "json_schema"`
+      - `type: "json_schema" (default: "json_schema")`
 
         The type of the object. Always `json_schema`.
 
@@ -156,6 +182,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
   Replaces the tool list. Omit to leave it unchanged, or pass null to clear it. The replacement must fit within 3 MiB (3,145,728 bytes) of compact UTF-8 JSON.
 
+  `minItems: 0`, `maxItems: 2000`
+
   - `Function object { description, name, parameters, 2 more }`
 
     A function defined by the application.
@@ -164,21 +192,25 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       A description of what the function does.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `name: string`
 
       The name of the function.
+
+      `minLength: 0`, `maxLength: 1048576`
 
     - `parameters: map[unknown]`
 
       A JSON Schema object describing the function's arguments.
 
-    - `type: "function"`
+    - `type: "function" (default: "function")`
 
       The type of the object. Always `function`.
 
       - `"function"`
 
-    - `defer_loading: optional boolean`
+    - `defer_loading: optional boolean (default: false)`
 
       Whether this function is deferred and discovered through tool search. Defaults to `false`.
 
@@ -186,7 +218,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Discovers deferred function tools and loads them into the model context.
 
-    - `type: "tool_search"`
+    - `type: "tool_search" (default: "tool_search")`
 
       The type of the object. Always `tool_search`.
 
@@ -196,13 +228,13 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Enables calling tools from model-generated code.
 
-    - `type: "programmatic_tool_calling"`
+    - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
       The type of the object. Always `programmatic_tool_calling`.
 
       - `"programmatic_tool_calling"`
 
-    - `enabled: optional boolean`
+    - `enabled: optional boolean (default: true)`
 
       Whether tools can be called from model-generated code. Defaults to `true`.
 
@@ -213,6 +245,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
     - `server_label: string`
 
       A label used to identify the MCP server in tool calls.
+
+      `minLength: 0`, `maxLength: 1048576`
 
     - `transport: PersistedMcpTransportParam`
 
@@ -226,7 +260,9 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
           The URL of the MCP server.
 
-        - `type: "http"`
+          `minLength: 0`, `maxLength: 1048576`
+
+        - `type: "http" (default: "http")`
 
           The type of the object. Always `http`.
 
@@ -244,11 +280,15 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
           The command used to start the MCP server.
 
+          `minLength: 0`, `maxLength: 1048576`
+
         - `cwd: string`
 
           The working directory used to start the MCP server.
 
-        - `type: "stdio"`
+          `minLength: 0`, `maxLength: 1048576`
+
+        - `type: "stdio" (default: "stdio")`
 
           The type of the object. Always `stdio`.
 
@@ -258,11 +298,15 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
           Arguments passed to the MCP server command.
 
+          `minItems: 0`, `maxItems: 16384`
+
         - `env_vars: optional array of string or null`
 
           Environment variable names to inherit from the selected execution environment.
 
-    - `type: "mcp"`
+          `minItems: 0`, `maxItems: 16384`
+
+    - `type: "mcp" (default: "mcp")`
 
       The type of the object. Always `mcp`.
 
@@ -271,6 +315,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
     - `allowed_tools: optional array of string or null`
 
       The MCP tools the agent may call. All server tools are allowed when omitted.
+
+      `minItems: 0`, `maxItems: 16384`
 
     - `connection_origin: optional "service" or "environment" or null`
 
@@ -288,11 +334,13 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       The vault credential selected for this MCP server. Optional when exactly one attached credential matches the server URL.
 
+      `minLength: 0`, `maxLength: 1048576`
+
     - `request_metadata: optional map[unknown] or null`
 
       Metadata included with requests to this MCP server.
 
-    - `required: optional boolean`
+    - `required: optional boolean (default: false)`
 
       Whether this MCP server must initialize before the first turn. Defaults to `false`.
 
@@ -300,7 +348,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Web search.
 
-    - `type: "web_search"`
+    - `type: "web_search" (default: "web_search")`
 
       The type of the object. Always `web_search`.
 
@@ -309,6 +357,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
     - `allowed_domains: optional array of string or null`
 
       Domains the search may include.
+
+      `minItems: 0`, `maxItems: 16384`
 
     - `context_size: optional "low" or "medium" or "high" or null`
 
@@ -328,17 +378,25 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         The city name.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `country: optional string or null`
 
         The two-letter ISO country code, such as `US`.
+
+        `minLength: 0`, `maxLength: 1048576`
 
       - `region: optional string or null`
 
         The region or state name.
 
+        `minLength: 0`, `maxLength: 1048576`
+
       - `timezone: optional string or null`
 
         The IANA timezone, such as `America/Los_Angeles`.
+
+        `minLength: 0`, `maxLength: 1048576`
 
     - `mode: optional "disabled" or "cached" or "live" or null`
 
@@ -360,13 +418,13 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Browser use in an OpenAI-hosted session.
 
-    - `type: "computer_use"`
+    - `type: "computer_use" (default: "computer_use")`
 
       The type of the object. Always `computer_use`.
 
       - `"computer_use"`
 
-    - `include_screenshots: optional boolean`
+    - `include_screenshots: optional boolean (default: false)`
 
       Whether computer tool outputs include screenshots. Defaults to `false`.
 
@@ -374,7 +432,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Lets the agent manage its own scheduled wakeups.
 
-    - `type: "automations"`
+    - `type: "automations" (default: "automations")`
 
       The type of the object. Always `automations`.
 
@@ -382,7 +440,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
 ### Returns
 
-- `Agent object { id, created_at, instructions, 10 more }`
+- `Agent object { id, created_at, instructions, 12 more }`
 
   A reusable agent scoped to the caller's project.
 
@@ -390,13 +448,19 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     The ID of the reusable agent.
 
-  - `created_at: number`
+    `minLength: 0`
+
+  - `created_at: integer`
 
     The Unix timestamp, in seconds, when the agent was created.
+
+    `format: int64`
 
   - `instructions: string or null`
 
     Custom instructions appended to the agent's default base instructions.
+
+    `minLength: 0`
 
   - `metadata: map[string]`
 
@@ -406,6 +470,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     The requested model name used for inference.
 
+    `minLength: 0`
+
   - `multi_agent: MultiAgentConfig`
 
     The resolved configuration for creating and coordinating subagents.
@@ -414,15 +480,19 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       Whether subagent tools are enabled. Defaults to false.
 
-    - `max_concurrent_subagents: number or null`
+    - `max_concurrent_subagents: integer or null`
 
       Maximum number of subagents that may run concurrently, or null when disabled. Defaults to 6 when enabled.
+
+      `format: int64`, `minimum: 1`, `maximum: 4294967295`
 
   - `name: string or null`
 
     A human-readable name for the agent, or null if it is unnamed.
 
-  - `object: "agent"`
+    `minLength: 0`
+
+  - `object: "agent" (default: "agent")`
 
     The object type. Always `agent`.
 
@@ -494,7 +564,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         Generates ordinary text without a structured-output constraint.
 
-        - `type: "text"`
+        - `type: "text" (default: "text")`
 
           The type of the object. Always `text`.
 
@@ -508,7 +578,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
           The JSON Schema that generated text must match.
 
-        - `type: "json_schema"`
+        - `type: "json_schema" (default: "json_schema")`
 
           The type of the object. Always `json_schema`.
 
@@ -528,6 +598,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
     Tools available to the agent.
 
+    `minItems: 0`, `maxItems: 2000`
+
     - `Function object { defer_loading, description, name, 2 more }`
 
       A function defined by the application.
@@ -540,15 +612,19 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         A description of what the function does.
 
+        `minLength: 0`
+
       - `name: string`
 
         The name of the function.
+
+        `minLength: 0`
 
       - `parameters: map[unknown]`
 
         A JSON Schema object describing the function's arguments.
 
-      - `type: "function"`
+      - `type: "function" (default: "function")`
 
         The type of the object. Always `function`.
 
@@ -558,7 +634,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       Discovers deferred function tools and loads them into the model context.
 
-      - `type: "tool_search"`
+      - `type: "tool_search" (default: "tool_search")`
 
         The type of the object. Always `tool_search`.
 
@@ -572,7 +648,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         Whether tools can be called from model-generated code.
 
-      - `type: "programmatic_tool_calling"`
+      - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
         The type of the object. Always `programmatic_tool_calling`.
 
@@ -586,6 +662,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         The MCP tools the agent may call, or null when all server tools are allowed.
 
+        `minItems: 0`, `maxItems: 2000`
+
       - `connection_origin: "service" or "environment"`
 
         Where outbound MCP HTTP connections originate.
@@ -598,6 +676,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         The vault credential selected for this MCP server, if any.
 
+        `minLength: 0`
+
       - `request_metadata: map[unknown]`
 
         Metadata included with requests to this MCP server.
@@ -609,6 +689,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
       - `server_label: string`
 
         A label used to identify the MCP server in tool calls.
+
+        `minLength: 0`
 
       - `transport: PersistedMcpTransport`
 
@@ -626,7 +708,9 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
             The URL of the MCP server.
 
-          - `type: "http"`
+            `minLength: 0`
+
+          - `type: "http" (default: "http")`
 
             The type of the object. Always `http`.
 
@@ -640,25 +724,33 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
             Arguments passed to the MCP server command.
 
+            `minItems: 0`, `maxItems: 2000`
+
           - `command: string`
 
             The command used to start the MCP server.
+
+            `minLength: 0`
 
           - `cwd: string`
 
             The working directory used to start the MCP server.
 
+            `minLength: 0`
+
           - `env_vars: array of string`
 
             Environment variable names inherited from the execution environment.
 
-          - `type: "stdio"`
+            `minItems: 0`, `maxItems: 2000`
+
+          - `type: "stdio" (default: "stdio")`
 
             The type of the object. Always `stdio`.
 
             - `"stdio"`
 
-      - `type: "mcp"`
+      - `type: "mcp" (default: "mcp")`
 
         The type of the object. Always `mcp`.
 
@@ -671,6 +763,8 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
       - `allowed_domains: array of string or null`
 
         Allowed search domains, or `null` when the search is unrestricted.
+
+        `minItems: 0`, `maxItems: 2000`
 
       - `context_size: "low" or "medium" or "high"`
 
@@ -690,17 +784,25 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
           The city name.
 
+          `minLength: 0`
+
         - `country: string or null`
 
           The two-letter ISO country code, such as `US`.
+
+          `minLength: 0`
 
         - `region: string or null`
 
           The region or state name.
 
+          `minLength: 0`
+
         - `timezone: string or null`
 
           The IANA timezone, such as `America/Los_Angeles`.
+
+          `minLength: 0`
 
       - `mode: "disabled" or "cached" or "live"`
 
@@ -712,7 +814,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         - `"live"`
 
-      - `type: "web_search"`
+      - `type: "web_search" (default: "web_search")`
 
         The type of the object. Always `web_search`.
 
@@ -726,7 +828,7 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
         Whether computer tool outputs include screenshots.
 
-      - `type: "computer_use"`
+      - `type: "computer_use" (default: "computer_use")`
 
         The type of the object. Always `computer_use`.
 
@@ -736,15 +838,33 @@ Updates a reusable agent. See [agent configuration](https://developers.openai.co
 
       Lets the agent manage its own scheduled wakeups.
 
-      - `type: "automations"`
+      - `type: "automations" (default: "automations")`
 
         The type of the object. Always `automations`.
 
         - `"automations"`
 
-  - `updated_at: number`
+  - `updated_at: integer`
 
     The Unix timestamp, in seconds, when the agent was last updated.
+
+    `format: int64`
+
+  - `compaction: optional object { async }`
+
+    The effective context compaction settings.
+
+    - `async: boolean`
+
+      Whether context is compacted in the background. Defaults to true.
+
+  - `experimental: optional object { time_awareness }`
+
+    The effective experimental settings for the agent.
+
+    - `time_awareness: boolean`
+
+      Whether the model receives periodic current-time reminders.
 
 ### Example
 
@@ -755,7 +875,7 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -794,7 +914,13 @@ curl https://api.openai.com/v1/agents/$AGENT_ID \
       "type": "function"
     }
   ],
-  "updated_at": 0
+  "updated_at": 0,
+  "compaction": {
+    "async": true
+  },
+  "experimental": {
+    "time_awareness": true
+  }
 }
 ```
 

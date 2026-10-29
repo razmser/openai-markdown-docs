@@ -8,6 +8,8 @@ Deletes reusable environment configuration and all confidential template inputs.
 
 - `environment_template_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `EnvironmentTemplateDeleted object { id, deleted, object }`
@@ -18,11 +20,13 @@ Deletes reusable environment configuration and all confidential template inputs.
 
     The ID of the deleted environment template.
 
+    `minLength: 0`
+
   - `deleted: boolean`
 
     Whether the environment template was deleted. Always `true`.
 
-  - `object: "agent.environment.template.deleted"`
+  - `object: "agent.environment.template.deleted" (default: "agent.environment.template.deleted")`
 
     The object type. Always `agent.environment.template.deleted`.
 
@@ -37,7 +41,7 @@ curl https://api.openai.com/v1/agents/environments/templates/$ENVIRONMENT_TEMPLA
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {

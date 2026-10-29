@@ -18,10 +18,12 @@ Returns the created Realtime session object, plus an ephemeral key.
 
   Ephemeral key returned by the API.
 
-  - `expires_at: number`
+  - `expires_at: integer`
 
     Timestamp for when the token expires. Currently, all tokens expire
     after one minute.
+
+    `format: unixtime`
 
   - `value: string`
 
@@ -101,7 +103,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         The text input to the model.
 
-      - `type: "input_text"`
+      - `type: "input_text" (default: "input_text")`
 
         The type of the input item. Always `input_text`.
 
@@ -111,7 +113,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-        - `mode: "explicit"`
+        - `mode: "explicit" (default: "explicit")`
 
           The breakpoint mode. Always `explicit`.
 
@@ -141,7 +143,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         - `"original"`
 
-      - `type: "input_image"`
+      - `type: "input_image" (default: "input_image")`
 
         The type of the input item. Always `input_image`.
 
@@ -155,11 +157,13 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         The URL of the image to be sent to the model. A fully qualified URL or base64 encoded image in a data URL.
 
+        `format: uri`
+
       - `prompt_cache_breakpoint: optional object { mode, ttl }`
 
         Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-        - `mode: "explicit"`
+        - `mode: "explicit" (default: "explicit")`
 
           The breakpoint mode. Always `explicit`.
 
@@ -177,7 +181,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 
       A file input to the model.
 
-      - `type: "input_file"`
+      - `type: "input_file" (default: "input_file")`
 
         The type of the input item. Always `input_file`.
 
@@ -205,6 +209,8 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         The URL of the file to be sent to the model.
 
+        `format: uri`
+
       - `filename: optional string`
 
         The name of the file to be sent to the model.
@@ -213,7 +219,7 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         Marks the exact end of a reusable prompt prefix. When `ttl` is omitted, the breakpoint inherits the request's `prompt_cache_options.ttl`; the boundary is not rounded to a token block.
 
-        - `mode: "explicit"`
+        - `mode: "explicit" (default: "explicit")`
 
           The breakpoint mode. Always `explicit`.
 
@@ -231,11 +237,13 @@ Returns the created Realtime session object, plus an ephemeral key.
 
     Optional version of the prompt template.
 
-- `speed: optional number`
+- `speed: optional number (default: 1)`
 
   The speed of the model's spoken response. 1.0 is the default speed. 0.25 is
   the minimum speed. 1.5 is the maximum speed. This value can only be changed
   in between model turns, not while a response is in progress.
+
+  `minimum: 0.25`, `maximum: 1.5`
 
 - `temperature: optional number`
 
@@ -329,6 +337,8 @@ Returns the created Realtime session object, plus an ephemeral key.
 
       Fraction of post-instruction conversation tokens to retain (`0.0` - `1.0`) when the conversation exceeds the input token limit. Setting this to `0.8` means that messages will be dropped until 80% of the maximum allowed tokens are used. This helps reduce the frequency of truncations and improve cache rates.
 
+      `minimum: 0`, `maximum: 1`
+
     - `type: "retention_ratio"`
 
       Use retention ratio truncation.
@@ -339,9 +349,11 @@ Returns the created Realtime session object, plus an ephemeral key.
 
       Optional custom token limits for this truncation strategy. If not provided, the model's default token limits will be used.
 
-      - `post_instructions: optional number`
+      - `post_instructions: optional integer`
 
         Maximum tokens allowed in the conversation after instructions (which including tool definitions). For example, setting this to 5,000 would mean that truncation would occur when the conversation exceeds 5,000 tokens after instructions. This cannot be higher than the model's context window size minus the maximum output tokens.
+
+        `minimum: 0`
 
 - `turn_detection: optional object { prefix_padding_ms, silence_duration_ms, threshold, type }`
 
@@ -349,12 +361,12 @@ Returns the created Realtime session object, plus an ephemeral key.
   VAD means that the model will detect the start and end of speech based on
   audio volume and respond at the end of user speech.
 
-  - `prefix_padding_ms: optional number`
+  - `prefix_padding_ms: optional integer`
 
     Amount of audio to include before the VAD detected speech (in
     milliseconds). Defaults to 300ms.
 
-  - `silence_duration_ms: optional number`
+  - `silence_duration_ms: optional integer`
 
     Duration of silence to detect speech stop (in milliseconds). Defaults
     to 500ms. With shorter values the model will respond more quickly,
@@ -487,6 +499,8 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         The possible input audio languages configured for transcription, in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format.
 
+        `minItems: 1`
+
       - `model: optional string or "whisper-1" or "gpt-transcribe" or "gpt-live-transcribe" or 5 more`
 
         The model used for transcription. Current options are `whisper-1`, `gpt-transcribe`, `gpt-live-transcribe`, `gpt-4o-mini-transcribe`, `gpt-4o-mini-transcribe-2025-12-15`, `gpt-4o-transcribe`, `gpt-4o-transcribe-diarize`, and `gpt-realtime-whisper`.
@@ -521,9 +535,9 @@ Returns the created Realtime session object, plus an ephemeral key.
 
       Configuration for turn detection.
 
-      - `prefix_padding_ms: optional number`
+      - `prefix_padding_ms: optional integer`
 
-      - `silence_duration_ms: optional number`
+      - `silence_duration_ms: optional integer`
 
       - `threshold: optional number`
 
@@ -565,9 +579,11 @@ Returns the created Realtime session object, plus an ephemeral key.
 
         - `"cedar"`
 
-- `expires_at: optional number`
+- `expires_at: optional integer`
 
   Expiration timestamp for the session, in seconds since epoch.
+
+  `format: unixtime`
 
 - `include: optional array of "item.input_audio_transcription.logprobs"`
 
@@ -690,12 +706,12 @@ Returns the created Realtime session object, plus an ephemeral key.
   VAD means that the model will detect the start and end of speech based on
   audio volume and respond at the end of user speech.
 
-  - `prefix_padding_ms: optional number`
+  - `prefix_padding_ms: optional integer`
 
     Amount of audio to include before the VAD detected speech (in
     milliseconds). Defaults to 300ms.
 
-  - `silence_duration_ms: optional number`
+  - `silence_duration_ms: optional integer`
 
     Duration of silence to detect speech stop (in milliseconds). Defaults
     to 500ms. With shorter values the model will respond more quickly,
@@ -725,7 +741,7 @@ curl https://api.openai.com/v1/realtime/sessions \
         }'
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -806,7 +822,7 @@ curl -X POST https://api.openai.com/v1/realtime/sessions \
   }'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {

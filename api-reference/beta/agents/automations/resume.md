@@ -8,6 +8,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
 - `automation_id: string`
 
+  `minLength: 0`, `maxLength: 1048576`
+
 ### Returns
 
 - `Automation = PeriodicAutomation or OneTimeAutomation`
@@ -22,9 +24,13 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The automation ID.
 
-    - `created_at: number`
+      `minLength: 0`
+
+    - `created_at: integer`
 
       The creation time as a Unix timestamp in seconds.
+
+      `format: int64`
 
     - `created_by: AutomationCreatedBy`
 
@@ -32,7 +38,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       - `Developer object { type }`
 
-        - `type: "developer"`
+        - `type: "developer" (default: "developer")`
 
           The type of the object. Always `developer`.
 
@@ -44,11 +50,15 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
           The creator session, which is also the automation's target.
 
+          `minLength: 0`
+
         - `tool_call_id: string`
 
           The tool call that created the automation.
 
-        - `type: "agent"`
+          `minLength: 0`
+
+        - `type: "agent" (default: "agent")`
 
           The type of the object. Always `agent`.
 
@@ -58,6 +68,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The cron expression determining scheduled occurrences.
 
+      `minLength: 0`
+
     - `metadata: map[string]`
 
       Custom string key-value pairs attached to the automation.
@@ -66,7 +78,9 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The automation's display name.
 
-    - `object: "agent.automation"`
+      `minLength: 0`
+
+    - `object: "agent.automation" (default: "agent.automation")`
 
       Always `agent.automation`.
 
@@ -94,9 +108,13 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
             Custom instructions, or null when absent.
 
+            `minLength: 0`
+
           - `model: string`
 
             The requested model name.
+
+            `minLength: 0`
 
           - `multi_agent: MultiAgentConfig`
 
@@ -106,9 +124,11 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
               Whether subagent tools are enabled. Defaults to false.
 
-            - `max_concurrent_subagents: number or null`
+            - `max_concurrent_subagents: integer or null`
 
               Maximum number of subagents that may run concurrently, or null when disabled. Defaults to 6 when enabled.
+
+              `format: int64`, `minimum: 1`, `maximum: 4294967295`
 
           - `reasoning: AgentReasoning`
 
@@ -176,7 +196,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 Generates ordinary text without a structured-output constraint.
 
-                - `type: "text"`
+                - `type: "text" (default: "text")`
 
                   The type of the object. Always `text`.
 
@@ -190,7 +210,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The JSON Schema that generated text must match.
 
-                - `type: "json_schema"`
+                - `type: "json_schema" (default: "json_schema")`
 
                   The type of the object. Always `json_schema`.
 
@@ -210,6 +230,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
             Configured tools, excluding confidential credentials.
 
+            `minItems: 0`, `maxItems: 2000`
+
             - `Function object { defer_loading, description, name, 2 more }`
 
               A function defined by the application.
@@ -222,15 +244,19 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 A description of what the function does.
 
+                `minLength: 0`
+
               - `name: string`
 
                 The name of the function.
+
+                `minLength: 0`
 
               - `parameters: map[unknown]`
 
                 A JSON Schema object describing the function's arguments.
 
-              - `type: "function"`
+              - `type: "function" (default: "function")`
 
                 The type of the object. Always `function`.
 
@@ -244,7 +270,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 Whether tools can be called from model-generated code.
 
-              - `type: "programmatic_tool_calling"`
+              - `type: "programmatic_tool_calling" (default: "programmatic_tool_calling")`
 
                 The type of the object. Always `programmatic_tool_calling`.
 
@@ -258,6 +284,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 The MCP tools the agent may call.
 
+                `minItems: 0`, `maxItems: 2000`
+
               - `connection_origin: "service" or "environment"`
 
                 Where outbound MCP HTTP connections originate.
@@ -269,6 +297,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
               - `credential_id: string or null`
 
                 The attached vault credential selected for this MCP server, if any. Optional when exactly one attached credential matches the server URL.
+
+                `minLength: 0`
 
               - `request_metadata: map[unknown]`
 
@@ -282,6 +312,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 A label used to identify the MCP server in tool calls.
 
+                `minLength: 0`
+
               - `transport: McpTransport`
 
                 The transport used to connect to the MCP server.
@@ -294,7 +326,9 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                     The URL of the MCP server.
 
-                  - `type: "http"`
+                    `minLength: 0`
+
+                  - `type: "http" (default: "http")`
 
                     The type of the object. Always `http`.
 
@@ -308,25 +342,33 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                     Arguments passed to the MCP server command.
 
+                    `minItems: 0`, `maxItems: 2000`
+
                   - `command: string`
 
                     The command used to start the MCP server.
+
+                    `minLength: 0`
 
                   - `cwd: string`
 
                     The working directory used to start the MCP server.
 
+                    `minLength: 0`
+
                   - `env_vars: array of string`
 
                     Environment variable names inherited from the execution environment.
 
-                  - `type: "stdio"`
+                    `minItems: 0`, `maxItems: 2000`
+
+                  - `type: "stdio" (default: "stdio")`
 
                     The type of the object. Always `stdio`.
 
                     - `"stdio"`
 
-              - `type: "mcp"`
+              - `type: "mcp" (default: "mcp")`
 
                 The type of the object. Always `mcp`.
 
@@ -339,6 +381,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
               - `allowed_domains: array of string or null`
 
                 Allowed search domains, or `null` when the search is unrestricted.
+
+                `minItems: 0`, `maxItems: 2000`
 
               - `context_size: "low" or "medium" or "high"`
 
@@ -358,17 +402,25 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The city name.
 
+                  `minLength: 0`
+
                 - `country: string or null`
 
                   The two-letter ISO country code, such as `US`.
+
+                  `minLength: 0`
 
                 - `region: string or null`
 
                   The region or state name.
 
+                  `minLength: 0`
+
                 - `timezone: string or null`
 
                   The IANA timezone, such as `America/Los_Angeles`.
+
+                  `minLength: 0`
 
               - `mode: "disabled" or "cached" or "live"`
 
@@ -380,7 +432,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 - `"live"`
 
-              - `type: "web_search"`
+              - `type: "web_search" (default: "web_search")`
 
                 The type of the object. Always `web_search`.
 
@@ -394,7 +446,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 Whether computer tool outputs include screenshots.
 
-              - `type: "computer_use"`
+              - `type: "computer_use" (default: "computer_use")`
 
                 The type of the object. Always `computer_use`.
 
@@ -404,15 +456,33 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
               Lets the agent manage its own scheduled wakeups.
 
-              - `type: "automations"`
+              - `type: "automations" (default: "automations")`
 
                 The type of the object. Always `automations`.
 
                 - `"automations"`
 
+          - `compaction: optional object { async }`
+
+            The effective context compaction settings.
+
+            - `async: boolean`
+
+              Whether context is compacted in the background. Defaults to true.
+
+          - `experimental: optional object { time_awareness }`
+
+            The effective experimental settings for the agent.
+
+            - `time_awareness: boolean`
+
+              Whether the model receives periodic current-time reminders.
+
         - `agent_id: string or null`
 
           The saved agent reference, or null when an inline agent is configured.
+
+          `minLength: 0`
 
         - `environment: AutomationEnvironment`
 
@@ -420,7 +490,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
           - `None object { type }`
 
-            - `type: "none"`
+            - `type: "none" (default: "none")`
 
               The type of the object. Always `none`.
 
@@ -433,6 +503,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
             - `capability_directories: array of string or null`
 
               Directory overrides, or null to inherit the template or creation default.
+
+              `minItems: 0`, `maxItems: 2000`
 
             - `container_size: "small" or "medium" or "large" or null`
 
@@ -456,13 +528,19 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
               An existing environment reference, or null when provisioning a new environment.
 
+              `minLength: 0`
+
             - `environment_template_id: string or null`
 
               A template reference, or null when no template is selected.
 
+              `minLength: 0`
+
             - `files: array of FileID { file_id, path, type }  or Inline { path, size_bytes, type }  or null`
 
               File overrides, excluding contents, or null to inherit.
+
+              `minItems: 0`, `maxItems: 2000`
 
               - `FileID object { file_id, path, type }`
 
@@ -472,11 +550,15 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The ID of the uploaded file.
 
+                  `minLength: 0`
+
                 - `path: string`
 
                   The file's absolute path inside the environment.
 
-                - `type: "file_id"`
+                  `minLength: 0`
+
+                - `type: "file_id" (default: "file_id")`
 
                   The type of the object. Always `file_id`.
 
@@ -490,11 +572,15 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The file's absolute path inside the environment.
 
-                - `size_bytes: number`
+                  `minLength: 0`
+
+                - `size_bytes: integer`
 
                   The decoded size of the inline file in bytes.
 
-                - `type: "inline"`
+                  `format: int64`, `minimum: 0`
+
+                - `type: "inline" (default: "inline")`
 
                   The type of the object. Always `inline`.
 
@@ -524,6 +610,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 Domains the environment may access when network access is restricted.
 
+                `minItems: 0`, `maxItems: 2000`
+
             - `packages: object { npm, python, system }  or null`
 
               Package overrides, or null to inherit the template or creation default.
@@ -532,27 +620,39 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 npm packages installed globally in the environment.
 
+                `minItems: 0`, `maxItems: 16384`
+
               - `python: array of string`
 
                 Python packages installed in the environment.
+
+                `minItems: 0`, `maxItems: 16384`
 
               - `system: array of string`
 
                 System packages installed in the environment.
 
+                `minItems: 0`, `maxItems: 16384`
+
             - `plugins: array of HostedPlugin or null`
 
               Plugin overrides, excluding archive contents, or null to inherit.
+
+              `minItems: 0`, `maxItems: 2000`
 
               - `description: string`
 
                 The installed plugin description.
 
+                `minLength: 0`
+
               - `name: string`
 
                 The installed plugin name.
 
-              - `type: "inline"`
+                `minLength: 0`
+
+              - `type: "inline" (default: "inline")`
 
                 The type of the object. Always `inline`.
 
@@ -562,6 +662,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
               Skill overrides, excluding archive contents, or null to inherit.
 
+              `minItems: 0`, `maxItems: 2000`
+
               - `SkillReference object { skill_id, type, version }`
 
                 A skill resolved afresh from the Skills API whenever a session starts.
@@ -570,7 +672,9 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The referenced skill ID.
 
-                - `type: "skill_reference"`
+                  `minLength: 0`
+
+                - `type: "skill_reference" (default: "skill_reference")`
 
                   The type of the object. Always `skill_reference`.
 
@@ -580,6 +684,8 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The requested version selector, including `latest`.
 
+                  `minLength: 0`
+
               - `Inline object { description, name, type }`
 
                 Safe metadata for an inline skill archive.
@@ -588,17 +694,21 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                   The skill description declared in `SKILL.md`.
 
+                  `minLength: 0`
+
                 - `name: string`
 
                   The skill name declared in `SKILL.md`.
 
-                - `type: "inline"`
+                  `minLength: 0`
+
+                - `type: "inline" (default: "inline")`
 
                   The type of the object. Always `inline`.
 
                   - `"inline"`
 
-            - `type: "openai_hosted"`
+            - `type: "openai_hosted" (default: "openai_hosted")`
 
               The type of the object. Always `openai_hosted`.
 
@@ -610,11 +720,15 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
               Directories that expose capabilities to the agent.
 
+              `minItems: 0`, `maxItems: 2000`
+
             - `environment_id: string or null`
 
               An existing registration, or null to create a session-owned environment.
 
-            - `type: "self_hosted"`
+              `minLength: 0`
+
+            - `type: "self_hosted" (default: "self_hosted")`
 
               The type of the object. Always `self_hosted`.
 
@@ -624,13 +738,19 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
               The absolute project directory in the environment.
 
+              `minLength: 0`
+
         - `input: array of object { content, role, type }`
 
           Initial input delivered to each new session.
 
+          `minItems: 0`, `maxItems: 2000`
+
           - `content: array of InputContent`
 
             The content of the message.
+
+            `minItems: 0`, `maxItems: 2000`
 
             - `InputText object { text, type }`
 
@@ -640,7 +760,9 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 The text supplied to the agent.
 
-              - `type: "input_text"`
+                `minLength: 0`
+
+              - `type: "input_text" (default: "input_text")`
 
                 The type of the object. Always `input_text`.
 
@@ -654,19 +776,21 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
                 The URL of the image supplied to the agent, which may be a base64-encoded data URL.
 
-              - `type: "input_image"`
+                `minLength: 0`
+
+              - `type: "input_image" (default: "input_image")`
 
                 The type of the object. Always `input_image`.
 
                 - `"input_image"`
 
-          - `role: "user"`
+          - `role: "user" (default: "user")`
 
             The role of the message author. Always `user`.
 
             - `"user"`
 
-          - `type: "message"`
+          - `type: "message" (default: "message")`
 
             The type of the input item. Always `message`.
 
@@ -676,7 +800,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
           Metadata attached to each new session.
 
-        - `type: "new_session"`
+        - `type: "new_session" (default: "new_session")`
 
           The type of the object. Always `new_session`.
 
@@ -686,17 +810,23 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
           Vaults made available to each new session.
 
+          `minItems: 0`, `maxItems: 2000`
+
       - `ExistingSession object { instructions, session_id, type }`
 
         - `instructions: string`
 
           Saved instructions delivered as an automation notification.
 
+          `minLength: 0`
+
         - `session_id: string`
 
           The session receiving each invocation.
 
-        - `type: "existing_session"`
+          `minLength: 0`
+
+        - `type: "existing_session" (default: "existing_session")`
 
           The type of the object. Always `existing_session`.
 
@@ -706,7 +836,9 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The timezone used to interpret the expression.
 
-    - `type: "periodic"`
+      `minLength: 0`
+
+    - `type: "periodic" (default: "periodic")`
 
       The type of the object. Always `periodic`.
 
@@ -720,9 +852,13 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The automation ID.
 
-    - `created_at: number`
+      `minLength: 0`
+
+    - `created_at: integer`
 
       The creation time as a Unix timestamp in seconds.
+
+      `format: int64`
 
     - `created_by: AutomationCreatedBy`
 
@@ -736,15 +872,19 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The automation's display name.
 
-    - `object: "agent.automation"`
+      `minLength: 0`
+
+    - `object: "agent.automation" (default: "agent.automation")`
 
       Always `agent.automation`.
 
       - `"agent.automation"`
 
-    - `run_at: number`
+    - `run_at: integer`
 
       The Unix timestamp, in seconds, of the scheduled occurrence.
+
+      `format: int64`
 
     - `status: "active" or "paused" or "completed"`
 
@@ -760,7 +900,7 @@ Resumes scheduled delivery; one-time automations without a pending invocation re
 
       The session configuration or existing session receiving invocations.
 
-    - `type: "once"`
+    - `type: "once" (default: "once")`
 
       The type of the object. Always `once`.
 
@@ -775,7 +915,7 @@ curl https://api.openai.com/v1/agents/automations/$AUTOMATION_ID/resume \
     -H "Authorization: Bearer $OPENAI_API_KEY"
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -820,7 +960,13 @@ curl https://api.openai.com/v1/agents/automations/$AUTOMATION_ID/resume \
           },
           "type": "function"
         }
-      ]
+      ],
+      "compaction": {
+        "async": true
+      },
+      "experimental": {
+        "time_awareness": true
+      }
     },
     "agent_id": "agent_id",
     "environment": {

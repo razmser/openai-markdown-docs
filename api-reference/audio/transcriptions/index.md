@@ -52,15 +52,15 @@ transcript events. Supported formats depend on the model.
 
       Usage statistics for models billed by token usage.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         Number of input tokens billed for this request.
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         Number of output tokens generated.
 
-      - `total_tokens: number`
+      - `total_tokens: integer`
 
         Total number of tokens used (input + output).
 
@@ -74,11 +74,11 @@ transcript events. Supported formats depend on the model.
 
         Details about the input tokens billed for this request.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           Number of audio tokens billed for this request.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           Number of text tokens billed for this request.
 
@@ -89,6 +89,8 @@ transcript events. Supported formats depend on the model.
       - `seconds: number`
 
         Duration of the input audio in seconds.
+
+        `format: double`
 
       - `type: "duration"`
 
@@ -104,6 +106,8 @@ transcript events. Supported formats depend on the model.
 
     Duration of the input audio in seconds.
 
+    `format: double`
+
   - `segments: array of TranscriptionDiarizedSegment`
 
     Segments of the transcript annotated with timestamps and speaker labels.
@@ -116,6 +120,8 @@ transcript events. Supported formats depend on the model.
 
       End timestamp of the segment in seconds.
 
+      `format: double`
+
     - `speaker: string`
 
       Speaker label for this segment. When known speakers are provided, the label matches `known_speaker_names[]`. Otherwise speakers are labeled sequentially using capital letters (`A`, `B`, ...).
@@ -123,6 +129,8 @@ transcript events. Supported formats depend on the model.
     - `start: number`
 
       Start timestamp of the segment in seconds.
+
+      `format: double`
 
     - `text: string`
 
@@ -152,15 +160,15 @@ transcript events. Supported formats depend on the model.
 
       Usage statistics for models billed by token usage.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         Number of input tokens billed for this request.
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         Number of output tokens generated.
 
-      - `total_tokens: number`
+      - `total_tokens: integer`
 
         Total number of tokens used (input + output).
 
@@ -174,11 +182,11 @@ transcript events. Supported formats depend on the model.
 
         Details about the input tokens billed for this request.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           Number of audio tokens billed for this request.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           Number of text tokens billed for this request.
 
@@ -189,6 +197,8 @@ transcript events. Supported formats depend on the model.
       - `seconds: number`
 
         Duration of the input audio in seconds.
+
+        `format: double`
 
       - `type: "duration"`
 
@@ -204,6 +214,8 @@ transcript events. Supported formats depend on the model.
 
     The duration of the input audio.
 
+    `format: double`
+
   - `language: string`
 
     The language of the input audio.
@@ -216,7 +228,7 @@ transcript events. Supported formats depend on the model.
 
     Segments of the transcribed text and their corresponding details.
 
-    - `id: number`
+    - `id: integer`
 
       Unique identifier of the segment.
 
@@ -224,19 +236,27 @@ transcript events. Supported formats depend on the model.
 
       Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
 
+      `format: float`
+
     - `compression_ratio: number`
 
       Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
+
+      `format: float`
 
     - `end: number`
 
       End time of the segment in seconds.
 
+      `format: double`
+
     - `no_speech_prob: number`
 
       Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
 
-    - `seek: number`
+      `format: float`
+
+    - `seek: integer`
 
       Seek offset of the segment.
 
@@ -244,9 +264,13 @@ transcript events. Supported formats depend on the model.
 
       Start time of the segment in seconds.
 
+      `format: double`
+
     - `temperature: number`
 
       Temperature parameter used for generating the segment.
+
+      `format: float`
 
     - `text: string`
 
@@ -264,6 +288,8 @@ transcript events. Supported formats depend on the model.
 
       Duration of the input audio in seconds.
 
+      `format: double`
+
     - `type: "duration"`
 
       The type of the usage object. Always `duration` for this variant.
@@ -278,9 +304,13 @@ transcript events. Supported formats depend on the model.
 
       End time of the word in seconds.
 
+      `format: double`
+
     - `start: number`
 
       Start time of the word in seconds.
+
+      `format: double`
 
     - `word: string`
 
@@ -296,7 +326,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
     -F model=gpt-4o-transcribe
 ```
 
-#### Response
+#### 200 — Example
 
 ```json
 {
@@ -338,7 +368,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F model="gpt-4o-transcribe"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -370,7 +400,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F 'known_speaker_references[]=data:audio/wav;base64,AAA...'
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -422,7 +452,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F response_format="json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -494,7 +524,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F response_format="verbose_json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -536,7 +566,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F stream=true
 ```
 
-#### Response
+#### Response example
 
 ```json
 data: {"type":"transcript.text.delta","delta":"I","logprobs":[{"token":"I","logprob":-0.00007588794,"bytes":[73]}]}
@@ -616,7 +646,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -F response_format="verbose_json"
 ```
 
-#### Response
+#### Response example
 
 ```json
 {
@@ -682,15 +712,15 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Usage statistics for models billed by token usage.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         Number of input tokens billed for this request.
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         Number of output tokens generated.
 
-      - `total_tokens: number`
+      - `total_tokens: integer`
 
         Total number of tokens used (input + output).
 
@@ -704,11 +734,11 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Details about the input tokens billed for this request.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           Number of audio tokens billed for this request.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           Number of text tokens billed for this request.
 
@@ -719,6 +749,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
       - `seconds: number`
 
         Duration of the input audio in seconds.
+
+        `format: double`
 
       - `type: "duration"`
 
@@ -772,15 +804,15 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Usage statistics for models billed by token usage.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           Number of input tokens billed for this request.
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           Number of output tokens generated.
 
-        - `total_tokens: number`
+        - `total_tokens: integer`
 
           Total number of tokens used (input + output).
 
@@ -794,11 +826,11 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
           Details about the input tokens billed for this request.
 
-          - `audio_tokens: optional number`
+          - `audio_tokens: optional integer`
 
             Number of audio tokens billed for this request.
 
-          - `text_tokens: optional number`
+          - `text_tokens: optional integer`
 
             Number of text tokens billed for this request.
 
@@ -809,6 +841,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
         - `seconds: number`
 
           Duration of the input audio in seconds.
+
+          `format: double`
 
         - `type: "duration"`
 
@@ -824,6 +858,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Duration of the input audio in seconds.
 
+      `format: double`
+
     - `segments: array of TranscriptionDiarizedSegment`
 
       Segments of the transcript annotated with timestamps and speaker labels.
@@ -836,6 +872,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         End timestamp of the segment in seconds.
 
+        `format: double`
+
       - `speaker: string`
 
         Speaker label for this segment. When known speakers are provided, the label matches `known_speaker_names[]`. Otherwise speakers are labeled sequentially using capital letters (`A`, `B`, ...).
@@ -843,6 +881,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
       - `start: number`
 
         Start timestamp of the segment in seconds.
+
+        `format: double`
 
       - `text: string`
 
@@ -872,15 +912,15 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Usage statistics for models billed by token usage.
 
-        - `input_tokens: number`
+        - `input_tokens: integer`
 
           Number of input tokens billed for this request.
 
-        - `output_tokens: number`
+        - `output_tokens: integer`
 
           Number of output tokens generated.
 
-        - `total_tokens: number`
+        - `total_tokens: integer`
 
           Total number of tokens used (input + output).
 
@@ -894,11 +934,11 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
           Details about the input tokens billed for this request.
 
-          - `audio_tokens: optional number`
+          - `audio_tokens: optional integer`
 
             Number of audio tokens billed for this request.
 
-          - `text_tokens: optional number`
+          - `text_tokens: optional integer`
 
             Number of text tokens billed for this request.
 
@@ -909,6 +949,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
         - `seconds: number`
 
           Duration of the input audio in seconds.
+
+          `format: double`
 
         - `type: "duration"`
 
@@ -924,6 +966,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       The duration of the input audio.
 
+      `format: double`
+
     - `language: string`
 
       The language of the input audio.
@@ -936,7 +980,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Segments of the transcribed text and their corresponding details.
 
-      - `id: number`
+      - `id: integer`
 
         Unique identifier of the segment.
 
@@ -944,19 +988,27 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
 
+        `format: float`
+
       - `compression_ratio: number`
 
         Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
+
+        `format: float`
 
       - `end: number`
 
         End time of the segment in seconds.
 
+        `format: double`
+
       - `no_speech_prob: number`
 
         Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
 
-      - `seek: number`
+        `format: float`
+
+      - `seek: integer`
 
         Seek offset of the segment.
 
@@ -964,9 +1016,13 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Start time of the segment in seconds.
 
+        `format: double`
+
       - `temperature: number`
 
         Temperature parameter used for generating the segment.
+
+        `format: float`
 
       - `text: string`
 
@@ -984,6 +1040,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Duration of the input audio in seconds.
 
+        `format: double`
+
       - `type: "duration"`
 
         The type of the usage object. Always `duration` for this variant.
@@ -998,9 +1056,13 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         End time of the word in seconds.
 
+        `format: double`
+
       - `start: number`
 
         Start time of the word in seconds.
+
+        `format: double`
 
       - `word: string`
 
@@ -1016,6 +1078,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     Duration of the input audio in seconds.
 
+    `format: double`
+
   - `segments: array of TranscriptionDiarizedSegment`
 
     Segments of the transcript annotated with timestamps and speaker labels.
@@ -1028,6 +1092,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       End timestamp of the segment in seconds.
 
+      `format: double`
+
     - `speaker: string`
 
       Speaker label for this segment. When known speakers are provided, the label matches `known_speaker_names[]`. Otherwise speakers are labeled sequentially using capital letters (`A`, `B`, ...).
@@ -1035,6 +1101,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
     - `start: number`
 
       Start timestamp of the segment in seconds.
+
+      `format: double`
 
     - `text: string`
 
@@ -1064,15 +1132,15 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Usage statistics for models billed by token usage.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         Number of input tokens billed for this request.
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         Number of output tokens generated.
 
-      - `total_tokens: number`
+      - `total_tokens: integer`
 
         Total number of tokens used (input + output).
 
@@ -1086,11 +1154,11 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Details about the input tokens billed for this request.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           Number of audio tokens billed for this request.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           Number of text tokens billed for this request.
 
@@ -1101,6 +1169,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
       - `seconds: number`
 
         Duration of the input audio in seconds.
+
+        `format: double`
 
       - `type: "duration"`
 
@@ -1122,6 +1192,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     End timestamp of the segment in seconds.
 
+    `format: double`
+
   - `speaker: string`
 
     Speaker label for this segment. When known speakers are provided, the label matches `known_speaker_names[]`. Otherwise speakers are labeled sequentially using capital letters (`A`, `B`, ...).
@@ -1129,6 +1201,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
   - `start: number`
 
     Start timestamp of the segment in seconds.
+
+    `format: double`
 
   - `text: string`
 
@@ -1160,7 +1234,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
 - `TranscriptionSegment object { id, avg_logprob, compression_ratio, 7 more }`
 
-  - `id: number`
+  - `id: integer`
 
     Unique identifier of the segment.
 
@@ -1168,19 +1242,27 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
 
+    `format: float`
+
   - `compression_ratio: number`
 
     Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
+
+    `format: float`
 
   - `end: number`
 
     End time of the segment in seconds.
 
+    `format: double`
+
   - `no_speech_prob: number`
 
     Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
 
-  - `seek: number`
+    `format: float`
+
+  - `seek: integer`
 
     Seek offset of the segment.
 
@@ -1188,9 +1270,13 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     Start time of the segment in seconds.
 
+    `format: double`
+
   - `temperature: number`
 
     Temperature parameter used for generating the segment.
+
+    `format: float`
 
   - `text: string`
 
@@ -1218,6 +1304,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       End timestamp of the segment in seconds.
 
+      `format: double`
+
     - `speaker: string`
 
       Speaker label for this segment.
@@ -1225,6 +1313,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
     - `start: number`
 
       Start timestamp of the segment in seconds.
+
+      `format: double`
 
     - `text: string`
 
@@ -1312,15 +1402,15 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Usage statistics for models billed by token usage.
 
-      - `input_tokens: number`
+      - `input_tokens: integer`
 
         Number of input tokens billed for this request.
 
-      - `output_tokens: number`
+      - `output_tokens: integer`
 
         Number of output tokens generated.
 
-      - `total_tokens: number`
+      - `total_tokens: integer`
 
         Total number of tokens used (input + output).
 
@@ -1334,11 +1424,11 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
         Details about the input tokens billed for this request.
 
-        - `audio_tokens: optional number`
+        - `audio_tokens: optional integer`
 
           Number of audio tokens billed for this request.
 
-        - `text_tokens: optional number`
+        - `text_tokens: optional integer`
 
           Number of text tokens billed for this request.
 
@@ -1422,15 +1512,15 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     Usage statistics for models billed by token usage.
 
-    - `input_tokens: number`
+    - `input_tokens: integer`
 
       Number of input tokens billed for this request.
 
-    - `output_tokens: number`
+    - `output_tokens: integer`
 
       Number of output tokens generated.
 
-    - `total_tokens: number`
+    - `total_tokens: integer`
 
       Total number of tokens used (input + output).
 
@@ -1444,11 +1534,11 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Details about the input tokens billed for this request.
 
-      - `audio_tokens: optional number`
+      - `audio_tokens: optional integer`
 
         Number of audio tokens billed for this request.
 
-      - `text_tokens: optional number`
+      - `text_tokens: optional integer`
 
         Number of text tokens billed for this request.
 
@@ -1466,6 +1556,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     End timestamp of the segment in seconds.
 
+    `format: double`
+
   - `speaker: string`
 
     Speaker label for this segment.
@@ -1473,6 +1565,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
   - `start: number`
 
     Start timestamp of the segment in seconds.
+
+    `format: double`
 
   - `text: string`
 
@@ -1494,6 +1588,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     The duration of the input audio.
 
+    `format: double`
+
   - `language: string`
 
     The language of the input audio.
@@ -1506,7 +1602,7 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     Segments of the transcribed text and their corresponding details.
 
-    - `id: number`
+    - `id: integer`
 
       Unique identifier of the segment.
 
@@ -1514,19 +1610,27 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Average logprob of the segment. If the value is lower than -1, consider the logprobs failed.
 
+      `format: float`
+
     - `compression_ratio: number`
 
       Compression ratio of the segment. If the value is greater than 2.4, consider the compression failed.
+
+      `format: float`
 
     - `end: number`
 
       End time of the segment in seconds.
 
+      `format: double`
+
     - `no_speech_prob: number`
 
       Probability of no speech in the segment. If the value is higher than 1.0 and the `avg_logprob` is below -1, consider this segment silent.
 
-    - `seek: number`
+      `format: float`
+
+    - `seek: integer`
 
       Seek offset of the segment.
 
@@ -1534,9 +1638,13 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Start time of the segment in seconds.
 
+      `format: double`
+
     - `temperature: number`
 
       Temperature parameter used for generating the segment.
+
+      `format: float`
 
     - `text: string`
 
@@ -1554,6 +1662,8 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       Duration of the input audio in seconds.
 
+      `format: double`
+
     - `type: "duration"`
 
       The type of the usage object. Always `duration` for this variant.
@@ -1568,9 +1678,13 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
       End time of the word in seconds.
 
+      `format: double`
+
     - `start: number`
 
       Start time of the word in seconds.
+
+      `format: double`
 
     - `word: string`
 
@@ -1584,9 +1698,13 @@ curl https://api.openai.com/v1/audio/transcriptions \
 
     End time of the word in seconds.
 
+    `format: double`
+
   - `start: number`
 
     Start time of the word in seconds.
+
+    `format: double`
 
   - `word: string`
 
